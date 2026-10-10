@@ -47,7 +47,7 @@ public class AgenteNotaPosReuniao {
 
     @Action(description = "Extrai eventos de vida, metas e mudanças de perfil com o LLM")
     public FatosExtraidos extrairFatos(ContextoNota c, OperationContext ctx) {
-        return ctx.ai().withLlm(props.modelo())
+        return ctx.ai().withLlm(new com.embabel.common.ai.model.LlmOptions(null, props.modelo()).withMaxTokens(props.maxTokens()))
                 .withSystemPrompt(Prompts.NOTA)
                 .createObject("Data de referência: " + c.dataReferencia() + "\nContexto do cliente (JSON):\n"
                         + Prompts.contexto(mapper, c.contexto()) + "\nTranscrição:\n" + c.transcricao(), FatosExtraidos.class);

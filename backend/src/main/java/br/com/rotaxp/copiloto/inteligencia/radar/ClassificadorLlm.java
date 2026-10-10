@@ -34,12 +34,19 @@ public class ClassificadorLlm {
     private final ClassificadorRegras regras;
     private final String modelo;
     private final int tamanhoLote;
+    private final int maxTokens;
 
+    /** Teto de tokens de saída padrão: ~150 por notícia do lote. */
     public ClassificadorLlm(ExecutorAgentes agentes, ClassificadorRegras regras, String modelo, int tamanhoLote) {
+        this(agentes, regras, modelo, tamanhoLote, Math.max(1, tamanhoLote) * 150);
+    }
+
+    public ClassificadorLlm(ExecutorAgentes agentes, ClassificadorRegras regras, String modelo, int tamanhoLote, int maxTokens) {
         this.agentes = agentes;
         this.regras = regras;
         this.modelo = modelo;
         this.tamanhoLote = Math.max(1, tamanhoLote);
+        this.maxTokens = maxTokens;
     }
 
     public Resultado classificar(List<Noticia> noticias, Map<String, Emissor> emissores) {
@@ -52,7 +59,7 @@ public class ClassificadorLlm {
             lotes++;
             Map<String, ItemClassificado> itens = Map.of();
             try {
-                LoteClassificado resp = agentes.executar(new LoteNoticias(List.copyOf(lote), modelo, permitidos), LoteClassificado.class);
+                LoteClassificado resp = agentes.executar(new LoteNoticias(List.copyOf(lote), modelo, maxTokens, permitidos), LoteClassificado.class);
                 if (resp != null && resp.itens() != null) {
                     itens = new LinkedHashMap<>();
                     for (ItemClassificado it : resp.itens()) if (it != null && it.noticiaId() != null) itens.put(it.noticiaId(), it);

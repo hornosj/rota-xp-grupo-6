@@ -35,7 +35,7 @@ public class AgenteBriefing {
     @AchievesGoal(description = "Briefing com 5 tópicos e 3 perguntas para a reunião")
     @Action(description = "Redige o briefing com o LLM")
     public Briefing redigir(ContextoBriefing c, OperationContext ctx) {
-        BriefingRedigido r = ctx.ai().withLlm(props.modelo())
+        BriefingRedigido r = ctx.ai().withLlm(new com.embabel.common.ai.model.LlmOptions(null, props.modelo()).withMaxTokens(props.maxTokens()))
                 .withSystemPrompt(Prompts.BRIEFING)
                 .createObject("Contexto do cliente (JSON):\n" + Prompts.contexto(mapper, c.contexto()), BriefingRedigido.class);
         return new Briefing(c.contexto().clienteId(), lista(r.bullets()), lista(r.perguntasSugeridas()), GeradoPor.live);

@@ -121,7 +121,10 @@ class ApiFluxoDemoTest {
     @Test
     void demoEstadoEDesagio() throws Exception {
         mvc.perform(get("/api/demo/estado")).andExpect(jsonPath("$.dataReferencia").value("2026-10-11"))
-                .andExpect(jsonPath("$.modoCopiloto").value("stub"));
+                .andExpect(jsonPath("$.modoCopiloto").value("stub"))
+                .andExpect(jsonPath("$.modeloLlm").value("deepseek/deepseek-v4-pro"))
+                .andExpect(jsonPath("$.llm.chamadasHoje").value(0))
+                .andExpect(jsonPath("$.llm.limiteDiario").value(100));
         mvc.perform(post("/api/simulacoes/desagio").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"desagio\":0.03,\"taxaAntiga\":0.12,\"taxaNova\":0.14,\"prazoRestanteAnos\":3}"))
                 .andExpect(status().isOk())

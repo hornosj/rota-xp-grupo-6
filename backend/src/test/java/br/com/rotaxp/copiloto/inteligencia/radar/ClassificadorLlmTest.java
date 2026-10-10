@@ -52,7 +52,7 @@ class ClassificadorLlmTest {
     }
 
     private ClassificadorLlm classificador(AgenteFalso agente, int tamanhoLote) {
-        return new ClassificadorLlm(agente, new ClassificadorRegras(), MODELO, tamanhoLote);
+        return new ClassificadorLlm(agente, new ClassificadorRegras(), MODELO, tamanhoLote, 1500);
     }
 
     @Test
@@ -62,7 +62,7 @@ class ClassificadorLlmTest {
         ClassificadorLlm.Resultado r = classificador(agente, 10).classificar(noticias(23), emissores);
 
         assertThat(agente.lotes).extracting(l -> l.noticias().size()).containsExactly(10, 10, 3);
-        assertThat(agente.lotes).allMatch(l -> l.modelo().equals(MODELO));
+        assertThat(agente.lotes).allMatch(l -> l.modelo().equals(MODELO) && l.maxTokens() == 1500);
         assertThat(agente.lotes.get(0).emissoresPermitidos()).extracting(LoteNoticias.EmissorPermitido::id).contains("emi-agrosul");
         assertThat(r.lotes()).isEqualTo(3);
         assertThat(r.porLlm()).isEqualTo(23);

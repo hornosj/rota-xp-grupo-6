@@ -88,6 +88,7 @@ class AgentesEmbabelTest {
         assertThat(m.geradoPor()).isEqualTo(GeradoPor.live);
         LlmInvocation inv = ctx.getLlmInvocations().get(0);
         assertThat(inv.getInteraction().getLlm().getModel()).isEqualTo(MODELO);
+        assertThat(inv.getInteraction().getLlm().getMaxTokens()).isEqualTo(1024);   // props.maxTokens()
         assertThat(system(inv)).contains("Não prometa rentabilidade", "exatamente como estão no contexto", "600 caracteres");
         assertThat(inv.getPrompt()).contains("WHATSAPP", "R$ 400 mil", "Banco Horizonte", "Aniversário da Sofia")
                 .doesNotContain("Juliana", "cli-003");
@@ -130,7 +131,7 @@ class AgentesEmbabelTest {
         var lote = new AgentesTipos.LoteNoticias(
                 List.of(new br.com.rotaxp.copiloto.dominio.Radar.Noticia("not-001", "f", "Agro Sul adia juros de CRA", "resumo A", null, null),
                         new br.com.rotaxp.copiloto.dominio.Radar.Noticia("not-003", "f", "Copom eleva a Selic", "resumo B", null, null)),
-                "openai/gpt-oss-120b",
+                "openai/gpt-oss-120b", 1500,
                 List.of(new AgentesTipos.LoteNoticias.EmissorPermitido("emi-agrosul", "Agro Sul Sementes S.A."),
                         new AgentesTipos.LoteNoticias.EmissorPermitido("emi-horizonte", "Banco Horizonte")));
         var resposta = new AgentesTipos.LoteClassificado(List.of(
@@ -143,6 +144,7 @@ class AgentesEmbabelTest {
         assertThat(ctx.getLlmInvocations()).hasSize(1);
         LlmInvocation inv = ctx.getLlmInvocations().get(0);
         assertThat(inv.getInteraction().getLlm().getModel()).isEqualTo("openai/gpt-oss-120b");
+        assertThat(inv.getInteraction().getLlm().getMaxTokens()).isEqualTo(1500);
         assertThat(inv.getPrompt()).contains("not-001", "Agro Sul adia juros de CRA", "not-003", "Copom eleva a Selic");
         assertThat(system(inv)).contains("emi-agrosul", "emi-horizonte", "SELIC", "DEBENTURE", "NEGATIVA");
     }

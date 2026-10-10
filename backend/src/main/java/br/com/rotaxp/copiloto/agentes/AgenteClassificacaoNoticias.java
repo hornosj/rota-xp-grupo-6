@@ -23,7 +23,7 @@ public class AgenteClassificacaoNoticias {
     @AchievesGoal(description = "Lote de notícias classificado")
     @Action(description = "Classifica o lote com o LLM")
     public LoteClassificado classificar(LoteNoticias lote, OperationContext ctx) {
-        return ctx.ai().withLlm(lote.modelo())
+        return ctx.ai().withLlm(new com.embabel.common.ai.model.LlmOptions(null, lote.modelo()).withMaxTokens(lote.maxTokens()))
                 .withSystemPrompt(system(lote))
                 .createObject(usuario(lote), LoteClassificado.class);
     }
