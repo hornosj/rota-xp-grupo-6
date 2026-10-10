@@ -16,7 +16,7 @@ afterEach(() => {
   estadoFixtures.convites = [];
 });
 
-const TOKEN = "cv-cli-001-inst-horizonte";
+const TOKEN = "cv-9612a1d93c";
 
 describe("TelaConvite", () => {
   it("pendente: ambiente simulado do banco, escopos em português, 12 meses e revogável", async () => {

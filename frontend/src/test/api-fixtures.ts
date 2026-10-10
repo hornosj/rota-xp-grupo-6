@@ -47,7 +47,7 @@ const LINK_BASE = "http://localhost:3000/convite/";
 
 /** Convite da Marina para o Banco Horizonte, no formato do contrato (BE1-11). */
 export function conviteMarina(extra?: Partial<Convite>): Convite {
-  const token = extra?.token ?? "cv-cli-001-inst-horizonte";
+  const token = extra?.token ?? "cv-9612a1d93c";
   return {
     token,
     clienteId: "cli-001",
@@ -57,8 +57,8 @@ export function conviteMarina(extra?: Partial<Convite>): Convite {
     prazoMeses: 12,
     link: LINK_BASE + token,
     status: "PENDENTE",
-    criadoEm: "2026-10-11T10:00:00-03:00",
-    expiraEm: "2026-10-13T10:00:00-03:00",
+    criadoEm: "2026-10-11T14:01:09.2712085-03:00",
+    expiraEm: "2026-10-13T14:01:09.2712085-03:00",
     ...extra,
   };
 }
