@@ -15,4 +15,8 @@ public final class Excecoes {
     public static class Expirado extends RuntimeException {
         public Expirado(String mensagem) { super(mensagem); }
     }
+
+    public static class RequisicaoInvalida extends RuntimeException {
+        public RequisicaoInvalida(String mensagem) { super(mensagem); }
+    }
 }
