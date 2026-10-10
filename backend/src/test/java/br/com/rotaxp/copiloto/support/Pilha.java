@@ -50,6 +50,16 @@ public final class Pilha {
     public record Analise(DadosVisiveis dados, AnaliseFluxo fluxo, AnaliseFgc fgc, Principalidade principalidade,
                           List<Alerta> alertas, ResultadoPrioridade prioridade, Cobertura cobertura) {}
 
+    /** Assembler completo sobre a infraestrutura dada, já com a linha de base de alertas registrada. */
+    public br.com.rotaxp.copiloto.consolidacao.Visao360Assembler assembler(Infra i) {
+        var registro = new br.com.rotaxp.copiloto.demo.RegistroAlertas(i.dataReferencia, Infra.demoProps());
+        var a = new br.com.rotaxp.copiloto.consolidacao.Visao360Assembler(i.gateway, i.repo, i.dataReferencia, registro,
+                fluxo, principalidade, fgc, alertas, prioridade, patrimonio, cobertura,
+                new br.com.rotaxp.copiloto.inteligencia.AcaoSugeridaService(ALERTAS, PREMISSAS), i.consentimentos);
+        a.registrarLinhaDeBase();
+        return a;
+    }
+
     public Analise analisar(DadosVisiveis d) {
         AnaliseFluxo f = fluxo.calcular(d, CenarioBuilder.REF);
         AnaliseFgc g = fgc.calcular(d);
