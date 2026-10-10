@@ -4,7 +4,17 @@ import { ApiError, type Api } from "@/lib/api-base";
 import { primeiroNome } from "@/lib/formato";
 import type { ClienteResumo, ConsentimentoComNome, Id, ItemFila, PainelCarteira, PosicaoXp, Visao360 } from "@/lib/api-types";
 import { ANCORAS, DATA_REFERENCIA, DEFS_ESTATICAS, defMarina, type DefCliente } from "./dados";
-import { concedidoEm, lerEstado, registrarConcessao, registrarRevogacao, resetarEstado, revogadoEm } from "./estado";
+import {
+  concedidoEm,
+  edicaoDe,
+  lerEstado,
+  registrarConcessao,
+  registrarEdicao,
+  registrarRevogacao,
+  resetarEstado,
+  revogadoEm,
+} from "./estado";
+import { proporEdicaoMock, validarEdicaoMock } from "./edicao";
 import {
   buscarConviteMock,
   confirmarConviteMock,
@@ -14,6 +24,7 @@ import {
   mensagemConvite,
 } from "./convites";
 import { contextoMock, registrarNotaMock } from "./anotacoes";
+import * as onboarding from "./onboarding";
 import { montarVisao } from "./montar";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "./radar";
 import { briefingStub, mensagemStub } from "./textos";
@@ -58,7 +69,8 @@ function visao(clienteId: Id): Visao360 {
     { ...def.visao, consentimentos: aplicarOverrides(clienteId, def.visao.consentimentos) },
     new Date().toISOString(),
   );
-  return v;
+  const edicao = edicaoDe(clienteId);
+  return edicao ? { ...v, cliente: { ...v.cliente, ...edicao } } : v;
 }
 
 function todosIds(): Id[] {
@@ -176,10 +188,11 @@ export const mockApi: Api = {
   },
   async resetDemo() {
     resetarEstado();
+    onboarding.resetarConvites();
     await esperar(null);
   },
   async demoEstado() {
-    return esperar({ dataReferencia: DATA_REFERENCIA, modoCopiloto: "mock" });
+    return esperar({ dataReferencia: DATA_REFERENCIA, modoCopiloto: "mock", transcricao: { disponivel: false } });
   },
   async noticiasRadar() {
     return esperar(noticiasMock());
@@ -219,6 +232,30 @@ export const mockApi: Api = {
   async contextoAssessor(id) {
     defDe(id);
     return esperar(contextoMock(id));
+  },
+  async convitesOnboarding() {
+    return esperar(onboarding.listarConvites());
+  },
+  async criarConviteOnboarding(nome) {
+    return esperar(onboarding.criarConvite(nome));
+  },
+  async formularioOnboarding(token) {
+    return esperar(onboarding.formulario(token));
+  },
+  async concluirOnboarding(token, cadastro) {
+    return esperar(onboarding.concluir(token, cadastro));
+  },
+  async transcreverAudio(id) {
+    defDe(id);
+    throw new ApiError(503, "Transcrição por voz indisponível no modo mock: digite o que mudou.", "INDISPONIVEL");
+  },
+  async proporEdicao(id, transcricao) {
+    return esperar(proporEdicaoMock(visao(id).cliente, transcricao));
+  },
+  async editarCliente(id, edicao) {
+    defDe(id);
+    registrarEdicao(id, validarEdicaoMock(edicao));
+    return esperar(visao(id));
   },
 };
 

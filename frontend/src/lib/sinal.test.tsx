@@ -66,7 +66,6 @@ describe("sinal de dados alterados (atualizar pelo clique)", () => {
 
   it("identifica as consultas de IA (nunca refazem sozinhas)", () => {
     expect(ehChaveDeIa(["briefing", "cli-001"])).toBe(true);
-    expect(ehChaveDeIa(["palco", "mensagem-convite", "cv-1"])).toBe(true);
     expect(ehChaveDeIa(["fila"])).toBe(false);
     expect(ehChaveDeIa(["360", "cli-001"])).toBe(false);
   });

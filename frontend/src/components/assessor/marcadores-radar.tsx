@@ -1,56 +1,52 @@
+import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
 import type { DirecaoNoticia, OrigemClassificacao } from "@/lib/api-types";
 import { numero } from "@/lib/formato";
 import { rotuloDirecao, rotuloOrigem } from "@/lib/rotulos";
 import { cn } from "@/lib/utils";
 
-const base = "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap";
+// Preto e branco, como os outros marcadores: negativa preenchida de preto, positiva contornada, neutra em cinza.
+const base = "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[13px] font-bold whitespace-nowrap";
 
-/** Vermelho só para notícia NEGATIVA; verde para POSITIVA. */
-const corDirecao: Record<DirecaoNoticia, { chip: string; barra: string }> = {
-  NEGATIVA: { chip: "bg-red-600 text-white", barra: "bg-red-600" },
-  POSITIVA: { chip: "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200", barra: "bg-emerald-600" },
-  NEUTRA: { chip: "bg-slate-100 text-slate-700", barra: "bg-slate-500" },
+const direcao: Record<DirecaoNoticia, { classe: string; Icone: typeof Minus }> = {
+  NEGATIVA: { classe: "bg-black text-white ring-1 ring-black", Icone: ArrowDownRight },
+  POSITIVA: { classe: "bg-white text-black ring-1 ring-black", Icone: ArrowUpRight },
+  NEUTRA: { classe: "bg-muted text-muted-foreground", Icone: Minus },
 };
 
-export function BadgeDirecao({ direcao }: { direcao: DirecaoNoticia }) {
+export function BadgeDirecao({ direcao: d, className }: { direcao: DirecaoNoticia; className?: string }) {
+  const { classe, Icone } = direcao[d];
   return (
-    <span data-testid="direcao" className={cn(base, corDirecao[direcao].chip)}>
-      {rotuloDirecao[direcao]}
+    <span data-testid="direcao" className={cn(base, classe, className)}>
+      <Icone className="size-3.5" aria-hidden /> {rotuloDirecao[d]}
     </span>
   );
 }
 
-const corOrigem: Record<OrigemClassificacao, string> = {
-  REFERENCIA: "bg-slate-100 text-slate-700 ring-1 ring-slate-200",
-  REGRAS: "bg-sky-100 text-sky-800 ring-1 ring-sky-200",
-  LLM: "bg-violet-100 text-violet-800 ring-1 ring-violet-200",
-};
-
 export function BadgeOrigem({ origem }: { origem: OrigemClassificacao }) {
   return (
-    <span data-testid="origem" title="De onde veio a classificação" className={cn(base, corOrigem[origem])}>
+    <span data-testid="origem" title="De onde veio a classificação" className={cn(base, "font-semibold ring-1 ring-black")}>
       {rotuloOrigem[origem]}
     </span>
   );
 }
 
-/** Barra 0–100 com o número ao lado. */
-export function BarraPontos({ pontos, direcao, className }: { pontos: number; direcao: DirecaoNoticia; className?: string }) {
+/** Pontos 0–100 com a barra embaixo, como a prioridade da fila. */
+export function BarraPontos({ pontos, className }: { pontos: number; className?: string }) {
   const largura = Math.max(0, Math.min(100, pontos));
   return (
-    <div className={cn("flex items-center gap-3", className)}>
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100" aria-hidden>
-        <div
-          data-testid="barra-pontos"
-          className={cn("h-full rounded-full transition-all duration-700", corDirecao[direcao].barra)}
-          style={{ width: `${largura}%` }}
-        />
-      </div>
-      <span className="w-16 text-right text-sm text-muted-foreground">
-        <span data-testid="pontos" className="text-lg font-bold text-foreground tabular-nums">
+    <div className={cn("flex flex-col items-end gap-2", className)}>
+      <span className="text-base text-muted-foreground">
+        <span data-testid="pontos" className="text-2xl font-extrabold text-foreground">
           {numero(pontos)}
         </span>{" "}
         pts
+      </span>
+      <span aria-hidden className="h-1.5 w-32 overflow-hidden rounded-full bg-[#e6e6e6]">
+        <span
+          data-testid="barra-pontos"
+          className="block h-full bg-black transition-all duration-700"
+          style={{ width: `${largura}%` }}
+        />
       </span>
     </div>
   );
@@ -61,7 +57,7 @@ export function Chips({ itens, className }: { itens: string[]; className?: strin
   return (
     <div className={cn("flex flex-wrap gap-1.5", className)}>
       {itens.map((g) => (
-        <span key={g} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
+        <span key={g} className="rounded-full bg-muted px-2.5 py-0.5 text-[13px] font-semibold">
           {g}
         </span>
       ))}

@@ -149,7 +149,7 @@ describe("mockApi — notas do assessor (editar cliente)", () => {
 
     const outra = await novaInstancia();   // outro iframe do /palco: mesmo localStorage
     const c = await outra.contextoAssessor("cli-003");
-    expect(c.anotacoes[0]).toMatchObject({ origem: "AUDIO", data: "2026-10-11" });
+    expect(c.anotacoes[0]).toMatchObject({ origem: "AUDIO", data: "2026-10-10" });
     expect(c.recomendacoes.map((x) => x.produto)).toContain("Seguro auto");
     expect((await outra.contextoAssessor("cli-001")).anotacoes).toEqual([]);
 

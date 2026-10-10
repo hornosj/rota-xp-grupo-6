@@ -7,3 +7,7 @@ target/
 .idea/
 .vscode/
 __pycache__/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

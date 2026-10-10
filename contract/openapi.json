@@ -11,23 +11,43 @@
     }
   ],
   "paths": {
-    "/api/simulacoes/desagio": {
+    "/api/simulacoes/rentabilidade": {
       "post": {
         "tags": [
-          "demo-controller"
+          "rentabilidade-controller"
         ],
-        "operationId": "desagio",
+        "operationId": "simular",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DesagioBody"
+                "$ref": "#/components/schemas/RentabilidadePedido"
               }
             }
           },
           "required": true
         },
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -48,6 +68,66 @@
               }
             }
           },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentabilidadeResultado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/simulacoes/desagio": {
+      "post": {
+        "tags": [
+          "demo-controller"
+        ],
+        "operationId": "desagio",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesagioBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
           "409": {
             "description": "Conflict",
             "content": {
@@ -60,6 +140,56 @@
           },
           "410": {
             "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -86,7 +216,7 @@
         "tags": [
           "desagio-controller"
         ],
-        "operationId": "simular",
+        "operationId": "simular_1",
         "requestBody": {
           "content": {
             "application/json": {
@@ -98,6 +228,26 @@
           "required": true
         },
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -118,8 +268,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -128,8 +278,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -158,6 +318,26 @@
         ],
         "operationId": "processar",
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -178,8 +358,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -188,8 +368,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -211,13 +401,43 @@
         }
       }
     },
-    "/api/demo/reset": {
-      "post": {
+    "/api/onboarding/{token}": {
+      "get": {
         "tags": [
-          "demo-controller"
+          "onboarding-controller"
         ],
-        "operationId": "reset",
+        "operationId": "formulario",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -238,6 +458,74 @@
               }
             }
           },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormularioOnboarding"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "onboarding-controller"
+        ],
+        "operationId": "concluir",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CadastroInvestidor"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
           "409": {
             "description": "Conflict",
             "content": {
@@ -250,6 +538,146 @@
           },
           "410": {
             "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoOnboarding"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo/reset": {
+      "post": {
+        "tags": [
+          "demo-controller"
+        ],
+        "operationId": "reset",
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -281,6 +709,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -301,8 +749,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -311,8 +759,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -359,6 +817,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -379,8 +857,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -389,8 +867,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -439,26 +927,6 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -479,12 +947,290 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ResultadoNota"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/edicao/transcricao": {
+      "post": {
+        "tags": [
+          "edicao-cadastro-controller"
+        ],
+        "operationId": "transcrever",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "audio"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transcricao"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/edicao/proposta": {
+      "post": {
+        "tags": [
+          "edicao-cadastro-controller"
+        ],
+        "operationId": "propor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PedidoProposta"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropostaEdicao"
                 }
               }
             }
@@ -517,6 +1263,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -537,8 +1303,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -547,8 +1313,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -595,6 +1371,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -615,8 +1411,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -625,8 +1421,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -673,6 +1479,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -693,8 +1519,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -703,8 +1529,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -760,6 +1596,26 @@
           }
         },
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -780,8 +1636,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -790,8 +1646,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -813,13 +1679,33 @@
         }
       }
     },
-    "/api/radar/noticias": {
+    "/api/assessor/convites": {
       "get": {
         "tags": [
-          "radar-controller"
+          "onboarding-controller"
         ],
-        "operationId": "noticias",
+        "operationId": "convites",
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -840,6 +1726,67 @@
               }
             }
           },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConviteOnboarding"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "onboarding-controller"
+        ],
+        "operationId": "criarConvite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoConviteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
           "409": {
             "description": "Conflict",
             "content": {
@@ -852,6 +1799,256 @@
           },
           "410": {
             "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConviteOnboarding"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}": {
+      "patch": {
+        "tags": [
+          "edicao-cadastro-controller"
+        ],
+        "operationId": "editar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EdicaoCadastro"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/radar/noticias": {
+      "get": {
+        "tags": [
+          "radar-controller"
+        ],
+        "operationId": "noticias",
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -883,6 +2080,26 @@
         ],
         "operationId": "estado",
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -903,8 +2120,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -913,8 +2130,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -953,6 +2180,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -973,8 +2220,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -983,8 +2230,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1013,6 +2270,26 @@
         ],
         "operationId": "listar",
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1033,8 +2310,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1043,8 +2320,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1086,6 +2373,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1106,8 +2413,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1116,8 +2423,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1159,6 +2476,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1179,8 +2516,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1189,8 +2526,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1229,6 +2576,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1249,8 +2616,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1259,8 +2626,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1299,6 +2676,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1319,8 +2716,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1329,8 +2726,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1372,6 +2779,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1392,8 +2819,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1402,8 +2829,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1442,6 +2879,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1462,8 +2919,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1472,8 +2929,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1515,6 +2982,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1535,8 +3022,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1545,8 +3032,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1585,6 +3082,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1605,8 +3122,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1615,8 +3132,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1657,6 +3184,26 @@
           }
         ],
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1677,8 +3224,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1687,8 +3234,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1720,6 +3277,26 @@
         ],
         "operationId": "painel",
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1740,8 +3317,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1750,8 +3327,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1780,6 +3367,26 @@
         ],
         "operationId": "fila",
         "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1800,8 +3407,8 @@
               }
             }
           },
-          "409": {
-            "description": "Conflict",
+          "502": {
+            "description": "Bad Gateway",
             "content": {
               "*/*": {
                 "schema": {
@@ -1810,8 +3417,18 @@
               }
             }
           },
-          "410": {
-            "description": "Gone",
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
             "content": {
               "*/*": {
                 "schema": {
@@ -1847,6 +3464,100 @@
           },
           "mensagem": {
             "type": "string"
+          }
+        }
+      },
+      "PeriodoRentabilidade": {
+        "type": "object",
+        "properties": {
+          "retorno": {
+            "type": "number"
+          },
+          "aporte": {
+            "type": "number"
+          }
+        }
+      },
+      "RentabilidadePedido": {
+        "type": "object",
+        "properties": {
+          "valorInicial": {
+            "type": "number"
+          },
+          "periodos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PeriodoRentabilidade"
+            }
+          }
+        }
+      },
+      "PontoRentabilidade": {
+        "type": "object",
+        "properties": {
+          "periodo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valorInicial": {
+            "type": "number"
+          },
+          "retorno": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorAntesDoAporte": {
+            "type": "number"
+          },
+          "aporte": {
+            "type": "number"
+          },
+          "valorFinal": {
+            "type": "number"
+          },
+          "twrAcumulado": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "RentabilidadeResultado": {
+        "type": "object",
+        "properties": {
+          "valorInicial": {
+            "type": "number"
+          },
+          "totalAportado": {
+            "type": "number"
+          },
+          "valorFinal": {
+            "type": "number"
+          },
+          "ganho": {
+            "type": "number"
+          },
+          "ganhoPercentual": {
+            "type": "number",
+            "format": "double"
+          },
+          "twr": {
+            "type": "number",
+            "format": "double"
+          },
+          "periodos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PontoRentabilidade"
+            }
+          },
+          "explicacao": {
+            "type": "string"
+          },
+          "premissas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -2059,6 +3770,271 @@
           "processadoEm": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "CadastroInvestidor": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          },
+          "email": {
+            "type": "string"
+          },
+          "celular": {
+            "type": "string"
+          },
+          "profissao": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          },
+          "uf": {
+            "type": "string"
+          },
+          "dependentes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dependente"
+            }
+          },
+          "eventosVida": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventoPlanejado"
+            }
+          },
+          "respostasSuitability": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RespostaSuitability"
+            }
+          },
+          "instituicoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstituicaoInformada"
+            }
+          },
+          "aceiteTermos": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Dependente": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "parentesco": {
+            "type": "string"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "EventoPlanejado": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "ANIVERSARIO",
+              "CASAMENTO",
+              "NASCIMENTO",
+              "FERIAS",
+              "APOSENTADORIA",
+              "MUDANCA",
+              "OUTRO"
+            ]
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "InstituicaoInformada": {
+        "type": "object",
+        "properties": {
+          "instituicaoId": {
+            "type": "string"
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTA",
+                "CARTAO",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          },
+          "compartilharAgora": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RespostaSuitability": {
+        "type": "object",
+        "properties": {
+          "perguntaId": {
+            "type": "string"
+          },
+          "opcaoId": {
+            "type": "string"
+          }
+        }
+      },
+      "ConsentimentoView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "instituicaoId": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "OPEN_FINANCE",
+              "INTERNO"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ATIVO",
+              "PENDENTE",
+              "EXPIRADO",
+              "REVOGADO"
+            ]
+          },
+          "escopos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTAS",
+                "CARTOES",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          },
+          "concedidoEm": {
+            "type": "string",
+            "format": "date"
+          },
+          "expiraEm": {
+            "type": "string",
+            "format": "date"
+          },
+          "instituicaoNome": {
+            "type": "string"
+          }
+        }
+      },
+      "ConviteOnboarding": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "assessorId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE",
+              "ABERTO",
+              "CONCLUIDO"
+            ]
+          },
+          "criadoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "abertoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "concluidoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          }
+        }
+      },
+      "ResultadoOnboarding": {
+        "type": "object",
+        "properties": {
+          "convite": {
+            "$ref": "#/components/schemas/ConviteOnboarding"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          },
+          "pontuacaoSuitability": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "consentimentos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentimentoView"
+            }
           }
         }
       },
@@ -2349,6 +4325,76 @@
           }
         }
       },
+      "Transcricao": {
+        "type": "object",
+        "properties": {
+          "texto": {
+            "type": "string"
+          },
+          "modelo": {
+            "type": "string"
+          }
+        }
+      },
+      "PedidoProposta": {
+        "type": "object",
+        "properties": {
+          "transcricao": {
+            "type": "string"
+          }
+        }
+      },
+      "AlteracaoCampo": {
+        "type": "object",
+        "properties": {
+          "campo": {
+            "type": "string",
+            "enum": [
+              "NOME",
+              "IDADE",
+              "PROFISSAO",
+              "CIDADE"
+            ]
+          },
+          "valorAtual": {
+            "type": "string"
+          },
+          "valorNovo": {
+            "type": "string"
+          }
+        }
+      },
+      "PropostaEdicao": {
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "string"
+          },
+          "transcricao": {
+            "type": "string"
+          },
+          "alteracoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlteracaoCampo"
+            }
+          },
+          "avisos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "geradoPor": {
+            "type": "string",
+            "enum": [
+              "stub",
+              "cache",
+              "live"
+            ]
+          }
+        }
+      },
       "Alerta": {
         "type": "object",
         "properties": {
@@ -2510,74 +4556,6 @@
           "credito": {
             "type": "number",
             "format": "double"
-          }
-        }
-      },
-      "ConsentimentoView": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "clienteId": {
-            "type": "string"
-          },
-          "instituicaoId": {
-            "type": "string"
-          },
-          "tipo": {
-            "type": "string",
-            "enum": [
-              "OPEN_FINANCE",
-              "INTERNO"
-            ]
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "ATIVO",
-              "PENDENTE",
-              "EXPIRADO",
-              "REVOGADO"
-            ]
-          },
-          "escopos": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "CONTAS",
-                "CARTOES",
-                "CREDITO",
-                "INVESTIMENTOS"
-              ]
-            }
-          },
-          "concedidoEm": {
-            "type": "string",
-            "format": "date"
-          },
-          "expiraEm": {
-            "type": "string",
-            "format": "date"
-          },
-          "instituicaoNome": {
-            "type": "string"
-          }
-        }
-      },
-      "Dependente": {
-        "type": "object",
-        "properties": {
-          "nome": {
-            "type": "string"
-          },
-          "parentesco": {
-            "type": "string"
-          },
-          "dataNascimento": {
-            "type": "string",
-            "format": "date"
           }
         }
       },
@@ -2875,6 +4853,32 @@
           }
         }
       },
+      "NovoConviteBody": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "EdicaoCadastro": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "idade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "profissao": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          }
+        }
+      },
       "Classificacao": {
         "type": "object",
         "properties": {
@@ -2978,6 +4982,77 @@
           }
         }
       },
+      "FormularioOnboarding": {
+        "type": "object",
+        "properties": {
+          "convite": {
+            "$ref": "#/components/schemas/ConviteOnboarding"
+          },
+          "instituicoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstituicaoDisponivel"
+            }
+          },
+          "questionario": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PerguntaSuitability"
+            }
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTA",
+                "CARTAO",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          }
+        }
+      },
+      "InstituicaoDisponivel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "OpcaoSuitability": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "texto": {
+            "type": "string"
+          }
+        }
+      },
+      "PerguntaSuitability": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "texto": {
+            "type": "string"
+          },
+          "opcoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpcaoSuitability"
+            }
+          }
+        }
+      },
       "DemoEstado": {
         "type": "object",
         "properties": {
@@ -2993,6 +5068,20 @@
           },
           "llm": {
             "$ref": "#/components/schemas/UsoLlm"
+          },
+          "transcricao": {
+            "$ref": "#/components/schemas/TranscricaoVoz"
+          }
+        }
+      },
+      "TranscricaoVoz": {
+        "type": "object",
+        "properties": {
+          "disponivel": {
+            "type": "boolean"
+          },
+          "modelo": {
+            "type": "string"
           }
         }
       },

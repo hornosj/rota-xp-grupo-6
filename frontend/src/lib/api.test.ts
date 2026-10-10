@@ -206,3 +206,48 @@ describe("httpApi — notas do assessor (editar cliente)", () => {
     expect(f).toHaveBeenNthCalledWith(2, "/api/clientes/cli-003/contexto", expect.anything());
   });
 });
+
+describe("httpApi · edição do cadastro por voz", () => {
+  it("transcreverAudio manda multipart com o campo audio e deixa o navegador pôr o Content-Type", async () => {
+    const f = vi.fn(async () => resposta(200, { texto: "Ela se mudou para Campinas.", modelo: "whisper-1" }));
+    const audio = new Blob([new Uint8Array([1, 2, 3])], { type: "audio/webm" });
+
+    const t = await criarHttpApi(f).transcreverAudio("cli-004", audio, "audio.webm");
+
+    expect(t.texto).toBe("Ela se mudou para Campinas.");
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe("/api/clientes/cli-004/edicao/transcricao");
+    expect(init.method).toBe("POST");
+    expect(init.headers).not.toHaveProperty("Content-Type");
+    const form = init.body as FormData;
+    expect(form).toBeInstanceOf(FormData);
+    expect((form.get("audio") as File).name).toBe("audio.webm");
+  });
+
+  it("transcreverAudio com 503 (sem Whisper no servidor) vira ApiError com a mensagem do backend", async () => {
+    const f = vi.fn(async () => resposta(503, { erro: "INDISPONIVEL", mensagem: "Transcrição por voz não configurada" }));
+    await expect(criarHttpApi(f).transcreverAudio("cli-004", new Blob(["x"]), "audio.webm")).rejects.toMatchObject({
+      status: 503,
+      erro: "INDISPONIVEL",
+      message: "Transcrição por voz não configurada",
+    });
+  });
+
+  it("proporEdicao faz POST com { transcricao } e editarCliente faz PATCH em /api/clientes/{id}", async () => {
+    const f = vi.fn(async () => resposta(200, {}));
+    const api = criarHttpApi(f);
+
+    await api.proporEdicao("cli-004", "fez 69 anos");
+    await api.editarCliente("cli-004", { idade: 69, cidade: "Campinas/SP" });
+
+    const [url1, init1] = f.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url1).toBe("/api/clientes/cli-004/edicao/proposta");
+    expect(init1.method).toBe("POST");
+    expect(JSON.parse(String(init1.body))).toEqual({ transcricao: "fez 69 anos" });
+    const [url2, init2] = f.mock.calls[1] as unknown as [string, RequestInit];
+    expect(url2).toBe("/api/clientes/cli-004");
+    expect(init2.method).toBe("PATCH");
+    expect(init2.headers).toMatchObject({ "Content-Type": "application/json" });
+    expect(JSON.parse(String(init2.body))).toEqual({ idade: 69, cidade: "Campinas/SP" });
+  });
+});

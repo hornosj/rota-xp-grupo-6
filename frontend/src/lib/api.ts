@@ -9,8 +9,10 @@ import type {
   ClienteResumo,
   ConsentimentoComNome,
   Convite,
+  ConviteOnboarding,
   DemoEstado,
   ErroApi,
+  FormularioOnboarding,
   ImpactoNoticia,
   ItemFila,
   MensagemGerada,
@@ -19,7 +21,10 @@ import type {
   PainelCarteira,
   Principalidade,
   ResultadoNota,
+  PropostaEdicao,
+  ResultadoOnboarding,
   ResultadoProcessamento,
+  Transcricao,
   Visao360,
 } from "./api-types";
 
@@ -101,6 +106,20 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
         throw e;
       }
     },
+    convitesOnboarding: () => chamar<ConviteOnboarding[]>("/assessor/convites"),
+    criarConviteOnboarding: (nome) => chamar<ConviteOnboarding>("/assessor/convites", { method: "POST", json: { nome } }),
+    formularioOnboarding: (token) => chamar<FormularioOnboarding>(`/onboarding/${seg(token)}`),
+    concluirOnboarding: (token, cadastro) =>
+      chamar<ResultadoOnboarding>(`/onboarding/${seg(token)}`, { method: "POST", json: cadastro }),
+    transcreverAudio(id, audio, nomeArquivo) {
+      // Multipart: o navegador põe o Content-Type com o boundary.
+      const form = new FormData();
+      form.append("audio", audio, nomeArquivo);
+      return chamar<Transcricao>(`/clientes/${seg(id)}/edicao/transcricao`, { method: "POST", body: form });
+    },
+    proporEdicao: (id, transcricao) =>
+      chamar<PropostaEdicao>(`/clientes/${seg(id)}/edicao/proposta`, { method: "POST", json: { transcricao } }),
+    editarCliente: (id, edicao) => chamar<Visao360>(`/clientes/${seg(id)}`, { method: "PATCH", json: edicao }),
   };
   return api;
 }

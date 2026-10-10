@@ -4,7 +4,8 @@
 // polling lento só como rede de segurança. Consultas de IA nunca refazem sozinhas.
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "./api";
-import type { Canal, Id, OrigemAnotacao } from "./api-types";
+import type { CadastroInvestidor, Canal, EdicaoCadastro, Id, OrigemAnotacao } from "./api-types";
+import { carregarNotificacoes } from "./notificacoes";
 import { avisarDadosAlterados, invalidarDados } from "./sinal";
 
 export const INTERVALO_AO_VIVO_MS = 15000;
@@ -26,6 +27,9 @@ export const chaves = {
   convites: (id: Id) => ["convites", id] as const,
   convite: (token: string) => ["convite", token] as const,
   contextoAssessor: (id: Id) => ["contexto-assessor", id] as const,
+  convitesOnboarding: ["convites-onboarding"] as const,
+  formularioOnboarding: (token: string) => ["onboarding", token] as const,
+  notificacoes: ["notificacoes"] as const,
 };
 
 interface OpcoesAoVivo {
@@ -59,6 +63,16 @@ export function useConsentimentos(id: Id, o?: OpcoesAoVivo) {
     queryKey: chaves.consentimentos(id),
     queryFn: () => api.consentimentos(id),
     refetchInterval: intervalo(o),
+  });
+}
+
+/** Provisório: montado no front a partir de /clientes + /360 (ver lib/notificacoes). */
+export function useNotificacoes(o?: OpcoesAoVivo) {
+  return useQuery({
+    queryKey: chaves.notificacoes,
+    queryFn: () => carregarNotificacoes(api),
+    refetchInterval: intervalo(o),
+    staleTime: 30 * 1000,
   });
 }
 
@@ -117,6 +131,7 @@ function invalidarCliente(qc: QueryClient, clienteId: Id) {
     qc.invalidateQueries({ queryKey: chaves.fila }),
     qc.invalidateQueries({ queryKey: chaves.painel }),
     qc.invalidateQueries({ queryKey: chaves.clientes }),
+    qc.invalidateQueries({ queryKey: chaves.notificacoes }),
     qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.consentimentos(clienteId) }),
     // consentimento muda a carteira visível → muda o que as notícias tocam
@@ -209,6 +224,36 @@ export function useMensagem() {
   });
 }
 
+// ---------- Edição do cadastro por voz ----------
+
+export function useTranscreverAudio() {
+  return useMutation({
+    mutationFn: ({ clienteId, audio, nomeArquivo }: { clienteId: Id; audio: Blob; nomeArquivo: string }) =>
+      api.transcreverAudio(clienteId, audio, nomeArquivo),
+  });
+}
+
+/** Só propõe (nada é gravado): o assessor confere antes de aplicar. */
+export function usePropostaEdicao() {
+  return useMutation({
+    mutationFn: ({ clienteId, transcricao }: { clienteId: Id; transcricao: string }) =>
+      api.proporEdicao(clienteId, transcricao),
+  });
+}
+
+/** Grava o que o assessor confirmou. Nome e cadastro aparecem na fila, no painel e nas mensagens. */
+export function useEditarCliente() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ clienteId, edicao }: { clienteId: Id; edicao: EdicaoCadastro }) => api.editarCliente(clienteId, edicao),
+    onSuccess: async (visao, { clienteId }) => {
+      qc.setQueryData(chaves.visao360(clienteId), visao);
+      await invalidarCliente(qc, clienteId);
+      avisarDadosAlterados();
+    },
+  });
+}
+
 export function useResetDemo() {
   const qc = useQueryClient();
   return useMutation({
@@ -238,6 +283,52 @@ export function useRegistrarNota() {
         qc.invalidateQueries({ queryKey: chaves.briefing(clienteId) }),
         qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
       ]);
+    },
+  });
+}
+
+// ---------- Onboarding ----------
+
+/** Lista de convites de cadastro do assessor; com polling para ver o investidor abrindo/concluindo. */
+export function useConvitesOnboarding(o?: { intervaloMs?: number }) {
+  return useQuery({
+    queryKey: chaves.convitesOnboarding,
+    queryFn: () => api.convitesOnboarding(),
+    // Com erro (ex.: backend sem o endpoint), para de bater a cada intervalo.
+    refetchInterval: (q) => (q.state.status === "error" ? false : (o?.intervaloMs ?? false)),
+  });
+}
+
+export function useCriarConviteOnboarding() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (nome: string) => api.criarConviteOnboarding(nome),
+    onSuccess: () => qc.invalidateQueries({ queryKey: chaves.convitesOnboarding }),
+  });
+}
+
+export function useFormularioOnboarding(token: string) {
+  return useQuery({
+    queryKey: chaves.formularioOnboarding(token),
+    queryFn: () => api.formularioOnboarding(token),
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function useConcluirOnboarding() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ token, cadastro }: { token: string; cadastro: CadastroInvestidor }) =>
+      api.concluirOnboarding(token, cadastro),
+    onSuccess: async () => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: chaves.convitesOnboarding }),
+        qc.invalidateQueries({ queryKey: chaves.clientes }),
+        qc.invalidateQueries({ queryKey: chaves.fila }),
+        qc.invalidateQueries({ queryKey: chaves.painel }),
+      ]);
+      avisarDadosAlterados();
     },
   });
 }

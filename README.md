@@ -16,17 +16,17 @@ cd backend && ./mvnw spring-boot:run
 cd frontend && npm install && npm run dev
 ```
 
-Abra **http://localhost:3000/palco** para a demo (assessora à esquerda, celular da Marina à direita).
+Abra **http://localhost:3000** para a demo (fila do assessor, visão 360 e cadastro de investidores).
 
 - Sem backend: `NEXT_PUBLIC_USE_MOCKS=true npm run dev` (plano B — roda o roteiro inteiro com fixtures).
-- Resetar a demo: botão "Resetar demo" no `/palco` ou `curl -X POST localhost:8080/api/demo/reset`.
+- Resetar a demo: `curl -X POST localhost:8080/api/demo/reset`.
 
 ## Testes
 
 | Parte | Comando | O que cobre |
 |---|---|---|
-| Backend | `cd backend && ./mvnw test` | regras da `analise` (unitários), ações, convites, radar, Copiloto (stub/cache/record/live com LLM falso) e integração com a seed real: todos os âncoras do §6.5 (`src/test/resources/esperados.json`) e o roteiro da demo pela API |
-| Frontend | `cd frontend && npm test && npm run typecheck && npm run lint` | formatação, camada de API/mocks, hooks, telas do assessor, do cliente e do palco |
+| Backend | `cd backend && ./mvnw test` | regras da `analise` (unitários), ações, convites, onboarding, radar, Copiloto (stub/cache/record/live com LLM falso) e integração com a seed real: todos os âncoras do §6.5 (`src/test/resources/esperados.json`) e o roteiro da demo pela API |
+| Frontend | `cd frontend && npm test && npm run typecheck && npm run lint` | formatação, camada de API/mocks, hooks, telas do assessor, do convite e do onboarding |
 | Dados | `python -m unittest discover -s data/tests` | gerador da seed e o checker de referência das regras |
 
 Tudo foi desenvolvido com TDD.
@@ -34,11 +34,24 @@ Tudo foi desenvolvido com TDD.
 ## Seed
 
 ```bash
-python data/gerar_seed.py --data-referencia 2026-10-11 --saida backend/src/main/resources/seed
+python data/gerar_seed.py --data-referencia 2026-10-10 --saida backend/src/main/resources/seed
 python data/checar_seed.py            # imprime os números de cada âncora e confere com o §6.5
 ```
 
 Use a data do pitch em `--data-referencia` **e** em `demo.data-referencia` (`backend/src/main/resources/application.yml`).
+
+## Banco de dados (SQLite)
+
+O backend guarda os dados em SQLite (`backend/copiloto.db`, fora do git). Esquema: `backend/src/main/resources/db/schema.sql`.
+
+- No startup o esquema é criado e, se o banco estiver vazio, a seed JSON é importada.
+- Consentimentos concedidos/revogados, eventos de vida criados pela nota pós-reunião e o registro de quando cada
+  alerta foi detectado (tabela `registro_alerta`) **persistem entre reinícios**.
+- `POST /api/demo/reset` apaga tudo, reimporta a seed e limpa o registro de alertas. Depois de regenerar a seed, rode o reset (ou apague o `.db`).
+- Mudou o `schema.sql`? Apague o `copiloto.db` — não há migração.
+- Configuração: `BANCO_ARQUIVO` (caminho do arquivo), `BANCO_TIPO=memoria` (volta ao repositório em memória),
+  `banco.recriar-no-inicio: true` (reimporta a seed a cada startup).
+- Os testes de integração usam um banco descartável em `backend/target/copiloto-test.db`.
 
 ## Copiloto (IA)
 
@@ -66,6 +79,22 @@ Teste real contra o OpenRouter (opt-in, custa frações de centavo):
 Para gravar o cache antes do freeze (BE2-07): suba com `COPILOTO_MODO=record`, percorra as ações dos âncoras
 (antes e depois do consentimento da Marina) e commite `backend/llm-cache/`.
 
+### Edição do cadastro por voz (Whisper)
+
+Na 360 do cliente, **Editar por voz**: o assessor grava (ou envia) um áudio contando o que mudou, o **Whisper**
+transcreve, o Copiloto (`AgenteEdicaoCadastro`, com os mesmos modos acima) extrai os campos e as regras
+(`RegrasCadastro`) validam e montam a proposta. O assessor confere o antes → depois de cada campo e só então
+aplica (`PATCH /api/clientes/{id}`). Campos: nome, idade, profissão e cidade. O **perfil de investidor não muda
+por voz** (vem do questionário de suitability); se o assessor citar, a proposta mostra um aviso.
+
+- Qualquer API compatível com a `/audio/transcriptions` da OpenAI: `WHISPER_APIKEY` (obrigatória),
+  `WHISPER_URL` (padrão `https://api.openai.com/v1`) e `WHISPER_MODELO` (padrão `whisper-1`).
+  Groq, por exemplo: `WHISPER_URL=https://api.groq.com/openai/v1` e `WHISPER_MODELO=whisper-large-v3-turbo`.
+- Sem `WHISPER_APIKEY`, `/demo/estado` informa `transcricao.disponivel=false` e a tela pede o texto digitado; o
+  resto do fluxo funciona igual (inclusive no modo mock do front).
+- O Whisper recebe o áudio e o nome do cliente (como dica de grafia); o LLM recebe o texto e o cadastro atual
+  (sem CPF). Nada é gravado sem a confirmação do assessor, e o reset da demo desfaz as edições.
+
 ## Contrato
 
 `contract/openapi.json` e `contract/fixtures/` são exportados da API real:
@@ -83,5 +112,8 @@ cd frontend && npm run gen:api && npm run sync:fixtures
 - Regras ambíguas resolvidas como no checker de referência (`data/checar_seed.py`): `SO_INVESTIMENTOS` é
   avaliado antes de `PRINCIPAL`; reserva arredondada a 1 casa (HALF_EVEN); janelas de movimentação e contas
   recorrentes = 3 meses; `FATURA CARTAO <X>` casa com a última palavra do nome do banco.
+- **Edição do cadastro por voz** (fora do PLAN): transcrição com **Whisper no backend**, não com a Web Speech API
+  do §8.4 (que segue sendo o plano para a nota pós-reunião). Funciona em qualquer navegador com microfone e
+  aceita arquivo de áudio.
 
 Dados 100% fictícios (bancos Aurora, Horizonte, Ipê). XP é a única marca real.

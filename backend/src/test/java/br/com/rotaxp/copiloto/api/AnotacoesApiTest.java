@@ -48,7 +48,7 @@ class AnotacoesApiTest {
                 .andExpect(jsonPath("$.anotacoes", hasSize(1)))
                 .andExpect(jsonPath("$.anotacoes[0].texto").value("A Juliana bateu o carro semana passada."))
                 .andExpect(jsonPath("$.anotacoes[0].origem").value("AUDIO"))
-                .andExpect(jsonPath("$.anotacoes[0].data").value("2026-10-11"))
+                .andExpect(jsonPath("$.anotacoes[0].data").value("2026-10-10"))
                 .andExpect(jsonPath("$.recomendacoes[0].produto").value("Seguro auto"));
 
         mvc.perform(get(JULIANA + "/briefing"))

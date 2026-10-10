@@ -266,6 +266,48 @@ export interface ClienteResumo {
 export interface DemoEstado {
   dataReferencia: string;
   modoCopiloto: string;
+  /** Edição do cadastro por voz: falta em backends antigos. */
+  transcricao?: TranscricaoVoz;
+}
+
+// ---------- Edição do cadastro por voz (aditivo) ----------
+
+export interface TranscricaoVoz {
+  /** false sem chave do Whisper no servidor: o assessor digita o que mudou. */
+  disponivel: boolean;
+  modelo?: string;
+}
+
+/** O perfil de investidor fica de fora: vem do questionário de suitability. */
+export type CampoCadastro = "NOME" | "IDADE" | "PROFISSAO" | "CIDADE";
+
+export interface Transcricao {
+  texto: string;
+  modelo: string;
+}
+
+export interface AlteracaoCampo {
+  campo: CampoCadastro;
+  valorAtual?: string;
+  valorNovo: string;
+}
+
+/** Só uma proposta: nada é gravado até o assessor confirmar (PATCH). */
+export interface PropostaEdicao {
+  clienteId: Id;
+  transcricao: string;
+  alteracoes: AlteracaoCampo[];
+  /** O que foi entendido mas não entra na proposta (valor inválido, perfil de investidor). */
+  avisos: string[];
+  geradoPor: GeradoPor;
+}
+
+/** Corpo do PATCH /clientes/{id}: só os campos que mudam. */
+export interface EdicaoCadastro {
+  nome?: string;
+  idade?: number;
+  profissao?: string;
+  cidade?: string;
 }
 
 // ---------- Radar de notícias (BE2-10, aditivo) ----------
@@ -427,4 +469,88 @@ export interface ContextoAssessor {
   clienteId: Id;
   anotacoes: Anotacao[];
   recomendacoes: RecomendacaoProduto[];
+}
+
+// ---------- Onboarding do investidor (convite do assessor → cadastro pelo link) ----------
+
+export type StatusConviteOnboarding = "PENDENTE" | "ABERTO" | "CONCLUIDO";
+export type TipoEventoVida = EventoVida["tipo"];
+
+export interface ConviteOnboarding {
+  id: Id;
+  token: string;
+  /** Caminho relativo do formulário no front (ex.: /onboarding/{token}). */
+  link: string;
+  nome: string;
+  assessorId: Id;
+  status: StatusConviteOnboarding;
+  criadoEm: string;
+  abertoEm?: string;
+  concluidoEm?: string;
+  clienteId?: Id;
+  perfil?: PerfilInvestidor;
+}
+
+export interface OpcaoSuitability {
+  id: string;
+  texto: string;
+}
+
+export interface PerguntaSuitability {
+  id: string;
+  texto: string;
+  opcoes: OpcaoSuitability[];
+}
+
+export interface InstituicaoDisponivel {
+  id: Id;
+  nome: string;
+}
+
+export interface FormularioOnboarding {
+  convite: ConviteOnboarding;
+  instituicoes: InstituicaoDisponivel[];
+  questionario: PerguntaSuitability[];
+  produtos: ProdutoDeclarado[];
+}
+
+export interface RespostaSuitability {
+  perguntaId: string;
+  opcaoId: string;
+}
+
+export interface InstituicaoInformada {
+  instituicaoId: Id;
+  produtos: ProdutoDeclarado[];
+  compartilharAgora: boolean;
+}
+
+export interface EventoPlanejado {
+  tipo: TipoEventoVida;
+  descricao: string;
+  data: string;
+}
+
+export interface CadastroInvestidor {
+  nome: string;
+  cpf: string;
+  dataNascimento: string;
+  email: string;
+  celular: string;
+  profissao: string;
+  cidade: string;
+  uf: string;
+  dependentes: Dependente[];
+  eventosVida: EventoPlanejado[];
+  respostasSuitability: RespostaSuitability[];
+  instituicoes: InstituicaoInformada[];
+  aceiteTermos: boolean;
+}
+
+export interface ResultadoOnboarding {
+  convite: ConviteOnboarding;
+  clienteId: Id;
+  perfil: PerfilInvestidor;
+  pontuacaoSuitability: number;
+  consentimentos: ConsentimentoComNome[];
 }

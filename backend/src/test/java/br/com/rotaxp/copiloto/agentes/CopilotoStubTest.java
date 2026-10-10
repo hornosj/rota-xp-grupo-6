@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import br.com.rotaxp.copiloto.consolidacao.Visao360Assembler;
 import br.com.rotaxp.copiloto.dominio.AcaoSugerida;
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.Enums.TipoEventoVida;
@@ -189,5 +190,47 @@ class CopilotoStubTest {
                 .contains("Contexto do assessor: Bateu o carro semana passada.", "Oportunidade: Seguro auto (Bateu o carro).");
         assertThat(b.perguntasSugeridas()).hasSize(3);
         assertThat(b.perguntasSugeridas().get(0)).contains("seguro auto");
+    }
+
+    // ---------- edição do cadastro por voz ----------
+
+    @Test
+    void edicaoEntendeAsFrasesTipicasDoAssessor() {
+        CamposExtraidos c = stub.extrairEdicao("cli-003", "A Juliana se mudou para Campinas/SP e agora é diretora "
+                + "financeira na Embraer. Ela fez 35 anos semana passada. O nome completo dela é Juliana Prado Lima.");
+
+        assertThat(c.cidade()).isEqualTo("Campinas/SP");
+        assertThat(c.profissao()).isEqualTo("diretora financeira na Embraer");
+        assertThat(c.idade()).isEqualTo("35");
+        assertThat(c.nome()).isEqualTo("Juliana Prado Lima");
+        assertThat(c.perfil()).isNull();
+        assertThat(c.geradoPor()).isEqualTo(GeradoPor.stub);
+    }
+
+    @Test
+    void edicaoNaoConfundeCamposParecidos() {
+        CamposExtraidos c = stub.extrairEdicao("cli-003", "Ela tem 10 anos de carreira. O perfil dela mudou de moderado "
+                + "para arrojado. O nome dela agora é Juliana Prado Lima, e ela continua morando aqui.");
+
+        assertThat(c.idade()).as("10 anos de carreira não é idade").isNull();
+        assertThat(c.profissao()).as("\"o nome dela agora é\" não é profissão").isNull();
+        assertThat(c.cidade()).isNull();
+        assertThat(c.nome()).isEqualTo("Juliana Prado Lima");
+        assertThat(c.perfil()).as("vale o último perfil citado").isEqualTo("arrojado");
+    }
+
+    @Test
+    void edicaoValeAUltimaCorrecaoEArtigoAntesDaCidade() {
+        CamposExtraidos c = stub.extrairEdicao("cli-003",
+                "Ela vai se mudar para Santos. Aliás, ela se mudou para o Rio de Janeiro. Ela passou a ser gerente de projetos.");
+
+        assertThat(c.cidade()).isEqualTo("Rio de Janeiro");
+        assertThat(c.profissao()).isEqualTo("gerente de projetos");
+    }
+
+    @Test
+    void edicaoSemNadaReconhecivelDevolveTudoNulo() {
+        assertThat(stub.extrairEdicao("cli-003", "Liguei para ela hoje e conversamos sobre o mercado."))
+                .isEqualTo(new CamposExtraidos(null, null, null, null, null, GeradoPor.stub));
     }
 }

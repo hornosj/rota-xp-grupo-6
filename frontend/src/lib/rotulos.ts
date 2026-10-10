@@ -1,5 +1,6 @@
 // Rótulos pt-BR para os enums do contrato.
 import type {
+  CampoCadastro,
   ComponentesPrincipalidade,
   DirecaoNoticia,
   Escopo,
@@ -17,6 +18,13 @@ export const rotuloPosicaoXp: Record<PosicaoXp, string> = {
   SECUNDARIA: "XP secundária",
   SO_INVESTIMENTOS: "Só investimentos",
   AUSENTE: "XP ausente",
+};
+
+export const rotuloCampoCadastro: Record<CampoCadastro, string> = {
+  NOME: "Nome",
+  IDADE: "Idade",
+  PROFISSAO: "Profissão",
+  CIDADE: "Cidade",
 };
 
 export const rotuloPerfil: Record<PerfilInvestidor, string> = {
@@ -84,14 +92,14 @@ export const rotuloProduto: Record<Produto | "SALDO_CONTA", string> = {
 
 export type Componente = keyof ComponentesPrincipalidade;
 
-/** Ordem e cores dos componentes da principalidade (§7.4). */
-export const componentes: { chave: Componente; rotulo: string; cor: string }[] = [
-  { chave: "renda", rotulo: "Renda", cor: "#2a78d6" },
-  { chave: "movimentacao", rotulo: "Movimentação", cor: "#eb6834" },
-  { chave: "contasRecorrentes", rotulo: "Contas recorrentes", cor: "#1baf7a" },
-  { chave: "investimentos", rotulo: "Investimentos", cor: "#eda100" },
-  { chave: "cartao", rotulo: "Cartão", cor: "#e87ba4" },
-  { chave: "credito", rotulo: "Crédito", cor: "#008300" },
+/** Ordem dos componentes da principalidade (§7.4). */
+export const componentes: { chave: Componente; rotulo: string }[] = [
+  { chave: "renda", rotulo: "Renda" },
+  { chave: "movimentacao", rotulo: "Movimentação" },
+  { chave: "contasRecorrentes", rotulo: "Contas recorrentes" },
+  { chave: "investimentos", rotulo: "Investimentos" },
+  { chave: "cartao", rotulo: "Cartão" },
+  { chave: "credito", rotulo: "Crédito" },
 ];
 
 // ---------- Radar de notícias ----------

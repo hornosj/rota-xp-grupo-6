@@ -14,6 +14,9 @@ public interface Copiloto {
 
     ResultadoNota processarNota(String clienteId, String transcricao);
 
+    /** Edição do cadastro por voz: o que a fala do assessor diz que mudou (sem validar; as regras validam). */
+    br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos extrairEdicao(String clienteId, String transcricao);
+
     /** Radar (BE2-10): por que a notícia é motivo de contato com o cliente — texto para o assessor. */
     br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId);
 }

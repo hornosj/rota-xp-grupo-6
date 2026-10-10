@@ -21,17 +21,21 @@ describe("rotas e limpeza do reescopo", () => {
     expect(fixtures.filter((f) => f.startsWith("jornada"))).toEqual([]);
   });
 
-  it("existem as rotas do assessor, do palco e do convite", () => {
+  it("existem as rotas do assessor, do convite e do onboarding; o palco saiu", () => {
     for (const p of [
       "app/page.tsx",
-      "app/palco/page.tsx",
       "app/assessor/page.tsx",
       "app/assessor/hoje/page.tsx",
       "app/assessor/radar/page.tsx",
+      "app/assessor/convites/page.tsx",
       "app/assessor/clientes/[id]/page.tsx",
       "app/convite/[token]/page.tsx",
+      "app/onboarding/[token]/page.tsx",
     ]) {
       expect(existsSync(join(SRC, p)), p).toBe(true);
+    }
+    for (const p of ["app/palco", "components/palco"]) {
+      expect(existsSync(join(SRC, p)), p).toBe(false);
     }
   });
 

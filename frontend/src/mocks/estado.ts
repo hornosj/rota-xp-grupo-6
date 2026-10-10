@@ -1,7 +1,8 @@
-// Estado do modo mock, guardado no localStorage para ser compartilhado entre os iframes do /palco
-// (cada iframe tem seu próprio módulo JS, mas a mesma origem → mesmo localStorage).
+// Estado do modo mock, guardado no localStorage para sobreviver a recarregamentos
+// e ser compartilhado entre abas da mesma origem.
 // Sempre relido a cada chamada; se o localStorage não existir, cai num fallback em memória.
 import type { Anotacao, RecomendacaoProduto } from "@/lib/api-types";
+import type { EdicaoCadastro } from "@/lib/api-types";
 
 export interface EstadoMock {
   /** "clienteId|instituicaoId" → ISO de quando foi concedido */
@@ -10,6 +11,8 @@ export interface EstadoMock {
   revogacoes: Record<string, string>;
   /** token → convite de consentimento (modo mock) */
   convites: Record<string, ConviteMock>;
+  /** clienteId → campos do cadastro editados pelo assessor (edição por voz) */
+  edicoes: Record<string, EdicaoCadastro>;
   /** clienteId → notas do assessor ("editar cliente") e produtos sugeridos */
   notas: Record<string, NotasMock>;
 }
@@ -32,7 +35,7 @@ const CHAVE = "copiloto:mock:estado:v1";
 let memoria: EstadoMock = vazio();
 
 function vazio(): EstadoMock {
-  return { concessoes: {}, revogacoes: {}, convites: {}, notas: {} };
+  return { concessoes: {}, revogacoes: {}, convites: {}, edicoes: {}, notas: {} };
 }
 
 function storage(): Storage | null {
@@ -56,6 +59,7 @@ export function lerEstado(): EstadoMock {
       revogacoes: obj.revogacoes ?? {},
       convites: obj.convites ?? {},
       notas: obj.notas ?? {},
+      edicoes: obj.edicoes ?? {},
     };
   } catch {
     return memoria;
@@ -116,6 +120,16 @@ export function lerConvites(): ConviteMock[] {
 export function gravarConvite(c: ConviteMock) {
   const e = lerEstado();
   e.convites[c.token] = c;
+  gravar(e);
+}
+
+export function edicaoDe(clienteId: string): EdicaoCadastro | undefined {
+  return lerEstado().edicoes[clienteId];
+}
+
+export function registrarEdicao(clienteId: string, edicao: EdicaoCadastro) {
+  const e = lerEstado();
+  e.edicoes[clienteId] = { ...e.edicoes[clienteId], ...edicao };
   gravar(e);
 }
 

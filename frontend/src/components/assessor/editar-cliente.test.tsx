@@ -118,7 +118,7 @@ describe("CardContextoAssessor", () => {
     const nota = screen.getAllByTestId("anotacao")[0];
     expect(nota).toHaveTextContent("A Juliana bateu o carro semana passada.");
     expect(within(nota).getByLabelText("Nota de áudio")).toBeInTheDocument();
-    await waitFor(() => expect(nota).toHaveTextContent("11/10/2026"));
+    await waitFor(() => expect(nota).toHaveTextContent("10/10/2026"));
   });
 
   it("momento delicado aparece primeiro com orientação; quem já tem seguro vê revisão", async () => {

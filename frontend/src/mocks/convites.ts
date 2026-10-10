@@ -1,5 +1,5 @@
 // Convites de consentimento Open Finance no modo mock (espelha BE1-11).
-// Guardados no mesmo estado do localStorage (./estado.ts) para os iframes do /palco compartilharem.
+// Guardados no mesmo estado do localStorage (./estado.ts) para as abas abertas compartilharem.
 import { ApiError } from "@/lib/api-base";
 import type { Canal, Convite, Id, MensagemGerada, Visao360 } from "@/lib/api-types";
 import { primeiroNome } from "@/lib/formato";

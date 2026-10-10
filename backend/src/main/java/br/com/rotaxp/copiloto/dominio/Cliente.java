@@ -21,6 +21,11 @@ public record Cliente(
         return semTitulo.split("\\s+")[0];
     }
 
+    public Cliente comCadastro(String novoNome, int novaIdade, String novaProfissao, String novaCidade) {
+        return new Cliente(id, novoNome, cpf, novaIdade, novaProfissao, novaCidade, perfil, assessorId, ancora,
+                instituicoesDeclaradas, dependentes, eventosVida);
+    }
+
     public Cliente comEventos(List<EventoVida> novos) {
         return new Cliente(id, nome, cpf, idade, profissao, cidade, perfil, assessorId, ancora,
                 instituicoesDeclaradas, dependentes, novos);

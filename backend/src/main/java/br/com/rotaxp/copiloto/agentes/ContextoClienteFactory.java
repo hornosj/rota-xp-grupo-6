@@ -55,6 +55,12 @@ public class ContextoClienteFactory {
         return montar(assembler.analisar(clienteId), null);
     }
 
+    /** Edição por voz: o LLM vê o cadastro atual para saber o que a fala muda. */
+    public AgentesTipos.CadastroAtual cadastro(String clienteId) {
+        Cliente c = assembler.analisar(clienteId).dados().cliente();
+        return new AgentesTipos.CadastroAtual(c.nome(), c.idade(), c.profissao(), c.cidade(), c.perfil());
+    }
+
     public ContextoCliente paraAcao(String clienteId, String acaoId) {
         AnaliseCliente a = assembler.analisar(clienteId);
         AcaoSugerida acao = a.acoes().stream().filter(x -> x.id().equals(acaoId)).findFirst()

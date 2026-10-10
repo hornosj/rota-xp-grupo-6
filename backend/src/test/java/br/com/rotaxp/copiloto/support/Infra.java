@@ -6,6 +6,7 @@ import br.com.rotaxp.copiloto.demo.DataReferencia;
 import br.com.rotaxp.copiloto.openfinance.ConsentimentoService;
 import br.com.rotaxp.copiloto.openfinance.OpenFinanceGateway;
 import br.com.rotaxp.copiloto.openfinance.Repositorio;
+import br.com.rotaxp.copiloto.openfinance.RepositorioMemoria;
 import br.com.rotaxp.copiloto.openfinance.Seed;
 import br.com.rotaxp.copiloto.openfinance.SeedLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,12 +25,12 @@ public final class Infra {
     public final List<Object> eventos = new ArrayList<>();
 
     public Infra(Seed seed) {
-        this.repo = new Repositorio(new SeedLoader(new ObjectMapper()) {
+        this.repo = new RepositorioMemoria(new SeedLoader(new ObjectMapper()) {
             @Override public Seed carregar() { return seed; }
         });
         this.gateway = new OpenFinanceGateway(repo);
         this.dataReferencia = new DataReferencia(CenarioBuilder.REF,
-                Clock.fixed(Instant.parse("2026-10-11T12:00:00Z"), DataReferencia.ZONA));
+                Clock.fixed(Instant.parse("2026-10-10T12:00:00Z"), DataReferencia.ZONA));
         this.consentimentos = new ConsentimentoService(repo, dataReferencia, new ConsentimentoProps(365), eventos::add);
     }
 

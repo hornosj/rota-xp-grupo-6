@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mockApi } from "@/mocks";
@@ -32,18 +32,17 @@ describe("TelaRadar (/assessor/radar)", () => {
     expect([...pontos].sort((a, b) => b - a)).toEqual(pontos);
   });
 
-  it("vermelho só para notícia NEGATIVA; POSITIVA em verde", async () => {
+  it("preto e branco: NEGATIVA preenchida de preto, POSITIVA contornada, sem cores", async () => {
     renderComQuery(<TelaRadar />);
     const itens = await screen.findAllByTestId("impacto");
     const negativa = itens.find((i) => i.getAttribute("data-direcao") === "NEGATIVA")!;
     expect(within(negativa).getByTestId("direcao")).toHaveTextContent("Negativa");
-    expect(within(negativa).getByTestId("direcao").className).toMatch(/red/);
-    for (const i of itens.filter((x) => x.getAttribute("data-direcao") !== "NEGATIVA")) {
-      expect(i.innerHTML).not.toMatch(/red-/);
-    }
+    expect(within(negativa).getByTestId("direcao").className).toMatch(/bg-black/);
     const positiva = itens.find((i) => i.getAttribute("data-direcao") === "POSITIVA")!;
     expect(within(positiva).getByTestId("direcao")).toHaveTextContent("Positiva");
-    expect(within(positiva).getByTestId("direcao").className).toMatch(/emerald/);
+    expect(within(positiva).getByTestId("direcao").className).toMatch(/ring-black/);
+    expect(within(positiva).getByTestId("direcao").className).not.toMatch(/bg-black/);
+    for (const i of itens) expect(i.innerHTML).not.toMatch(/(red|emerald|green|amber|sky|violet)-\d/);
   });
 
   it("'Processar agora' chama o processamento, mostra toast com novas/lotes e recarrega o radar", async () => {
@@ -81,7 +80,7 @@ describe("TelaRadar (/assessor/radar)", () => {
     expect(within(primeira).getByText("LCA")).toBeInTheDocument();
     expect(within(primeira).getByTestId("relevancia")).toHaveTextContent("60%");
     expect(within(primeira).getByTestId("origem")).toHaveTextContent("Referência");
-    expect(within(primeira).getByTestId("direcao").className).toMatch(/red/);
+    expect(within(primeira).getByTestId("direcao").className).toMatch(/bg-black/);
     const selic = noticias.find((n) => n.textContent?.includes("Copom sinaliza fim do ciclo"))!;
     expect(within(selic).getByText("SELIC")).toBeInTheDocument();
     expect(within(selic).getByText("CDI")).toBeInTheDocument();
@@ -151,12 +150,12 @@ describe("CardRadarCliente (360)", () => {
 });
 
 describe("Layout do assessor", () => {
-  it("tem link 'Radar' na navegação", () => {
-    render(
+  it("tem link 'Radar de notícias' na navegação", () => {
+    renderComQuery(
       <AssessorLayout params={Promise.resolve({})}>
         <p>conteúdo</p>
       </AssessorLayout>,
     );
-    expect(screen.getByRole("link", { name: "Radar" })).toHaveAttribute("href", "/assessor/radar");
+    expect(screen.getByRole("link", { name: "Radar de notícias" })).toHaveAttribute("href", "/assessor/radar");
   });
 });

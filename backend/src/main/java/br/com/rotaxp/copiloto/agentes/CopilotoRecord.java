@@ -1,6 +1,7 @@
 package br.com.rotaxp.copiloto.agentes;
 
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
@@ -52,6 +53,13 @@ public class CopilotoRecord implements Copiloto {
         if (r.geradoPor() == GeradoPor.live) {
             cache.gravar(CopilotoCache.chaveNota(cache, contextos.paraCliente(clienteId), transcricao), r);
         }
+        return r;
+    }
+
+    @Override
+    public CamposExtraidos extrairEdicao(String clienteId, String transcricao) {
+        CamposExtraidos r = live.extrairEdicao(clienteId, transcricao);
+        if (r.geradoPor() == GeradoPor.live) cache.gravar(CopilotoCache.chaveEdicao(cache, contextos, clienteId, transcricao), r);
         return r;
     }
 }

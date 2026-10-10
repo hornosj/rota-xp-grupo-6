@@ -5,18 +5,26 @@ import type {
   Briefing,
   ClienteResumo,
   Convite,
+  ConviteOnboarding,
+  FormularioOnboarding,
   ItemFila,
   MensagemGerada,
   PainelCarteira,
+  PropostaEdicao,
+  ResultadoOnboarding,
   Visao360,
 } from "@/lib/api-types";
 import briefing from "@/mocks/fixtures-contrato/briefing-cli-001.json";
 import clientes from "@/mocks/fixtures-contrato/clientes.json";
 import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
+import convitesOnboarding from "@/mocks/fixtures-contrato/onboarding-convites.json";
+import formularioOnboarding from "@/mocks/fixtures-contrato/onboarding-formulario.json";
+import resultadoOnboarding from "@/mocks/fixtures-contrato/onboarding-resultado.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
 import { contextoMock, registrarNotaMock } from "@/mocks/anotacoes";
+import propostaEdicao from "@/mocks/fixtures-contrato/proposta-edicao-cli-004.json";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "@/mocks/radar";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
 import visaoDepois from "@/mocks/fixtures-contrato/visao360-cli-001-depois.json";
@@ -33,6 +41,10 @@ export const fixtures = {
   mensagem: () => como<MensagemGerada>(mensagem),
   briefing: () => como<Briefing>(briefing),
   clientes: () => como<ClienteResumo[]>(clientes),
+  convitesOnboarding: () => como<ConviteOnboarding[]>(convitesOnboarding),
+  formularioOnboarding: () => como<FormularioOnboarding>(formularioOnboarding),
+  resultadoOnboarding: () => como<ResultadoOnboarding>(resultadoOnboarding),
+  propostaEdicao: () => como<PropostaEdicao>(propostaEdicao),
 };
 
 export const estadoFixtures = { conectado: false, convites: [] as Convite[] };
@@ -109,7 +121,7 @@ export const apiFixtures: Api = {
     estadoFixtures.conectado = false;
     estadoFixtures.convites = [];
   },
-  demoEstado: async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" }),
+  demoEstado: async () => ({ dataReferencia: "2026-10-10", modoCopiloto: "stub" }),
   noticiasRadar: async () => noticiasMock(),
   processarRadar: async () => processarMock(),
   radarCliente: async (id) => radarDoCliente(id, estadoFixtures.conectado),
@@ -137,5 +149,18 @@ export const apiFixtures: Api = {
   contextoAssessor: async (id) => {
     visao(id);
     return contextoMock(id);
+  },
+  convitesOnboarding: async () => fixtures.convitesOnboarding(),
+  criarConviteOnboarding: async (nome) => ({ ...fixtures.formularioOnboarding().convite, nome, status: "PENDENTE" }),
+  formularioOnboarding: async (token) => {
+    if (token !== "TOKEN-EXEMPLO") throw new ApiError(404, `Convite ${token} não encontrado`, "NAO_ENCONTRADO");
+    return fixtures.formularioOnboarding();
+  },
+  concluirOnboarding: async () => fixtures.resultadoOnboarding(),
+  transcreverAudio: async () => ({ texto: fixtures.propostaEdicao().transcricao, modelo: "whisper-1" }),
+  proporEdicao: async () => fixtures.propostaEdicao(),
+  editarCliente: async (id, edicao) => {
+    const v = visao(id);
+    return { ...v, cliente: { ...v.cliente, ...edicao } };
   },
 };

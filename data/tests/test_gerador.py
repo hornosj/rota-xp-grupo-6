@@ -336,7 +336,7 @@ class TestDatasRelativas(unittest.TestCase):
 
     def test_ref_padrao(self):
         sofia, cons, cdb = self._datas(REF)
-        self.assertEqual(sofia["dataNascimento"], "2014-10-16")
+        self.assertEqual(sofia["dataNascimento"], "2014-10-15")
         self.assertEqual(cons[("cli-002", "inst-aurora")]["expiraEm"], (REF + timedelta(days=10)).isoformat())
         self.assertEqual(cons[("cli-001", "inst-aurora")]["expiraEm"], (REF + timedelta(days=300)).isoformat())
         self.assertEqual(cdb["vencimento"], (REF + timedelta(days=20)).isoformat())

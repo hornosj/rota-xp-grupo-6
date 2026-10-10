@@ -36,7 +36,7 @@ class DesagioApiTest {
     void posicoesSoMostramOQueOConsentimentoLibera() throws Exception {
         mvc.perform(get(MARINA + "/desagio/posicoes")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.clienteId").value("cli-001"))
-                .andExpect(jsonPath("$.dataReferencia").value("2026-10-11"))
+                .andExpect(jsonPath("$.dataReferencia").value("2026-10-10"))
                 .andExpect(jsonPath("$.premissas.cdiAnual").value(0.10))
                 .andExpect(jsonPath("$.posicoes[*].posicaoId", not(hasItem("inv-001-06"))))
                 .andExpect(jsonPath("$.posicoes[0].posicaoId").value("inv-001-03"))

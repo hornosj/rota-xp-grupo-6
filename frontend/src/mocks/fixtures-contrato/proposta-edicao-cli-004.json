@@ -1,0 +1,25 @@
+{
+  "clienteId": "cli-004",
+  "transcricao": "A Patrícia se mudou para Campinas/SP e agora é consultora educacional. Ela fez 69 anos. O perfil dela agora é moderado.",
+  "alteracoes": [
+    {
+      "campo": "IDADE",
+      "valorAtual": "68",
+      "valorNovo": "69"
+    },
+    {
+      "campo": "PROFISSAO",
+      "valorAtual": "Professora aposentada",
+      "valorNovo": "Consultora educacional"
+    },
+    {
+      "campo": "CIDADE",
+      "valorAtual": "Bauru/SP",
+      "valorNovo": "Campinas/SP"
+    }
+  ],
+  "avisos": [
+    "O perfil de investidor não muda por voz: para ir de Conservador para Moderado, é preciso refazer o questionário de suitability."
+  ],
+  "geradoPor": "stub"
+}

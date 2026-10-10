@@ -385,7 +385,7 @@ class TestDemaisAlertas(unittest.TestCase):  # §7.7
         self.assertEqual([x["chave"] for x in m.analise().alerta("CONSENTIMENTO_EXPIRANDO")], ["inst-ipe"])
 
     def test_evento_vida_7_dias(self):
-        m = Mundo(dependentes=[("Sofia", "2014-10-18"), ("Pedro", "2017-10-19"), ("Ana", "2010-10-10")],
+        m = Mundo(dependentes=[("Sofia", "2014-10-17"), ("Pedro", "2017-10-18"), ("Ana", "2010-10-09")],
                   eventos=[(REF + timedelta(days=7)).isoformat(), (REF + timedelta(days=8)).isoformat()])
         al = m.analise().alerta("EVENTO_VIDA_PROXIMO")
         self.assertEqual(sorted(str(x["chave"]) for x in al), ["Sofia", "evt-0"])

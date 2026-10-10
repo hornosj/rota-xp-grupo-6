@@ -1,6 +1,7 @@
 package br.com.rotaxp.copiloto.agentes;
 
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
+import br.com.rotaxp.copiloto.dominio.Enums.PerfilInvestidor;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,6 +42,17 @@ public final class AgentesTipos {
 
     /** "tipo" chega como texto e é validado contra TipoNecessidade por regra; jaPossui pode faltar (= false). */
     public record NecessidadeExtraida(String tipo, String motivo, Boolean jaPossui) {}
+
+    // AgenteEdicaoCadastro: PedidoEdicao -> ContextoEdicao (sem LLM) -> Edicao.CamposExtraidos (LLM)
+    public record PedidoEdicao(String clienteId, String transcricao) {}
+
+    /** Cadastro atual, sem CPF nem dados de outras pessoas: só o que a fala do assessor pode mudar. */
+    public record CadastroAtual(String nome, int idade, String profissao, String cidade, PerfilInvestidor perfil) {}
+
+    public record ContextoEdicao(CadastroAtual cadastro, String transcricao) {}
+
+    /** Saída estruturada do LLM: tudo como texto (null = não citado), validado depois pelas regras. */
+    public record CamposDitos(String nome, String idade, String profissao, String cidade, String perfil) {}
 
     // AgenteClassificacaoNoticias: LoteNoticias -> LoteClassificado (várias notícias numa chamada)
     public record LoteNoticias(List<br.com.rotaxp.copiloto.dominio.Radar.Noticia> noticias, String modelo, int maxTokens,

@@ -2,6 +2,7 @@ package br.com.rotaxp.copiloto.agentes;
 
 import br.com.rotaxp.copiloto.config.CopilotoProps;
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
@@ -51,6 +52,11 @@ public class CopilotoRouter implements Copiloto {
     @Override
     public ResultadoNota processarNota(String clienteId, String transcricao) {
         return alvo.processarNota(clienteId, transcricao);
+    }
+
+    @Override
+    public CamposExtraidos extrairEdicao(String clienteId, String transcricao) {
+        return alvo.extrairEdicao(clienteId, transcricao);
     }
 
     @Override
