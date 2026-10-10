@@ -1,15 +1,16 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ArrowRight, Check, FileAudio, Keyboard, Loader2, Mic, Square, TriangleAlert } from "lucide-react";
+import { ArrowRight, Check, FileAudio, Keyboard, Loader2, Mic, NotebookPen, Square, TriangleAlert } from "lucide-react";
 import { toast } from "sonner";
 import { BadgeGeradoPor, Sobretitulo, Vazio } from "@/components/comum/marcadores";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import type { AlteracaoCampo, CampoCadastro, Cliente, EdicaoCadastro } from "@/lib/api-types";
-import { useDemoEstado, useEditarCliente, usePropostaEdicao, useTranscreverAudio } from "@/lib/queries";
+import type { AlteracaoCampo, CampoCadastro, Cliente, EdicaoCadastro, Id, OrigemAnotacao } from "@/lib/api-types";
+import { useDemoEstado, useEditarCliente, usePropostaEdicao, useRegistrarNota, useTranscreverAudio } from "@/lib/queries";
 import { rotuloCampoCadastro } from "@/lib/rotulos";
 import { LIMITE_GRAVACAO_S, podeGravar, useGravadorAudio, type Gravacao } from "./gravador-audio";
+import { ListaProdutosSugeridos } from "./lista-produtos-sugeridos";
 import { useDitado } from "./use-ditado";
 
 type Etapa = "audio" | "texto" | "proposta";
@@ -61,6 +62,7 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
   const [etapa, setEtapa] = useState<Etapa>("audio");
   const [texto, setTexto] = useState("");
   const [modelo, setModelo] = useState<string | null>(null);
+  const [veioDeAudio, setVeioDeAudio] = useState(false);
   const [desmarcados, setDesmarcados] = useState<Set<CampoCadastro>>(new Set());
   const arquivo = useRef<HTMLInputElement>(null);
 
@@ -75,6 +77,7 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
         onSuccess: (t) => {
           setTexto(t.texto);
           setModelo(t.modelo);
+          setVeioDeAudio(true);
           setEtapa("texto");
         },
       },
@@ -82,7 +85,10 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
   }
   const gravador = useGravadorAudio(enviarAudio);
   // Sem Whisper no servidor, o ditado do navegador (Chrome/Edge) faz o papel do microfone.
-  const ditado = useDitado((trecho) => setTexto((t) => (t.trim() ? `${t.trim()} ${trecho}` : trecho)));
+  const ditado = useDitado((trecho) => {
+    setTexto((t) => (t.trim() ? `${t.trim()} ${trecho}` : trecho));
+    setVeioDeAudio(true);
+  });
 
   function entender() {
     setDesmarcados(new Set());
@@ -297,6 +303,12 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
                 ))}
               </ul>
             )}
+            <SalvarComoNota
+              clienteId={cliente.id}
+              texto={texto}
+              origem={veioDeAudio ? "AUDIO" : "TEXTO"}
+              destaque={proposta.alteracoes.length === 0}
+            />
             <p className="text-[15px] text-muted-foreground">
               Nada muda até você aplicar. A IA só interpreta a fala; cada campo passa pelas regras de validação.
             </p>
@@ -313,6 +325,51 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
         )}
       </DialogContent>
     </Dialog>
+  );
+}
+
+/**
+ * A mesma fala pode contar algo da vida do cliente ("bateu o carro") que não muda o cadastro: vira nota de
+ * contexto (POST /notas), que entra no briefing e sugere produtos. Só grava quando o assessor pede.
+ */
+function SalvarComoNota({ clienteId, texto, origem, destaque }: {
+  clienteId: Id;
+  texto: string;
+  origem: OrigemAnotacao;
+  destaque: boolean;
+}) {
+  const nota = useRegistrarNota();
+  if (nota.data) {
+    return (
+      <div className="flex flex-col gap-3 rounded-2xl border-2 border-black p-4">
+        <Sobretitulo className="text-[13px]">Nota de contexto salva</Sobretitulo>
+        {nota.data.recomendacoes.length > 0 ? (
+          <ListaProdutosSugeridos recomendacoes={nota.data.recomendacoes} />
+        ) : (
+          <p className="text-[15px] text-muted-foreground">Nenhum produto novo sugerido por essa fala.</p>
+        )}
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col gap-3 rounded-2xl border-2 border-dashed p-4">
+      <p className="text-[15px]">
+        {destaque
+          ? "Isso não muda o cadastro, mas conta algo da vida do cliente. Salve como nota de contexto: o Copiloto usa no briefing e sugere produtos."
+          : "Também quer guardar essa fala como contexto do cliente? O Copiloto usa no briefing e sugere produtos."}
+      </p>
+      <div>
+        <Button
+          variant={destaque ? "default" : "outline"}
+          size="lg"
+          onClick={() => nota.mutate({ clienteId, transcricao: texto.trim(), origem })}
+          disabled={!texto.trim() || nota.isPending}
+        >
+          {nota.isPending ? <Loader2 className="animate-spin" /> : <NotebookPen />} Salvar como nota de contexto
+        </Button>
+      </div>
+      {nota.isError && <Erro>{mensagemDe(nota.error)}</Erro>}
+    </div>
   );
 }
 

@@ -34,7 +34,8 @@ copiloto:
   modelo: ${COPILOTO_MODELO:deepseek/deepseek-v4-pro}   # via OpenRouter; barato para testes
   cache-dir: ./llm-cache
   api-key: ${OPENROUTER_APIKEY:}     # sem chave, live/record viram stub
-  max-tokens: 700                     # teto de tokens de saída por resposta (trava de crédito)
+  max-tokens: 2000                    # teto de saída por resposta (trava de crédito). O DeepSeek raciocina antes
+                                      # de responder: com 700 o JSON do briefing vinha cortado e caía no stub
   limite-chamadas-dia: ${COPILOTO_LIMITE_DIA:100}   # trava de crédito: passou, cai no stub
 
 # Embabel: provedor compatível com OpenAI apontando para o OpenRouter.
@@ -45,6 +46,9 @@ embabel:
     default-llm: ${copiloto.modelo}
   agent:
     platform:
+      llm-operations:
+        data-binding:
+          max-attempts: 2             # JSON inválido do LLM: tenta de novo 1x e cai no stub (padrão 10 = minutos)
       models:
         openai:
           custom:

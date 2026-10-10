@@ -92,6 +92,27 @@ describe("Editar cadastro por voz", () => {
     }
   }, 15_000);
 
+  it("fala sem mudança de cadastro, mas com contexto de vida: salva como nota de contexto e sugere produto", async () => {
+    window.localStorage.clear();
+    const user = userEvent.setup();
+    const { cliente } = await mockApi.visao360("cli-004");
+    renderComQuery(<BotaoEdicaoVoz cliente={cliente} />);
+
+    await user.click(screen.getByRole("button", { name: /Editar por voz/ }));
+    const dialogo = await screen.findByRole("dialog");
+    await user.click(await within(dialogo).findByLabelText("O que mudou"));
+    await user.paste("A Patrícia bateu o carro.");
+    await user.click(within(dialogo).getByRole("button", { name: /Ver alterações/ }));
+
+    expect(await within(dialogo).findByText(/Não encontrei mudança de nome/)).toBeInTheDocument();
+    await user.click(within(dialogo).getByRole("button", { name: /Salvar como nota de contexto/ }));
+
+    expect(await within(dialogo).findByText("Seguro auto")).toBeInTheDocument();
+    const ctx = await mockApi.contextoAssessor("cli-004");
+    expect(ctx.anotacoes[0]).toMatchObject({ texto: "A Patrícia bateu o carro.", origem: "TEXTO" });
+    expect(within(dialogo).queryByRole("button", { name: /Salvar como nota de contexto/ })).not.toBeInTheDocument();
+  }, 15_000);
+
   it("com Whisper: envia um arquivo de áudio e mostra a transcrição para revisar antes da proposta", async () => {
     vi.spyOn(mockApi, "demoEstado").mockResolvedValue({
       dataReferencia: "2026-10-10",
