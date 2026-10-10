@@ -29,10 +29,18 @@ public class ContextoClienteFactory {
 
     private final Visao360Assembler assembler;
     private final DataReferencia dataReferencia;
+    private final br.com.rotaxp.copiloto.openfinance.ConviteService convites;   // null nos testes sem convite
 
     public ContextoClienteFactory(Visao360Assembler assembler, DataReferencia dataReferencia) {
+        this(assembler, dataReferencia, null);
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public ContextoClienteFactory(Visao360Assembler assembler, DataReferencia dataReferencia,
+                                  br.com.rotaxp.copiloto.openfinance.ConviteService convites) {
         this.assembler = assembler;
         this.dataReferencia = dataReferencia;
+        this.convites = convites;
     }
 
     public LocalDate hoje() {
@@ -47,7 +55,7 @@ public class ContextoClienteFactory {
         AnaliseCliente a = assembler.analisar(clienteId);
         AcaoSugerida acao = a.acoes().stream().filter(x -> x.id().equals(acaoId)).findFirst()
                 .orElseThrow(() -> new NaoEncontrado("Ação " + acaoId + " não encontrada para " + clienteId));
-        return montar(a, acaoContexto(a, acao));
+        return montar(a, acaoContexto(a, acao, convites));
     }
 
     private ContextoCliente montar(AnaliseCliente a, ContextoCliente.AcaoContexto acao) {
@@ -64,16 +72,25 @@ public class ContextoClienteFactory {
                 acao);
     }
 
-    private static ContextoCliente.AcaoContexto acaoContexto(AnaliseCliente a, AcaoSugerida acao) {
+    private static ContextoCliente.AcaoContexto acaoContexto(AnaliseCliente a, AcaoSugerida acao,
+                                                             br.com.rotaxp.copiloto.openfinance.ConviteService convites) {
         Alerta alerta = a.alertas().stream().filter(x -> acao.alertaIds().contains(x.id())).findFirst().orElse(null);
         String instituicaoId = alerta != null ? alerta.instituicaoId()
                 : acao.id().contains(PREFIXO_CONVITE) ? acao.id().substring(acao.id().indexOf(PREFIXO_CONVITE) + PREFIXO_CONVITE.length())
                 : null;
         Instituicao inst = instituicaoId == null ? null : a.dados().instituicao(instituicaoId);
+        String link = null;
+        if (convites != null && acao.tipo() == br.com.rotaxp.copiloto.dominio.Enums.TipoAcao.CONVIDAR_CONEXAO && instituicaoId != null) {
+            try {
+                link = convites.convidar(a.dados().cliente().id(), instituicaoId).link();   // cria se não existir
+            } catch (br.com.rotaxp.copiloto.dominio.Excecoes.Conflito jaConectada) {
+                link = null;
+            }
+        }
         return new ContextoCliente.AcaoContexto(acao.id(), acao.tipo(), acao.titulo(), acao.motivo(), acao.impactoEstimado(),
                 alerta == null ? null : alerta.valor(),
                 alerta == null || alerta.valor() == null ? null : Texto.reais(alerta.valor()),
-                inst == null ? null : inst.nome());
+                inst == null ? null : inst.nome(), link);
     }
 
     static List<ContextoCliente.EventoProximo> eventos(Cliente c, LocalDate ref) {
