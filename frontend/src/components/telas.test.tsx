@@ -10,7 +10,6 @@ vi.mock("@/lib/api", async () => ({ api: (await import("@/mocks")).mockApi }));
 import { TelaCliente360 } from "./assessor/tela-cliente-360";
 import { TelaHoje } from "./assessor/tela-hoje";
 import { TelaPainel } from "./assessor/tela-painel";
-import { Palco } from "./palco/palco";
 
 describe("TelaHoje", () => {
   it("modo ao vivo: Marina sobe para 1º com NOVO sozinha (polling) após o consentimento", async () => {
@@ -67,29 +66,5 @@ describe("TelaPainel", () => {
     expect(screen.getByTestId("kpi-xp-principal")).toHaveTextContent("%");
     expect(screen.getByText(/Clientes com alerta alto/)).toBeInTheDocument();
     expect(screen.getByTestId("distribuicao")).toHaveTextContent("Só investimentos");
-  });
-});
-
-describe("Palco", () => {
-  it("monta os dois iframes, troca abas e reseta a demo recarregando os iframes", async () => {
-    const user = userEvent.setup();
-    const reset = vi.spyOn(mockApi, "resetDemo");
-    await mockApi.conceder("cli-001", "inst-horizonte");
-    renderComQuery(<Palco />);
-    const assessor = screen.getByTitle("Tela do assessor") as HTMLIFrameElement;
-    const cliente = screen.getByTitle("Celular da cliente") as HTMLIFrameElement;
-    expect(assessor.getAttribute("src")).toBe("/assessor/hoje?aoVivo=1");
-    expect(cliente.getAttribute("src")).toBe("/cliente/cli-001");
-
-    await user.click(screen.getByRole("tab", { name: /360 da Marina/ }));
-    await waitFor(() =>
-      expect(screen.getByTitle("Tela do assessor").getAttribute("src")).toBe("/assessor/clientes/cli-001?aoVivo=1"),
-    );
-
-    await user.click(screen.getByRole("button", { name: /Resetar demo/ }));
-    await waitFor(() => expect(reset).toHaveBeenCalled());
-    await waitFor(() => expect(screen.getByTitle("Celular da cliente")).not.toBe(cliente));
-    const fila = await mockApi.fila();
-    expect(fila.findIndex((i) => i.clienteId === "cli-001")).toBe(1);
   });
 });

@@ -48,7 +48,7 @@ export function TelaPainel() {
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Minha carteira</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Meus clientes</h1>
           <p className="text-muted-foreground">Onde a XP está na vida financeira dos seus clientes</p>
         </div>
         <Link href="/assessor/hoje" className={buttonVariants({ size: "lg" })}>

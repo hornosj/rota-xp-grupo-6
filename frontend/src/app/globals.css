@@ -12,9 +12,6 @@
   --font-heading: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --animate-novo: novo-pulso 1.4s ease-in-out infinite;
   --animate-entrada: entrada 0.6s ease-out both;
-  --animate-desbloqueio: desbloqueio 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  --animate-subida-nivel: subida-nivel 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  --animate-confete: confete 2s ease-in forwards;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -133,7 +130,7 @@
     @apply font-sans;
   }
 }
-/* Animações curtas da demo (NOVO, subida de nível, desbloqueio, confete). */
+/* Animações curtas da demo (tag NOVO e entrada na fila). */
 @keyframes novo-pulso {
   0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.55); }
   50% { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
@@ -142,19 +139,6 @@
   from { opacity: 0; transform: translateY(-8px); background-color: rgb(219 234 254); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes desbloqueio {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes subida-nivel {
-  0% { opacity: 0; transform: translateY(16px) scale(0.9); }
-  60% { opacity: 1; transform: translateY(-4px) scale(1.03); }
-  100% { transform: translateY(0) scale(1); }
-}
-@keyframes confete {
-  0% { opacity: 1; translate: 0 0; }
-  100% { opacity: 0; translate: 0 900px; rotate: 540deg; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .animate-novo, .animate-entrada, .animate-desbloqueio, .animate-subida-nivel, .animate-confete { animation: none !important; }
+  .animate-novo, .animate-entrada { animation: none !important; }
 }

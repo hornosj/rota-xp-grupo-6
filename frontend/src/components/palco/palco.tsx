@@ -12,7 +12,7 @@ import { useResetDemo } from "@/lib/queries";
 const ABAS = {
   hoje: { rotulo: "Fila Hoje", src: "/assessor/hoje?aoVivo=1" },
   marina: { rotulo: "360 da Marina", src: "/assessor/clientes/cli-001?aoVivo=1" },
-  painel: { rotulo: "Painel da carteira", src: "/assessor?aoVivo=1" },
+  painel: { rotulo: "Meus clientes", src: "/assessor?aoVivo=1" },
 } as const;
 type Aba = keyof typeof ABAS;
 

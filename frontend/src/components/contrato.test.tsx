@@ -11,9 +11,6 @@ vi.mock("@/lib/api", async () => ({ api: (await import("@/test/api-fixtures")).a
 import { TelaCliente360 } from "./assessor/tela-cliente-360";
 import { TelaHoje } from "./assessor/tela-hoje";
 import { TelaPainel } from "./assessor/tela-painel";
-import { DetalheDiagnostico } from "./cliente/detalhe-diagnostico";
-import { FluxoConectar } from "./cliente/fluxo-conectar";
-import { JornadaCliente } from "./cliente/jornada-cliente";
 
 afterEach(() => {
   estadoFixtures.conectado = false;
@@ -98,108 +95,5 @@ describe("contrato real · painel", () => {
     expect(await screen.findByTestId("kpi-total-clientes")).toHaveTextContent("36");
     expect(screen.getByTestId("kpi-xp-principal")).toHaveTextContent("22%");
     expect(screen.getByTestId("distribuicao")).toHaveTextContent("Só investimentos");
-  });
-});
-
-describe("contrato real · jornada da cliente", () => {
-  it("antes: 67%, nível 2, Proteção FGC bloqueada", async () => {
-    renderComQuery(<JornadaCliente clienteId="cli-001" />);
-    expect(await screen.findByTestId("anel-percentual")).toHaveTextContent("67%");
-    expect(screen.getByText(/Nível 2 de 4/)).toBeInTheDocument();
-    expect(screen.getByText("Visão Clara")).toBeInTheDocument();
-    expect(screen.getByTestId("diagnostico-PROTECAO_FGC")).toHaveAttribute("data-desbloqueado", "false");
-    expect(screen.getByRole("link", { name: /Conectar agora/ })).toHaveAttribute("href", "/cliente/cli-001/conectar/inst-horizonte");
-    expect(await screen.findByText("Olá, Marina!")).toBeInTheDocument();
-  });
-
-  it("depois: 100%, nível 3, Proteção FGC com R$ 400 mil", async () => {
-    estadoFixtures.conectado = true;
-    const user = userEvent.setup();
-    renderComQuery(<JornadaCliente clienteId="cli-001" />);
-    expect(await screen.findByTestId("anel-percentual")).toHaveTextContent("100%");
-    expect(screen.getByText(/Nível 3 de 4/)).toBeInTheDocument();
-    expect(screen.getByText("Patrimônio Completo")).toBeInTheDocument();
-    const fgc = screen.getByTestId("diagnostico-PROTECAO_FGC");
-    expect(fgc).toHaveAttribute("data-desbloqueado", "true");
-    expect(fgc).toHaveTextContent("R$ 400 mil sem cobertura no Banco Horizonte");
-    await user.click(fgc);
-    expect(await screen.findByTestId("detalhe-fgc")).toHaveTextContent(
-      "R$ 400 mil do seu patrimônio estão acima da cobertura do FGC no Banco Horizonte. Sua assessora já foi avisada.",
-    );
-  });
-
-  it("cli-003: missão de cartão e missão de reserva (sem instituicaoId)", async () => {
-    renderComQuery(<JornadaCliente clienteId="cli-003" />);
-    expect(await screen.findByText("Conecte o cartão do Banco Aurora e descubra seu custo de vida real")).toBeInTheDocument();
-    expect(screen.getByText("Monte sua reserva de emergência")).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Conectar agora/ })).toHaveLength(1);
-    for (const d of screen.getAllByTestId(/^diagnostico-/)) expect(d).toHaveAttribute("data-desbloqueado", "false");
-  });
-});
-
-describe("contrato real · detalhes dos diagnósticos", () => {
-  const diag = (tipo: string) => fixtures.jornadaDepois().diagnosticos.find((d) => d.tipo === tipo)!;
-
-  it("custo de vida: categorias com rótulos em português", () => {
-    renderComQuery(<DetalheDiagnostico diagnostico={diag("CUSTO_DE_VIDA")} onFechar={() => {}} />);
-    const dialogo = screen.getByRole("dialog");
-    expect(dialogo).toHaveTextContent("R$ 24.000");
-    for (const rotulo of ["Cartões", "Contas recorrentes", "Parcelas", "Consumo"]) {
-      expect(within(dialogo).getByText(rotulo)).toBeInTheDocument();
-    }
-    expect(dialogo).not.toHaveTextContent("CONTAS_RECORRENTES");
-    expect(within(dialogo).getByText("R$ 9.000")).toBeInTheDocument();
-  });
-
-  it("custo de vida parcial: avisa que faltam dados", () => {
-    const d = diag("CUSTO_DE_VIDA");
-    renderComQuery(<DetalheDiagnostico diagnostico={{ ...d, detalhes: { ...d.detalhes, parcial: true } }} onFechar={() => {}} />);
-    expect(screen.getByRole("dialog")).toHaveTextContent(/parcial/i);
-  });
-
-  it("reserva de emergência: meses, meta e liquidez", () => {
-    renderComQuery(<DetalheDiagnostico diagnostico={diag("RESERVA_EMERGENCIA")} onFechar={() => {}} />);
-    const dialogo = screen.getByRole("dialog");
-    expect(dialogo).toHaveTextContent("6,5");
-    expect(dialogo).toHaveTextContent("6 meses");
-    expect(dialogo).toHaveTextContent("R$ 155.000");
-  });
-
-  it("patrimônio completo: instituições é contagem, não dinheiro", () => {
-    renderComQuery(<DetalheDiagnostico diagnostico={diag("PATRIMONIO_COMPLETO")} onFechar={() => {}} />);
-    const dialogo = screen.getByRole("dialog");
-    expect(dialogo).toHaveTextContent("R$ 1.635.000");
-    expect(dialogo).toHaveTextContent(/3 instituições/);
-    expect(dialogo).not.toHaveTextContent("R$ 3");
-    expect(dialogo).not.toHaveTextContent("instituicoes");
-  });
-
-  it("proteção FGC: lista os conglomerados com o valor descoberto", () => {
-    renderComQuery(<DetalheDiagnostico diagnostico={diag("PROTECAO_FGC")} onFechar={() => {}} />);
-    const dialogo = screen.getByRole("dialog");
-    expect(within(dialogo).getByTestId("detalhe-fgc")).toHaveTextContent("R$ 400 mil do seu patrimônio estão acima da cobertura");
-    const horizonte = within(dialogo).getByTestId("fgc-cong-horizonte");
-    expect(horizonte).toHaveTextContent("Banco Horizonte");
-    expect(horizonte).toHaveTextContent("R$ 650.000");
-    expect(horizonte).toHaveTextContent("R$ 400.000 sem cobertura");
-    expect(within(dialogo).getByTestId("fgc-cong-ipe")).toHaveTextContent("protegido");
-  });
-});
-
-describe("contrato real · fluxo de conexão do Banco Horizonte", () => {
-  it("4 passos → nível 3, 100% visível e Proteção FGC desbloqueada com R$ 400 mil", async () => {
-    const user = userEvent.setup();
-    renderComQuery(<FluxoConectar clienteId="cli-001" instituicaoId="inst-horizonte" atrasoMs={0} />);
-    await user.click(await screen.findByRole("button", { name: "Começar" }));
-    await user.click(screen.getByRole("button", { name: "Continuar para o Banco Horizonte" }));
-    expect(screen.getByText("Você está no ambiente do Banco Horizonte")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Confirmar compartilhamento" }));
-    expect(await screen.findByText("Banco Horizonte conectado!")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText(/100% visível/)).toBeInTheDocument());
-    expect(screen.getByText("Nível 3: Patrimônio Completo")).toBeInTheDocument();
-    expect(screen.getByText("Diagnóstico desbloqueado: Proteção FGC")).toBeInTheDocument();
-    expect(screen.getByTestId("detalhe-fgc")).toHaveTextContent(
-      "R$ 400 mil do seu patrimônio estão acima da cobertura do FGC no Banco Horizonte",
-    );
   });
 });

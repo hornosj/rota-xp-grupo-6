@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, ListOrdered, MonitorPlay, Smartphone, UserRound } from "lucide-react";
+import { LayoutDashboard, ListOrdered, UserPlus, UserRound } from "lucide-react";
 import { USE_MOCKS } from "@/lib/config";
 
 const ANCORAS = [
@@ -28,20 +28,20 @@ export function Lancador() {
       </header>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Link href="/palco" className="group rounded-2xl bg-slate-900 p-6 text-white shadow-lg transition hover:bg-slate-800">
-          <MonitorPlay className="size-7" />
-          <p className="mt-3 text-xl font-semibold">Palco da demo</p>
-          <p className="mt-1 text-sm text-slate-300">Assessora e celular da cliente lado a lado</p>
-        </Link>
-        <Link href="/assessor/hoje" className="rounded-2xl border bg-card p-6 transition hover:border-slate-400">
+        <Link href="/assessor/hoje" className="rounded-2xl bg-slate-900 p-6 text-white shadow-lg transition hover:bg-slate-800">
           <ListOrdered className="size-7" />
           <p className="mt-3 text-xl font-semibold">Fila Hoje</p>
-          <p className="mt-1 text-sm text-muted-foreground">Motivos para ligar em ordem de prioridade</p>
+          <p className="mt-1 text-sm text-slate-300">Motivos para ligar em ordem de prioridade</p>
         </Link>
         <Link href="/assessor" className="rounded-2xl border bg-card p-6 transition hover:border-slate-400">
           <LayoutDashboard className="size-7" />
-          <p className="mt-3 text-xl font-semibold">Painel da carteira</p>
+          <p className="mt-3 text-xl font-semibold">Meus clientes</p>
           <p className="mt-1 text-sm text-muted-foreground">Onde a XP está na vida dos clientes</p>
+        </Link>
+        <Link href="/assessor/convites" className="rounded-2xl border bg-card p-6 transition hover:border-slate-400">
+          <UserPlus className="size-7" />
+          <p className="mt-3 text-xl font-semibold">Cadastrar investidores</p>
+          <p className="mt-1 text-sm text-muted-foreground">Gere o link de onboarding para um novo investidor</p>
         </Link>
       </div>
 
@@ -61,12 +61,6 @@ export function Lancador() {
                 className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm hover:bg-slate-50"
               >
                 <UserRound className="size-4" /> Visão 360
-              </Link>
-              <Link
-                href={`/cliente/${c.id}`}
-                className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm hover:bg-slate-50"
-              >
-                <Smartphone className="size-4" /> App da cliente
               </Link>
             </li>
           ))}
