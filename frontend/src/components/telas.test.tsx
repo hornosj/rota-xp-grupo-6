@@ -1,0 +1,95 @@
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
+import { mockApi } from "@/mocks";
+import { navegacao } from "@/test/navegacao";
+import { renderComQuery } from "@/test/utils";
+
+vi.mock("@/lib/api", async () => ({ api: (await import("@/mocks")).mockApi }));
+
+import { TelaCliente360 } from "./assessor/tela-cliente-360";
+import { TelaHoje } from "./assessor/tela-hoje";
+import { TelaPainel } from "./assessor/tela-painel";
+import { Palco } from "./palco/palco";
+
+describe("TelaHoje", () => {
+  it("modo ao vivo: Marina sobe para 1º com NOVO sozinha (polling) após o consentimento", async () => {
+    navegacao.search = "aoVivo=1";
+    renderComQuery(<TelaHoje />);
+    expect(await screen.findByText(/Ao vivo/)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getAllByTestId("item-fila")[1]).toHaveTextContent("Dra. Marina Costa"));
+    expect(within(screen.getAllByTestId("item-fila")[1]).getByRole("link")).toHaveAttribute("href", "/assessor/clientes/cli-001?aoVivo=1");
+
+    // a cliente concede no "outro iframe"
+    await mockApi.conceder("cli-001", "inst-horizonte");
+
+    await waitFor(
+      () => {
+        const primeira = screen.getAllByTestId("item-fila")[0];
+        expect(primeira).toHaveTextContent("Dra. Marina Costa");
+        expect(primeira).toHaveTextContent("NOVO");
+      },
+      { timeout: 4000 },
+    );
+  });
+
+  it("sem ao vivo: sem indicador", async () => {
+    renderComQuery(<TelaHoje />);
+    await screen.findAllByTestId("item-fila");
+    expect(screen.queryByText(/Ao vivo/)).not.toBeInTheDocument();
+  });
+});
+
+describe("TelaCliente360", () => {
+  it("mostra todos os cards da 360 da Marina e gera o briefing", async () => {
+    const user = userEvent.setup();
+    renderComQuery(<TelaCliente360 clienteId="cli-001" />);
+    expect(await screen.findByRole("heading", { name: "Dra. Marina Costa" })).toBeInTheDocument();
+    for (const titulo of ["Principalidade", "Patrimônio visível", "Fluxo de caixa mensal", "Alertas", "Ações sugeridas", "Eventos de vida", "Briefing pré-reunião"]) {
+      expect(screen.getByText(titulo)).toBeInTheDocument();
+    }
+    await user.click(screen.getByRole("button", { name: /Gerar briefing/ }));
+    expect(await screen.findByTestId("briefing-bullets")).toHaveTextContent("Banco Aurora é a instituição principal");
+    expect(screen.getByTestId("briefing-perguntas")).toHaveTextContent("Banco Horizonte");
+  });
+
+  it("cliente inexistente: mensagem de erro", async () => {
+    renderComQuery(<TelaCliente360 clienteId="cli-999" />);
+    expect(await screen.findByText(/Não foi possível carregar/)).toBeInTheDocument();
+  });
+});
+
+describe("TelaPainel", () => {
+  it("mostra KPIs da carteira e a distribuição da posição XP", async () => {
+    const p = await mockApi.painel();
+    renderComQuery(<TelaPainel />);
+    expect(await screen.findByTestId("kpi-total-clientes")).toHaveTextContent(String(p.totalClientes));
+    expect(screen.getByTestId("kpi-xp-principal")).toHaveTextContent("%");
+    expect(screen.getByText(/Clientes com alerta alto/)).toBeInTheDocument();
+    expect(screen.getByTestId("distribuicao")).toHaveTextContent("Só investimentos");
+  });
+});
+
+describe("Palco", () => {
+  it("monta os dois iframes, troca abas e reseta a demo recarregando os iframes", async () => {
+    const user = userEvent.setup();
+    const reset = vi.spyOn(mockApi, "resetDemo");
+    await mockApi.conceder("cli-001", "inst-horizonte");
+    renderComQuery(<Palco />);
+    const assessor = screen.getByTitle("Tela do assessor") as HTMLIFrameElement;
+    const cliente = screen.getByTitle("Celular da cliente") as HTMLIFrameElement;
+    expect(assessor.getAttribute("src")).toBe("/assessor/hoje?aoVivo=1");
+    expect(cliente.getAttribute("src")).toBe("/cliente/cli-001");
+
+    await user.click(screen.getByRole("tab", { name: /360 da Marina/ }));
+    await waitFor(() =>
+      expect(screen.getByTitle("Tela do assessor").getAttribute("src")).toBe("/assessor/clientes/cli-001?aoVivo=1"),
+    );
+
+    await user.click(screen.getByRole("button", { name: /Resetar demo/ }));
+    await waitFor(() => expect(reset).toHaveBeenCalled());
+    await waitFor(() => expect(screen.getByTitle("Celular da cliente")).not.toBe(cliente));
+    const fila = await mockApi.fila();
+    expect(fila.findIndex((i) => i.clienteId === "cli-001")).toBe(1);
+  });
+});
