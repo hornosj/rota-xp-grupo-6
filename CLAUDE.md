@@ -1,7 +1,9 @@
 # Copiloto do Assessor — Hackathon XP (Grupo 6)
 
-Plataforma para assessores de investimento. Tese: transformar dados espalhados (Open Finance) em
-**motivos para ligar**, com foco em **identificação de principalidade** e **gamificação do Open Finance**.
+Plataforma **só para assessores** de investimento. Tese: transformar dados espalhados (Open Finance) em
+**motivos para ligar**, com foco em **identificação de principalidade**, alertas e próximas melhores ações
+com mensagem pronta. Sem app do cliente e sem gamificação: o cliente só aparece na ponta de um **convite
+de consentimento Open Finance** enviado pelo assessor.
 
 - Plano completo, contrato e algoritmos: `docs/PLAN.md` (fonte da verdade de escopo).
 - Prompt de cada papel: `docs/prompts/<papel>.md`.
@@ -30,7 +32,7 @@ Plataforma para assessores de investimento. Tese: transformar dados espalhados (
 | `backend/.../api` | BE1 e BE2, cada um nos seus controllers |
 | `data/`, `backend/src/test/resources/esperados.json` | Analista |
 | `frontend/src/app/assessor/**`, `frontend/src/components/assessor/**` | FE1 |
-| `frontend/src/app/cliente/**`, `frontend/src/app/palco/**`, `frontend/src/components/cliente/**` | FE2 |
+| `frontend/src/app/convite/**`, `frontend/src/app/palco/**`, `frontend/src/components/convite/**`, `frontend/src/components/palco/**` | FE2 |
 | `frontend/src/lib/**`, `frontend/src/components/ui/**` | FE1 cria no setup; ambos editam com cuidado |
 
 Não edite fora da sua área sem necessidade. Se precisar, faça a mudança mínima e diga no commit.
