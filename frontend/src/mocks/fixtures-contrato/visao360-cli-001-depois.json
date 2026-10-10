@@ -45,7 +45,7 @@
     ],
     "eventosVida": []
   },
-  "atualizadoEm": "2026-10-11T11:31:00.40416-03:00",
+  "atualizadoEm": "2026-10-11T14:01:09.7126618-03:00",
   "cobertura": {
     "instituicoesDeclaradas": 3,
     "instituicoesConectadas": 3,
@@ -218,7 +218,7 @@
       "valor": 400000,
       "instituicaoId": "inst-horizonte",
       "emissorId": "emi-horizonte",
-      "detectadoEm": "2026-10-11T11:31:00.4031617-03:00",
+      "detectadoEm": "2026-10-11T14:01:09.7126618-03:00",
       "novo": true
     },
     {
@@ -231,7 +231,7 @@
       "valor": 400000,
       "instituicaoId": "inst-horizonte",
       "emissorId": "emi-horizonte",
-      "detectadoEm": "2026-10-11T11:31:00.40416-03:00",
+      "detectadoEm": "2026-10-11T14:01:09.7126618-03:00",
       "novo": true
     },
     {

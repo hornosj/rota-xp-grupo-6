@@ -14,8 +14,11 @@
 import { describe, expect, it } from "vitest";
 import briefing from "@/mocks/fixtures-contrato/briefing-cli-001.json";
 import clientes from "@/mocks/fixtures-contrato/clientes.json";
+import conviteConfirmado from "@/mocks/fixtures-contrato/convite-cli-001-confirmado.json";
+import convitePendente from "@/mocks/fixtures-contrato/convite-cli-001-pendente.json";
 import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
+import mensagemConvite from "@/mocks/fixtures-contrato/mensagem-cli-001-convite.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
@@ -73,6 +76,7 @@ export type ChecagensForma = [
   Esperar<Compativel<H.ClienteResumo, S["ClienteResumo"]>>,
   Esperar<Compativel<H.DemoEstado, S["DemoEstado"]>>,
   Esperar<Compativel<H.ErroApi, S["ErroResposta"]>>,
+  Esperar<Compativel<H.Convite, S["Convite"]>>,
 ];
 
 // 3: enums idênticos
@@ -91,6 +95,8 @@ export type ChecagensEnum = [
   Esperar<Igual<H.Canal, En<S["MensagemGerada"]["canal"]>>>,
   Esperar<Igual<H.EventoVida["tipo"], En<S["EventoVida"]["tipo"]>>>,
   Esperar<Igual<H.EventoVida["origem"], En<S["EventoVida"]["origem"]>>>,
+  Esperar<Igual<H.Convite["status"], En<S["Convite"]["status"]>>>,
+  Esperar<Igual<H.Escopo, ElemDe<S["Convite"]["escopos"]>>>,
 ];
 
 // ---------------------------------------------------------------- runtime: campos obrigatórios nas fixtures
@@ -179,6 +185,11 @@ R.painel = {
 };
 R.mensagem = { chaves: obrigatorias<H.MensagemGerada>()("texto", "canal", "geradoPor") };
 R.briefing = { chaves: obrigatorias<H.Briefing>()("clienteId", "bullets", "perguntasSugeridas", "geradoPor") };
+R.convite = {
+  chaves: obrigatorias<H.Convite>()(
+    "token", "clienteId", "instituicaoId", "instituicaoNome", "escopos", "prazoMeses", "link", "status", "criadoEm", "expiraEm",
+  ),
+};
 R.clienteResumo = { chaves: obrigatorias<H.ClienteResumo>()("id", "nome", "perfil", "posicaoXp", "prioridade") };
 
 function faltando(obj: unknown, regra: Regra, caminho: string): string[] {
@@ -202,8 +213,17 @@ describe("fixtures reais do backend × tipos do front", () => {
     ["mensagem", mensagem, R.mensagem],
     ["briefing", briefing, R.briefing],
     ["clientes", clientes, R.clienteResumo],
+    ["convite pendente", convitePendente, R.convite],
+    ["convite confirmado", conviteConfirmado, R.convite],
+    ["mensagem do convite", mensagemConvite, R.mensagem],
   ] as const)("%s: todos os campos obrigatórios presentes", (_nome, fixture, regra) => {
     expect(faltando(fixture, regra, "$")).toEqual([]);
+  });
+
+  it("a mensagem do convite traz o link exato (o palco transforma em link clicável)", () => {
+    expect(convitePendente.status).toBe("PENDENTE");
+    expect(conviteConfirmado.status).toBe("CONFIRMADO");
+    expect(mensagemConvite.texto).toContain(convitePendente.link);
   });
 
   it("valores de enum das fixtures são conhecidos pelo front", () => {
