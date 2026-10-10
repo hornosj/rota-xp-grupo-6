@@ -83,7 +83,5 @@ cd frontend && npm run gen:api && npm run sync:fixtures
 - Regras ambíguas resolvidas como no checker de referência (`data/checar_seed.py`): `SO_INVESTIMENTOS` é
   avaliado antes de `PRINCIPAL`; reserva arredondada a 1 casa (HALF_EVEN); janelas de movimentação e contas
   recorrentes = 3 meses; `FATURA CARTAO <X>` casa com a última palavra do nome do banco.
-- `Diagnostico.detalhes` usa as chaves que o front lê: PROTECAO_FGC `{valorSemCobertura, instituicao, conglomerados}`,
-  CUSTO_DE_VIDA `{total, categorias, parcial}`, RESERVA_EMERGENCIA `{meses, liquidezImediata, metaMeses, meta}`.
 
 Dados 100% fictícios (bancos Aurora, Horizonte, Ipê). XP é a única marca real.
