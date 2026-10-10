@@ -1,6 +1,9 @@
 package br.com.rotaxp.copiloto.agentes;
 
-/** System prompts com as regras do PLAN §8.3. */
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/** System prompts com as regras do PLAN §8.3 e os textos de usuário dos agentes. */
 final class Prompts {
 
     private Prompts() {}
@@ -18,18 +21,30 @@ final class Prompts {
     static final String MENSAGEM = BASE + """
             - WhatsApp: até 600 caracteres, sem markdown, sem emojis em excesso.
             - E-mail: primeira linha "Assunto: ...", uma linha em branco e um corpo curto.
-            Responda só com o texto da mensagem.
+            O campo "texto" deve conter só a mensagem pronta para enviar.
             """;
 
     static final String BRIEFING = BASE + """
-            Prepare o assessor para uma reunião. Responda só com JSON, sem markdown:
-            {"bullets": [5 frases curtas], "perguntasSugeridas": [3 perguntas para o cliente]}
+            Prepare o assessor para uma reunião com este cliente: escreva 5 tópicos curtos em "bullets"
+            e 3 perguntas para fazer ao cliente em "perguntasSugeridas".
             """;
 
     static final String NOTA = BASE + """
-            Extraia fatos da transcrição de uma reunião. Responda só com JSON, sem markdown:
-            {"resumo": "...", "eventos": [{"tipo": "ANIVERSARIO|CASAMENTO|NASCIMENTO|FERIAS|APOSENTADORIA|MUDANCA|OUTRO",
-              "descricao": "...", "data": "YYYY-MM-DD"}], "metas": ["..."], "mudancasPerfil": ["..."]}
-            Se a data de um evento não for dita, estime a partir da data de referência informada.
+            Extraia fatos da transcrição de uma reunião com o cliente:
+            - "resumo": uma frase.
+            - "eventos": eventos de vida citados; "tipo" é um de ANIVERSARIO, CASAMENTO, NASCIMENTO, FERIAS,
+              APOSENTADORIA, MUDANCA, OUTRO; "data" no formato YYYY-MM-DD (estime a partir da data de referência
+              se não for dita).
+            - "metas": objetivos financeiros citados.
+            - "mudancasPerfil": mudanças de apetite a risco ou de situação citadas.
+            Não invente fatos que não estão na transcrição.
             """;
+
+    static String contexto(ObjectMapper mapper, ContextoCliente c) {
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }

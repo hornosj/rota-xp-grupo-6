@@ -18,10 +18,29 @@ demo:
 
 copiloto:
   modo: ${COPILOTO_MODO:stub}        # stub | cache | record | live  (demo: cache)
-  modelo: claude-sonnet-5-5
+  modelo: ${COPILOTO_MODELO:deepseek/deepseek-v4-pro}   # via OpenRouter; barato para testes
   cache-dir: ./llm-cache
-  api-key: ${ANTHROPIC_API_KEY:}
+  api-key: ${OPENROUTER_APIKEY:}     # sem chave, live/record viram stub
   max-tokens: 1024
+
+# Embabel: provedor compatível com OpenAI apontando para o OpenRouter.
+# Sem OPENROUTER_APIKEY a aplicação sobe com uma chave provisória (o Embabel exige alguma);
+# as chamadas falham e o Copiloto cai no stub.
+embabel:
+  models:
+    default-llm: ${copiloto.modelo}
+  agent:
+    platform:
+      models:
+        openai:
+          custom:
+            base-url: https://openrouter.ai/api
+            api-key: ${OPENROUTER_APIKEY:sem-chave}
+            models: ${copiloto.modelo}
+            max-attempts: 2
+            backoff-millis: 500
+            backoff-multiplier: 2.0
+            backoff-max-interval: 2000
 
 premissas:
   cdi-anual: 0.10                    # ILUSTRATIVO — ajustar para a taxa vigente antes do pitch

@@ -16,7 +16,8 @@ Plataforma para assessores de investimento. Tese: transformar dados espalhados (
   TanStack Query v5, Recharts, openapi-typescript para gerar tipos.
 - **Dados:** JSON sintético em `backend/src/main/resources/seed/`, gerado por `data/gerar_seed.py`
   (Python 3, só biblioteca padrão). **Sem banco de dados:** repositórios em memória.
-- **LLM:** Claude via API. Chave em `ANTHROPIC_API_KEY` (variável de ambiente; nunca commitar).
+- **LLM:** agentes Embabel via OpenRouter (modelo em `copiloto.modelo`, padrão DeepSeek). Chave em
+  `OPENROUTER_APIKEY` (variável de ambiente; nunca commitar).
 
 ## Estrutura e donos
 
