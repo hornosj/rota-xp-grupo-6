@@ -1,0 +1,189 @@
+{
+  "entrada": {
+    "posicaoId": "inv-001-03",
+    "posicaoNome": "CDB Banco Ipê 2028",
+    "valorAtual": 160000,
+    "taxaAntiga": 0.112,
+    "taxaNova": 0.135,
+    "prazoRestanteAnos": 1.6821917808219178,
+    "desagio": 0.03,
+    "precoVenda": 155200
+  },
+  "perdaImediata": 4800,
+  "valorFinalManter": 191283.31,
+  "valorFinalVender": 192046.02,
+  "ganhoDaTroca": 762.71,
+  "ganhoDaTrocaPercentual": 0.003987,
+  "breakEvenAnos": 1.49,
+  "breakEvenMeses": 18,
+  "compensa": true,
+  "desagioMaximoQueCompensa": 0.033852,
+  "precoMinimoQueCompensa": 154583.63,
+  "spreadTaxas": 0.023,
+  "serie": [
+    {
+      "mes": 0,
+      "anos": 0,
+      "valorManter": 160000,
+      "valorVender": 155200,
+      "diferenca": -4800
+    },
+    {
+      "mes": 1,
+      "anos": 0.0833,
+      "valorManter": 161421.75,
+      "valorVender": 156846.45,
+      "diferenca": -4575.3
+    },
+    {
+      "mes": 2,
+      "anos": 0.1667,
+      "valorManter": 162856.13,
+      "valorVender": 158510.38,
+      "diferenca": -4345.75
+    },
+    {
+      "mes": 3,
+      "anos": 0.25,
+      "valorManter": 164303.26,
+      "valorVender": 160191.95,
+      "diferenca": -4111.31
+    },
+    {
+      "mes": 4,
+      "anos": 0.3333,
+      "valorManter": 165763.25,
+      "valorVender": 161891.36,
+      "diferenca": -3871.89
+    },
+    {
+      "mes": 5,
+      "anos": 0.4167,
+      "valorManter": 167236.21,
+      "valorVender": 163608.8,
+      "diferenca": -3627.41
+    },
+    {
+      "mes": 6,
+      "anos": 0.5,
+      "valorManter": 168722.26,
+      "valorVender": 165344.46,
+      "diferenca": -3377.8
+    },
+    {
+      "mes": 7,
+      "anos": 0.5833,
+      "valorManter": 170221.51,
+      "valorVender": 167098.53,
+      "diferenca": -3122.98
+    },
+    {
+      "mes": 8,
+      "anos": 0.6667,
+      "valorManter": 171734.09,
+      "valorVender": 168871.21,
+      "diferenca": -2862.88
+    },
+    {
+      "mes": 9,
+      "anos": 0.75,
+      "valorManter": 173260.1,
+      "valorVender": 170662.7,
+      "diferenca": -2597.4
+    },
+    {
+      "mes": 10,
+      "anos": 0.8333,
+      "valorManter": 174799.68,
+      "valorVender": 172473.19,
+      "diferenca": -2326.49
+    },
+    {
+      "mes": 11,
+      "anos": 0.9167,
+      "valorManter": 176352.94,
+      "valorVender": 174302.89,
+      "diferenca": -2050.05
+    },
+    {
+      "mes": 12,
+      "anos": 1,
+      "valorManter": 177920,
+      "valorVender": 176152,
+      "diferenca": -1768
+    },
+    {
+      "mes": 13,
+      "anos": 1.0833,
+      "valorManter": 179500.98,
+      "valorVender": 178020.73,
+      "diferenca": -1480.25
+    },
+    {
+      "mes": 14,
+      "anos": 1.1667,
+      "valorManter": 181096.02,
+      "valorVender": 179909.28,
+      "diferenca": -1186.74
+    },
+    {
+      "mes": 15,
+      "anos": 1.25,
+      "valorManter": 182705.22,
+      "valorVender": 181817.86,
+      "diferenca": -887.36
+    },
+    {
+      "mes": 16,
+      "anos": 1.3333,
+      "valorManter": 184328.73,
+      "valorVender": 183746.69,
+      "diferenca": -582.04
+    },
+    {
+      "mes": 17,
+      "anos": 1.4167,
+      "valorManter": 185966.66,
+      "valorVender": 185695.99,
+      "diferenca": -270.67
+    },
+    {
+      "mes": 18,
+      "anos": 1.5,
+      "valorManter": 187619.15,
+      "valorVender": 187665.96,
+      "diferenca": 46.81
+    },
+    {
+      "mes": 19,
+      "anos": 1.5833,
+      "valorManter": 189286.32,
+      "valorVender": 189656.83,
+      "diferenca": 370.51
+    },
+    {
+      "mes": 20,
+      "anos": 1.6667,
+      "valorManter": 190968.31,
+      "valorVender": 191668.83,
+      "diferenca": 700.52
+    },
+    {
+      "mes": 21,
+      "anos": 1.6822,
+      "valorManter": 191283.31,
+      "valorVender": 192046.02,
+      "diferenca": 762.71
+    }
+  ],
+  "explicacao": "Vender CDB Banco Ipê 2028 com deságio de 3% gera uma perda imediata de R$ 4.800,00 (recebe R$ 155.200,00). Trocar 11,2% a.a. por 13,5% a.a. recupera a perda em 1,5 ano(s) (cerca de 18 meses). Como faltam 1,7 ano(s) para o vencimento, a troca compensa: no vencimento o cliente terá R$ 192.046,02 contra R$ 191.283,31 mantendo o título (+R$ 762,71). O deságio máximo que ainda compensa é de 3,4%. Simulação simplificada: ignora IR e supõe risco equivalente entre os títulos.",
+  "premissas": [
+    "Ignora IR, IOF e custos de corretagem.",
+    "Supõe risco de crédito equivalente entre o título atual e o novo.",
+    "Reinveste o valor da venda à taxa nova, constante, até o vencimento do título atual.",
+    "Taxas efetivas ao ano, com capitalização composta."
+  ],
+  "avisos": [
+    "Taxa atual estimada (11,2% a.a.) a partir de \"112% do CDI\" (CDI de 10% a.a.). Ajuste se souber a taxa efetiva."
+  ]
+}
