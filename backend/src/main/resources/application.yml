@@ -127,3 +127,9 @@ radar:
         url: https://www.cnnbrasil.com.br/feed/
       - nome: Bloomberg Línea
         url: https://www.bloomberglinea.com.br/arc/outboundfeeds/rss/?outputType=xml
+
+desagio:
+  ipca-anual: 0.045                  # ILUSTRATIVO — usado para estimar títulos IPCA+
+  selic-anual: 0.10                  # ILUSTRATIVO — usado para estimar títulos Selic+
+  dias-por-ano: 365
+  produtos-elegiveis: CDB,RDB,LCI,LCA,LC,TESOURO,DEBENTURE,CRI,CRA
