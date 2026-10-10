@@ -7,6 +7,16 @@ export interface EstadoMock {
   concessoes: Record<string, string>;
   /** "clienteId|instituicaoId" → ISO de quando foi revogado */
   revogacoes: Record<string, string>;
+  /** token → convite de consentimento (modo mock) */
+  convites: Record<string, ConviteMock>;
+}
+
+export interface ConviteMock {
+  token: string;
+  clienteId: string;
+  instituicaoId: string;
+  criadoEm: string;
+  confirmadoEm?: string;
 }
 
 const CHAVE = "copiloto:mock:estado:v1";
@@ -14,7 +24,7 @@ const CHAVE = "copiloto:mock:estado:v1";
 let memoria: EstadoMock = vazio();
 
 function vazio(): EstadoMock {
-  return { concessoes: {}, revogacoes: {} };
+  return { concessoes: {}, revogacoes: {}, convites: {} };
 }
 
 function storage(): Storage | null {
@@ -33,7 +43,7 @@ export function lerEstado(): EstadoMock {
     const bruto = s.getItem(CHAVE);
     if (!bruto) return vazio();
     const obj = JSON.parse(bruto) as Partial<EstadoMock>;
-    return { concessoes: obj.concessoes ?? {}, revogacoes: obj.revogacoes ?? {} };
+    return { concessoes: obj.concessoes ?? {}, revogacoes: obj.revogacoes ?? {}, convites: obj.convites ?? {} };
   } catch {
     return memoria;
   }
@@ -74,6 +84,16 @@ export function concedidoEm(clienteId: string, instituicaoId: string): string | 
 
 export function revogadoEm(clienteId: string, instituicaoId: string): string | undefined {
   return lerEstado().revogacoes[chave(clienteId, instituicaoId)];
+}
+
+export function lerConvites(): ConviteMock[] {
+  return Object.values(lerEstado().convites);
+}
+
+export function gravarConvite(c: ConviteMock) {
+  const e = lerEstado();
+  e.convites[c.token] = c;
+  gravar(e);
 }
 
 export function resetarEstado() {

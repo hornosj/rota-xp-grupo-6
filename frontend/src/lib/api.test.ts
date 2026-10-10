@@ -116,3 +116,73 @@ describe("httpApi · radar de notícias", () => {
     });
   });
 });
+
+describe("httpApi · convites de consentimento", () => {
+  const convite = {
+    token: "cv-cli-001-inst-horizonte",
+    clienteId: "cli-001",
+    instituicaoId: "inst-horizonte",
+    instituicaoNome: "Banco Horizonte",
+    escopos: ["INVESTIMENTOS"],
+    prazoMeses: 12,
+    link: "http://localhost:3000/convite/cv-cli-001-inst-horizonte",
+    status: "PENDENTE",
+    criadoEm: "2026-10-11T10:00:00-03:00",
+    expiraEm: "2026-10-13T10:00:00-03:00",
+  };
+
+  it("criarConvite faz POST em /api/clientes/{id}/convites/{instituicaoId}", async () => {
+    const f = vi.fn(async () => resposta(200, convite));
+    const c = await criarHttpApi(f).criarConvite("cli-001", "inst-horizonte");
+    expect(c.token).toBe("cv-cli-001-inst-horizonte");
+    expect(f).toHaveBeenCalledWith("/api/clientes/cli-001/convites/inst-horizonte", expect.objectContaining({ method: "POST" }));
+  });
+
+  it("criarConvite com 409 (instituição já conectada) vira ApiError 409", async () => {
+    const f = vi.fn(async () => resposta(409, { erro: "CONFLITO", mensagem: "Banco Horizonte já está conectado" }));
+    await expect(criarHttpApi(f).criarConvite("cli-001", "inst-horizonte")).rejects.toMatchObject({ status: 409, erro: "CONFLITO" });
+  });
+
+  it("convites faz GET em /api/clientes/{id}/convites", async () => {
+    const f = vi.fn(async () => resposta(200, [convite]));
+    const lista = await criarHttpApi(f).convites("cli-001");
+    expect(lista).toHaveLength(1);
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe("/api/clientes/cli-001/convites");
+    expect(init.method ?? "GET").toBe("GET");
+  });
+
+  it("convite faz GET em /api/convites/{token} (token codificado) e 404 vira ApiError", async () => {
+    const ok = vi.fn(async () => resposta(200, convite));
+    await criarHttpApi(ok).convite("cv 1/x");
+    expect(ok).toHaveBeenCalledWith("/api/convites/cv%201%2Fx", expect.anything());
+    const nf = vi.fn(async () => resposta(404, { erro: "NAO_ENCONTRADO", mensagem: "Convite não encontrado" }));
+    await expect(criarHttpApi(nf).convite("cv-x")).rejects.toMatchObject({ status: 404 });
+  });
+
+  it("confirmarConvite faz POST em /api/convites/{token}/confirmar", async () => {
+    const f = vi.fn(async () => resposta(200, { ...convite, status: "CONFIRMADO" }));
+    const c = await criarHttpApi(f).confirmarConvite(convite.token);
+    expect(c.status).toBe("CONFIRMADO");
+    expect(f).toHaveBeenCalledTimes(1);
+    expect(f).toHaveBeenCalledWith("/api/convites/cv-cli-001-inst-horizonte/confirmar", expect.objectContaining({ method: "POST" }));
+  });
+
+  it("confirmarConvite com 409 (já confirmado) é sucesso: busca o convite atual", async () => {
+    const f = vi.fn(async (_url: string, init?: RequestInit) =>
+      init?.method === "POST"
+        ? resposta(409, { erro: "CONFLITO", mensagem: "Convite já confirmado" })
+        : resposta(200, { ...convite, status: "CONFIRMADO" }),
+    );
+    const c = await criarHttpApi(f).confirmarConvite(convite.token);
+    expect(c.status).toBe("CONFIRMADO");
+    expect(f).toHaveBeenNthCalledWith(2, "/api/convites/cv-cli-001-inst-horizonte", expect.anything());
+  });
+
+  it("confirmarConvite com 410 (expirado) e 404 viram ApiError", async () => {
+    const exp = vi.fn(async () => resposta(410, { erro: "EXPIRADO", mensagem: "Convite expirado" }));
+    await expect(criarHttpApi(exp).confirmarConvite("cv-x")).rejects.toMatchObject({ status: 410, message: "Convite expirado" });
+    const nf = vi.fn(async () => resposta(404, { erro: "NAO_ENCONTRADO", mensagem: "Convite não encontrado" }));
+    await expect(criarHttpApi(nf).confirmarConvite("cv-x")).rejects.toMatchObject({ status: 404 });
+  });
+});

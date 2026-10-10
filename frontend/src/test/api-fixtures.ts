@@ -4,6 +4,7 @@ import { ApiError, type Api } from "@/lib/api-base";
 import type {
   Briefing,
   ClienteResumo,
+  Convite,
   ItemFila,
   Jornada,
   MensagemGerada,
@@ -40,7 +41,48 @@ export const fixtures = {
   clientes: () => como<ClienteResumo[]>(clientes),
 };
 
-export const estadoFixtures = { conectado: false };
+export const estadoFixtures = { conectado: false, convites: [] as Convite[] };
+
+const LINK_BASE = "http://localhost:3000/convite/";
+
+/** Convite da Marina para o Banco Horizonte, no formato do contrato (BE1-11). */
+export function conviteMarina(extra?: Partial<Convite>): Convite {
+  const token = extra?.token ?? "cv-cli-001-inst-horizonte";
+  return {
+    token,
+    clienteId: "cli-001",
+    instituicaoId: "inst-horizonte",
+    instituicaoNome: "Banco Horizonte",
+    escopos: ["INVESTIMENTOS"],
+    prazoMeses: 12,
+    link: LINK_BASE + token,
+    status: "PENDENTE",
+    criadoEm: "2026-10-11T10:00:00-03:00",
+    expiraEm: "2026-10-13T10:00:00-03:00",
+    ...extra,
+  };
+}
+
+export const TEXTO_CONVITE = (link: string) =>
+  `Oi, Marina! Para eu enxergar seu patrimônio completo e checar sua proteção no FGC, você pode conectar o Banco Horizonte por aqui: ${link}. Leva 1 minuto e você pode revogar quando quiser.`;
+
+function criarConviteFixture(id: string, inst: string): Convite {
+  if (id !== "cli-001") throw naoEncontrado(id);
+  if (estadoFixtures.conectado || inst !== "inst-horizonte") {
+    throw new ApiError(409, "Banco Horizonte já está conectado", "CONFLITO");
+  }
+  const pendente = estadoFixtures.convites.find((c) => c.status === "PENDENTE");
+  if (pendente) return structuredClone(pendente);
+  const c = conviteMarina();
+  estadoFixtures.convites.push(c);
+  return structuredClone(c);
+}
+
+function acharConvite(token: string): Convite {
+  const c = estadoFixtures.convites.find((x) => x.token === token);
+  if (!c) throw new ApiError(404, "Convite não encontrado", "NAO_ENCONTRADO");
+  return c;
+}
 
 const naoEncontrado = (id: string) => new ApiError(404, `Cliente ${id} não encontrado`, "CLIENTE_NAO_ENCONTRADO");
 
@@ -66,10 +108,17 @@ export const apiFixtures: Api = {
     if (id !== "cli-001") throw naoEncontrado(id);
     return estadoFixtures.conectado ? fixtures.jornadaDepois() : fixtures.jornadaAntes();
   },
-  mensagem: async () => fixtures.mensagem(),
+  mensagem: async (id, acaoId, canal) => {
+    if (acaoId === "acao-cli-001-convidar_conexao-inst-horizonte") {
+      const c = criarConviteFixture(id, "inst-horizonte");
+      return { texto: TEXTO_CONVITE(c.link), canal, geradoPor: "stub" };
+    }
+    return fixtures.mensagem();
+  },
   briefing: async () => fixtures.briefing(),
   resetDemo: async () => {
     estadoFixtures.conectado = false;
+    estadoFixtures.convites = [];
   },
   demoEstado: async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" }),
   noticiasRadar: async () => noticiasMock(),
@@ -81,5 +130,15 @@ export const apiFixtures: Api = {
     const impacto = radarDoCliente(id, estadoFixtures.conectado).find((i) => i.noticiaId === noticiaId);
     if (!impacto) throw new ApiError(404, `A notícia ${noticiaId} não mexe na carteira de ${id}`, "NAO_ENCONTRADO");
     return motivoDe(impacto);
+  },
+  criarConvite: async (id, inst) => criarConviteFixture(id, inst),
+  convites: async (id) => (id === "cli-001" ? structuredClone(estadoFixtures.convites) : []),
+  convite: async (token) => structuredClone(acharConvite(token)),
+  confirmarConvite: async (token) => {
+    const c = acharConvite(token);
+    if (c.status === "EXPIRADO") throw new ApiError(410, "Este convite expirou", "EXPIRADO");
+    c.status = "CONFIRMADO";
+    estadoFixtures.conectado = true;
+    return structuredClone(c);
   },
 };

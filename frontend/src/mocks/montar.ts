@@ -217,10 +217,10 @@ export function acao(
   titulo: string,
   motivo: string,
   alertaIds: Id[],
-  extra?: { impactoEstimado?: string; principal?: boolean },
+  extra?: { impactoEstimado?: string; principal?: boolean; id?: Id },
 ): AcaoSugerida {
   return {
-    id: `ac-${clienteId.replace("cli-", "")}-${tipo.toLowerCase()}`,
+    id: extra?.id ?? `ac-${clienteId.replace("cli-", "")}-${tipo.toLowerCase()}`,
     clienteId,
     tipo,
     titulo,

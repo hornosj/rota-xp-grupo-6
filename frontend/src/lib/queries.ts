@@ -22,6 +22,8 @@ export const chaves = {
   /** Prefixo; a consulta usa [...radarCarteira, limite]. */
   radarCarteira: ["radar", "carteira"] as const,
   radarCliente: (id: Id) => ["radar", "cliente", id] as const,
+  convites: (id: Id) => ["convites", id] as const,
+  convite: (token: string) => ["convite", token] as const,
 };
 
 interface OpcoesAoVivo {
@@ -122,6 +124,50 @@ function invalidarCliente(qc: QueryClient, clienteId: Id) {
     qc.invalidateQueries({ queryKey: chaves.radarCliente(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.radarCarteira }),
   ]);
+}
+
+// ---------- Convites de consentimento ----------
+
+export function useConvites(id: Id, o?: OpcoesAoVivo & { enabled?: boolean }) {
+  return useQuery({
+    queryKey: chaves.convites(id),
+    queryFn: () => api.convites(id),
+    refetchInterval: intervalo(o),
+    enabled: o?.enabled ?? true,
+  });
+}
+
+/** Tela do cliente (/convite/[token]): 404/410 não adiantam tentar de novo. */
+export function useConvite(token: string) {
+  return useQuery({ queryKey: chaves.convite(token), queryFn: () => api.convite(token), retry: false });
+}
+
+/** Cria (ou reaproveita o pendente). 409 = já conectado: a 360 é recarregada de qualquer forma. */
+export function useCriarConvite() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ clienteId, instituicaoId }: VarsConsentimento) => api.criarConvite(clienteId, instituicaoId),
+    onSettled: (_c, _e, { clienteId }) =>
+      Promise.all([
+        qc.invalidateQueries({ queryKey: chaves.convites(clienteId) }),
+        qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
+      ]),
+  });
+}
+
+/** Confirmação do cliente (409 = já confirmado é sucesso em lib/api). Recalcula tudo do cliente. */
+export function useConfirmarConvite() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (token: string) => api.confirmarConvite(token),
+    onSuccess: async (convite) => {
+      qc.setQueryData(chaves.convite(convite.token), convite);
+      await Promise.all([
+        invalidarCliente(qc, convite.clienteId),
+        qc.invalidateQueries({ queryKey: chaves.convites(convite.clienteId) }),
+      ]);
+    },
+  });
 }
 
 interface VarsConsentimento {

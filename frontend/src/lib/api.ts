@@ -7,6 +7,7 @@ import type {
   Briefing,
   ClienteResumo,
   ConsentimentoComNome,
+  Convite,
   DemoEstado,
   ErroApi,
   ImpactoNoticia,
@@ -85,6 +86,18 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     radarCarteira: (limite = 20) => chamar<ImpactoNoticia[]>(`/assessor/radar?limite=${limite}`),
     motivoNoticia: (id, noticiaId) =>
       chamar<MotivoNoticia>(`/clientes/${seg(id)}/radar/${seg(noticiaId)}/motivo`, { method: "POST" }),
+    criarConvite: (id, inst) => chamar<Convite>(`/clientes/${seg(id)}/convites/${seg(inst)}`, { method: "POST" }),
+    convites: (id) => chamar<Convite[]>(`/clientes/${seg(id)}/convites`),
+    convite: (token) => chamar<Convite>(`/convites/${seg(token)}`),
+    async confirmarConvite(token) {
+      try {
+        return await chamar<Convite>(`/convites/${seg(token)}/confirmar`, { method: "POST" });
+      } catch (e) {
+        // 409 = já confirmado → sucesso; devolve o convite atual.
+        if (e instanceof ApiError && e.status === 409) return api.convite(token);
+        throw e;
+      }
+    },
   };
   return api;
 }

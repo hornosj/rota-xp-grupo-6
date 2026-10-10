@@ -156,7 +156,9 @@ export function defMarina(depois: { em: string; novo: boolean } | null, horizont
           acaoSaldo(true),
           acaoAporte,
           acaoAniversario,
-          acao(c, "CONVIDAR_CONEXAO", "Convidar a conectar o Banco Horizonte pelo app", "Marina declarou investimentos no Banco Horizonte que ainda não estão conectados (cobertura de 67%).", []),
+          acao(c, "CONVIDAR_CONEXAO", "Convidar a conectar o Banco Horizonte pelo app", "Marina declarou investimentos no Banco Horizonte que ainda não estão conectados (cobertura de 67%).", [], {
+            id: "acao-cli-001-convidar_conexao-inst-horizonte",
+          }),
         ],
       },
     };

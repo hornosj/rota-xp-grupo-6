@@ -418,6 +418,28 @@ export interface MotivoNoticia {
   geradoPor: GeradoPor;
 }
 
+// ---------- Convite de consentimento Open Finance (reescopo, aditivo) ----------
+
+export type StatusConvite = "PENDENTE" | "CONFIRMADO" | "EXPIRADO";
+
+/** Convite que o assessor envia ao cliente para conectar uma instituição pelo Open Finance. */
+export interface Convite {
+  token: string;
+  clienteId: Id;
+  instituicaoId: Id;
+  instituicaoNome: string;
+  escopos: Escopo[];
+  /** 12 */
+  prazoMeses: number;
+  /** ex.: http://localhost:3000/convite/{token} */
+  link: string;
+  status: StatusConvite;
+  /** ISO com fuso */
+  criadoEm: string;
+  /** ISO com fuso; 48h depois de criadoEm */
+  expiraEm: string;
+}
+
 export interface ErroApi {
   erro: string;
   mensagem: string;

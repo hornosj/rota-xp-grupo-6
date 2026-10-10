@@ -4,6 +4,14 @@ import { ApiError, type Api } from "@/lib/api-base";
 import type { ClienteResumo, ConsentimentoComNome, Id, ItemFila, PainelCarteira, PosicaoXp, Visao360 } from "@/lib/api-types";
 import { ANCORAS, DATA_REFERENCIA, DEFS_ESTATICAS, defMarina, type DefCliente } from "./dados";
 import { concedidoEm, lerEstado, registrarConcessao, registrarRevogacao, resetarEstado, revogadoEm } from "./estado";
+import {
+  buscarConviteMock,
+  confirmarConviteMock,
+  convitesDoCliente,
+  criarConviteMock,
+  instituicaoDaAcaoConvidar,
+  mensagemConvite,
+} from "./convites";
 import { jornadaDerivada, jornadaMarina } from "./jornada";
 import { montarVisao } from "./montar";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "./radar";
@@ -156,6 +164,12 @@ export const mockApi: Api = {
   },
   async mensagem(id, acaoId, canal) {
     const v = visao(id);
+    const instConvite = instituicaoDaAcaoConvidar(acaoId);
+    if (instConvite) {
+      // Como no backend: cria o convite se não existir e põe o link no texto.
+      const c = criarConviteMock(v, instConvite);
+      return esperar(mensagemConvite(visao(id), c, canal));
+    }
     const acao = v.acoes.find((a) => a.id === acaoId);
     if (!acao) throw new ApiError(404, `Ação ${acaoId} não encontrada`, "ACAO_NAO_ENCONTRADA");
     return esperar(mensagemStub(v, acao, canal));
@@ -188,6 +202,18 @@ export const mockApi: Api = {
     const impacto = radarDoCliente(id, estadoMarina() !== null).find((i) => i.noticiaId === noticiaId);
     if (!impacto) throw new ApiError(404, `A notícia ${noticiaId} não mexe na carteira de ${id}`, "NAO_ENCONTRADO");
     return esperar(motivoDe(impacto));
+  },
+  async criarConvite(id, inst) {
+    return esperar(criarConviteMock(visao(id), inst));
+  },
+  async convites(id) {
+    return esperar(convitesDoCliente(visao(id)));
+  },
+  async convite(token) {
+    return esperar(buscarConviteMock(token, visao));
+  },
+  async confirmarConvite(token) {
+    return esperar(confirmarConviteMock(token, visao));
   },
 };
 

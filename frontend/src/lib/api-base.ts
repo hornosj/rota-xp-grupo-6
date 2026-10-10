@@ -4,6 +4,7 @@ import type {
   Canal,
   ClienteResumo,
   ConsentimentoComNome,
+  Convite,
   DemoEstado,
   Id,
   ImpactoNoticia,
@@ -42,6 +43,14 @@ export interface Api {
   radarCarteira(limite?: number): Promise<ImpactoNoticia[]>;
   /** 404 se a notícia não mexe na carteira do cliente. */
   motivoNoticia(clienteId: Id, noticiaId: Id): Promise<MotivoNoticia>;
+  // Convites de consentimento Open Finance
+  /** Reaproveita o PENDENTE se existir. 409 se a instituição já está conectada. */
+  criarConvite(clienteId: Id, instituicaoId: Id): Promise<Convite>;
+  convites(clienteId: Id): Promise<Convite[]>;
+  /** 404 se o token não existe. */
+  convite(token: string): Promise<Convite>;
+  /** 409 (já confirmado) é tratado como sucesso; 410 se expirado; 404 se não existe. */
+  confirmarConvite(token: string): Promise<Convite>;
 }
 
 export class ApiError extends Error {

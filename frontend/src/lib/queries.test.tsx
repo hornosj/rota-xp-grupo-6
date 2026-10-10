@@ -20,6 +20,10 @@ const fake = vi.hoisted(() => ({
   radarCliente: vi.fn(async (id: string) => [{ clienteId: id, noticiaId: "not-001" }]),
   radarCarteira: vi.fn(async () => [{ clienteId: "cli-005", noticiaId: "not-001" }]),
   motivoNoticia: vi.fn(async () => ({ texto: "Ligue hoje", geradoPor: "stub" })),
+  criarConvite: vi.fn(async (id: string, inst: string) => ({ token: `cv-${id}-${inst}`, clienteId: id, instituicaoId: inst, status: "PENDENTE" })),
+  convites: vi.fn(async (id: string) => [{ token: `cv-${id}-inst-horizonte`, clienteId: id, status: "PENDENTE" }]),
+  convite: vi.fn(async (token: string) => ({ token, clienteId: "cli-001", status: "PENDENTE" })),
+  confirmarConvite: vi.fn(async (token: string) => ({ token, clienteId: "cli-001", instituicaoId: "inst-horizonte", status: "CONFIRMADO" })),
 }));
 vi.mock("./api", () => ({ api: fake }));
 
@@ -27,6 +31,10 @@ import {
   chaves,
   useBriefing,
   useConceder,
+  useConfirmarConvite,
+  useConvite,
+  useConvites,
+  useCriarConvite,
   useFila,
   useJornada,
   useMensagem,
@@ -157,5 +165,55 @@ describe("queries", () => {
     const m = await act(() => result.current.mutateAsync({ clienteId: "cli-005", noticiaId: "not-001" }));
     expect(m).toEqual({ texto: "Ligue hoje", geradoPor: "stub" });
     expect(fake.motivoNoticia).toHaveBeenCalledWith("cli-005", "not-001");
+  });
+
+  it("useConvites busca os convites do cliente e faz polling no modo ao vivo", async () => {
+    const { qc, wrapper } = montar();
+    const { result } = renderHook(() => useConvites("cli-001", { aoVivo: true }), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(fake.convites).toHaveBeenCalledWith("cli-001");
+    const q = qc.getQueryCache().find({ queryKey: chaves.convites("cli-001") });
+    expect((q?.options as { refetchInterval?: unknown }).refetchInterval).toBe(2000);
+  });
+
+  it("useConvite busca pelo token (sem retry: 404/410 aparecem logo)", async () => {
+    const { wrapper } = montar();
+    const { result } = renderHook(() => useConvite("cv-1"), { wrapper });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(fake.convite).toHaveBeenCalledWith("cv-1");
+    expect(result.current.data?.status).toBe("PENDENTE");
+  });
+
+  it("useCriarConvite cria e invalida os convites e a 360 do cliente", async () => {
+    const { qc, wrapper } = montar();
+    const spy = vi.spyOn(qc, "invalidateQueries");
+    const { result } = renderHook(() => useCriarConvite(), { wrapper });
+    const c = await act(() => result.current.mutateAsync({ clienteId: "cli-001", instituicaoId: "inst-horizonte" }));
+    expect(c.token).toBe("cv-cli-001-inst-horizonte");
+    expect(fake.criarConvite).toHaveBeenCalledWith("cli-001", "inst-horizonte");
+    const invalidadas = spy.mock.calls.map((x) => JSON.stringify(x[0]?.queryKey));
+    expect(invalidadas).toContain(JSON.stringify(chaves.convites("cli-001")));
+    expect(invalidadas).toContain(JSON.stringify(chaves.visao360("cli-001")));
+  });
+
+  it("useConfirmarConvite confirma e invalida fila, 360, radar, painel e convites", async () => {
+    const { qc, wrapper } = montar();
+    const spy = vi.spyOn(qc, "invalidateQueries");
+    const { result } = renderHook(() => useConfirmarConvite(), { wrapper });
+    const c = await act(() => result.current.mutateAsync("cv-cli-001-inst-horizonte"));
+    expect(c.status).toBe("CONFIRMADO");
+    expect(fake.confirmarConvite).toHaveBeenCalledWith("cv-cli-001-inst-horizonte");
+    const invalidadas = spy.mock.calls.map((x) => JSON.stringify(x[0]?.queryKey));
+    for (const k of [
+      chaves.fila,
+      chaves.visao360("cli-001"),
+      chaves.radarCliente("cli-001"),
+      chaves.radarCarteira,
+      chaves.painel,
+      chaves.convites("cli-001"),
+    ]) {
+      expect(invalidadas).toContain(JSON.stringify(k));
+    }
+    expect(qc.getQueryData(chaves.convite("cv-cli-001-inst-horizonte"))).toMatchObject({ status: "CONFIRMADO" });
   });
 });
