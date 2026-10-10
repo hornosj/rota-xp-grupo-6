@@ -60,6 +60,14 @@ alertas:
 consentimento:
   prazo-dias: 365
 
+onboarding:
+  caminho-link: /onboarding/          # o front monta a URL absoluta com a origem
+  idade-minima: 18
+  suitability:                       # pontuação máxima (inclusive) de cada perfil; 5 perguntas de 1 a 4 pontos
+    limite-conservador: 8
+    limite-moderado: 12
+    limite-arrojado: 16              # acima disso: AGRESSIVO
+
 prioridade:
   fgc-base: 35
   fgc-por-20k: 1

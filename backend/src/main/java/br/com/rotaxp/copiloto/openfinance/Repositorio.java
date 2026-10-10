@@ -74,6 +74,12 @@ public class Repositorio {
         return c;
     }
 
+    /** Cliente cadastrado pelo onboarding (some no próximo reset da demo). */
+    public synchronized void adicionarCliente(Cliente c) {
+        if (estado.clientes().containsKey(c.id())) throw new IllegalStateException("Cliente " + c.id() + " já existe");
+        estado.clientes().put(c.id(), c);
+    }
+
     public synchronized void adicionarEventos(String clienteId, List<EventoVida> eventos) {
         Cliente c = cliente(clienteId);
         List<EventoVida> todos = new ArrayList<>(c.eventosVida() == null ? List.of() : c.eventosVida());
