@@ -71,6 +71,15 @@ public class CopilotoStub implements Copiloto {
     public MensagemGerada redigirMensagem(String clienteId, String acaoId, Canal canal) {
         ContextoCliente c = contextos.paraAcao(clienteId, acaoId);
         String corpo = corpo(c);
+        if (c.acao().tipo() == TipoAcao.CONVIDAR_CONEXAO && c.acao().link() != null) {
+            String convite = "Para eu enxergar seu patrimônio completo e checar sua proteção no FGC, você pode conectar o "
+                    + c.acao().instituicaoNome() + " por aqui: " + c.acao().link() + ". Leva 1 minuto e você pode revogar quando quiser.";
+            String t = canal == Canal.EMAIL
+                    ? "Assunto: " + c.acao().titulo() + "\n\nOlá, " + c.primeiroNome() + ",\n\n" + convite
+                      + "\n\nAbraços,\nSeu assessor de investimentos"
+                    : "Oi, " + c.primeiroNome() + "! " + convite;
+            return new MensagemGerada(t, canal, GeradoPor.stub);
+        }
         String texto = canal == Canal.EMAIL
                 ? "Assunto: " + c.acao().titulo() + "\n\nOlá, " + c.primeiroNome() + ",\n\n" + corpo
                   + "\n\nAbraços,\nSeu assessor de investimentos"

@@ -1,6 +1,7 @@
 package br.com.rotaxp.copiloto.api;
 
 import br.com.rotaxp.copiloto.dominio.Excecoes.Conflito;
+import br.com.rotaxp.copiloto.dominio.Excecoes.Expirado;
 import br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado;
 import br.com.rotaxp.copiloto.dominio.Requisicoes.ErroResposta;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,12 @@ public class ErrosHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErroResposta naoEncontrado(NaoEncontrado e) {
         return new ErroResposta("NAO_ENCONTRADO", e.getMessage());
+    }
+
+    @ExceptionHandler(Expirado.class)
+    @ResponseStatus(HttpStatus.GONE)
+    public ErroResposta expirado(Expirado e) {
+        return new ErroResposta("EXPIRADO", e.getMessage());
     }
 
     @ExceptionHandler(Conflito.class)

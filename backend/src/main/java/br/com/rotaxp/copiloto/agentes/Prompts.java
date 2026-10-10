@@ -21,6 +21,8 @@ final class Prompts {
     static final String MENSAGEM = BASE + """
             - WhatsApp: até 600 caracteres, sem markdown, sem emojis em excesso.
             - E-mail: primeira linha "Assunto: ...", uma linha em branco e um corpo curto.
+            - Se a ação tiver "link" (convite de conexão Open Finance), inclua o link exatamente como está e diga
+              que leva 1 minuto e pode ser revogado quando o cliente quiser.
             O campo "texto" deve conter só a mensagem pronta para enviar.
             """;
 

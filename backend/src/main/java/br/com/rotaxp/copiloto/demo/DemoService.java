@@ -17,14 +17,17 @@ public class DemoService {
     private final RegistroAlertas registro;
     private final DataReferencia dataReferencia;
     private final CopilotoRouter copiloto;
+    private final br.com.rotaxp.copiloto.openfinance.ConviteService convites;
 
     public DemoService(Repositorio repo, Visao360Assembler assembler, RegistroAlertas registro,
-                       DataReferencia dataReferencia, CopilotoRouter copiloto) {
+                       DataReferencia dataReferencia, CopilotoRouter copiloto,
+                       br.com.rotaxp.copiloto.openfinance.ConviteService convites) {
         this.repo = repo;
         this.assembler = assembler;
         this.registro = registro;
         this.dataReferencia = dataReferencia;
         this.copiloto = copiloto;
+        this.convites = convites;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -36,6 +39,7 @@ public class DemoService {
         repo.recarregar();
         assembler.limpar();
         registro.limpar();
+        convites.limpar();
         assembler.registrarLinhaDeBase();
     }
 

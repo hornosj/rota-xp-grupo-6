@@ -79,6 +79,11 @@ alertas:
 consentimento:
   prazo-dias: 365
 
+convite:
+  link-base: ${CONVITE_LINK_BASE:http://localhost:3000/convite/}
+  validade-horas: 48
+  prazo-meses: 12
+
 prioridade:
   fgc-base: 35
   fgc-por-20k: 1

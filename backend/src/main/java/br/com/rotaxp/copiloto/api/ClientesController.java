@@ -1,14 +1,11 @@
 package br.com.rotaxp.copiloto.api;
 
 import br.com.rotaxp.copiloto.agentes.Copiloto;
-import br.com.rotaxp.copiloto.consolidacao.AnaliseCliente;
 import br.com.rotaxp.copiloto.consolidacao.Visao360Assembler;
-import br.com.rotaxp.copiloto.demo.DataReferencia;
 import br.com.rotaxp.copiloto.dominio.Briefing;
 import br.com.rotaxp.copiloto.dominio.ClienteResumo;
 import br.com.rotaxp.copiloto.dominio.ConsentimentoView;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
-import br.com.rotaxp.copiloto.dominio.Jornada;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.Principalidade;
 import br.com.rotaxp.copiloto.dominio.Requisicoes.NotaBody;
@@ -16,7 +13,6 @@ import br.com.rotaxp.copiloto.dominio.Requisicoes.PedidoMensagemBody;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
 import br.com.rotaxp.copiloto.dominio.Visao360;
 import br.com.rotaxp.copiloto.inteligencia.FilaService;
-import br.com.rotaxp.copiloto.inteligencia.JornadaService;
 import br.com.rotaxp.copiloto.inteligencia.NotaService;
 import br.com.rotaxp.copiloto.openfinance.ConsentimentoService;
 import java.util.List;
@@ -34,18 +30,14 @@ public class ClientesController {
     private final Visao360Assembler assembler;
     private final ConsentimentoService consentimentos;
     private final FilaService fila;
-    private final JornadaService jornadaService;
-    private final DataReferencia dataReferencia;
     private final Copiloto copiloto;
     private final NotaService notas;
 
     public ClientesController(Visao360Assembler assembler, ConsentimentoService consentimentos, FilaService fila,
-                              JornadaService jornadaService, DataReferencia dataReferencia, Copiloto copiloto, NotaService notas) {
+                              Copiloto copiloto, NotaService notas) {
         this.assembler = assembler;
         this.consentimentos = consentimentos;
         this.fila = fila;
-        this.jornadaService = jornadaService;
-        this.dataReferencia = dataReferencia;
         this.copiloto = copiloto;
         this.notas = notas;
     }
@@ -81,13 +73,6 @@ public class ClientesController {
     public Visao360 revogar(@PathVariable String id, @PathVariable String instituicaoId) {
         consentimentos.revogar(id, instituicaoId);
         return assembler.visao360(id);
-    }
-
-    @GetMapping("/{id}/jornada")
-    public Jornada jornada(@PathVariable String id) {
-        AnaliseCliente a = assembler.analisar(id);
-        return jornadaService.montar(a.dados(), dataReferencia.hoje(), a.base().cobertura(),
-                a.principalidade().posicaoXp(), a.base().fluxo(), a.base().fgc());
     }
 
     @PostMapping("/{id}/acoes/{acaoId}/mensagem")

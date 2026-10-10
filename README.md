@@ -25,7 +25,7 @@ Abra **http://localhost:3000/palco** para a demo (assessora à esquerda, celular
 
 | Parte | Comando | O que cobre |
 |---|---|---|
-| Backend | `cd backend && ./mvnw test` | regras da `analise` (unitários), jornada, ações, Copiloto (stub/cache/record/live com LLM falso) e integração com a seed real: todos os âncoras do §6.5 (`src/test/resources/esperados.json`) e o roteiro da demo pela API |
+| Backend | `cd backend && ./mvnw test` | regras da `analise` (unitários), ações, convites, radar, Copiloto (stub/cache/record/live com LLM falso) e integração com a seed real: todos os âncoras do §6.5 (`src/test/resources/esperados.json`) e o roteiro da demo pela API |
 | Frontend | `cd frontend && npm test && npm run typecheck && npm run lint` | formatação, camada de API/mocks, hooks, telas do assessor, do cliente e do palco |
 | Dados | `python -m unittest discover -s data/tests` | gerador da seed e o checker de referência das regras |
 
@@ -83,7 +83,5 @@ cd frontend && npm run gen:api && npm run sync:fixtures
 - Regras ambíguas resolvidas como no checker de referência (`data/checar_seed.py`): `SO_INVESTIMENTOS` é
   avaliado antes de `PRINCIPAL`; reserva arredondada a 1 casa (HALF_EVEN); janelas de movimentação e contas
   recorrentes = 3 meses; `FATURA CARTAO <X>` casa com a última palavra do nome do banco.
-- `Diagnostico.detalhes` usa as chaves que o front lê: PROTECAO_FGC `{valorSemCobertura, instituicao, conglomerados}`,
-  CUSTO_DE_VIDA `{total, categorias, parcial}`, RESERVA_EMERGENCIA `{meses, liquidezImediata, metaMeses, meta}`.
 
 Dados 100% fictícios (bancos Aurora, Horizonte, Ipê). XP é a única marca real.

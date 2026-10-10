@@ -9,7 +9,7 @@ Antes de tudo, leia o CLAUDE.md e o docs/PLAN.md inteiros. Foque em §1, §4.2, 
 §8 (camada de IA), §10 (backlog BE2), §12 e §13.
 
 Seu escopo: BE2-01 a BE2-10, nesta ordem. Pastas suas: backend/.../inteligencia/,
-backend/.../agentes/, backend/llm-cache/ e os controllers de fila, jornada, mensagem, briefing e notas.
+backend/.../agentes/, backend/llm-cache/ e os controllers de fila, mensagem, briefing e notas.
 
 Comece em modo de planejamento: mostre o plano do BE2-01 e BE2-02. Depois de eu aprovar, implemente.
 
@@ -31,7 +31,7 @@ BE2-02 a BE2-07 (depois do contrato v1):
   um template bom para cada TipoAcao e cita eventos de vida próximos.
 - ContextoClienteFactory (§8.2): o LLM só vê o contexto enxuto; nunca calcula números.
 - AcaoSugeridaService (§7.8), FilaService (usa o PrioridadeService do analista; até ele existir,
-  use uma implementação provisória com a mesma assinatura), JornadaService (§7.10).
+  use uma implementação provisória com a mesma assinatura), e a mensagem de convite (BE2-11: contexto de CONVIDAR_CONEXAO com o link).
 - AgenteMensagemCliente (§8.3) com as regras de prompt do §8.3.
 - BE2-07: rode em modo record para todas as ações dos 6 âncoras (antes e depois do consentimento
   da Marina) e commite backend/llm-cache/. Com copiloto.modo=cache e sem internet, a demo inteira
@@ -39,9 +39,7 @@ BE2-02 a BE2-07 (depois do contrato v1):
 
 Critérios de aceite:
 - Sem ANTHROPIC_API_KEY, com modo stub, todos os endpoints de IA respondem.
-- Jornada da cli-001: completude 0.667 e nível 2 antes; 1.0 e nível 3 depois de conceder
-  inst-horizonte, com PROTECAO_FGC desbloqueado e resumo citando R$ 400 mil.
-- Jornada da cli-003: CUSTO_DE_VIDA bloqueado até conceder inst-aurora.
+- A mensagem da ação CONVIDAR_CONEXAO da Marina traz o link do convite (cria o convite se não existir).
 - A mensagem para a ação DIVERSIFICAR_FGC da Marina cita o valor e o aniversário da Sofia, sem
   prometer rentabilidade.
 

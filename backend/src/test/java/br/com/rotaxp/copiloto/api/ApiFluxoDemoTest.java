@@ -82,22 +82,12 @@ class ApiFluxoDemoTest {
     }
 
     @Test
-    void jornadaDaMarina() throws Exception {
-        mvc.perform(get(MARINA + "/jornada")).andExpect(jsonPath("$.completude").value(0.667))
-                .andExpect(jsonPath("$.nivel.numero").value(2));
-        concederHorizonte();
-        mvc.perform(get(MARINA + "/jornada")).andExpect(jsonPath("$.completude").value(1.0))
-                .andExpect(jsonPath("$.nivel.numero").value(3))
-                .andExpect(jsonPath("$.diagnosticos[?(@.tipo=='PROTECAO_FGC')].desbloqueado").value(true))
-                .andExpect(jsonPath("$.diagnosticos[?(@.tipo=='PROTECAO_FGC')].resumo").value("R$ 400 mil sem cobertura no Banco Horizonte"));
-    }
-
-    @Test
-    void julianaCustoDeVidaBloqueadoAteConcederAurora() throws Exception {
-        String url = "/api/clientes/cli-003/jornada";
-        mvc.perform(get(url)).andExpect(jsonPath("$.diagnosticos[?(@.tipo=='CUSTO_DE_VIDA')].desbloqueado").value(false));
-        mvc.perform(post("/api/clientes/cli-003/consentimentos/inst-aurora/conceder")).andExpect(status().isOk());
-        mvc.perform(get(url)).andExpect(jsonPath("$.diagnosticos[?(@.tipo=='CUSTO_DE_VIDA')].desbloqueado").value(true));
+    void jornadaFoiRemovidaNoReescopo() throws Exception {
+        mvc.perform(get(MARINA + "/jornada")).andExpect(status().isNotFound());
+        mvc.perform(get("/v3/api-docs"))
+                .andExpect(jsonPath("$.components.schemas.Jornada").doesNotExist())
+                .andExpect(jsonPath("$.components.schemas.Missao").doesNotExist())
+                .andExpect(jsonPath("$.components.schemas.Diagnostico").doesNotExist());
     }
 
     @Test
@@ -145,6 +135,6 @@ class ApiFluxoDemoTest {
         mvc.perform(get("/v3/api-docs")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.components.schemas.Visao360").exists())
                 .andExpect(jsonPath("$.components.schemas.ItemFila").exists())
-                .andExpect(jsonPath("$.components.schemas.Jornada").exists());
+                .andExpect(jsonPath("$.components.schemas.Convite").exists());
     }
 }
