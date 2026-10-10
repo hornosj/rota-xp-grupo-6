@@ -73,7 +73,7 @@ relacionamento → principalidade sobe.
 │ inteligencia/   próximas melhores ações, fila, painel, radar    │
 │ agentes/        Copiloto (stub|cache|record|live) + Embabel     │
 │ demo/           DataReferencia, reset, registro de alertas      │
-│ repositório em memória  ←  resources/seed/*.json                │
+│ SQLite (copiloto.db)  ←  resources/seed/*.json (startup/reset)  │
 └────────────────────────────────────────────────────────────────┘
                 ▲ gerado por data/gerar_seed.py (analista)
 ```
@@ -680,8 +680,10 @@ Formato: **ID · prio · tarefa** — critério de aceite.
 - **BE1-02 · P0 · Contrato e stubs** — records do §4, controllers do §5 devolvendo fixtures
   escritas à mão com os números da Marina (antes e depois), da fila e da jornada; exportar
   `contract/openapi.json` e `contract/fixtures/*.json`. **Push o quanto antes: destrava o front.**
-- **BE1-03 · P0 · Seed e repositório em memória** — `SeedLoader` lê `seed/*.json`; `POST /demo/reset`
-  recarrega tudo e reinicia `RegistroAlertas`.
+- **BE1-03 · P0 · Seed e repositório SQLite** — `SeedLoader` lê `seed/*.json` e o `RepositorioSqlite`
+  importa no banco (esquema em `resources/db/schema.sql`) se ele estiver vazio; consentimentos, eventos
+  de vida e o `RegistroAlertas` persistem entre reinícios. `POST /demo/reset` reimporta a seed e limpa
+  o `RegistroAlertas`. `banco.tipo=memoria` mantém o repositório em memória (testes unitários).
 - **BE1-04 · P0 · OpenFinanceGateway** — só expõe dados de consentimentos ATIVOS com o escopo certo.
   Teste: Horizonte invisível para cli-001 até conceder.
 - **BE1-05 · P0 · Consentimentos** — conceder/revogar, publica `ConsentimentoAlterado`, invalida cache.

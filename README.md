@@ -40,6 +40,19 @@ python data/checar_seed.py            # imprime os números de cada âncora e co
 
 Use a data do pitch em `--data-referencia` **e** em `demo.data-referencia` (`backend/src/main/resources/application.yml`).
 
+## Banco de dados (SQLite)
+
+O backend guarda os dados em SQLite (`backend/copiloto.db`, fora do git). Esquema: `backend/src/main/resources/db/schema.sql`.
+
+- No startup o esquema é criado e, se o banco estiver vazio, a seed JSON é importada.
+- Consentimentos concedidos/revogados, eventos de vida criados pela nota pós-reunião e o registro de quando cada
+  alerta foi detectado (tabela `registro_alerta`) **persistem entre reinícios**.
+- `POST /api/demo/reset` apaga tudo, reimporta a seed e limpa o registro de alertas. Depois de regenerar a seed, rode o reset (ou apague o `.db`).
+- Mudou o `schema.sql`? Apague o `copiloto.db` — não há migração.
+- Configuração: `BANCO_ARQUIVO` (caminho do arquivo), `BANCO_TIPO=memoria` (volta ao repositório em memória),
+  `banco.recriar-no-inicio: true` (reimporta a seed a cada startup).
+- Os testes de integração usam um banco descartável em `backend/target/copiloto-test.db`.
+
 ## Copiloto (IA)
 
 Agentes **Embabel 1.0** (`AgenteMensagemCliente`, `AgenteBriefing`, `AgenteNotaPosReuniao`) chamando um modelo

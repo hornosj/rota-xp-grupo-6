@@ -30,7 +30,8 @@ URGENTE — Etapa 0 (meta: ~40 minutos), porque destrava o time inteiro:
 
 Depois, BE1-03 a BE1-07 com dados reais e BE1-11 (convites) / BE1-12 (contrato v2):
 - SeedLoader lendo backend/src/main/resources/seed/*.json (o analista gera; até lá, crie um seed
-  mínimo só com a cli-001 para não ficar bloqueado).
+  mínimo só com a cli-001 para não ficar bloqueado). Os dados ficam em SQLite (RepositorioSqlite,
+  esquema em resources/db/schema.sql), populado a partir da seed no startup (banco vazio) e no reset.
 - OpenFinanceGateway é a ÚNICA porta de leitura para a camada analise: só devolve dados de
   instituições com consentimento ATIVO e com o escopo correspondente. Consentimento INTERNO (XP)
   é sempre ativo.
@@ -45,5 +46,5 @@ Critérios de aceite:
 - O contrato só muda de forma aditiva. Se precisar mudar, faça num commit separado, regenere o
   openapi.json e me avise.
 
-Não faça: banco de dados, autenticação, Spring Boot 4, LocalDate.now() fora de DataReferencia.
+Não faça: banco além do SQLite, autenticação, Spring Boot 4, LocalDate.now() fora de DataReferencia.
 ```
