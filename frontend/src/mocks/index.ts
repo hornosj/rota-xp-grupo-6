@@ -5,6 +5,7 @@ import type { ClienteResumo, ConsentimentoComNome, Id, ItemFila, PainelCarteira,
 import { ANCORAS, DATA_REFERENCIA, DEFS_ESTATICAS, defMarina, type DefCliente } from "./dados";
 import { concedidoEm, lerEstado, registrarConcessao, registrarRevogacao, resetarEstado, revogadoEm } from "./estado";
 import { jornadaDerivada, jornadaMarina } from "./jornada";
+import * as onboarding from "./onboarding";
 import { montarVisao } from "./montar";
 import { briefingStub, mensagemStub } from "./textos";
 
@@ -164,10 +165,23 @@ export const mockApi: Api = {
   },
   async resetDemo() {
     resetarEstado();
+    onboarding.resetarConvites();
     await esperar(null);
   },
   async demoEstado() {
     return esperar({ dataReferencia: DATA_REFERENCIA, modoCopiloto: "mock" });
+  },
+  async convites() {
+    return esperar(onboarding.listarConvites());
+  },
+  async criarConvite(nome) {
+    return esperar(onboarding.criarConvite(nome));
+  },
+  async formularioOnboarding(token) {
+    return esperar(onboarding.formulario(token));
+  },
+  async concluirOnboarding(token, cadastro) {
+    return esperar(onboarding.concluir(token, cadastro));
   },
 };
 

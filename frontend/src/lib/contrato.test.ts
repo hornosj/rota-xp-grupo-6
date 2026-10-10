@@ -82,6 +82,14 @@ export type ChecagensForma = [
   Esperar<Compativel<H.ClienteResumo, S["ClienteResumo"]>>,
   Esperar<Compativel<H.DemoEstado, S["DemoEstado"]>>,
   Esperar<Compativel<H.ErroApi, S["ErroResposta"]>>,
+  // onboarding (respostas e corpos de requisição)
+  Esperar<Compativel<H.ConviteOnboarding, S["ConviteOnboarding"]>>,
+  Esperar<Compativel<H.FormularioOnboarding, S["FormularioOnboarding"]>>,
+  Esperar<Compativel<H.PerguntaSuitability, S["PerguntaSuitability"]>>,
+  Esperar<Compativel<H.InstituicaoDisponivel, S["InstituicaoDisponivel"]>>,
+  Esperar<Compativel<H.ResultadoOnboarding, S["ResultadoOnboarding"]>>,
+  Esperar<Compativel<H.CadastroInvestidor, S["CadastroInvestidor"]>>,
+  Esperar<Compativel<{ nome: string }, S["NovoConviteBody"]>>,
 ];
 
 // 3: enums idênticos
@@ -103,6 +111,8 @@ export type ChecagensEnum = [
   Esperar<Igual<H.Canal, En<S["MensagemGerada"]["canal"]>>>,
   Esperar<Igual<H.EventoVida["tipo"], En<S["EventoVida"]["tipo"]>>>,
   Esperar<Igual<H.EventoVida["origem"], En<S["EventoVida"]["origem"]>>>,
+  Esperar<Igual<H.StatusConvite, En<S["ConviteOnboarding"]["status"]>>>,
+  Esperar<Igual<H.TipoEventoVida, En<S["EventoPlanejado"]["tipo"]>>>,
 ];
 
 // ---------------------------------------------------------------- runtime: campos obrigatórios nas fixtures

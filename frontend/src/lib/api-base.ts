@@ -1,16 +1,20 @@
 // Interface única da API (implementada pelo cliente HTTP e pelo modo mock).
 import type {
   Briefing,
+  CadastroInvestidor,
   Canal,
   ClienteResumo,
   ConsentimentoComNome,
+  ConviteOnboarding,
   DemoEstado,
+  FormularioOnboarding,
   Id,
   ItemFila,
   Jornada,
   MensagemGerada,
   PainelCarteira,
   Principalidade,
+  ResultadoOnboarding,
   Visao360,
 } from "./api-types";
 
@@ -29,6 +33,13 @@ export interface Api {
   briefing(clienteId: Id): Promise<Briefing>;
   resetDemo(): Promise<void>;
   demoEstado(): Promise<DemoEstado>;
+  // Onboarding
+  convites(): Promise<ConviteOnboarding[]>;
+  criarConvite(nome: string): Promise<ConviteOnboarding>;
+  /** 404 se o token não existir. Marca o convite como ABERTO. */
+  formularioOnboarding(token: string): Promise<FormularioOnboarding>;
+  /** 400 (INVALIDO) em dado inválido; 409 se já concluído ou CPF repetido. */
+  concluirOnboarding(token: string, cadastro: CadastroInvestidor): Promise<ResultadoOnboarding>;
 }
 
 export class ApiError extends Error {

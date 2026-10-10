@@ -4,19 +4,25 @@ import { ApiError, type Api } from "@/lib/api-base";
 import type {
   Briefing,
   ClienteResumo,
+  ConviteOnboarding,
+  FormularioOnboarding,
   ItemFila,
   Jornada,
   MensagemGerada,
   PainelCarteira,
+  ResultadoOnboarding,
   Visao360,
 } from "@/lib/api-types";
 import briefing from "@/mocks/fixtures-contrato/briefing-cli-001.json";
 import clientes from "@/mocks/fixtures-contrato/clientes.json";
+import convites from "@/mocks/fixtures-contrato/convites.json";
 import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
 import jornadaAntes from "@/mocks/fixtures-contrato/jornada-cli-001-antes.json";
 import jornadaDepois from "@/mocks/fixtures-contrato/jornada-cli-001-depois.json";
 import jornada003 from "@/mocks/fixtures-contrato/jornada-cli-003-antes.json";
+import formularioOnboarding from "@/mocks/fixtures-contrato/onboarding-formulario.json";
+import resultadoOnboarding from "@/mocks/fixtures-contrato/onboarding-resultado.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
@@ -37,6 +43,9 @@ export const fixtures = {
   mensagem: () => como<MensagemGerada>(mensagem),
   briefing: () => como<Briefing>(briefing),
   clientes: () => como<ClienteResumo[]>(clientes),
+  convites: () => como<ConviteOnboarding[]>(convites),
+  formularioOnboarding: () => como<FormularioOnboarding>(formularioOnboarding),
+  resultadoOnboarding: () => como<ResultadoOnboarding>(resultadoOnboarding),
 };
 
 export const estadoFixtures = { conectado: false };
@@ -71,4 +80,11 @@ export const apiFixtures: Api = {
     estadoFixtures.conectado = false;
   },
   demoEstado: async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" }),
+  convites: async () => fixtures.convites(),
+  criarConvite: async (nome) => ({ ...fixtures.formularioOnboarding().convite, nome, status: "PENDENTE" }),
+  formularioOnboarding: async (token) => {
+    if (token !== "TOKEN-EXEMPLO") throw new ApiError(404, `Convite ${token} não encontrado`, "NAO_ENCONTRADO");
+    return fixtures.formularioOnboarding();
+  },
+  concluirOnboarding: async () => fixtures.resultadoOnboarding(),
 };

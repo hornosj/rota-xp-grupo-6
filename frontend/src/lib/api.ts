@@ -5,15 +5,18 @@ import { ApiError, type Api } from "./api-base";
 import { USE_MOCKS } from "./config";
 import type {
   Briefing,
+  ConviteOnboarding,
   ClienteResumo,
   ConsentimentoComNome,
   DemoEstado,
   ErroApi,
+  FormularioOnboarding,
   ItemFila,
   Jornada,
   MensagemGerada,
   PainelCarteira,
   Principalidade,
+  ResultadoOnboarding,
   Visao360,
 } from "./api-types";
 
@@ -75,6 +78,11 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     briefing: (id) => chamar<Briefing>(`/clientes/${seg(id)}/briefing`),
     resetDemo: () => chamar<void>("/demo/reset", { method: "POST" }),
     demoEstado: () => chamar<DemoEstado>("/demo/estado"),
+    convites: () => chamar<ConviteOnboarding[]>("/assessor/convites"),
+    criarConvite: (nome) => chamar<ConviteOnboarding>("/assessor/convites", { method: "POST", json: { nome } }),
+    formularioOnboarding: (token) => chamar<FormularioOnboarding>(`/onboarding/${seg(token)}`),
+    concluirOnboarding: (token, cadastro) =>
+      chamar<ResultadoOnboarding>(`/onboarding/${seg(token)}`, { method: "POST", json: cadastro }),
   };
   return api;
 }
