@@ -76,7 +76,7 @@ describe("JornadaCliente (tela /cliente/[id])", () => {
     expect(await screen.findByText(/Olá, Marina/)).toBeInTheDocument();
     expect(await screen.findByTestId("anel-percentual")).toHaveTextContent("67%");
     expect(screen.getByText("Visão Clara")).toBeInTheDocument();
-    expect(screen.getByText(/descubra se você está protegida pelo FGC/)).toBeInTheDocument();
+    expect(screen.getByText(/descubra se seu patrimônio está protegido pelo FGC/)).toBeInTheDocument();
     expect(screen.getByTestId("diagnostico-PROTECAO_FGC")).toHaveAttribute("data-desbloqueado", "false");
   });
 
@@ -85,7 +85,7 @@ describe("JornadaCliente (tela /cliente/[id])", () => {
     renderComQuery(<JornadaCliente clienteId="cli-001" />);
     await user.click(await screen.findByTestId("diagnostico-CUSTO_DE_VIDA"));
     const dialogo = await screen.findByRole("dialog");
-    expect(dialogo).toHaveTextContent("Financiamento imobiliário");
+    expect(dialogo).toHaveTextContent("Parcelas");
     expect(dialogo.textContent?.replace(/ /g, " ")).toContain("R$ 6.500");
   });
 

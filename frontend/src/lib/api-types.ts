@@ -1,7 +1,8 @@
 // Tipos do contrato da API — escritos à mão a partir do docs/PLAN.md §4 e §5.
-// PROVISÓRIO: quando contract/openapi.json existir, `npm run gen:api` gera
-// src/lib/api-types.gen.ts; aí estes tipos passam a ser derivados do gerado.
-// Os nomes de campo aqui são exatamente os do contrato (o backend produz os mesmos).
+// O contrato real (contract/openapi.json) gera src/lib/api-types.gen.ts (`npm run gen:api`);
+// como o springdoc marca todo campo como opcional, mantemos aqui os tipos "fortes" que o app usa
+// e conferimos a compatibilidade com o gerado e com as fixtures reais em src/lib/contrato.test.ts.
+// O backend omite campos nulos (Jackson NON_NULL): campo que pode faltar é opcional aqui.
 
 export type Id = string;
 export type PerfilInvestidor = "CONSERVADOR" | "MODERADO" | "ARROJADO" | "AGRESSIVO";
@@ -265,12 +266,58 @@ export interface Missao {
 
 export type TipoDiagnostico = "PATRIMONIO_COMPLETO" | "PROTECAO_FGC" | "CUSTO_DE_VIDA" | "RESERVA_EMERGENCIA";
 
+export type CategoriaCusto = "CONTAS_RECORRENTES" | "PARCELAS" | "CONSUMO" | "CARTOES";
+
+/** `detalhes` de PATRIMONIO_COMPLETO. */
+export interface DetalhesPatrimonioCompleto {
+  instituicoes: number;
+  total: number;
+}
+
+export interface ConglomeradoFgc {
+  conglomeradoId: Id;
+  nome: string;
+  valor: number;
+  coberto: number;
+  descoberto: number;
+}
+
+/** `detalhes` de PROTECAO_FGC. `instituicao` = onde está o valor descoberto (pode faltar se nada descoberto). */
+export interface DetalhesProtecaoFgc {
+  valorSemCobertura: number;
+  instituicao?: string;
+  conglomerados: ConglomeradoFgc[];
+}
+
+/** `detalhes` de CUSTO_DE_VIDA (valores mensais em reais). */
+export interface DetalhesCustoDeVida {
+  total: number;
+  categorias: Partial<Record<CategoriaCusto, number>>;
+  parcial: boolean;
+}
+
+/** `detalhes` de RESERVA_EMERGENCIA. `meta` em reais = metaMeses × custo de vida. */
+export interface DetalhesReservaEmergencia {
+  meses: number;
+  liquidezImediata: number;
+  metaMeses: number;
+  meta: number;
+}
+
+export interface DetalhesPorTipo {
+  PATRIMONIO_COMPLETO: DetalhesPatrimonioCompleto;
+  PROTECAO_FGC: DetalhesProtecaoFgc;
+  CUSTO_DE_VIDA: DetalhesCustoDeVida;
+  RESERVA_EMERGENCIA: DetalhesReservaEmergencia;
+}
+
 export interface Diagnostico {
   tipo: TipoDiagnostico;
   titulo: string;
   desbloqueado: boolean;
   requisito: string;
   resumo?: string;
+  /** Livre no OpenAPI; a forma por tipo está em DetalhesPorTipo. Só vem quando desbloqueado. */
   detalhes?: Record<string, unknown>;
 }
 

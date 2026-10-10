@@ -1,0 +1,986 @@
+[
+  {
+    "posicao": 1,
+    "clienteId": "cli-001",
+    "nome": "Dra. Marina Costa",
+    "perfil": "ARROJADO",
+    "prioridade": 100,
+    "motivos": [
+      {
+        "texto": "R$ 400 mil acima da cobertura do FGC",
+        "pontos": 55
+      },
+      {
+        "texto": "R$ 61 mil parados em conta",
+        "pontos": 16.1
+      },
+      {
+        "texto": "24,5% do patrimônio sem garantia do Banco Horizonte",
+        "pontos": 15
+      },
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "Aniversário da Sofia em 5 dias",
+        "pontos": 8
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-001-fgc_excedido-cong-horizonte",
+      "clienteId": "cli-001",
+      "tipo": "DIVERSIFICAR_FGC",
+      "titulo": "Distribuir R$ 400 mil entre emissores para ter 100% de cobertura do FGC",
+      "motivo": "R$ 650 mil em CDB do Banco Horizonte. O FGC cobre até R$ 250 mil por CPF por conglomerado: R$ 400 mil ficariam sem garantia se o banco quebrar.",
+      "impactoEstimado": "R$ 400 mil voltam a ter garantia do FGC",
+      "alertaIds": [
+        "alr-cli-001-fgc_excedido-cong-horizonte"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": true
+  },
+  {
+    "posicao": 2,
+    "clienteId": "cli-004",
+    "nome": "Patrícia Gomes",
+    "perfil": "CONSERVADOR",
+    "prioridade": 54,
+    "motivos": [
+      {
+        "texto": "R$ 80 mil acima da cobertura do FGC",
+        "pontos": 39
+      },
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-004-fgc_excedido-cong-aurora",
+      "clienteId": "cli-004",
+      "tipo": "DIVERSIFICAR_FGC",
+      "titulo": "Distribuir R$ 80 mil entre emissores para ter 100% de cobertura do FGC",
+      "motivo": "R$ 330 mil em conta corrente, LCI e poupança do conglomerado Aurora (Aurora Financeira e Banco Aurora). O FGC cobre até R$ 250 mil por CPF por conglomerado: R$ 80 mil ficariam sem garantia se o banco quebrar.",
+      "impactoEstimado": "R$ 80 mil voltam a ter garantia do FGC",
+      "alertaIds": [
+        "alr-cli-004-fgc_excedido-cong-aurora"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 3,
+    "clienteId": "cli-003",
+    "nome": "Juliana Prado",
+    "perfil": "MODERADO",
+    "prioridade": 34.3,
+    "motivos": [
+      {
+        "texto": "R$ 13 mil parados em conta",
+        "pontos": 11.3
+      },
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "Reserva de emergência cobre 3 meses",
+        "pontos": 8
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-003-saldo_parado",
+      "clienteId": "cli-003",
+      "tipo": "APLICAR_SALDO_PARADO",
+      "titulo": "Levar R$ 13 mil parados para liquidez diária",
+      "motivo": "R$ 13 mil estão em conta além de 1 mês de custo de vida. Aplicados a 100% do CDI, renderiam cerca de R$ 104 por mês.",
+      "impactoEstimado": "Cerca de R$ 104 por mês a 100% do CDI",
+      "alertaIds": [
+        "alr-cli-003-saldo_parado"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 4,
+    "clienteId": "cli-005",
+    "nome": "Roberto Lima",
+    "perfil": "MODERADO",
+    "prioridade": 30,
+    "motivos": [
+      {
+        "texto": "44,4% do patrimônio sem garantia da Agro Sul Sementes S.A.",
+        "pontos": 25
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-005-concentracao_emissor-cong-agrosul",
+      "clienteId": "cli-005",
+      "tipo": "REDUZIR_CONCENTRACAO",
+      "titulo": "Reduzir exposição sem garantia à Agro Sul Sementes S.A.",
+      "motivo": "R$ 900 mil em crédito privado (CRA) dependem só da saúde financeira da Agro Sul Sementes S.A., sem garantia do FGC. Isso é 44,4% do patrimônio visível.",
+      "alertaIds": [
+        "alr-cli-005-concentracao_emissor-cong-agrosul"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 5,
+    "clienteId": "cli-002",
+    "nome": "Carlos Andrade",
+    "perfil": "CONSERVADOR",
+    "prioridade": 29.8,
+    "motivos": [
+      {
+        "texto": "R$ 240 mil vencem em 20 dias",
+        "pontos": 19.8
+      },
+      {
+        "texto": "Open Finance com o Banco Aurora expira em 10 dias",
+        "pontos": 10
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-002-vencimento_proximo-inv-002-01",
+      "clienteId": "cli-002",
+      "tipo": "REINVESTIR_VENCIMENTO",
+      "titulo": "R$ 240 mil vencem em 20 dias: preparar reinvestimento",
+      "motivo": "CDB Banco Ipê 2026 (R$ 240 mil) vence em 31/10/2026. Bom momento para planejar o reinvestimento.",
+      "impactoEstimado": "Evita que o dinheiro fique parado após o vencimento",
+      "alertaIds": [
+        "alr-cli-002-vencimento_proximo-inv-002-01"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 6,
+    "clienteId": "cli-101",
+    "nome": "Ana Beatriz Rocha",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-101-renda_fora_xp",
+      "clienteId": "cli-101",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 8 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 37,5 mil (CONSTRUTORA PEDRA FORTE LTDA) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 16,4 mil por mês.",
+      "impactoEstimado": "R$ 96 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-101-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 7,
+    "clienteId": "cli-122",
+    "nome": "André Sampaio",
+    "perfil": "ARROJADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-122-renda_fora_xp",
+      "clienteId": "cli-122",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 4 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 16,5 mil (AGENCIA CRIATIVA LUME LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 7,4 mil por mês.",
+      "impactoEstimado": "R$ 48 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-122-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 8,
+    "clienteId": "cli-102",
+    "nome": "Bruno Carvalho",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-102-renda_fora_xp",
+      "clienteId": "cli-102",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 3 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 17 mil (PREFEITURA DE VILA SERENA LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 5,9 mil por mês.",
+      "impactoEstimado": "R$ 36 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-102-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 9,
+    "clienteId": "cli-124",
+    "nome": "Caio Rezende",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-124-renda_fora_xp",
+      "clienteId": "cli-124",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 7 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 32 mil (NOVA ERA LOGISTICA LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 13,5 mil por mês.",
+      "impactoEstimado": "R$ 84 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-124-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 10,
+    "clienteId": "cli-104",
+    "nome": "Diego Martins",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-104-renda_fora_xp",
+      "clienteId": "cli-104",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 4 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 22,5 mil (INSS) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 8,4 mil por mês.",
+      "impactoEstimado": "R$ 48 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-104-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 11,
+    "clienteId": "cli-126",
+    "nome": "Eduardo Brandão",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Horizonte",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-126-renda_fora_xp",
+      "clienteId": "cli-126",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 3 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 19,5 mil (AGENCIA CRIATIVA LUME LTDA) cai no Banco Horizonte. Depois do custo de vida, sobram cerca de R$ 5,7 mil por mês.",
+      "impactoEstimado": "R$ 36 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-126-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 12,
+    "clienteId": "cli-127",
+    "nome": "Fabiana Queiroz",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-127-renda_fora_xp",
+      "clienteId": "cli-127",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 7 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 29 mil (AGENCIA CRIATIVA LUME LTDA) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 13,6 mil por mês.",
+      "impactoEstimado": "R$ 84 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-127-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 13,
+    "clienteId": "cli-106",
+    "nome": "Felipe Araújo",
+    "perfil": "AGRESSIVO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Horizonte",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-106-renda_fora_xp",
+      "clienteId": "cli-106",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 2 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 7,5 mil (GRUPO SOLARIS LTDA) cai no Banco Horizonte. Depois do custo de vida, sobram cerca de R$ 3,6 mil por mês.",
+      "impactoEstimado": "R$ 24 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-106-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 14,
+    "clienteId": "cli-107",
+    "nome": "Gabriela Moreira",
+    "perfil": "ARROJADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-107-renda_fora_xp",
+      "clienteId": "cli-107",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 6 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 30,5 mil (CONSULTORIA PRISMA LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 12,8 mil por mês.",
+      "impactoEstimado": "R$ 72 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-107-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 15,
+    "clienteId": "cli-129",
+    "nome": "Helena Assunção",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-129-renda_fora_xp",
+      "clienteId": "cli-129",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 4 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 31 mil (COLEGIO HORIZONTE DO SABER LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 8,2 mil por mês.",
+      "impactoEstimado": "R$ 48 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-129-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 16,
+    "clienteId": "cli-130",
+    "nome": "Igor Tavares",
+    "perfil": "AGRESSIVO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Horizonte",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-130-renda_fora_xp",
+      "clienteId": "cli-130",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 1 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 7,5 mil (PREFEITURA DE VILA SERENA LTDA) cai no Banco Horizonte. Depois do custo de vida, sobram cerca de R$ 2,1 mil por mês.",
+      "impactoEstimado": "R$ 12 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-130-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 17,
+    "clienteId": "cli-109",
+    "nome": "Isabela Cardoso",
+    "perfil": "ARROJADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-109-renda_fora_xp",
+      "clienteId": "cli-109",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 3 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 13,5 mil (INSS) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 6,7 mil por mês.",
+      "impactoEstimado": "R$ 36 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-109-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 18,
+    "clienteId": "cli-110",
+    "nome": "João Vitor Almeida",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-110-renda_fora_xp",
+      "clienteId": "cli-110",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 5 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 18,5 mil (GRUPO SOLARIS LTDA) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 10,2 mil por mês.",
+      "impactoEstimado": "R$ 60 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-110-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 19,
+    "clienteId": "cli-111",
+    "nome": "Larissa Barbosa",
+    "perfil": "CONSERVADOR",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Horizonte",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-111-renda_fora_xp",
+      "clienteId": "cli-111",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 3 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 12,5 mil (INSS) cai no Banco Horizonte. Depois do custo de vida, sobram cerca de R$ 6,3 mil por mês.",
+      "impactoEstimado": "R$ 36 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-111-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 20,
+    "clienteId": "cli-112",
+    "nome": "Marcelo Pinto",
+    "perfil": "CONSERVADOR",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-112-renda_fora_xp",
+      "clienteId": "cli-112",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 3 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 19,5 mil (REDE BEM ESTAR LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 6,8 mil por mês.",
+      "impactoEstimado": "R$ 36 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-112-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 21,
+    "clienteId": "cli-114",
+    "nome": "Otávio Ramos",
+    "perfil": "CONSERVADOR",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Horizonte",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-114-renda_fora_xp",
+      "clienteId": "cli-114",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 7 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 38 mil (AGENCIA CRIATIVA LUME LTDA) cai no Banco Horizonte. Depois do custo de vida, sobram cerca de R$ 14,9 mil por mês.",
+      "impactoEstimado": "R$ 84 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-114-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 22,
+    "clienteId": "cli-116",
+    "nome": "Renato Monteiro",
+    "perfil": "AGRESSIVO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-116-renda_fora_xp",
+      "clienteId": "cli-116",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 5 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 26,5 mil (COLEGIO HORIZONTE DO SABER LTDA) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 10,1 mil por mês.",
+      "impactoEstimado": "R$ 60 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-116-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 23,
+    "clienteId": "cli-117",
+    "nome": "Sabrina Duarte",
+    "perfil": "AGRESSIVO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-117-renda_fora_xp",
+      "clienteId": "cli-117",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 9 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 35 mil (AGENCIA CRIATIVA LUME LTDA) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 18,4 mil por mês.",
+      "impactoEstimado": "R$ 108 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-117-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 24,
+    "clienteId": "cli-119",
+    "nome": "Vanessa Campos",
+    "perfil": "MODERADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-119-renda_fora_xp",
+      "clienteId": "cli-119",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 4 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 22,5 mil (METALURGICA ACO VIVO LTDA) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 8,1 mil por mês.",
+      "impactoEstimado": "R$ 48 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-119-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 25,
+    "clienteId": "cli-120",
+    "nome": "William Castro",
+    "perfil": "ARROJADO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Ipê",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-120-renda_fora_xp",
+      "clienteId": "cli-120",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 5 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 22,5 mil (INSS) cai no Banco Ipê. Depois do custo de vida, sobram cerca de R$ 10,8 mil por mês.",
+      "impactoEstimado": "R$ 60 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-120-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 26,
+    "clienteId": "cli-121",
+    "nome": "Yasmin Freitas",
+    "perfil": "AGRESSIVO",
+    "prioridade": 15,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Horizonte",
+        "pontos": 10
+      },
+      {
+        "texto": "XP só nos investimentos",
+        "pontos": 5
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-121-renda_fora_xp",
+      "clienteId": "cli-121",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 4 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 24 mil (GRUPO SOLARIS LTDA) cai no Banco Horizonte. Depois do custo de vida, sobram cerca de R$ 7,2 mil por mês.",
+      "impactoEstimado": "R$ 48 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-121-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "novo": false
+  },
+  {
+    "posicao": 27,
+    "clienteId": "cli-125",
+    "nome": "Daniela Siqueira",
+    "perfil": "CONSERVADOR",
+    "prioridade": 10,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-125-renda_fora_xp",
+      "clienteId": "cli-125",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 2 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 13 mil (CONSTRUTORA PEDRA FORTE LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 4,7 mil por mês.",
+      "impactoEstimado": "R$ 24 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-125-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SECUNDARIA",
+    "novo": false
+  },
+  {
+    "posicao": 28,
+    "clienteId": "cli-105",
+    "nome": "Eduarda Nunes",
+    "perfil": "AGRESSIVO",
+    "prioridade": 10,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-105-renda_fora_xp",
+      "clienteId": "cli-105",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 6 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 23,5 mil (AGENCIA CRIATIVA LUME LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 12,2 mil por mês.",
+      "impactoEstimado": "R$ 72 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-105-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SECUNDARIA",
+    "novo": false
+  },
+  {
+    "posicao": 29,
+    "clienteId": "cli-115",
+    "nome": "Priscila Vieira",
+    "perfil": "AGRESSIVO",
+    "prioridade": 10,
+    "motivos": [
+      {
+        "texto": "Renda cai no Banco Aurora",
+        "pontos": 10
+      }
+    ],
+    "acaoPrincipal": {
+      "id": "acao-cli-115-renda_fora_xp",
+      "clienteId": "cli-115",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 2 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 9 mil (CONSULTORIA PRISMA LTDA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 3,1 mil por mês.",
+      "impactoEstimado": "R$ 24 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-115-renda_fora_xp"
+      ],
+      "principal": true
+    },
+    "posicaoXp": "SECUNDARIA",
+    "novo": false
+  },
+  {
+    "posicao": 30,
+    "clienteId": "cli-123",
+    "nome": "Bianca Machado",
+    "perfil": "ARROJADO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 31,
+    "clienteId": "cli-103",
+    "nome": "Camila Teixeira",
+    "perfil": "MODERADO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 32,
+    "clienteId": "cli-128",
+    "nome": "Gustavo Peixoto",
+    "perfil": "AGRESSIVO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 33,
+    "clienteId": "cli-108",
+    "nome": "Henrique Batista",
+    "perfil": "MODERADO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 34,
+    "clienteId": "cli-006",
+    "nome": "Lucas Ferreira",
+    "perfil": "AGRESSIVO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 35,
+    "clienteId": "cli-113",
+    "nome": "Natália Correia",
+    "perfil": "MODERADO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  },
+  {
+    "posicao": 36,
+    "clienteId": "cli-118",
+    "nome": "Thiago Fonseca",
+    "perfil": "AGRESSIVO",
+    "prioridade": 0,
+    "motivos": [],
+    "posicaoXp": "PRINCIPAL",
+    "novo": false
+  }
+]

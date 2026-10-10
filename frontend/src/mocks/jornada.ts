@@ -1,7 +1,22 @@
-// Jornadas gamificadas do modo mock (§7.10). Marina tem fixtures explícitas (antes/depois);
-// os demais são derivados da Visao360 mock seguindo as mesmas regras.
-import type { Diagnostico, Jornada, Missao, NivelJornada, Visao360 } from "@/lib/api-types";
+// Jornadas gamificadas do modo mock (§7.10). Marina usa as fixtures reais do backend (antes/depois);
+// os demais são derivados da Visao360 mock seguindo as mesmas regras e a mesma forma de `detalhes`.
+import type {
+  Diagnostico,
+  DetalhesCustoDeVida,
+  DetalhesPatrimonioCompleto,
+  DetalhesProtecaoFgc,
+  DetalhesReservaEmergencia,
+  Jornada,
+  Missao,
+  NivelJornada,
+  Visao360,
+} from "@/lib/api-types";
 import { brlCurto, numero } from "@/lib/formato";
+import jornadaMarinaAntes from "./fixtures-contrato/jornada-cli-001-antes.json";
+import jornadaMarinaDepois from "./fixtures-contrato/jornada-cli-001-depois.json";
+
+const LIMITE_FGC = 250_000;
+const META_RESERVA_MESES = 6;
 
 const NIVEIS: Record<1 | 2 | 3 | 4, Omit<NivelJornada, "comoSubir">> = {
   1: { numero: 1, nome: "Explorador", proximo: "Visão Clara", beneficios: ["Resumo do patrimônio conectado"] },
@@ -24,81 +39,9 @@ const NIVEIS: Record<1 | 2 | 3 | 4, Omit<NivelJornada, "comoSubir">> = {
   },
 };
 
-const CUSTO_MARINA = {
-  categorias: {
-    "Financiamento imobiliário": 6500,
-    "Cartão de crédito": 9000,
-    "Escola": 3200,
-    "Condomínio": 2800,
-    "Consumo no débito": 1900,
-    "Energia": 450,
-    "Internet": 150,
-  },
-  total: 24000,
-};
-
+/** Marina: as respostas REAIS do backend (contract/fixtures), antes e depois de conectar o Banco Horizonte. */
 export function jornadaMarina(depois: boolean): Jornada {
-  const missaoHorizonte: Missao = {
-    id: "mis-001-horizonte",
-    tipo: "CONECTAR_INSTITUICAO",
-    titulo: "Conecte o Banco Horizonte",
-    descricao: "Conecte o Banco Horizonte e descubra se você está protegida pelo FGC.",
-    recompensa: "Diagnóstico Proteção FGC + nível 3",
-    status: depois ? "CONCLUIDA" : "DISPONIVEL",
-    progresso: depois ? 1 : 0,
-    instituicaoId: "inst-horizonte",
-  };
-  const diagnosticos: Diagnostico[] = [
-    {
-      tipo: "PATRIMONIO_COMPLETO",
-      titulo: "Patrimônio completo",
-      desbloqueado: depois,
-      requisito: "Conecte todas as instituições que você declarou",
-      ...(depois
-        ? {
-            resumo: "R$ 1,6 mi no total: 55% na XP",
-            detalhes: { totalVisivel: 1635000, naXp: 900000, foraXp: 735000 },
-          }
-        : {}),
-    },
-    {
-      tipo: "PROTECAO_FGC",
-      titulo: "Proteção FGC",
-      desbloqueado: depois,
-      requisito: "Conecte o Banco Horizonte para ver 100% do patrimônio",
-      ...(depois
-        ? {
-            resumo: "R$ 400 mil sem cobertura no Banco Horizonte",
-            detalhes: { valorSemCobertura: 400000, instituicao: "Banco Horizonte", limitePorConglomerado: 250000, totalNoConglomerado: 650000 },
-          }
-        : {}),
-    },
-    {
-      tipo: "CUSTO_DE_VIDA",
-      titulo: "Custo de vida",
-      desbloqueado: true,
-      requisito: "Conecte todos os seus cartões",
-      resumo: "R$ 24 mil por mês",
-      detalhes: CUSTO_MARINA,
-    },
-    {
-      tipo: "RESERVA_EMERGENCIA",
-      titulo: "Reserva de emergência",
-      desbloqueado: true,
-      requisito: "Desbloqueie o custo de vida",
-      resumo: "6,5 meses de reserva",
-      detalhes: { meses: 6.5, liquidezImediata: 155000, metaMeses: 6 },
-    },
-  ];
-  return {
-    clienteId: "cli-001",
-    completude: depois ? 1 : 0.6667,
-    nivel: depois
-      ? { ...NIVEIS[3], comoSubir: "Concentre seu dia a dia financeiro na XP (por exemplo, recebendo o salário na conta XP)." }
-      : { ...NIVEIS[2], comoSubir: "Conecte o Banco Horizonte para ver 100% do seu patrimônio." },
-    missoes: [missaoHorizonte],
-    diagnosticos,
-  };
+  return structuredClone((depois ? jornadaMarinaDepois : jornadaMarinaAntes) as unknown as Jornada);
 }
 
 /** Jornada derivada para os demais clientes (mesmas regras do §7.10). */
@@ -173,7 +116,32 @@ export function jornadaDerivada(v: Visao360): Jornada {
   }
 
   const completo = completude >= 1;
-  const fgc = v.alertas.find((a) => a.tipo === "FGC_EXCEDIDO");
+  const fgcs = v.alertas.filter((a) => a.tipo === "FGC_EXCEDIDO");
+  const fgc = [...fgcs].sort((a, b) => (b.valor ?? 0) - (a.valor ?? 0))[0];
+  const nomeInst = (id?: string) => v.patrimonio.porInstituicao.find((p) => p.instituicaoId === id)?.nome ?? id ?? "—";
+  const detPatrimonio: DetalhesPatrimonioCompleto = {
+    instituicoes: v.patrimonio.porInstituicao.length,
+    total: v.patrimonio.totalVisivel,
+  };
+  // Aproximação do mock: um conglomerado por alerta de FGC (o backend real lista todos).
+  const detFgc: DetalhesProtecaoFgc = {
+    valorSemCobertura: fgcs.reduce((s, a) => s + (a.valor ?? 0), 0),
+    ...(fgc ? { instituicao: nomeInst(fgc.instituicaoId) } : {}),
+    conglomerados: fgcs.map((a) => ({
+      conglomeradoId: `cong-${(a.instituicaoId ?? a.id).replace("inst-", "")}`,
+      nome: nomeInst(a.instituicaoId),
+      valor: LIMITE_FGC + (a.valor ?? 0),
+      coberto: LIMITE_FGC,
+      descoberto: a.valor ?? 0,
+    })),
+  };
+  const detCusto: DetalhesCustoDeVida = { total: v.fluxoCaixa.custoVidaMensal, categorias: {}, parcial: v.fluxoCaixa.parcial };
+  const detReserva: DetalhesReservaEmergencia = {
+    meses: reserva,
+    liquidezImediata: v.fluxoCaixa.liquidezImediata,
+    metaMeses: META_RESERVA_MESES,
+    meta: META_RESERVA_MESES * v.fluxoCaixa.custoVidaMensal,
+  };
   const diagnosticos: Diagnostico[] = [
     {
       tipo: "PATRIMONIO_COMPLETO",
@@ -183,7 +151,7 @@ export function jornadaDerivada(v: Visao360): Jornada {
       ...(completo
         ? {
             resumo: `${brlCurto(v.patrimonio.totalVisivel)} no total`,
-            detalhes: { totalVisivel: v.patrimonio.totalVisivel, naXp: v.patrimonio.naXp, foraXp: v.patrimonio.foraXp },
+            detalhes: { ...detPatrimonio },
           }
         : {}),
     },
@@ -194,8 +162,8 @@ export function jornadaDerivada(v: Visao360): Jornada {
       requisito: "Conecte todas as instituições para ver 100% do patrimônio",
       ...(completo
         ? fgc
-          ? { resumo: `${brlCurto(fgc.valor)} sem cobertura`, detalhes: { valorSemCobertura: fgc.valor ?? 0 } }
-          : { resumo: "Todo o seu patrimônio está protegido", detalhes: { valorSemCobertura: 0 } }
+          ? { resumo: `${brlCurto(detFgc.valorSemCobertura)} sem cobertura no ${detFgc.instituicao}`, detalhes: { ...detFgc } }
+          : { resumo: "Todo o seu patrimônio está protegido", detalhes: { ...detFgc } }
         : {}),
     },
     {
@@ -204,7 +172,7 @@ export function jornadaDerivada(v: Visao360): Jornada {
       desbloqueado: cartoesVisiveis,
       requisito: "Conecte todos os seus cartões",
       ...(cartoesVisiveis
-        ? { resumo: `${brlCurto(v.fluxoCaixa.custoVidaMensal)} por mês`, detalhes: { total: v.fluxoCaixa.custoVidaMensal } }
+        ? { resumo: `${brlCurto(v.fluxoCaixa.custoVidaMensal)} por mês`, detalhes: { ...detCusto } }
         : {}),
     },
     {
@@ -215,7 +183,7 @@ export function jornadaDerivada(v: Visao360): Jornada {
       ...(cartoesVisiveis
         ? {
             resumo: `${numero(reserva)} meses de reserva`,
-            detalhes: { meses: reserva, liquidezImediata: v.fluxoCaixa.liquidezImediata, metaMeses: 6 },
+            detalhes: { ...detReserva },
           }
         : {}),
     },

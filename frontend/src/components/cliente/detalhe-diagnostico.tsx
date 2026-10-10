@@ -2,8 +2,9 @@
 
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import type { Diagnostico } from "@/lib/api-types";
+import type { CategoriaCusto, ConglomeradoFgc, Diagnostico } from "@/lib/api-types";
 import { brl, brlCurto, numero } from "@/lib/formato";
+import { rotuloCategoriaCusto } from "@/lib/rotulos";
 
 const ehNumero = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const ehObjeto = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
@@ -25,24 +26,14 @@ export function textoFgc(d: Diagnostico): { texto: string; protegido: boolean } 
   return { texto: semCobertura ? `${resumo}. Sua assessora já foi avisada.` : resumo, protegido: !semCobertura };
 }
 
-/** Extrai pares categoria → valor de `detalhes` (aceita {categorias:{...}}, [{categoria,valor}] ou números soltos). */
+/** Pares categoria → valor de `detalhes.categorias` (DetalhesCustoDeVida), com rótulo pt-BR, do maior para o menor. */
 export function categoriasDeCusto(det: Record<string, unknown> | undefined): { nome: string; valor: number }[] {
-  if (!det) return [];
-  const fonte = det.categorias ?? det.porCategoria ?? det;
-  if (Array.isArray(fonte)) {
-    return fonte
-      .filter(ehObjeto)
-      .map((x) => ({ nome: String(x.categoria ?? x.nome ?? "—"), valor: Number(x.valor ?? x.total ?? 0) }))
-      .filter((x) => Number.isFinite(x.valor))
-      .sort((a, b) => b.valor - a.valor);
-  }
-  if (ehObjeto(fonte)) {
-    return Object.entries(fonte)
-      .filter(([k, v]) => ehNumero(v) && k !== "total")
-      .map(([nome, valor]) => ({ nome, valor: valor as number }))
-      .sort((a, b) => b.valor - a.valor);
-  }
-  return [];
+  const fonte = det?.categorias;
+  if (!ehObjeto(fonte)) return [];
+  return Object.entries(fonte)
+    .filter((par): par is [string, number] => ehNumero(par[1]))
+    .map(([chave, valor]) => ({ nome: rotuloCategoriaCusto[chave as CategoriaCusto] ?? chave, valor }))
+    .sort((a, b) => b.valor - a.valor);
 }
 
 function CorpoCusto({ d }: { d: Diagnostico }) {
@@ -69,6 +60,11 @@ function CorpoCusto({ d }: { d: Diagnostico }) {
             </li>
           ))}
         </ul>
+      )}
+      {d.detalhes?.parcial === true && (
+        <p className="rounded-lg bg-amber-50 p-2 text-xs text-amber-900">
+          Valor parcial: falta conectar algum cartão ou conta que você usa.
+        </p>
       )}
       <p className="text-xs text-muted-foreground">Média dos últimos 3 meses, com base nas contas e cartões conectados.</p>
     </div>
@@ -99,35 +95,65 @@ function CorpoReserva({ d }: { d: Diagnostico }) {
   );
 }
 
-function CorpoGenerico({ d }: { d: Diagnostico }) {
-  const pares = Object.entries(d.detalhes ?? {}).filter(([, v]) => ehNumero(v) || typeof v === "string");
-  const rotulos: Record<string, string> = { totalVisivel: "Total", naXp: "Na XP", foraXp: "Em outras instituições" };
+/** PATRIMONIO_COMPLETO: { instituicoes (contagem), total (R$) } — DetalhesPatrimonioCompleto. */
+function CorpoPatrimonio({ d }: { d: Diagnostico }) {
+  const det = d.detalhes ?? {};
+  const total = ehNumero(det.total) ? det.total : undefined;
+  const instituicoes = ehNumero(det.instituicoes) ? det.instituicoes : undefined;
   return (
     <div className="flex flex-col gap-2">
-      {d.resumo && <p className="text-lg font-semibold">{d.resumo}</p>}
-      {pares.length > 0 && (
-        <ul className="text-sm">
-          {pares.map(([k, v]) => (
-            <li key={k} className="flex justify-between border-b py-1 last:border-0">
-              <span className="text-muted-foreground">{rotulos[k] ?? k}</span>
-              <span className="font-medium tabular-nums">{ehNumero(v) ? brl(v, { inteiro: true }) : String(v)}</span>
-            </li>
-          ))}
-        </ul>
+      {total != null && <p className="text-3xl font-bold tabular-nums">{brl(total, { inteiro: true })}</p>}
+      {instituicoes != null && (
+        <p className="text-sm text-slate-700">
+          Somando {instituicoes} {instituicoes === 1 ? "instituição" : "instituições"} conectadas.
+        </p>
       )}
+      {total == null && d.resumo && <p className="text-lg font-semibold">{d.resumo}</p>}
     </div>
   );
 }
 
-export function CorpoFgc({ d }: { d: Diagnostico }) {
+/** Conglomerados de PROTECAO_FGC (DetalhesProtecaoFgc.conglomerados), maior valor descoberto primeiro. */
+function conglomeradosFgc(d: Diagnostico): ConglomeradoFgc[] {
+  const lista = d.detalhes?.conglomerados;
+  if (!Array.isArray(lista)) return [];
+  return lista
+    .filter((c): c is ConglomeradoFgc => ehObjeto(c) && ehNumero(c.valor) && ehNumero(c.descoberto) && typeof c.nome === "string")
+    .sort((a, b) => b.descoberto - a.descoberto || b.valor - a.valor);
+}
+
+export function CorpoFgc({ d, comConglomerados }: { d: Diagnostico; comConglomerados?: boolean }) {
   const { texto, protegido } = textoFgc(d);
+  const conglomerados = comConglomerados ? conglomeradosFgc(d) : [];
   return (
-    <div
-      data-testid="detalhe-fgc"
-      className={protegido ? "flex gap-3 rounded-xl bg-emerald-50 p-4 text-emerald-900" : "flex gap-3 rounded-xl bg-amber-50 p-4 text-amber-950"}
-    >
-      {protegido ? <ShieldCheck className="size-6 shrink-0" /> : <ShieldAlert className="size-6 shrink-0" />}
-      <p className="text-[15px] leading-relaxed">{texto}</p>
+    <div className="flex flex-col gap-3">
+      <div
+        data-testid="detalhe-fgc"
+        className={protegido ? "flex gap-3 rounded-xl bg-emerald-50 p-4 text-emerald-900" : "flex gap-3 rounded-xl bg-amber-50 p-4 text-amber-950"}
+      >
+        {protegido ? <ShieldCheck className="size-6 shrink-0" /> : <ShieldAlert className="size-6 shrink-0" />}
+        <p className="text-[15px] leading-relaxed">{texto}</p>
+      </div>
+      {conglomerados.length > 0 && (
+        <ul className="text-sm">
+          {conglomerados.map((c) => (
+            <li
+              key={c.conglomeradoId}
+              data-testid={`fgc-${c.conglomeradoId}`}
+              className="flex items-baseline justify-between gap-2 border-b py-1.5 last:border-0"
+            >
+              <span>
+                {c.nome} <span className="text-muted-foreground tabular-nums">{brl(c.valor, { inteiro: true })}</span>
+              </span>
+              {c.descoberto > 0 ? (
+                <span className="font-medium text-amber-700 tabular-nums">{brl(c.descoberto, { inteiro: true })} sem cobertura</span>
+              ) : (
+                <span className="font-medium text-emerald-700">protegido</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -141,10 +167,10 @@ export function DetalheDiagnostico({ diagnostico, onFechar }: { diagnostico: Dia
             <DialogTitle className="text-lg">{diagnostico.titulo}</DialogTitle>
             <DialogDescription>Diagnóstico desbloqueado com o Open Finance</DialogDescription>
           </DialogHeader>
-          {diagnostico.tipo === "PROTECAO_FGC" && <CorpoFgc d={diagnostico} />}
+          {diagnostico.tipo === "PROTECAO_FGC" && <CorpoFgc d={diagnostico} comConglomerados />}
           {diagnostico.tipo === "CUSTO_DE_VIDA" && <CorpoCusto d={diagnostico} />}
           {diagnostico.tipo === "RESERVA_EMERGENCIA" && <CorpoReserva d={diagnostico} />}
-          {diagnostico.tipo === "PATRIMONIO_COMPLETO" && <CorpoGenerico d={diagnostico} />}
+          {diagnostico.tipo === "PATRIMONIO_COMPLETO" && <CorpoPatrimonio d={diagnostico} />}
         </DialogContent>
       )}
     </Dialog>

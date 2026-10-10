@@ -151,6 +151,36 @@ describe("mockApi", () => {
     expect(b.perguntasSugeridas.length).toBeGreaterThan(0);
   });
 
+  it("jornada da Marina no modo mock é a resposta REAL do backend (antes e depois)", async () => {
+    const api = await novaInstancia();
+    const antes = (await import("./fixtures-contrato/jornada-cli-001-antes.json")).default;
+    const depois = (await import("./fixtures-contrato/jornada-cli-001-depois.json")).default;
+    expect(await api.jornada("cli-001")).toEqual(antes);
+    await api.conceder("cli-001", "inst-horizonte");
+    expect(await api.jornada("cli-001")).toEqual(depois);
+  });
+
+  it("jornadas derivadas: detalhes dos diagnósticos na forma do contrato real", async () => {
+    const api = await novaInstancia();
+    const obrigatorias: Record<string, string[]> = {
+      PATRIMONIO_COMPLETO: ["instituicoes", "total"],
+      PROTECAO_FGC: ["valorSemCobertura", "conglomerados"],
+      CUSTO_DE_VIDA: ["total", "categorias", "parcial"],
+      RESERVA_EMERGENCIA: ["meses", "liquidezImediata", "metaMeses", "meta"],
+    };
+    const conhecidas = new Set(Object.values(obrigatorias).flat().concat("instituicao"));
+    let desbloqueados = 0;
+    for (const id of ["cli-002", "cli-003", "cli-004", "cli-005", "cli-006", "cli-101", "cli-103"]) {
+      const j = await api.jornada(id);
+      for (const d of j.diagnosticos.filter((x) => x.desbloqueado)) {
+        desbloqueados++;
+        expect(Object.keys(d.detalhes ?? {}), `${id} ${d.tipo}`).toEqual(expect.arrayContaining(obrigatorias[d.tipo]));
+        for (const k of Object.keys(d.detalhes ?? {})) expect(conhecidas, `${id} ${d.tipo}.${k}`).toContain(k);
+      }
+    }
+    expect(desbloqueados).toBeGreaterThan(4);
+  });
+
   it("cliente inexistente gera erro 404", async () => {
     const api = await novaInstancia();
     await expect(api.visao360("cli-999")).rejects.toMatchObject({ status: 404 });

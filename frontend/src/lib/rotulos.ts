@@ -1,5 +1,6 @@
 // Rótulos pt-BR para os enums do contrato.
 import type {
+  CategoriaCusto,
   ComponentesPrincipalidade,
   Escopo,
   PerfilInvestidor,
@@ -99,3 +100,10 @@ export const componentes: { chave: Componente; rotulo: string; cor: string }[] =
   { chave: "cartao", rotulo: "Cartão", cor: "#e87ba4" },
   { chave: "credito", rotulo: "Crédito", cor: "#008300" },
 ];
+
+export const rotuloCategoriaCusto: Record<CategoriaCusto, string> = {
+  CONTAS_RECORRENTES: "Contas recorrentes",
+  PARCELAS: "Parcelas",
+  CONSUMO: "Consumo",
+  CARTOES: "Cartões",
+};
