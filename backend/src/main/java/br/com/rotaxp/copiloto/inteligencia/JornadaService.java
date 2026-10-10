@@ -143,12 +143,13 @@ public class JornadaService {
                 tudo ? Map.of("total", fgc.patrimonioVisivel(), "instituicoes", d.instituicoesVisiveis().size()) : null);
 
         Diagnostico protecao = new Diagnostico(TipoDiagnostico.PROTECAO_FGC, "Proteção FGC", tudo, requisitoTudo,
-                tudo ? resumoFgc(fgc) : null, tudo ? Map.of("conglomerados", detalhesFgc(fgc)) : null);
+                tudo ? resumoFgc(fgc) : null, tudo ? detalhesProtecao(fgc) : null);
 
         List<String> cartoes = cartoesPendentes(d);
         Map<String, Object> custoDetalhes = new LinkedHashMap<>();
         custoDetalhes.put("total", f.custoVidaMensal());
-        custoDetalhes.put("porCategoria", fluxo.custoPorCategoria());
+        custoDetalhes.put("categorias", fluxo.custoPorCategoria());
+        custoDetalhes.put("parcial", f.parcial());
         Diagnostico custo = new Diagnostico(TipoDiagnostico.CUSTO_DE_VIDA, "Custo de vida", custoDesbloqueado,
                 cartoes.isEmpty() ? "Conecte os cartões que você usa" : "Conecte o cartão " + juntar(cartoes.stream().map(n -> "do " + n).toList()),
                 custoDesbloqueado ? "Seu custo de vida é de " + Texto.reais(f.custoVidaMensal()) + " por mês" : null,
@@ -158,7 +159,7 @@ public class JornadaService {
         Diagnostico reserva = new Diagnostico(TipoDiagnostico.RESERVA_EMERGENCIA, "Reserva de emergência", custoDesbloqueado,
                 "Desbloqueie o diagnóstico de custo de vida",
                 custoDesbloqueado ? "Sua reserva cobre " + meses(f.reservaEmergenciaMeses()) + " do seu custo de vida" : null,
-                custoDesbloqueado ? Map.of("meses", f.reservaEmergenciaMeses(), "liquidez", f.liquidezImediata(),
+                custoDesbloqueado ? Map.of("meses", f.reservaEmergenciaMeses(), "liquidezImediata", f.liquidezImediata(),
                         "metaMeses", alertasProps.reservaMesesAlvo(), "meta", meta) : null);
 
         return List.of(patrimonio, protecao, custo, reserva);
@@ -169,6 +170,19 @@ public class JornadaService {
                 .map(c -> Texto.reais(c.excessoFgc()) + " sem cobertura " + c.referencia().replaceFirst("^d([oa]) ", "n$1 "))
                 .toList();
         return partes.isEmpty() ? "Todo o seu patrimônio está protegido" : String.join("; ", partes);
+    }
+
+    /** Chaves lidas pelo front: valorSemCobertura e instituicao (maior excesso), mais a lista por conglomerado. */
+    private static Map<String, Object> detalhesProtecao(AnaliseFgc fgc) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        BigDecimal semCobertura = fgc.conglomerados().stream().map(AnaliseFgc.Conglomerado::excessoFgc)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        m.put("valorSemCobertura", semCobertura);
+        fgc.conglomerados().stream().filter(c -> c.excessoFgc().signum() > 0)
+                .max(java.util.Comparator.comparing(AnaliseFgc.Conglomerado::excessoFgc))
+                .ifPresent(c -> m.put("instituicao", c.nome()));
+        m.put("conglomerados", detalhesFgc(fgc));
+        return m;
     }
 
     private static List<Map<String, Object>> detalhesFgc(AnaliseFgc fgc) {

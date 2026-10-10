@@ -22,6 +22,7 @@ public class DataReferencia {
     private final LocalDate data;
     private final Clock relogio;
 
+    @org.springframework.beans.factory.annotation.Autowired
     public DataReferencia(DemoProps props) {
         this(props.dataReferencia(), Clock.system(ZONA));
     }

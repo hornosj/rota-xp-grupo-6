@@ -86,7 +86,8 @@ class JornadaServiceTest {
         Diagnostico fgc = diag(j, TipoDiagnostico.PROTECAO_FGC);
         assertThat(fgc.desbloqueado()).isTrue();
         assertThat(fgc.resumo()).isEqualTo("R$ 400 mil sem cobertura no Banco Horizonte");
-        assertThat(fgc.detalhes()).containsKey("conglomerados");
+        assertThat(fgc.detalhes()).containsKey("conglomerados").containsEntry("instituicao", "Banco Horizonte");
+        assertThat((java.math.BigDecimal) fgc.detalhes().get("valorSemCobertura")).isEqualByComparingTo("400000");
         assertThat(diag(j, TipoDiagnostico.PATRIMONIO_COMPLETO).resumo()).isEqualTo("R$ 1,6 milhão em 3 instituições");
     }
 
@@ -110,9 +111,10 @@ class JornadaServiceTest {
         assertThat(custo.desbloqueado()).isTrue();
         assertThat(custo.resumo()).isEqualTo("Seu custo de vida é de R$ 9 mil por mês");
         @SuppressWarnings("unchecked")
-        Map<String, Object> porCategoria = (Map<String, Object>) custo.detalhes().get("porCategoria");
+        Map<String, Object> porCategoria = (Map<String, Object>) custo.detalhes().get("categorias");
         assertThat(porCategoria).containsKeys("CARTOES", "CONSUMO");
         assertThat(diag(depois, TipoDiagnostico.RESERVA_EMERGENCIA).resumo()).isEqualTo("Sua reserva cobre 3 meses do seu custo de vida");
+        assertThat(diag(depois, TipoDiagnostico.RESERVA_EMERGENCIA).detalhes()).containsKeys("meses", "liquidezImediata", "metaMeses");
     }
 
     @Test
