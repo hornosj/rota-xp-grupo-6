@@ -6,12 +6,19 @@ import { renderComQuery } from "@/test/utils";
 
 vi.mock("@/lib/api", async () => ({ api: (await import("@/mocks")).mockApi }));
 
+import { useVisao360 } from "@/lib/queries";
+import { CabecalhoCliente } from "./cabecalho-cliente";
 import { BotaoEdicaoVoz, edicaoDe } from "./dialog-edicao-voz";
-import { TelaCliente360 } from "./tela-cliente-360";
 
 afterEach(() => {
   vi.restoreAllMocks();
 });
+
+/** Só o cabeçalho, ligado à mesma consulta da 360 (a tela inteira pesa demais para a suíte em paralelo). */
+function Cabecalho360({ clienteId }: { clienteId: string }) {
+  const v = useVisao360(clienteId);
+  return v.data ? <CabecalhoCliente visao={v.data} /> : null;
+}
 
 const FALA =
   "A Patrícia se mudou para Campinas/SP e agora é consultora educacional. Ela fez 69 anos. O perfil dela agora é moderado.";
@@ -20,7 +27,7 @@ describe("Editar cadastro por voz", () => {
   it("sem Whisper no servidor: digita, confere antes → depois, desmarca um campo e aplica só o resto", async () => {
     const user = userEvent.setup();
     const editar = vi.spyOn(mockApi, "editarCliente");
-    renderComQuery(<TelaCliente360 clienteId="cli-004" />);
+    renderComQuery(<Cabecalho360 clienteId="cli-004" />);
 
     await user.click(await screen.findByRole("button", { name: /Editar por voz/ }));
     const dialogo = await screen.findByRole("dialog");
@@ -43,7 +50,7 @@ describe("Editar cadastro por voz", () => {
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(editar).toHaveBeenCalledWith("cli-004", { profissao: "Consultora educacional", cidade: "Campinas/SP" });
     expect(await screen.findByText("68 anos · Consultora educacional · Campinas/SP")).toBeInTheDocument();
-  });
+  }, 15_000); // vários cliques e esperas: passa de 5 s com a suíte inteira rodando
 
   it("com Whisper: envia um arquivo de áudio e mostra a transcrição para revisar antes da proposta", async () => {
     vi.spyOn(mockApi, "demoEstado").mockResolvedValue({
@@ -73,7 +80,7 @@ describe("Editar cadastro por voz", () => {
 
     await user.click(within(dialogo).getByRole("button", { name: /Ver alterações/ }));
     expect(await within(dialogo).findByRole("checkbox", { name: /Cidade/ })).toBeChecked();
-  });
+  }, 15_000);
 
   it("erro do Whisper aparece na tela e o assessor pode digitar", async () => {
     vi.spyOn(mockApi, "demoEstado").mockResolvedValue({
@@ -92,7 +99,7 @@ describe("Editar cadastro por voz", () => {
     expect(await within(dialogo).findByRole("alert")).toHaveTextContent(/indisponível no modo mock/);
     await user.click(within(dialogo).getByRole("button", { name: /Prefiro digitar/ }));
     expect(within(dialogo).getByLabelText("O que mudou")).toBeInTheDocument();
-  });
+  }, 15_000);
 
   it("edicaoDe monta o PATCH só com as alterações marcadas, com a idade como número", () => {
     expect(
