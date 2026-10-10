@@ -8,6 +8,7 @@ import br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade;
 import br.com.rotaxp.copiloto.dominio.RecomendacaoProduto;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,16 +33,22 @@ public class AnotacoesService {
                                            List<RecomendacaoProduto> novas) {
         Anotacao a = new Anotacao("anot-" + clienteId + "-" + sequencia.incrementAndGet(), texto, origem, data, resumo);
         anotacoes.computeIfAbsent(clienteId, k -> new ArrayList<>()).add(a);
+        LinkedHashMap<TipoNecessidade, RecomendacaoProduto> antigas = recomendacoes.getOrDefault(clienteId, new LinkedHashMap<>());
         LinkedHashMap<TipoNecessidade, RecomendacaoProduto> recs = new LinkedHashMap<>();   // as da nota nova vêm na frente
-        novas.forEach(r -> recs.putIfAbsent(r.necessidade(), r));
-        recomendacoes.getOrDefault(clienteId, new LinkedHashMap<>()).forEach(recs::putIfAbsent);
+        for (RecomendacaoProduto r : novas) {
+            RecomendacaoProduto antiga = antigas.get(r.necessidade());
+            // "já tem seguro" dito antes continua valendo se a nota nova não falar disso
+            recs.putIfAbsent(r.necessidade(), antiga != null && antiga.revisao() && !r.revisao() ? antiga : r);
+        }
+        antigas.forEach(recs::putIfAbsent);
         recomendacoes.put(clienteId, recs);
         return a;
     }
 
     public synchronized ContextoAssessor contexto(String clienteId) {
         return new ContextoAssessor(clienteId, anotacoes.getOrDefault(clienteId, List.of()).reversed().stream().toList(),
-                List.copyOf(recomendacoes.getOrDefault(clienteId, new LinkedHashMap<>()).values()));
+                recomendacoes.getOrDefault(clienteId, new LinkedHashMap<>()).values().stream()
+                        .sorted(Comparator.comparing(r -> !r.sensivel())).toList());   // momento delicado primeiro
     }
 
     /** As últimas notas, em ordem cronológica, para o contexto do LLM. */

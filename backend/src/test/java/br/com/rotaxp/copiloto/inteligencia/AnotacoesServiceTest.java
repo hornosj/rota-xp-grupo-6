@@ -18,7 +18,7 @@ class AnotacoesServiceTest {
     private final AnotacoesService service = new AnotacoesService(Pilha.ANOTACOES);
 
     private static RecomendacaoProduto rec(TipoNecessidade t, String produto, String motivo) {
-        return new RecomendacaoProduto(t, produto, "d", motivo);
+        return new RecomendacaoProduto(t, produto, "d", motivo, false, false);
     }
 
     @Test
@@ -47,6 +47,17 @@ class AnotacoesServiceTest {
 
         assertThat(service.contexto("cli-003").recomendacoes()).extracting(RecomendacaoProduto::motivo)
                 .containsExactly("demitido", "bateu de novo");   // ordem da nota mais recente; a antiga sai
+    }
+
+    @Test
+    void saberQueJaTemOProdutoNaoSePerdeComNotaNovaQueNaoFalaDisso() {
+        service.registrar("cli-003", "a", OrigemAnotacao.AUDIO, REF, "r", List.of(
+                new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Revisão do seguro auto", "d", "tá com seguro", true, false)));
+        service.registrar("cli-003", "b", OrigemAnotacao.AUDIO, REF, "r", List.of(
+                rec(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "bateu o carro de novo")));
+
+        assertThat(service.contexto("cli-003").recomendacoes()).singleElement()
+                .satisfies(r -> assertThat(r.produto()).isEqualTo("Revisão do seguro auto"));
     }
 
     @Test

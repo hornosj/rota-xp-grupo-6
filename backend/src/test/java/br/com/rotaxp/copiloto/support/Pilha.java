@@ -39,9 +39,12 @@ public final class Pilha {
     public static final br.com.rotaxp.copiloto.config.AnotacoesProps ANOTACOES = new br.com.rotaxp.copiloto.config.AnotacoesProps(5, 2000,
             java.util.Map.of(
                     br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade.PROTECAO_VEICULO,
-                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Seguro auto", "Cobre colisão, roubo e terceiros."),
+                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Seguro auto", "Cobre colisão, roubo e terceiros.",
+                            new br.com.rotaxp.copiloto.config.AnotacoesProps.Revisao("Revisão do seguro auto", "Acionar o sinistro."), false),
                     br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade.RESERVA_EMERGENCIA,
-                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Reserva de emergência", "Liquidez diária.")));
+                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Reserva de emergência", "Liquidez diária.", null, false),
+                    br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade.LUTO,
+                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Revisão de beneficiários", "Sem oferta agora.", null, true)));
 
     public final Categorizador categorizador = new Categorizador();
     public final DetectorRenda detectorRenda = new DetectorRenda(categorizador, RENDA);

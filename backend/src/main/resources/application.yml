@@ -90,19 +90,32 @@ convite:
 anotacoes:
   max-no-contexto: 5          # notas recentes que o LLM recebe
   max-caracteres: 2000
-  catalogo:
+  catalogo:                   # revisao: quando o cliente já tem; sensivel: acolher antes de ofertar
     PROTECAO_VEICULO:
       nome: Seguro auto
       descricao: Cobertura para colisão, roubo e danos a terceiros; cotação com a corretora de seguros.
+      revisao:
+        nome: Revisão do seguro auto
+        descricao: O cliente já tem seguro; ajudar a acionar o sinistro e conferir franquia, carro reserva e terceiros.
     PROTECAO_VIDA:
       nome: Seguro de vida
       descricao: Protege a renda da família se o cliente faltar ou ficar inválido.
+      revisao:
+        nome: Revisão do seguro de vida
+        descricao: Conferir se o capital segurado e os beneficiários ainda fazem sentido com a família atual.
     PROTECAO_RESIDENCIAL:
       nome: Seguro residencial
       descricao: Cobre roubo, incêndio e danos elétricos ou por água no imóvel.
+      revisao:
+        nome: Revisão do seguro residencial
+        descricao: O cliente já tem seguro; ajudar a acionar o sinistro e conferir as coberturas.
     SAUDE:
       nome: Seguro de vida com cobertura para doenças graves
       descricao: Indenização em dinheiro no diagnóstico, para custos que o plano de saúde não cobre.
+      sensivel: true
+      revisao:
+        nome: Revisão das coberturas de saúde
+        descricao: Conferir o que o plano e os seguros atuais cobrem no tratamento e reforçar a reserva.
     RESERVA_EMERGENCIA:
       nome: Reserva de emergência com liquidez diária
       descricao: Tesouro Selic ou CDB com liquidez diária, até cobrir 6 meses do custo de vida.
@@ -124,6 +137,26 @@ anotacoes:
     SUCESSAO:
       nome: Planejamento sucessório com VGBL
       descricao: Previdência fora do inventário, com beneficiários indicados.
+    LUTO:
+      nome: Apoio no inventário e revisão de beneficiários
+      descricao: Sem oferta agora. Ajudar a resgatar previdência e seguros do falecido e revisar beneficiários.
+      sensivel: true
+    REORGANIZACAO_FINANCEIRA:
+      nome: Reorganização financeira
+      descricao: Mapear perdas e dívidas, montar uma reserva mínima e rever o perfil de risco antes de novos aportes.
+      sensivel: true
+    ALOCACAO_LIQUIDEZ:
+      nome: Plano para o dinheiro novo
+      descricao: Separar reserva, objetivos de curto prazo e de longo prazo antes de investir o valor recebido.
+    AUMENTO_RENDA:
+      nome: Aporte programado
+      descricao: Direcionar parte do aumento para aporte mensal automático; PGBL se declarar IR completo.
+    EMPREENDIMENTO:
+      nome: Separação PF/PJ e caixa da empresa
+      descricao: Conta PJ, caixa da empresa com liquidez diária e pró-labore definido.
+    INTERNACIONAL:
+      nome: Conta global e investimentos em dólar
+      descricao: Moeda forte para custos fora do país, sem depender do câmbio do dia.
 
 prioridade:
   fgc-base: 35

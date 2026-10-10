@@ -70,20 +70,22 @@ class ContextoClienteFactoryTest {
     void anotacoesDoAssessorEProdutosRecomendadosEntramNoContexto() {
         AnotacoesService anotacoes = new AnotacoesService(Pilha.ANOTACOES);
         anotacoes.registrar("cli-001", "Bateu o carro.", OrigemAnotacao.AUDIO, CenarioBuilder.REF, "r",
-                List.of(new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "d", "Bateu o carro")));
+                List.of(new RecomendacaoProduto(TipoNecessidade.LUTO, "Revisão de beneficiários", "d", "perdeu o pai", false, true),
+                        new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "d", "Bateu o carro", false, false)));
         anotacoes.registrar("cli-003", "De outro cliente.", OrigemAnotacao.TEXTO, CenarioBuilder.REF, "r", List.of());
 
         ContextoCliente c = new ContextoClienteFactory(assembler, i.dataReferencia, null, anotacoes).paraCliente("cli-001");
 
         assertThat(c.anotacoesAssessor()).containsExactly("Bateu o carro.");
-        assertThat(c.produtosRecomendados()).containsExactly("Seguro auto (Bateu o carro)");
+        assertThat(c.produtosRecomendados()).containsExactly("Seguro auto (Bateu o carro)");   // o sensível não vira oferta
+        assertThat(c.momentoDelicado()).containsExactly("perdeu o pai");
     }
 
     @Test
     void semAnotacoesOJsonDoContextoNaoMudaParaNaoInvalidarOCacheDaDemo() throws Exception {
         String json = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(factory.paraCliente("cli-001"));
 
-        assertThat(json).doesNotContain("anotacoesAssessor", "produtosRecomendados");
+        assertThat(json).doesNotContain("anotacoesAssessor", "produtosRecomendados", "momentoDelicado");
     }
 
     @Test

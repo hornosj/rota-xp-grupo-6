@@ -40,22 +40,48 @@ public class CopilotoStub implements Copiloto {
         PALAVRAS_EVENTO.put("mudança", TipoEventoVida.MUDANCA);
     }
     private static final List<String> PALAVRAS_META = List.of("quer ", "meta", "objetivo", "planeja", "juntar");
+    /** Ordem importa só para empates numa mesma oração; o resultado segue a ordem da nota. */
     private static final Map<TipoNecessidade, List<String>> PALAVRAS_NECESSIDADE = new LinkedHashMap<>();
     static {
-        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_VEICULO,
-                List.of("bateu o carro", "batida", "acidente de carro", "roubaram o carro", "carro roubado", "furtaram o carro"));
-        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_VIDA, List.of("bebê", "grávida", "filho nasceu", "dependentes"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_VEICULO, List.of("bateu o carro", "bateu a moto", "batida",
+                "acidente de carro", "roubaram o carro", "carro roubado", "furtaram o carro"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_VIDA, List.of("bebê", "grávida", "filho nasceu", "dependentes",
+                "casou", "vai casar", "casamento"));
         PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_RESIDENCIAL,
                 List.of("assaltad", "casa foi roubada", "alagou", "enchente", "incêndio"));
-        PALAVRAS_NECESSIDADE.put(TipoNecessidade.SAUDE, List.of("doença", "hospital", "cirurgia", "internad", "diagnóstico"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.SAUDE, List.of("doença", "doente", "hospital", "cirurgia", "internad",
+                "diagnóstico", "câncer", "tratamento"));
         PALAVRAS_NECESSIDADE.put(TipoNecessidade.RESERVA_EMERGENCIA, List.of("demitid", "desempreg", "perdeu o emprego", "imprevisto"));
-        PALAVRAS_NECESSIDADE.put(TipoNecessidade.EDUCACAO, List.of("faculdade", "escola", "intercâmbio"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.EDUCACAO, List.of("faculdade", "escola"));
         PALAVRAS_NECESSIDADE.put(TipoNecessidade.APOSENTADORIA, List.of("aposent"));
-        PALAVRAS_NECESSIDADE.put(TipoNecessidade.COMPRA_IMOVEL, List.of("apartamento", "casa própria", "imóvel"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.COMPRA_IMOVEL, List.of("comprar um apartamento", "comprar uma casa",
+                "casa própria", "imóvel"));
         PALAVRAS_NECESSIDADE.put(TipoNecessidade.COMPRA_VEICULO, List.of("comprar um carro", "carro novo", "trocar de carro"));
         PALAVRAS_NECESSIDADE.put(TipoNecessidade.VIAGEM, List.of("viagem", "viajar", "férias"));
-        PALAVRAS_NECESSIDADE.put(TipoNecessidade.SUCESSAO, List.of("herança", "sucessão", "testamento", "inventário"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.SUCESSAO, List.of("sucessão", "testamento", "inventário"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.LUTO, List.of("perdeu o filho", "perdeu a filha", "perdeu o pai",
+                "perdeu a mãe", "perdeu o marido", "perdeu a esposa", "faleceu", "morreu", "falecimento", "luto"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.REORGANIZACAO_FINANCEIRA, List.of("perdeu todo o dinheiro",
+                "perdeu dinheiro", "perdeu muito dinheiro", "prejuízo", "golpe", "dívida", "endividad", "divórcio",
+                "divorci", "separou"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.ALOCACAO_LIQUIDEZ, List.of("herança", "herdou", "bônus", "plr",
+                "indenização", "vendeu o", "vendeu a"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.AUMENTO_RENDA, List.of("promovid", "promoção", "aumento de salário",
+                "novo emprego"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.EMPREENDIMENTO, List.of("abriu uma empresa", "abrir uma empresa",
+                "abriu um negócio", "abrir um negócio", "empresa própria", "cnpj"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.INTERNACIONAL, List.of("morar fora", "exterior", "intercâmbio",
+                "viagem internacional", "dólar"));
     }
+    /** "o carro tá com seguro": a necessidade de proteção vira revisão, não venda. */
+    private static final List<String> JA_TEM_SEGURO = List.of("com seguro", "tem seguro", "segurad", "tem plano");
+    private static final Map<TipoNecessidade, List<String>> OBJETO_DO_SEGURO = Map.of(
+            TipoNecessidade.PROTECAO_VEICULO, List.of("carro", "moto", "veículo"),
+            TipoNecessidade.PROTECAO_RESIDENCIAL, List.of("casa", "apartamento", "residência"),
+            TipoNecessidade.PROTECAO_VIDA, List.of("vida"),
+            TipoNecessidade.SAUDE, List.of("saúde", "plano"));
+    /** Ditado não tem pontuação: separa por pontuação e pelos conectivos que encadeiam fatos. */
+    private static final String ORACOES = "(?<=[.!?;,])\\s+|\\s+(?:(?:e|depois|agora|então|aí|mas|porque)\\s+)+";
 
     private final ContextoClienteFactory contextos;
     private final ContextoNoticiaFactory contextosNoticia;
@@ -149,7 +175,11 @@ public class CopilotoStub implements Copiloto {
         List<String> bullets = new ArrayList<>();
         bullets.add(c.principalidade());
         if (!c.anotacoesAssessor().isEmpty()) bullets.add("Contexto do assessor: " + c.anotacoesAssessor().getLast());
-        if (!c.produtosRecomendados().isEmpty()) bullets.add("Oportunidade: " + c.produtosRecomendados().getFirst() + ".");
+        if (!c.momentoDelicado().isEmpty()) {
+            bullets.add("Momento delicado: " + semPonto(c.momentoDelicado().getFirst()) + ". Acolha antes de falar de produtos.");
+        } else if (!c.produtosRecomendados().isEmpty()) {
+            bullets.add("Oportunidade: " + c.produtosRecomendados().getFirst() + ".");
+        }
         bullets.add("Patrimônio: " + c.patrimonioTexto() + ".");
         bullets.add("Fluxo: " + c.fluxoTexto() + ".");
         c.alertas().stream().limit(2).forEach(a -> bullets.add("Atenção: " + a));
@@ -158,7 +188,9 @@ public class CopilotoStub implements Copiloto {
         while (bullets.size() < 5) bullets.add("Sem outros pontos de atenção no momento.");
 
         List<String> perguntas = new ArrayList<>();
-        if (!c.produtosRecomendados().isEmpty()) {
+        if (!c.momentoDelicado().isEmpty()) {
+            perguntas.add("Como você e sua família estão?");
+        } else if (!c.produtosRecomendados().isEmpty()) {
             String produto = c.produtosRecomendados().getFirst().replaceAll(" \\(.*$", "");
             perguntas.add("Faz sentido conversarmos sobre " + minuscula(produto) + "?");
         }
@@ -192,11 +224,18 @@ public class CopilotoStub implements Copiloto {
             } else if (PALAVRAS_META.stream().anyMatch(lower::contains)) {
                 metas.add(semPonto(f));
             }
-            PALAVRAS_NECESSIDADE.forEach((t, palavras) -> {
-                if (palavras.stream().anyMatch(lower::contains)) necessidades.putIfAbsent(t, new Necessidade(t, semPonto(f)));
-            });
             if (lower.contains("conservador")) perfil.add("Sinalizou preferência mais conservadora");
             if (lower.contains("arrojad") || lower.contains("mais risco")) perfil.add("Sinalizou apetite maior a risco");
+        }
+        List<String> oracoes = java.util.Arrays.stream(transcricao.split(ORACOES)).map(String::strip)
+                .filter(o -> !o.isEmpty()).toList();
+        for (String o : oracoes) {
+            String lower = o.toLowerCase(Locale.ROOT);
+            PALAVRAS_NECESSIDADE.forEach((t, palavras) -> {
+                if (palavras.stream().anyMatch(lower::contains)) {
+                    necessidades.putIfAbsent(t, new Necessidade(t, semPonto(o), jaPossui(t, oracoes)));
+                }
+            });
         }
         List<AcaoSugerida> acoes = new ArrayList<>();
         acoes.add(new AcaoSugerida("acao-" + clienteId + "-nota-followup", clienteId, TipoAcao.CONTATO_RELACIONAMENTO,
@@ -204,6 +243,16 @@ public class CopilotoStub implements Copiloto {
         String resumo = "Reunião com " + c.primeiroNome() + ": " + eventos.size() + " evento(s) de vida, " + metas.size()
                 + " meta(s) e " + perfil.size() + " mudança(s) de perfil registradas.";
         return new ResultadoNota(resumo, eventos, metas, perfil, List.copyOf(necessidades.values()), List.of(), acoes, GeradoPor.stub);
+    }
+
+    /** Alguma oração diz que já tem seguro deste tipo (ou de algo não especificado). */
+    private static boolean jaPossui(TipoNecessidade t, List<String> oracoes) {
+        List<String> objetos = OBJETO_DO_SEGURO.get(t);
+        if (objetos == null) return false;
+        return oracoes.stream().map(o -> o.toLowerCase(Locale.ROOT))
+                .filter(o -> JA_TEM_SEGURO.stream().anyMatch(o::contains))
+                .anyMatch(o -> objetos.stream().anyMatch(o::contains)
+                        || OBJETO_DO_SEGURO.values().stream().flatMap(List::stream).noneMatch(o::contains));
     }
 
     private static String semPonto(String s) {

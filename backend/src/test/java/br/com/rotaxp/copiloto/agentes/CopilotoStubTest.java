@@ -126,11 +126,61 @@ class CopilotoStubTest {
         assertThat(r.recomendacoes()).isEmpty();   // produto vem do catálogo, no NotaService
     }
 
+    // Notas ditadas de verdade (sem pontuação): a divisão é por oração, não só por frase.
+
+    @Test
+    void ditadoSemPontuacaoViraUmMotivoCurtoPorNecessidade() {
+        ResultadoNota r = stub.processarNota("cli-003", "a Patrícia bateu o carro depois ela perdeu o filho agora ela perdeu "
+                + "todo o dinheiro dela ela agora ela só tem r$ 20.000 de patrimônio");
+
+        assertThat(r.necessidades()).extracting(Necessidade::tipo).containsExactly(
+                TipoNecessidade.PROTECAO_VEICULO, TipoNecessidade.LUTO, TipoNecessidade.REORGANIZACAO_FINANCEIRA);
+        assertThat(r.necessidades()).extracting(Necessidade::motivo).containsExactly(
+                "a Patrícia bateu o carro", "ela perdeu o filho", "ela perdeu todo o dinheiro dela ela");
+    }
+
+    @Test
+    void quemJaTemSeguroPrecisaDeRevisaoNaoDeSeguroNovo() {
+        ResultadoNota r = stub.processarNota("cli-003",
+                "ó a Patrícia bateu o carro e o carro dela tá com seguro a gente precisa avaliar melhor");
+
+        assertThat(r.necessidades()).singleElement().satisfies(n -> {
+            assertThat(n.tipo()).isEqualTo(TipoNecessidade.PROTECAO_VEICULO);
+            assertThat(n.jaPossui()).isTrue();
+            assertThat(n.motivo()).isEqualTo("ó a Patrícia bateu o carro");
+        });
+        assertThat(stub.processarNota("cli-003", "bateu o carro e está sem seguro").necessidades().get(0).jaPossui()).isFalse();
+    }
+
+    @Test
+    void doenteEOutrosEventosDeVidaViramNecessidades() {
+        assertThat(stub.processarNota("cli-003", "o filho da Patrícia ficou doente agora depois ela bateu o carro").necessidades())
+                .extracting(Necessidade::tipo).containsExactly(TipoNecessidade.SAUDE, TipoNecessidade.PROTECAO_VEICULO);
+        assertThat(stub.processarNota("cli-003", "Ela casou e recebeu uma herança. Foi promovida e quer abrir uma empresa. "
+                + "Vai morar fora no ano que vem.").necessidades())
+                .extracting(Necessidade::tipo).containsExactly(TipoNecessidade.PROTECAO_VIDA, TipoNecessidade.ALOCACAO_LIQUIDEZ,
+                        TipoNecessidade.AUMENTO_RENDA, TipoNecessidade.EMPREENDIMENTO, TipoNecessidade.INTERNACIONAL);
+    }
+
+    @Test
+    void briefingEmMomentoDelicadoAcolheAntesDeOfertar() {
+        AnotacoesService anotacoes = new AnotacoesService(Pilha.ANOTACOES);
+        anotacoes.registrar("cli-003", "Ela perdeu o pai.", OrigemAnotacao.AUDIO, CenarioBuilder.REF, "r",
+                List.of(new RecomendacaoProduto(TipoNecessidade.LUTO, "Revisão de beneficiários", "d", "Ela perdeu o pai", false, true)));
+        CopilotoStub comAnotacoes = new CopilotoStub(new ContextoClienteFactory(assembler, i.dataReferencia, null, anotacoes), null);
+
+        Briefing b = comAnotacoes.gerarBriefing("cli-003");
+
+        assertThat(b.bullets()).contains("Momento delicado: Ela perdeu o pai. Acolha antes de falar de produtos.");
+        assertThat(b.bullets()).noneMatch(x -> x.startsWith("Oportunidade"));
+        assertThat(b.perguntasSugeridas().get(0)).isEqualTo("Como você e sua família estão?");
+    }
+
     @Test
     void briefingUsaAnotacoesEProdutosRecomendadosPeloAssessor() {
         AnotacoesService anotacoes = new AnotacoesService(Pilha.ANOTACOES);
         anotacoes.registrar("cli-003", "Bateu o carro semana passada.", OrigemAnotacao.AUDIO, CenarioBuilder.REF, "r",
-                List.of(new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "d", "Bateu o carro")));
+                List.of(new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "d", "Bateu o carro", false, false)));
         CopilotoStub comAnotacoes = new CopilotoStub(new ContextoClienteFactory(assembler, i.dataReferencia, null, anotacoes), null);
 
         Briefing b = comAnotacoes.gerarBriefing("cli-003");

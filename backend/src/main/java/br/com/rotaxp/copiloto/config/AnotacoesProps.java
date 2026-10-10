@@ -14,5 +14,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("anotacoes")
 public record AnotacoesProps(int maxNoContexto, int maxCaracteres, Map<TipoNecessidade, Produto> catalogo) {
 
-    public record Produto(String nome, String descricao) {}
+    /**
+     * @param revisao  o que sugerir quando o cliente já tem o produto (opcional)
+     * @param sensivel momento delicado: acolher antes de ofertar
+     */
+    public record Produto(String nome, String descricao, Revisao revisao, boolean sensivel) {}
+
+    public record Revisao(String nome, String descricao) {}
 }

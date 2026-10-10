@@ -56,6 +56,25 @@ class AnotacoesApiTest {
     }
 
     @Test
+    void notasDitadasDeVerdadeComCatalogoDoApplicationYml() throws Exception {
+        nota("{\"transcricao\":\"ó a Patrícia bateu o carro e o carro dela tá com seguro a gente precisa avaliar melhor\","
+                + "\"origem\":\"AUDIO\"}")
+                .andExpect(jsonPath("$.recomendacoes[0].produto").value("Revisão do seguro auto"))
+                .andExpect(jsonPath("$.recomendacoes[0].revisao").value(true));
+
+        nota("{\"transcricao\":\"a Patrícia bateu o carro depois ela perdeu o filho agora ela perdeu todo o dinheiro dela\","
+                + "\"origem\":\"AUDIO\"}")
+                .andExpect(jsonPath("$.recomendacoes[*].necessidade").value(
+                        org.hamcrest.Matchers.contains("LUTO", "REORGANIZACAO_FINANCEIRA", "PROTECAO_VEICULO")))
+                .andExpect(jsonPath("$.recomendacoes[0].sensivel").value(true))
+                .andExpect(jsonPath("$.recomendacoes[0].motivo").value("ela perdeu o filho"));
+
+        mvc.perform(get(JULIANA + "/briefing"))
+                .andExpect(jsonPath("$.bullets", hasItem("Momento delicado: ela perdeu o filho. Acolha antes de falar de produtos.")))
+                .andExpect(jsonPath("$.perguntasSugeridas[0]").value("Como você e sua família estão?"));
+    }
+
+    @Test
     void notaSemOrigemEhTextoEResetApagaOContexto() throws Exception {
         nota("{\"transcricao\":\"Quer juntar dinheiro para a faculdade do filho.\"}").andExpect(status().isOk());
         mvc.perform(get(JULIANA + "/contexto")).andExpect(jsonPath("$.anotacoes[0].origem").value("TEXTO"));

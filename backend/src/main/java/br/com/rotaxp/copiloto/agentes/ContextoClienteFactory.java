@@ -13,6 +13,7 @@ import br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado;
 import br.com.rotaxp.copiloto.dominio.FluxoCaixa;
 import br.com.rotaxp.copiloto.dominio.Instituicao;
 import br.com.rotaxp.copiloto.dominio.Patrimonio;
+import br.com.rotaxp.copiloto.dominio.RecomendacaoProduto;
 import br.com.rotaxp.copiloto.inteligencia.AnotacoesService;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -65,6 +66,7 @@ public class ContextoClienteFactory {
         Cliente c = a.dados().cliente();
         Patrimonio p = a.base().patrimonio();
         FluxoCaixa f = a.base().fluxo().fluxo();
+        List<RecomendacaoProduto> recomendacoes = anotacoes == null ? List.of() : anotacoes.contexto(c.id()).recomendacoes();
         return new ContextoCliente(c.id(), c.primeiroNome(), c.perfil(), c.profissao(),
                 a.principalidade().explicacao(),
                 Texto.reais(p.totalVisivel()) + " visível, " + Texto.reais(p.naXp()) + " na XP",
@@ -74,8 +76,8 @@ public class ContextoClienteFactory {
                 a.acoes().stream().map(AcaoSugerida::titulo).toList(),
                 acao,
                 anotacoes == null ? List.of() : anotacoes.textosRecentes(c.id()),
-                anotacoes == null ? List.of() : anotacoes.contexto(c.id()).recomendacoes().stream()
-                        .map(r -> r.produto() + " (" + r.motivo() + ")").toList());
+                recomendacoes.stream().filter(r -> !r.sensivel()).map(r -> r.produto() + " (" + r.motivo() + ")").toList(),
+                recomendacoes.stream().filter(RecomendacaoProduto::sensivel).map(RecomendacaoProduto::motivo).toList());
     }
 
     private static ContextoCliente.AcaoContexto acaoContexto(AnaliseCliente a, AcaoSugerida acao,

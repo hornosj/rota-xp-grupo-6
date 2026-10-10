@@ -35,6 +35,8 @@ import java.util.List;
 public class AgenteNotaPosReuniao {
 
     static final int DIAS_EVENTO_SEM_DATA = 180;
+    /** O motivo é um trecho curto da nota; o LLM às vezes devolve a nota inteira. */
+    static final int MAX_MOTIVO = 160;
 
     private final ContextoClienteFactory contextos;
     private final CopilotoProps props;
@@ -82,12 +84,17 @@ public class AgenteNotaPosReuniao {
         for (NecessidadeExtraida n : extraidas == null ? List.<NecessidadeExtraida>of() : extraidas) {
             try {
                 TipoNecessidade t = TipoNecessidade.valueOf(n.tipo() == null ? "" : n.tipo().strip().toUpperCase(Locale.ROOT));
-                r.putIfAbsent(t, new Necessidade(t, n.motivo()));
+                r.putIfAbsent(t, new Necessidade(t, motivo(n.motivo()), Boolean.TRUE.equals(n.jaPossui())));
             } catch (IllegalArgumentException e) {
                 // tipo inventado pelo LLM: descarta
             }
         }
         return List.copyOf(r.values());
+    }
+
+    private static String motivo(String m) {
+        String s = m == null ? "" : m.strip();
+        return s.length() <= MAX_MOTIVO ? s : s.substring(0, MAX_MOTIVO - 1).strip() + "…";
     }
 
     private static TipoEventoVida tipo(String t) {

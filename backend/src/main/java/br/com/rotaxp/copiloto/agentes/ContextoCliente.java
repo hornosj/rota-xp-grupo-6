@@ -18,11 +18,13 @@ public record ContextoCliente(
         List<String> alertas, List<EventoProximo> eventosProximos, List<String> acoesSugeridas,
         AcaoContexto acao,
         @JsonInclude(JsonInclude.Include.NON_EMPTY) List<String> anotacoesAssessor,
-        @JsonInclude(JsonInclude.Include.NON_EMPTY) List<String> produtosRecomendados) {
+        @JsonInclude(JsonInclude.Include.NON_EMPTY) List<String> produtosRecomendados,
+        @JsonInclude(JsonInclude.Include.NON_EMPTY) List<String> momentoDelicado) {
 
     public ContextoCliente {
         anotacoesAssessor = anotacoesAssessor == null ? List.of() : anotacoesAssessor;
         produtosRecomendados = produtosRecomendados == null ? List.of() : produtosRecomendados;
+        momentoDelicado = momentoDelicado == null ? List.of() : momentoDelicado;
     }
 
     public record EventoProximo(String descricao, LocalDate data, long emDias) {}

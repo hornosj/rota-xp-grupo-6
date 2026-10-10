@@ -39,8 +39,8 @@ public final class AgentesTipos {
 
     public record EventoExtraido(String tipo, String descricao, String data) {}
 
-    /** "tipo" chega como texto e é validado contra TipoNecessidade por regra. */
-    public record NecessidadeExtraida(String tipo, String motivo) {}
+    /** "tipo" chega como texto e é validado contra TipoNecessidade por regra; jaPossui pode faltar (= false). */
+    public record NecessidadeExtraida(String tipo, String motivo, Boolean jaPossui) {}
 
     // AgenteClassificacaoNoticias: LoteNoticias -> LoteClassificado (várias notícias numa chamada)
     public record LoteNoticias(List<br.com.rotaxp.copiloto.dominio.Radar.Noticia> noticias, String modelo, int maxTokens,
