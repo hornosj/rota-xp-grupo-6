@@ -10,4 +10,8 @@ public final class Excecoes {
     public static class Conflito extends RuntimeException {
         public Conflito(String mensagem) { super(mensagem); }
     }
+
+    public static class Invalido extends RuntimeException {
+        public Invalido(String mensagem) { super(mensagem); }
+    }
 }
