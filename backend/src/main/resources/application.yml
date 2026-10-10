@@ -134,3 +134,6 @@ desagio:
   selic-anual: 0.10                  # ILUSTRATIVO — usado para estimar títulos Selic+
   dias-por-ano: 365
   produtos-elegiveis: CDB,RDB,LCI,LCA,LC,TESOURO,DEBENTURE,CRI,CRA
+
+rentabilidade:
+  max-periodos: 120                  # subperíodos aceitos na simulação com aportes
