@@ -35,7 +35,7 @@
       {
         "nome": "Sofia",
         "parentesco": "FILHA",
-        "dataNascimento": "2014-10-16"
+        "dataNascimento": "2014-10-15"
       },
       {
         "nome": "Pedro",
@@ -45,7 +45,7 @@
     ],
     "eventosVida": []
   },
-  "atualizadoEm": "2026-10-11T11:31:00.40416-03:00",
+  "atualizadoEm": "2026-10-10T14:58:24.602876-03:00",
   "cobertura": {
     "instituicoesDeclaradas": 3,
     "instituicoesConectadas": 3,
@@ -218,7 +218,7 @@
       "valor": 400000,
       "instituicaoId": "inst-horizonte",
       "emissorId": "emi-horizonte",
-      "detectadoEm": "2026-10-11T11:31:00.4031617-03:00",
+      "detectadoEm": "2026-10-10T14:58:24.4524915-03:00",
       "novo": true
     },
     {
@@ -231,7 +231,7 @@
       "valor": 400000,
       "instituicaoId": "inst-horizonte",
       "emissorId": "emi-horizonte",
-      "detectadoEm": "2026-10-11T11:31:00.40416-03:00",
+      "detectadoEm": "2026-10-10T14:58:24.4524915-03:00",
       "novo": true
     },
     {
@@ -242,7 +242,7 @@
       "titulo": "R$ 61 mil parados em conta",
       "explicacao": "R$ 61 mil estão em conta além de 1 mês de custo de vida. Aplicados a 100% do CDI, renderiam cerca de R$ 486 por mês.",
       "valor": 61000,
-      "detectadoEm": "2026-10-11T08:00:00-03:00",
+      "detectadoEm": "2026-10-10T08:00:00-03:00",
       "novo": false
     },
     {
@@ -254,7 +254,7 @@
       "explicacao": "A renda de R$ 38 mil (HOSPITAL SANTA CLARA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 14 mil por mês.",
       "valor": 14000,
       "instituicaoId": "inst-aurora",
-      "detectadoEm": "2026-10-11T08:00:00-03:00",
+      "detectadoEm": "2026-10-10T08:00:00-03:00",
       "novo": false
     },
     {
@@ -263,8 +263,8 @@
       "tipo": "EVENTO_VIDA_PROXIMO",
       "severidade": "BAIXA",
       "titulo": "Aniversário da Sofia em 5 dias",
-      "explicacao": "Sofia (filha) faz 12 anos em 16/10. Um bom motivo para um contato de relacionamento.",
-      "detectadoEm": "2026-10-11T08:00:00-03:00",
+      "explicacao": "Sofia (filha) faz 12 anos em 15/10. Um bom motivo para um contato de relacionamento.",
+      "detectadoEm": "2026-10-10T08:00:00-03:00",
       "novo": false
     }
   ],
@@ -321,7 +321,7 @@
       "clienteId": "cli-001",
       "tipo": "CONTATO_RELACIONAMENTO",
       "titulo": "Aniversário da Sofia em 5 dias",
-      "motivo": "Sofia (filha) faz 12 anos em 16/10. Um bom motivo para um contato de relacionamento.",
+      "motivo": "Sofia (filha) faz 12 anos em 15/10. Um bom motivo para um contato de relacionamento.",
       "alertaIds": [
         "alr-cli-001-evento_vida_proximo-dep-sofia"
       ],
@@ -341,7 +341,7 @@
         "CREDITO",
         "INVESTIMENTOS"
       ],
-      "concedidoEm": "2024-01-15",
+      "concedidoEm": "2024-01-14",
       "instituicaoNome": "XP Investimentos"
     },
     {
@@ -355,8 +355,8 @@
         "CARTOES",
         "CREDITO"
       ],
-      "concedidoEm": "2026-08-07",
-      "expiraEm": "2027-08-07",
+      "concedidoEm": "2026-08-06",
+      "expiraEm": "2027-08-06",
       "instituicaoNome": "Banco Aurora"
     },
     {
@@ -368,8 +368,8 @@
       "escopos": [
         "INVESTIMENTOS"
       ],
-      "concedidoEm": "2026-10-11",
-      "expiraEm": "2027-10-11",
+      "concedidoEm": "2026-10-10",
+      "expiraEm": "2027-10-10",
       "instituicaoNome": "Banco Horizonte"
     }
   ]

@@ -6,9 +6,9 @@
     "nome": "Carla Mendes",
     "assessorId": "ass-001",
     "status": "CONCLUIDO",
-    "criadoEm": "2026-10-11T13:02:58.9697222-03:00",
-    "abertoEm": "2026-10-11T13:02:59.2185358-03:00",
-    "concluidoEm": "2026-10-11T13:02:59.3995864-03:00",
+    "criadoEm": "2026-10-10T13:02:58.9697222-03:00",
+    "abertoEm": "2026-10-10T13:02:59.2185358-03:00",
+    "concluidoEm": "2026-10-10T13:02:59.3995864-03:00",
     "clienteId": "cli-201",
     "perfil": "ARROJADO"
   },
@@ -28,7 +28,7 @@
         "CREDITO",
         "INVESTIMENTOS"
       ],
-      "concedidoEm": "2026-10-11",
+      "concedidoEm": "2026-10-10",
       "instituicaoNome": "XP Investimentos"
     },
     {
@@ -41,8 +41,8 @@
         "CONTAS",
         "CARTOES"
       ],
-      "concedidoEm": "2026-10-11",
-      "expiraEm": "2027-10-11",
+      "concedidoEm": "2026-10-10",
+      "expiraEm": "2027-10-10",
       "instituicaoNome": "Banco Aurora"
     },
     {
