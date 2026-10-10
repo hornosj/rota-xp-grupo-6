@@ -9,6 +9,11 @@ public final class Enums {
     public enum TipoEmissor { BANCO, EMPRESA, TESOURO }
     public enum TipoEventoVida { ANIVERSARIO, CASAMENTO, NASCIMENTO, FERIAS, APOSENTADORIA, MUDANCA, OUTRO }
     public enum OrigemEvento { CADASTRO, NOTA_REUNIAO }
+    public enum OrigemAnotacao { AUDIO, TEXTO }
+    public enum TipoNecessidade {
+        PROTECAO_VEICULO, PROTECAO_VIDA, PROTECAO_RESIDENCIAL, SAUDE, RESERVA_EMERGENCIA, EDUCACAO,
+        APOSENTADORIA, COMPRA_IMOVEL, COMPRA_VEICULO, VIAGEM, SUCESSAO
+    }
     public enum TipoConsentimento { OPEN_FINANCE, INTERNO }
     public enum StatusConsentimento { ATIVO, PENDENTE, EXPIRADO, REVOGADO }
     public enum TipoConta { CORRENTE, PAGAMENTO }

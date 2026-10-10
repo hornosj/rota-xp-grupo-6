@@ -8,7 +8,7 @@ public final class Requisicoes {
 
     public record PedidoMensagemBody(Canal canal) {}
 
-    public record NotaBody(String transcricao) {}
+    public record NotaBody(String transcricao, br.com.rotaxp.copiloto.dominio.Enums.OrigemAnotacao origem) {}   // origem: AUDIO | TEXTO (padrão)
 
     public record DesagioBody(BigDecimal desagio, BigDecimal taxaAntiga, BigDecimal taxaNova, BigDecimal prazoRestanteAnos) {}
 

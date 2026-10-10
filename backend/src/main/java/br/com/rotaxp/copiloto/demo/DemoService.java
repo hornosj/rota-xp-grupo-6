@@ -20,12 +20,14 @@ public class DemoService {
     private final br.com.rotaxp.copiloto.agentes.LimiteChamadasLlm limite;
     private final br.com.rotaxp.copiloto.config.CopilotoProps copilotoProps;
     private final br.com.rotaxp.copiloto.openfinance.ConviteService convites;
+    private final br.com.rotaxp.copiloto.inteligencia.AnotacoesService anotacoes;
 
     public DemoService(Repositorio repo, Visao360Assembler assembler, RegistroAlertas registro,
                        DataReferencia dataReferencia, CopilotoRouter copiloto,
                        br.com.rotaxp.copiloto.openfinance.ConviteService convites,
                        br.com.rotaxp.copiloto.agentes.LimiteChamadasLlm limite,
-                       br.com.rotaxp.copiloto.config.CopilotoProps copilotoProps) {
+                       br.com.rotaxp.copiloto.config.CopilotoProps copilotoProps,
+                       br.com.rotaxp.copiloto.inteligencia.AnotacoesService anotacoes) {
         this.repo = repo;
         this.assembler = assembler;
         this.registro = registro;
@@ -34,6 +36,7 @@ public class DemoService {
         this.convites = convites;
         this.limite = limite;
         this.copilotoProps = copilotoProps;
+        this.anotacoes = anotacoes;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -46,6 +49,7 @@ public class DemoService {
         assembler.limpar();
         registro.limpar();
         convites.limpar();
+        anotacoes.limpar();
         assembler.registrarLinhaDeBase();
     }
 

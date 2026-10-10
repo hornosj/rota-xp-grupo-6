@@ -5,6 +5,7 @@ import br.com.rotaxp.copiloto.consolidacao.Visao360Assembler;
 import br.com.rotaxp.copiloto.dominio.Briefing;
 import br.com.rotaxp.copiloto.dominio.ClienteResumo;
 import br.com.rotaxp.copiloto.dominio.ConsentimentoView;
+import br.com.rotaxp.copiloto.dominio.ContextoAssessor;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.Principalidade;
@@ -13,8 +14,10 @@ import br.com.rotaxp.copiloto.dominio.Requisicoes.PedidoMensagemBody;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
 import br.com.rotaxp.copiloto.dominio.Visao360;
 import br.com.rotaxp.copiloto.inteligencia.FilaService;
+import br.com.rotaxp.copiloto.inteligencia.AnotacoesService;
 import br.com.rotaxp.copiloto.inteligencia.NotaService;
 import br.com.rotaxp.copiloto.openfinance.ConsentimentoService;
+import br.com.rotaxp.copiloto.openfinance.Repositorio;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,14 +35,18 @@ public class ClientesController {
     private final FilaService fila;
     private final Copiloto copiloto;
     private final NotaService notas;
+    private final AnotacoesService anotacoes;
+    private final Repositorio repo;
 
     public ClientesController(Visao360Assembler assembler, ConsentimentoService consentimentos, FilaService fila,
-                              Copiloto copiloto, NotaService notas) {
+                              Copiloto copiloto, NotaService notas, AnotacoesService anotacoes, Repositorio repo) {
         this.assembler = assembler;
         this.consentimentos = consentimentos;
         this.fila = fila;
         this.copiloto = copiloto;
         this.notas = notas;
+        this.anotacoes = anotacoes;
+        this.repo = repo;
     }
 
     @GetMapping
@@ -89,6 +96,13 @@ public class ClientesController {
 
     @PostMapping("/{id}/notas")
     public ResultadoNota nota(@PathVariable String id, @RequestBody NotaBody body) {
-        return notas.processar(id, body.transcricao());
+        return notas.processar(id, body.transcricao(), body.origem());
+    }
+
+    /** Notas do assessor (mais recentes primeiro) e produtos que elas sugerem. */
+    @GetMapping("/{id}/contexto")
+    public ContextoAssessor contexto(@PathVariable String id) {
+        repo.cliente(id);
+        return anotacoes.contexto(id);
     }
 }

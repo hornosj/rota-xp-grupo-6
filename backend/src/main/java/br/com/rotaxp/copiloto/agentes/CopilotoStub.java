@@ -9,6 +9,8 @@ import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.Enums.OrigemEvento;
 import br.com.rotaxp.copiloto.dominio.Enums.TipoAcao;
 import br.com.rotaxp.copiloto.dominio.Enums.TipoEventoVida;
+import br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade;
+import br.com.rotaxp.copiloto.dominio.Necessidade;
 import br.com.rotaxp.copiloto.dominio.EventoVida;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
@@ -38,6 +40,22 @@ public class CopilotoStub implements Copiloto {
         PALAVRAS_EVENTO.put("mudança", TipoEventoVida.MUDANCA);
     }
     private static final List<String> PALAVRAS_META = List.of("quer ", "meta", "objetivo", "planeja", "juntar");
+    private static final Map<TipoNecessidade, List<String>> PALAVRAS_NECESSIDADE = new LinkedHashMap<>();
+    static {
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_VEICULO,
+                List.of("bateu o carro", "batida", "acidente de carro", "roubaram o carro", "carro roubado", "furtaram o carro"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_VIDA, List.of("bebê", "grávida", "filho nasceu", "dependentes"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.PROTECAO_RESIDENCIAL,
+                List.of("assaltad", "casa foi roubada", "alagou", "enchente", "incêndio"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.SAUDE, List.of("doença", "hospital", "cirurgia", "internad", "diagnóstico"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.RESERVA_EMERGENCIA, List.of("demitid", "desempreg", "perdeu o emprego", "imprevisto"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.EDUCACAO, List.of("faculdade", "escola", "intercâmbio"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.APOSENTADORIA, List.of("aposent"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.COMPRA_IMOVEL, List.of("apartamento", "casa própria", "imóvel"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.COMPRA_VEICULO, List.of("comprar um carro", "carro novo", "trocar de carro"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.VIAGEM, List.of("viagem", "viajar", "férias"));
+        PALAVRAS_NECESSIDADE.put(TipoNecessidade.SUCESSAO, List.of("herança", "sucessão", "testamento", "inventário"));
+    }
 
     private final ContextoClienteFactory contextos;
     private final ContextoNoticiaFactory contextosNoticia;
@@ -130,6 +148,8 @@ public class CopilotoStub implements Copiloto {
         ContextoCliente c = contextos.paraCliente(clienteId);
         List<String> bullets = new ArrayList<>();
         bullets.add(c.principalidade());
+        if (!c.anotacoesAssessor().isEmpty()) bullets.add("Contexto do assessor: " + c.anotacoesAssessor().getLast());
+        if (!c.produtosRecomendados().isEmpty()) bullets.add("Oportunidade: " + c.produtosRecomendados().getFirst() + ".");
         bullets.add("Patrimônio: " + c.patrimonioTexto() + ".");
         bullets.add("Fluxo: " + c.fluxoTexto() + ".");
         c.alertas().stream().limit(2).forEach(a -> bullets.add("Atenção: " + a));
@@ -138,6 +158,10 @@ public class CopilotoStub implements Copiloto {
         while (bullets.size() < 5) bullets.add("Sem outros pontos de atenção no momento.");
 
         List<String> perguntas = new ArrayList<>();
+        if (!c.produtosRecomendados().isEmpty()) {
+            String produto = c.produtosRecomendados().getFirst().replaceAll(" \\(.*$", "");
+            perguntas.add("Faz sentido conversarmos sobre " + minuscula(produto) + "?");
+        }
         c.eventosProximos().forEach(e -> perguntas.add("Como estão os planos para o " + minuscula(e.descricao()) + "?"));
         perguntas.add("Algum objetivo novo para os próximos 12 meses?");
         perguntas.add("Houve alguma mudança na sua renda ou nos seus gastos?");
@@ -154,6 +178,7 @@ public class CopilotoStub implements Copiloto {
         List<EventoVida> eventos = new ArrayList<>();
         List<String> metas = new ArrayList<>();
         List<String> perfil = new ArrayList<>();
+        Map<TipoNecessidade, Necessidade> necessidades = new LinkedHashMap<>();
         int n = 0;
         for (String frase : transcricao.split("(?<=[.!?])\\s+")) {
             String f = frase.trim();
@@ -167,6 +192,9 @@ public class CopilotoStub implements Copiloto {
             } else if (PALAVRAS_META.stream().anyMatch(lower::contains)) {
                 metas.add(semPonto(f));
             }
+            PALAVRAS_NECESSIDADE.forEach((t, palavras) -> {
+                if (palavras.stream().anyMatch(lower::contains)) necessidades.putIfAbsent(t, new Necessidade(t, semPonto(f)));
+            });
             if (lower.contains("conservador")) perfil.add("Sinalizou preferência mais conservadora");
             if (lower.contains("arrojad") || lower.contains("mais risco")) perfil.add("Sinalizou apetite maior a risco");
         }
@@ -175,7 +203,7 @@ public class CopilotoStub implements Copiloto {
                 "Enviar resumo da reunião e próximos passos", "Registrado na nota da reunião.", null, List.of(), false));
         String resumo = "Reunião com " + c.primeiroNome() + ": " + eventos.size() + " evento(s) de vida, " + metas.size()
                 + " meta(s) e " + perfil.size() + " mudança(s) de perfil registradas.";
-        return new ResultadoNota(resumo, eventos, metas, perfil, acoes, GeradoPor.stub);
+        return new ResultadoNota(resumo, eventos, metas, perfil, List.copyOf(necessidades.values()), List.of(), acoes, GeradoPor.stub);
     }
 
     private static String semPonto(String s) {

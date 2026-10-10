@@ -34,9 +34,13 @@ public final class AgentesTipos {
     public record ContextoNota(ContextoCliente contexto, String transcricao, LocalDate dataReferencia) {}
 
     /** Saída estruturada do LLM: tipo e data chegam como texto e são validados por regra. */
-    public record FatosExtraidos(String resumo, List<EventoExtraido> eventos, List<String> metas, List<String> mudancasPerfil) {}
+    public record FatosExtraidos(String resumo, List<EventoExtraido> eventos, List<String> metas, List<String> mudancasPerfil,
+                                 List<NecessidadeExtraida> necessidades) {}
 
     public record EventoExtraido(String tipo, String descricao, String data) {}
+
+    /** "tipo" chega como texto e é validado contra TipoNecessidade por regra. */
+    public record NecessidadeExtraida(String tipo, String motivo) {}
 
     // AgenteClassificacaoNoticias: LoteNoticias -> LoteClassificado (várias notícias numa chamada)
     public record LoteNoticias(List<br.com.rotaxp.copiloto.dominio.Radar.Noticia> noticias, String modelo, int maxTokens,

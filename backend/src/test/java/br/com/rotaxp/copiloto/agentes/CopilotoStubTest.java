@@ -10,6 +10,12 @@ import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.Enums.TipoEventoVida;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
+import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Enums.OrigemAnotacao;
+import br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade;
+import br.com.rotaxp.copiloto.dominio.Necessidade;
+import br.com.rotaxp.copiloto.dominio.RecomendacaoProduto;
+import br.com.rotaxp.copiloto.inteligencia.AnotacoesService;
 import br.com.rotaxp.copiloto.openfinance.ConsentimentoAlterado;
 import br.com.rotaxp.copiloto.support.CenarioBuilder;
 import br.com.rotaxp.copiloto.support.Cenarios;
@@ -107,5 +113,31 @@ class CopilotoStubTest {
         assertThat(r.acoesCriadas()).isNotEmpty();
         assertThat(r.resumo()).isNotBlank();
         assertThat(r.geradoPor()).isEqualTo(GeradoPor.stub);
+    }
+
+    @Test
+    void notaIdentificaNecessidadesPorPalavrasChave() {
+        ResultadoNota r = stub.processarNota("cli-003",
+                "A Juliana bateu o carro semana passada. O marido foi demitido e ela ficou preocupada.");
+
+        assertThat(r.necessidades()).extracting(Necessidade::tipo)
+                .containsExactly(TipoNecessidade.PROTECAO_VEICULO, TipoNecessidade.RESERVA_EMERGENCIA);
+        assertThat(r.necessidades().get(0).motivo()).isEqualTo("A Juliana bateu o carro semana passada");
+        assertThat(r.recomendacoes()).isEmpty();   // produto vem do catálogo, no NotaService
+    }
+
+    @Test
+    void briefingUsaAnotacoesEProdutosRecomendadosPeloAssessor() {
+        AnotacoesService anotacoes = new AnotacoesService(Pilha.ANOTACOES);
+        anotacoes.registrar("cli-003", "Bateu o carro semana passada.", OrigemAnotacao.AUDIO, CenarioBuilder.REF, "r",
+                List.of(new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "d", "Bateu o carro")));
+        CopilotoStub comAnotacoes = new CopilotoStub(new ContextoClienteFactory(assembler, i.dataReferencia, null, anotacoes), null);
+
+        Briefing b = comAnotacoes.gerarBriefing("cli-003");
+
+        assertThat(b.bullets()).hasSize(5)
+                .contains("Contexto do assessor: Bateu o carro semana passada.", "Oportunidade: Seguro auto (Bateu o carro).");
+        assertThat(b.perguntasSugeridas()).hasSize(3);
+        assertThat(b.perguntasSugeridas().get(0)).contains("seguro auto");
     }
 }

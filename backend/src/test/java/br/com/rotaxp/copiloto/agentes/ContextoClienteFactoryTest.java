@@ -12,6 +12,13 @@ import br.com.rotaxp.copiloto.support.CenarioBuilder;
 import br.com.rotaxp.copiloto.support.Cenarios;
 import br.com.rotaxp.copiloto.support.Infra;
 import br.com.rotaxp.copiloto.support.Pilha;
+import br.com.rotaxp.copiloto.dominio.Enums.OrigemAnotacao;
+import br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade;
+import br.com.rotaxp.copiloto.dominio.RecomendacaoProduto;
+import br.com.rotaxp.copiloto.inteligencia.AnotacoesService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +64,26 @@ class ContextoClienteFactoryTest {
         assertThat(c.acao()).isNull();
         assertThat(c.patrimonioTexto()).isEqualTo("R$ 1,6 milhão visível, R$ 900 mil na XP");
         assertThat(c.acoesSugeridas()).isNotEmpty();
+    }
+
+    @Test
+    void anotacoesDoAssessorEProdutosRecomendadosEntramNoContexto() {
+        AnotacoesService anotacoes = new AnotacoesService(Pilha.ANOTACOES);
+        anotacoes.registrar("cli-001", "Bateu o carro.", OrigemAnotacao.AUDIO, CenarioBuilder.REF, "r",
+                List.of(new RecomendacaoProduto(TipoNecessidade.PROTECAO_VEICULO, "Seguro auto", "d", "Bateu o carro")));
+        anotacoes.registrar("cli-003", "De outro cliente.", OrigemAnotacao.TEXTO, CenarioBuilder.REF, "r", List.of());
+
+        ContextoCliente c = new ContextoClienteFactory(assembler, i.dataReferencia, null, anotacoes).paraCliente("cli-001");
+
+        assertThat(c.anotacoesAssessor()).containsExactly("Bateu o carro.");
+        assertThat(c.produtosRecomendados()).containsExactly("Seguro auto (Bateu o carro)");
+    }
+
+    @Test
+    void semAnotacoesOJsonDoContextoNaoMudaParaNaoInvalidarOCacheDaDemo() throws Exception {
+        String json = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(factory.paraCliente("cli-001"));
+
+        assertThat(json).doesNotContain("anotacoesAssessor", "produtosRecomendados");
     }
 
     @Test

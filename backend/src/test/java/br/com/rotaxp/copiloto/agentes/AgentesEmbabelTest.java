@@ -159,7 +159,10 @@ class AgentesEmbabelTest {
         ctx.expectResponse(new FatosExtraidos("Juliana vai casar.",
                 List.of(new EventoExtraido("CASAMENTO", "Casamento da Juliana", "2027-05-15"),
                         new EventoExtraido("INVALIDO", "Algo", "sem data")),
-                List.of("Comprar apartamento"), List.of()));
+                List.of("Comprar apartamento"), List.of(),
+                List.of(new AgentesTipos.NecessidadeExtraida("PROTECAO_VEICULO", "Bateu o carro"),
+                        new AgentesTipos.NecessidadeExtraida("INVALIDA", "x"),
+                        new AgentesTipos.NecessidadeExtraida("protecao_veiculo", "repetida"))));
 
         FatosExtraidos fatos = agente.extrairFatos(c, ctx);
         ResultadoNota r = agente.planejarFollowUp(fatos, c);
@@ -174,6 +177,10 @@ class AgentesEmbabelTest {
         assertThat(r.eventosCriados().get(1).data()).isEqualTo(CenarioBuilder.REF.plusDays(180));
         assertThat(r.metas()).containsExactly("Comprar apartamento");
         assertThat(r.acoesCriadas()).singleElement().satisfies(a -> assertThat(a.titulo()).contains("resumo da reunião"));
+        assertThat(r.necessidades()).containsExactly(new br.com.rotaxp.copiloto.dominio.Necessidade(
+                br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade.PROTECAO_VEICULO, "Bateu o carro"));
+        assertThat(r.recomendacoes()).isEmpty();   // produto vem do catálogo, no NotaService
+        assertThat(system(ctx.getLlmInvocations().get(0))).contains("necessidades", "PROTECAO_VEICULO", "RESERVA_EMERGENCIA");
         assertThat(r.geradoPor()).isEqualTo(GeradoPor.live);
     }
 }

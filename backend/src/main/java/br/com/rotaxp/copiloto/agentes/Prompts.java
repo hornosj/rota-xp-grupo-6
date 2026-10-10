@@ -1,5 +1,6 @@
 package br.com.rotaxp.copiloto.agentes;
 
+import br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,8 +13,11 @@ final class Prompts {
             Você é o Copiloto de um assessor de investimentos da XP. Escreva sempre em pt-BR, com o tom de um \
             assessor próximo e profissional, ajustado ao perfil do cliente.
             Regras:
-            - Não prometa rentabilidade e não recomende produto específico além do que a ação sugerida diz.
+            - Não prometa rentabilidade e não recomende produto específico além do que a ação sugerida diz
+              ou do que está em "produtosRecomendados".
             - Use os números exatamente como estão no contexto; nunca invente valores.
+            - "anotacoesAssessor" são observações do assessor sobre a vida do cliente: use-as como contexto, com
+              tato, sem repetir detalhes sensíveis ao pé da letra.
             - Se houver um evento de vida próximo, mencione-o de forma natural.
             - Se faltar algum dado, escreva sem ele (não faça perguntas ao assessor).
             """;
@@ -39,6 +43,10 @@ final class Prompts {
               se não for dita).
             - "metas": objetivos financeiros citados.
             - "mudancasPerfil": mudanças de apetite a risco ou de situação citadas.
+            - "necessidades": necessidades de proteção ou de planejamento que a transcrição revela; "tipo" é um de
+              """ + String.join(", ", java.util.Arrays.stream(TipoNecessidade.values()).map(Enum::name).toList()) + """
+            ; "motivo" é o trecho curto da transcrição que justifica. Ex.: "bateu o carro" → PROTECAO_VEICULO;
+              "foi demitido" → RESERVA_EMERGENCIA; "filho vai para a faculdade" → EDUCACAO.
             Não invente fatos que não estão na transcrição.
             """;
 

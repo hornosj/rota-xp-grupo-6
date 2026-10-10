@@ -36,6 +36,13 @@ public final class Pilha {
             new PrincipalidadeProps(new PrincipalidadeProps.Pesos(0.30, 0.20, 0.15, 0.15, 0.10, 0.10), 40);
     public static final PrioridadeProps PRIORIDADE = new PrioridadeProps(35, 1, 25, 10, 15, 10, 15, 1, 10, 10, 1, 10, 10, 10, 8, 8, 5);
 
+    public static final br.com.rotaxp.copiloto.config.AnotacoesProps ANOTACOES = new br.com.rotaxp.copiloto.config.AnotacoesProps(5, 2000,
+            java.util.Map.of(
+                    br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade.PROTECAO_VEICULO,
+                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Seguro auto", "Cobre colisão, roubo e terceiros."),
+                    br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade.RESERVA_EMERGENCIA,
+                    new br.com.rotaxp.copiloto.config.AnotacoesProps.Produto("Reserva de emergência", "Liquidez diária.")));
+
     public final Categorizador categorizador = new Categorizador();
     public final DetectorRenda detectorRenda = new DetectorRenda(categorizador, RENDA);
     public final FluxoCaixaService fluxo = new FluxoCaixaService(categorizador, detectorRenda, RENDA);

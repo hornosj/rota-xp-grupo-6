@@ -123,7 +123,7 @@ class CopilotoModosTest {
 
     @Test
     void liveNotaInvocaOAgenteDeNota() {
-        agentes.resposta = new ResultadoNota("r", List.of(), List.of("m"), List.of(), List.of(), GeradoPor.live);
+        agentes.resposta = new ResultadoNota("r", List.of(), List.of("m"), List.of(), List.of(), List.of(), List.of(), GeradoPor.live);
 
         ResultadoNota r = live.processarNota("cli-003", "vai casar");
 

@@ -3,6 +3,12 @@ package br.com.rotaxp.copiloto.agentes;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.ContextoNota;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.EventoExtraido;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.FatosExtraidos;
+import br.com.rotaxp.copiloto.agentes.AgentesTipos.NecessidadeExtraida;
+import br.com.rotaxp.copiloto.dominio.Enums.TipoNecessidade;
+import br.com.rotaxp.copiloto.dominio.Necessidade;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.NotaReuniao;
 import br.com.rotaxp.copiloto.config.CopilotoProps;
 import br.com.rotaxp.copiloto.dominio.AcaoSugerida;
@@ -66,7 +72,22 @@ public class AgenteNotaPosReuniao {
         List<AcaoSugerida> acoes = List.of(new AcaoSugerida("acao-" + clienteId + "-nota-followup", clienteId,
                 TipoAcao.CONTATO_RELACIONAMENTO, "Enviar resumo da reunião e próximos passos",
                 "Registrado na nota da reunião.", null, List.of(), false));
-        return new ResultadoNota(fatos.resumo(), eventos, copia(fatos.metas()), copia(fatos.mudancasPerfil()), acoes, GeradoPor.live);
+        return new ResultadoNota(fatos.resumo(), eventos, copia(fatos.metas()), copia(fatos.mudancasPerfil()),
+                necessidades(fatos.necessidades()), List.of(), acoes, GeradoPor.live);
+    }
+
+    /** Só tipos conhecidos, um de cada; o produto vem do catálogo, no NotaService. */
+    static List<Necessidade> necessidades(List<NecessidadeExtraida> extraidas) {
+        Map<TipoNecessidade, Necessidade> r = new LinkedHashMap<>();
+        for (NecessidadeExtraida n : extraidas == null ? List.<NecessidadeExtraida>of() : extraidas) {
+            try {
+                TipoNecessidade t = TipoNecessidade.valueOf(n.tipo() == null ? "" : n.tipo().strip().toUpperCase(Locale.ROOT));
+                r.putIfAbsent(t, new Necessidade(t, n.motivo()));
+            } catch (IllegalArgumentException e) {
+                // tipo inventado pelo LLM: descarta
+            }
+        }
+        return List.copyOf(r.values());
     }
 
     private static TipoEventoVida tipo(String t) {

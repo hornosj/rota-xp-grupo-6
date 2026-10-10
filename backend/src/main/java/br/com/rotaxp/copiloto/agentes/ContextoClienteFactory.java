@@ -13,6 +13,7 @@ import br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado;
 import br.com.rotaxp.copiloto.dominio.FluxoCaixa;
 import br.com.rotaxp.copiloto.dominio.Instituicao;
 import br.com.rotaxp.copiloto.dominio.Patrimonio;
+import br.com.rotaxp.copiloto.inteligencia.AnotacoesService;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -30,17 +31,19 @@ public class ContextoClienteFactory {
     private final Visao360Assembler assembler;
     private final DataReferencia dataReferencia;
     private final br.com.rotaxp.copiloto.openfinance.ConviteService convites;   // null nos testes sem convite
+    private final AnotacoesService anotacoes;                                     // null nos testes sem notas
 
     public ContextoClienteFactory(Visao360Assembler assembler, DataReferencia dataReferencia) {
-        this(assembler, dataReferencia, null);
+        this(assembler, dataReferencia, null, null);
     }
 
     @org.springframework.beans.factory.annotation.Autowired
     public ContextoClienteFactory(Visao360Assembler assembler, DataReferencia dataReferencia,
-                                  br.com.rotaxp.copiloto.openfinance.ConviteService convites) {
+                                  br.com.rotaxp.copiloto.openfinance.ConviteService convites, AnotacoesService anotacoes) {
         this.assembler = assembler;
         this.dataReferencia = dataReferencia;
         this.convites = convites;
+        this.anotacoes = anotacoes;
     }
 
     public LocalDate hoje() {
@@ -69,7 +72,10 @@ public class ContextoClienteFactory {
                 a.alertas().stream().map(x -> x.titulo() + ": " + x.explicacao()).toList(),
                 eventos(c, dataReferencia.hoje()),
                 a.acoes().stream().map(AcaoSugerida::titulo).toList(),
-                acao);
+                acao,
+                anotacoes == null ? List.of() : anotacoes.textosRecentes(c.id()),
+                anotacoes == null ? List.of() : anotacoes.contexto(c.id()).recomendacoes().stream()
+                        .map(r -> r.produto() + " (" + r.motivo() + ")").toList());
     }
 
     private static ContextoCliente.AcaoContexto acaoContexto(AnaliseCliente a, AcaoSugerida acao,

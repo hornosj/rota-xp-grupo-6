@@ -85,6 +85,46 @@ convite:
   validade-horas: 48
   prazo-meses: 12
 
+# Editar cliente: notas do assessor (áudio transcrito no navegador ou texto) viram contexto do Copiloto.
+# O LLM só classifica a necessidade; o produto sai deste catálogo, por regra.
+anotacoes:
+  max-no-contexto: 5          # notas recentes que o LLM recebe
+  max-caracteres: 2000
+  catalogo:
+    PROTECAO_VEICULO:
+      nome: Seguro auto
+      descricao: Cobertura para colisão, roubo e danos a terceiros; cotação com a corretora de seguros.
+    PROTECAO_VIDA:
+      nome: Seguro de vida
+      descricao: Protege a renda da família se o cliente faltar ou ficar inválido.
+    PROTECAO_RESIDENCIAL:
+      nome: Seguro residencial
+      descricao: Cobre roubo, incêndio e danos elétricos ou por água no imóvel.
+    SAUDE:
+      nome: Seguro de vida com cobertura para doenças graves
+      descricao: Indenização em dinheiro no diagnóstico, para custos que o plano de saúde não cobre.
+    RESERVA_EMERGENCIA:
+      nome: Reserva de emergência com liquidez diária
+      descricao: Tesouro Selic ou CDB com liquidez diária, até cobrir 6 meses do custo de vida.
+    EDUCACAO:
+      nome: Plano para educação dos filhos
+      descricao: Aporte mensal em previdência ou título indexado à inflação com vencimento na data da faculdade.
+    APOSENTADORIA:
+      nome: Previdência privada (PGBL ou VGBL)
+      descricao: Acumulação de longo prazo com benefício fiscal; o tipo depende da declaração de IR.
+    COMPRA_IMOVEL:
+      nome: Carteira para a entrada do imóvel
+      descricao: Renda fixa com vencimento próximo da data da compra, sem risco de mercado no resgate.
+    COMPRA_VEICULO:
+      nome: Carteira para a compra do veículo
+      descricao: CDB ou LCI com vencimento na data da troca, para pagar à vista e negociar desconto.
+    VIAGEM:
+      nome: Investimento com liquidez para a viagem
+      descricao: Renda fixa com liquidez ou vencimento antes da viagem.
+    SUCESSAO:
+      nome: Planejamento sucessório com VGBL
+      descricao: Previdência fora do inventário, com beneficiários indicados.
+
 prioridade:
   fgc-base: 35
   fgc-por-20k: 1
