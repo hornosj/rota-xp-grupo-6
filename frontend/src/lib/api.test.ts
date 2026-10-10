@@ -59,8 +59,8 @@ describe("httpApi", () => {
 
   it("codifica ids na URL", async () => {
     const f = vi.fn(async () => resposta(200, {}));
-    await criarHttpApi(f).jornada("cli 1/x");
-    expect(f).toHaveBeenCalledWith("/api/clientes/cli%201%2Fx/jornada", expect.anything());
+    await criarHttpApi(f).visao360("cli 1/x");
+    expect(f).toHaveBeenCalledWith("/api/clientes/cli%201%2Fx/360", expect.anything());
   });
 });
 

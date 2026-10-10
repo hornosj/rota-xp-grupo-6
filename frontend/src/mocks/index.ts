@@ -12,7 +12,6 @@ import {
   instituicaoDaAcaoConvidar,
   mensagemConvite,
 } from "./convites";
-import { jornadaDerivada, jornadaMarina } from "./jornada";
 import { montarVisao } from "./montar";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "./radar";
 import { briefingStub, mensagemStub } from "./textos";
@@ -157,10 +156,6 @@ export const mockApi: Api = {
   },
   async painel() {
     return esperar(painel());
-  },
-  async jornada(id) {
-    if (id === "cli-001") return esperar(jornadaMarina(estadoMarina() !== null));
-    return esperar(jornadaDerivada(visao(id)));
   },
   async mensagem(id, acaoId, canal) {
     const v = visao(id);

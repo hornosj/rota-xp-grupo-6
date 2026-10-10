@@ -6,7 +6,6 @@ import type {
   ClienteResumo,
   Convite,
   ItemFila,
-  Jornada,
   MensagemGerada,
   PainelCarteira,
   Visao360,
@@ -15,9 +14,6 @@ import briefing from "@/mocks/fixtures-contrato/briefing-cli-001.json";
 import clientes from "@/mocks/fixtures-contrato/clientes.json";
 import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
-import jornadaAntes from "@/mocks/fixtures-contrato/jornada-cli-001-antes.json";
-import jornadaDepois from "@/mocks/fixtures-contrato/jornada-cli-001-depois.json";
-import jornada003 from "@/mocks/fixtures-contrato/jornada-cli-003-antes.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "@/mocks/radar";
@@ -32,9 +28,6 @@ export const fixtures = {
   visaoDepois: () => como<Visao360>(visaoDepois),
   filaAntes: () => como<ItemFila[]>(filaAntes),
   filaDepois: () => como<ItemFila[]>(filaDepois),
-  jornadaAntes: () => como<Jornada>(jornadaAntes),
-  jornadaDepois: () => como<Jornada>(jornadaDepois),
-  jornada003: () => como<Jornada>(jornada003),
   painel: () => como<PainelCarteira>(painel),
   mensagem: () => como<MensagemGerada>(mensagem),
   briefing: () => como<Briefing>(briefing),
@@ -103,11 +96,6 @@ export const apiFixtures: Api = {
   revogar: async (id) => visao(id),
   fila: async () => (estadoFixtures.conectado ? fixtures.filaDepois() : fixtures.filaAntes()),
   painel: async () => fixtures.painel(),
-  jornada: async (id) => {
-    if (id === "cli-003") return fixtures.jornada003();
-    if (id !== "cli-001") throw naoEncontrado(id);
-    return estadoFixtures.conectado ? fixtures.jornadaDepois() : fixtures.jornadaAntes();
-  },
   mensagem: async (id, acaoId, canal) => {
     if (acaoId === "acao-cli-001-convidar_conexao-inst-horizonte") {
       const c = criarConviteFixture(id, "inst-horizonte");

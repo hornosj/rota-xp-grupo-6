@@ -1,6 +1,5 @@
 // Rótulos pt-BR para os enums do contrato.
 import type {
-  CategoriaCusto,
   ComponentesPrincipalidade,
   DirecaoNoticia,
   Escopo,
@@ -10,7 +9,6 @@ import type {
   Produto,
   ProdutoDeclarado,
   Severidade,
-  StatusConsentimento,
   TipoAlerta,
 } from "./api-types";
 
@@ -84,13 +82,6 @@ export const rotuloProduto: Record<Produto | "SALDO_CONTA", string> = {
   SALDO_CONTA: "Saldo em conta",
 };
 
-export const rotuloStatusConsentimento: Record<StatusConsentimento, string> = {
-  ATIVO: "Ativo",
-  PENDENTE: "Pendente",
-  EXPIRADO: "Expirado",
-  REVOGADO: "Revogado",
-};
-
 export type Componente = keyof ComponentesPrincipalidade;
 
 /** Ordem e cores dos componentes da principalidade (§7.4). */
@@ -102,13 +93,6 @@ export const componentes: { chave: Componente; rotulo: string; cor: string }[] =
   { chave: "cartao", rotulo: "Cartão", cor: "#e87ba4" },
   { chave: "credito", rotulo: "Crédito", cor: "#008300" },
 ];
-
-export const rotuloCategoriaCusto: Record<CategoriaCusto, string> = {
-  CONTAS_RECORRENTES: "Contas recorrentes",
-  PARCELAS: "Parcelas",
-  CONSUMO: "Consumo",
-  CARTOES: "Cartões",
-};
 
 // ---------- Radar de notícias ----------
 

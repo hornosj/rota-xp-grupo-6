@@ -9,7 +9,6 @@ import type {
   Id,
   ImpactoNoticia,
   ItemFila,
-  Jornada,
   MensagemGerada,
   MotivoNoticia,
   NoticiaClassificada,
@@ -29,7 +28,6 @@ export interface Api {
   revogar(clienteId: Id, instituicaoId: Id): Promise<Visao360>;
   fila(): Promise<ItemFila[]>;
   painel(): Promise<PainelCarteira>;
-  jornada(clienteId: Id): Promise<Jornada>;
   mensagem(clienteId: Id, acaoId: Id, canal: Canal): Promise<MensagemGerada>;
   briefing(clienteId: Id): Promise<Briefing>;
   resetDemo(): Promise<void>;

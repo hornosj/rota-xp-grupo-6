@@ -12,7 +12,6 @@ import type {
   ErroApi,
   ImpactoNoticia,
   ItemFila,
-  Jornada,
   MensagemGerada,
   MotivoNoticia,
   NoticiaClassificada,
@@ -74,7 +73,6 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     revogar: (id, inst) => chamar<Visao360>(`/clientes/${seg(id)}/consentimentos/${seg(inst)}/revogar`, { method: "POST" }),
     fila: () => chamar<ItemFila[]>("/assessor/fila"),
     painel: () => chamar<PainelCarteira>("/assessor/painel"),
-    jornada: (id) => chamar<Jornada>(`/clientes/${seg(id)}/jornada`),
     mensagem: (id, acaoId, canal) =>
       chamar<MensagemGerada>(`/clientes/${seg(id)}/acoes/${seg(acaoId)}/mensagem`, { method: "POST", json: { canal } }),
     briefing: (id) => chamar<Briefing>(`/clientes/${seg(id)}/briefing`),

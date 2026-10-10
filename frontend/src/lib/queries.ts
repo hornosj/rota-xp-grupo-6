@@ -13,7 +13,6 @@ export const chaves = {
   clientes: ["clientes"] as const,
   demoEstado: ["demo", "estado"] as const,
   visao360: (id: Id) => ["360", id] as const,
-  jornada: (id: Id) => ["jornada", id] as const,
   consentimentos: (id: Id) => ["consentimentos", id] as const,
   briefing: (id: Id) => ["briefing", id] as const,
   /** Prefixo de todas as consultas do radar de notícias. */
@@ -50,10 +49,6 @@ export function useDemoEstado() {
 
 export function useVisao360(id: Id, o?: OpcoesAoVivo) {
   return useQuery({ queryKey: chaves.visao360(id), queryFn: () => api.visao360(id), refetchInterval: intervalo(o) });
-}
-
-export function useJornada(id: Id, o?: OpcoesAoVivo) {
-  return useQuery({ queryKey: chaves.jornada(id), queryFn: () => api.jornada(id), refetchInterval: intervalo(o) });
 }
 
 export function useConsentimentos(id: Id, o?: OpcoesAoVivo) {
@@ -117,7 +112,6 @@ function invalidarCliente(qc: QueryClient, clienteId: Id) {
     qc.invalidateQueries({ queryKey: chaves.painel }),
     qc.invalidateQueries({ queryKey: chaves.clientes }),
     qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
-    qc.invalidateQueries({ queryKey: chaves.jornada(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.consentimentos(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.briefing(clienteId) }),
     // consentimento muda a carteira visível → muda o que as notícias tocam
