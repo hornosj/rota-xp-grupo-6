@@ -123,7 +123,7 @@ public class AlertaService {
         BigDecimal custo = fluxo.fluxo().custoVidaMensal();
         BigDecimal excesso = fluxo.saldoContas().subtract(custo.multiply(props.saldoParadoMultiploCusto()));
         if (excesso.compareTo(props.saldoParadoMinimo()) < 0) return;
-        BigDecimal mensal = excesso.multiply(rendimentoMensalCdi()).setScale(0, RoundingMode.HALF_EVEN);
+        BigDecimal mensal = rendimentoMensal(excesso, premissas);
         r.add(novo(cli, TipoAlerta.SALDO_PARADO, null, Severidade.MEDIA,
                 Texto.reais(excesso) + " parados em conta",
                 Texto.reais(excesso) + " estão em conta além de " + Texto.decimal(props.saldoParadoMultiploCusto().doubleValue())
@@ -131,10 +131,11 @@ public class AlertaService {
                 excesso, null, null));
     }
 
-    /** (1 + CDI)^(1/12) − 1. */
-    BigDecimal rendimentoMensalCdi() {
+    /** valor × ((1 + CDI)^(1/12) − 1), em reais inteiros. */
+    public static BigDecimal rendimentoMensal(BigDecimal valor, Premissas premissas) {
         double cdi = premissas.cdiAnual().doubleValue();
-        return new BigDecimal(Math.pow(1 + cdi, 1.0 / 12) - 1, MathContext.DECIMAL64);
+        BigDecimal taxa = new BigDecimal(Math.pow(1 + cdi, 1.0 / 12) - 1, MathContext.DECIMAL64);
+        return valor.multiply(taxa).setScale(0, RoundingMode.HALF_EVEN);
     }
 
     private void rendaForaXp(DadosVisiveis d, FluxoCaixa f, List<Alerta> r) {
