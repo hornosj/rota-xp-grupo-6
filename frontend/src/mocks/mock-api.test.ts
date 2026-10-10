@@ -132,3 +132,34 @@ describe("mockApi", () => {
     await expect(api.visao360("cli-999")).rejects.toMatchObject({ status: 404 });
   });
 });
+
+describe("mockApi — notas do assessor (editar cliente)", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it("nota vira contexto e recomenda produto pela necessidade; reset apaga", async () => {
+    const api = await novaInstancia();
+    const r = await api.registrarNota("cli-003", "A Juliana bateu o carro semana passada. Quer juntar para a faculdade do filho.", "AUDIO");
+
+    expect(r.necessidades.map((n) => n.tipo)).toEqual(["PROTECAO_VEICULO", "EDUCACAO"]);
+    expect(r.recomendacoes[0]).toMatchObject({ necessidade: "PROTECAO_VEICULO", produto: "Seguro auto",
+      motivo: "A Juliana bateu o carro semana passada" });
+    expect(r.geradoPor).toBe("stub");
+
+    const outra = await novaInstancia();   // outro iframe do /palco: mesmo localStorage
+    const c = await outra.contextoAssessor("cli-003");
+    expect(c.anotacoes[0]).toMatchObject({ origem: "AUDIO", data: "2026-10-11" });
+    expect(c.recomendacoes.map((x) => x.produto)).toContain("Seguro auto");
+    expect((await outra.contextoAssessor("cli-001")).anotacoes).toEqual([]);
+
+    await outra.resetDemo();
+    expect((await api.contextoAssessor("cli-003")).anotacoes).toEqual([]);
+  });
+
+  it("nota vazia é 400 e cliente inexistente é 404", async () => {
+    const api = await novaInstancia();
+    await expect(api.registrarNota("cli-003", "   ", "TEXTO")).rejects.toMatchObject({ status: 400 });
+    await expect(api.contextoAssessor("cli-999")).rejects.toMatchObject({ status: 404 });
+  });
+});

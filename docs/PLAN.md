@@ -288,7 +288,8 @@ Base `/api`. JSON. Sem autenticação (demo). Um único assessor: `ass-001`.
 | POST | `/convites/{token}/confirmar` | `Convite` (CONFIRMADO; chama `conceder`) | BE1 | P0 |
 | POST | `/clientes/{id}/acoes/{acaoId}/mensagem` body `{ canal }` | `MensagemGerada` | BE2 | P0 |
 | GET | `/clientes/{id}/briefing` | `Briefing` | BE2 | P1 |
-| POST | `/clientes/{id}/notas` body `{ transcricao }` | `ResultadoNota` | BE2 | P2 |
+| POST | `/clientes/{id}/notas` body `{ transcricao, origem? }` (`AUDIO` \| `TEXTO`) | `ResultadoNota` (+ `necessidades`, `recomendacoes`) | BE2 | P2 |
+| GET | `/clientes/{id}/contexto` | `ContextoAssessor { clienteId, anotacoes[], recomendacoes[] }` | BE2 | P2 |
 | POST | `/simulacoes/desagio` body `{ desagio, taxaAntiga, taxaNova, prazoRestanteAnos }` | `{ breakEvenAnos, compensa, explicacao }` | Analista | P2 |
 | POST | `/demo/reset` | `204` | BE1 | P0 |
 | GET | `/demo/estado` | `{ dataReferencia, modoCopiloto }` | BE1 | P0 |
@@ -615,6 +616,13 @@ Spring AI `ChatClient` (mesma versão que o Embabel puxa) e siga em frente; o Em
 Transcrição no navegador com Web Speech API (`webkitSpeechRecognition`, `lang = 'pt-BR'`, Chrome),
 com fallback de textarea e um botão "usar transcrição de exemplo" para a demo. Só o texto vai para
 `POST /clientes/{id}/notas`.
+
+**Editar cliente (notas do assessor).** Na 360, "Editar cliente" abre o ditado. A nota (ex.: "bateu o
+carro") fica guardada por cliente (em memória, zera no reset) e entra no `ContextoCliente` como
+`anotacoesAssessor` + `produtosRecomendados` — só aparecem no JSON quando existem, para não mudar o hash
+do `llm-cache`. O LLM só **classifica** necessidades numa lista fechada (`TipoNecessidade`); o produto
+sai do catálogo `anotacoes.catalogo` do `application.yml`, por regra. Transcrição no servidor (Whisper)
+fica como evolução: o backend já recebe só texto, então a troca é isolada no front + um endpoint novo.
 
 ---
 

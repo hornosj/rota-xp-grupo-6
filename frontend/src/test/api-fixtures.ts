@@ -16,6 +16,7 @@ import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
+import { contextoMock, registrarNotaMock } from "@/mocks/anotacoes";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "@/mocks/radar";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
 import visaoDepois from "@/mocks/fixtures-contrato/visao360-cli-001-depois.json";
@@ -128,5 +129,13 @@ export const apiFixtures: Api = {
     c.status = "CONFIRMADO";
     estadoFixtures.conectado = true;
     return structuredClone(c);
+  },
+  registrarNota: async (id, transcricao, origem) => {
+    visao(id);
+    return registrarNotaMock(id, "Marina", transcricao, origem);
+  },
+  contextoAssessor: async (id) => {
+    visao(id);
+    return contextoMock(id);
   },
 };

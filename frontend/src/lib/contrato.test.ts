@@ -77,6 +77,11 @@ export type ChecagensForma = [
   Esperar<Compativel<H.DemoEstado, S["DemoEstado"]>>,
   Esperar<Compativel<H.ErroApi, S["ErroResposta"]>>,
   Esperar<Compativel<H.Convite, S["Convite"]>>,
+  Esperar<Compativel<H.ResultadoNota, S["ResultadoNota"]>>,
+  Esperar<Compativel<H.ContextoAssessor, S["ContextoAssessor"]>>,
+  Esperar<Compativel<H.Anotacao, S["Anotacao"]>>,
+  Esperar<Compativel<H.RecomendacaoProduto, S["RecomendacaoProduto"]>>,
+  Esperar<Compativel<H.Necessidade, S["Necessidade"]>>,
 ];
 
 // 3: enums idênticos
@@ -97,6 +102,10 @@ export type ChecagensEnum = [
   Esperar<Igual<H.EventoVida["origem"], En<S["EventoVida"]["origem"]>>>,
   Esperar<Igual<H.Convite["status"], En<S["Convite"]["status"]>>>,
   Esperar<Igual<H.Escopo, ElemDe<S["Convite"]["escopos"]>>>,
+  Esperar<Igual<H.TipoNecessidade, En<S["Necessidade"]["tipo"]>>>,
+  Esperar<Igual<H.TipoNecessidade, En<S["RecomendacaoProduto"]["necessidade"]>>>,
+  Esperar<Igual<H.OrigemAnotacao, En<S["Anotacao"]["origem"]>>>,
+  Esperar<Igual<H.OrigemAnotacao, En<S["NotaBody"]["origem"]>>>,
 ];
 
 // ---------------------------------------------------------------- runtime: campos obrigatórios nas fixtures

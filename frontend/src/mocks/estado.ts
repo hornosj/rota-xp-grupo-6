@@ -1,6 +1,7 @@
 // Estado do modo mock, guardado no localStorage para ser compartilhado entre os iframes do /palco
 // (cada iframe tem seu próprio módulo JS, mas a mesma origem → mesmo localStorage).
 // Sempre relido a cada chamada; se o localStorage não existir, cai num fallback em memória.
+import type { Anotacao, RecomendacaoProduto } from "@/lib/api-types";
 
 export interface EstadoMock {
   /** "clienteId|instituicaoId" → ISO de quando foi concedido */
@@ -9,6 +10,13 @@ export interface EstadoMock {
   revogacoes: Record<string, string>;
   /** token → convite de consentimento (modo mock) */
   convites: Record<string, ConviteMock>;
+  /** clienteId → notas do assessor ("editar cliente") e produtos sugeridos */
+  notas: Record<string, NotasMock>;
+}
+
+export interface NotasMock {
+  anotacoes: Anotacao[];
+  recomendacoes: RecomendacaoProduto[];
 }
 
 export interface ConviteMock {
@@ -24,7 +32,7 @@ const CHAVE = "copiloto:mock:estado:v1";
 let memoria: EstadoMock = vazio();
 
 function vazio(): EstadoMock {
-  return { concessoes: {}, revogacoes: {}, convites: {} };
+  return { concessoes: {}, revogacoes: {}, convites: {}, notas: {} };
 }
 
 function storage(): Storage | null {
@@ -43,7 +51,12 @@ export function lerEstado(): EstadoMock {
     const bruto = s.getItem(CHAVE);
     if (!bruto) return vazio();
     const obj = JSON.parse(bruto) as Partial<EstadoMock>;
-    return { concessoes: obj.concessoes ?? {}, revogacoes: obj.revogacoes ?? {}, convites: obj.convites ?? {} };
+    return {
+      concessoes: obj.concessoes ?? {},
+      revogacoes: obj.revogacoes ?? {},
+      convites: obj.convites ?? {},
+      notas: obj.notas ?? {},
+    };
   } catch {
     return memoria;
   }
@@ -58,6 +71,16 @@ function gravar(e: EstadoMock) {
   } catch {
     /* sem storage: fica só em memória */
   }
+}
+
+export function lerNotas(clienteId: string): NotasMock {
+  return lerEstado().notas[clienteId] ?? { anotacoes: [], recomendacoes: [] };
+}
+
+export function gravarNotas(clienteId: string, notas: NotasMock) {
+  const e = lerEstado();
+  e.notas[clienteId] = notas;
+  gravar(e);
 }
 
 const chave = (clienteId: string, instituicaoId: string) => `${clienteId}|${instituicaoId}`;

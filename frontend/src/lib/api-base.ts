@@ -1,6 +1,7 @@
 // Interface única da API (implementada pelo cliente HTTP e pelo modo mock).
 import type {
   Briefing,
+  ContextoAssessor,
   Canal,
   ClienteResumo,
   ConsentimentoComNome,
@@ -12,8 +13,10 @@ import type {
   MensagemGerada,
   MotivoNoticia,
   NoticiaClassificada,
+  OrigemAnotacao,
   PainelCarteira,
   Principalidade,
+  ResultadoNota,
   ResultadoProcessamento,
   Visao360,
 } from "./api-types";
@@ -49,6 +52,10 @@ export interface Api {
   convite(token: string): Promise<Convite>;
   /** 409 (já confirmado) é tratado como sucesso; 410 se expirado; 404 se não existe. */
   confirmarConvite(token: string): Promise<Convite>;
+  // Notas do assessor ("editar cliente"): o áudio é transcrito no navegador; só o texto vai ao backend
+  /** 400 se a nota estiver vazia. */
+  registrarNota(clienteId: Id, transcricao: string, origem: OrigemAnotacao): Promise<ResultadoNota>;
+  contextoAssessor(clienteId: Id): Promise<ContextoAssessor>;
 }
 
 export class ApiError extends Error {

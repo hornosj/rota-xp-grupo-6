@@ -186,3 +186,23 @@ describe("httpApi · convites de consentimento", () => {
     await expect(criarHttpApi(nf).confirmarConvite("cv-x")).rejects.toMatchObject({ status: 404 });
   });
 });
+
+describe("httpApi — notas do assessor (editar cliente)", () => {
+  it("registrarNota envia { transcricao, origem } e contextoAssessor lê as notas", async () => {
+    const f = vi.fn(async (url: string) =>
+      url.endsWith("/notas")
+        ? resposta(200, { resumo: "r", recomendacoes: [{ necessidade: "PROTECAO_VEICULO", produto: "Seguro auto" }] })
+        : resposta(200, { clienteId: "cli-003", anotacoes: [], recomendacoes: [] }),
+    );
+    const api = criarHttpApi(f);
+
+    const r = await api.registrarNota("cli-003", "Bateu o carro.", "AUDIO");
+    const c = await api.contextoAssessor("cli-003");
+
+    expect(r.recomendacoes[0].produto).toBe("Seguro auto");
+    expect(c.clienteId).toBe("cli-003");
+    expect(f).toHaveBeenNthCalledWith(1, "/api/clientes/cli-003/notas",
+      expect.objectContaining({ method: "POST", body: JSON.stringify({ transcricao: "Bateu o carro.", origem: "AUDIO" }) }));
+    expect(f).toHaveBeenNthCalledWith(2, "/api/clientes/cli-003/contexto", expect.anything());
+  });
+});

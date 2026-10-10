@@ -4,7 +4,7 @@
 // polling lento só como rede de segurança. Consultas de IA nunca refazem sozinhas.
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "./api";
-import type { Canal, Id } from "./api-types";
+import type { Canal, Id, OrigemAnotacao } from "./api-types";
 import { avisarDadosAlterados, invalidarDados } from "./sinal";
 
 export const INTERVALO_AO_VIVO_MS = 15000;
@@ -25,6 +25,7 @@ export const chaves = {
   radarCliente: (id: Id) => ["radar", "cliente", id] as const,
   convites: (id: Id) => ["convites", id] as const,
   convite: (token: string) => ["convite", token] as const,
+  contextoAssessor: (id: Id) => ["contexto-assessor", id] as const,
 };
 
 interface OpcoesAoVivo {
@@ -215,6 +216,28 @@ export function useResetDemo() {
     onSuccess: async () => {
       await invalidarDados(qc);
       avisarDadosAlterados();
+    },
+  });
+}
+
+// ---------- Notas do assessor ("editar cliente") ----------
+
+export function useContextoAssessor(id: Id) {
+  return useQuery({ queryKey: chaves.contextoAssessor(id), queryFn: () => api.contextoAssessor(id) });
+}
+
+/** A nota muda o contexto do Copiloto (briefing) e pode criar eventos de vida (360). */
+export function useRegistrarNota() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ clienteId, transcricao, origem }: { clienteId: Id; transcricao: string; origem: OrigemAnotacao }) =>
+      api.registrarNota(clienteId, transcricao, origem),
+    onSuccess: async (_r, { clienteId }) => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: chaves.contextoAssessor(clienteId) }),
+        qc.invalidateQueries({ queryKey: chaves.briefing(clienteId) }),
+        qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
+      ]);
     },
   });
 }

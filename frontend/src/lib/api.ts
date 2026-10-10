@@ -5,6 +5,7 @@ import { ApiError, type Api } from "./api-base";
 import { USE_MOCKS } from "./config";
 import type {
   Briefing,
+  ContextoAssessor,
   ClienteResumo,
   ConsentimentoComNome,
   Convite,
@@ -17,6 +18,7 @@ import type {
   NoticiaClassificada,
   PainelCarteira,
   Principalidade,
+  ResultadoNota,
   ResultadoProcessamento,
   Visao360,
 } from "./api-types";
@@ -82,6 +84,9 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     processarRadar: () => chamar<ResultadoProcessamento>("/radar/processar", { method: "POST" }),
     radarCliente: (id) => chamar<ImpactoNoticia[]>(`/clientes/${seg(id)}/radar`),
     radarCarteira: (limite = 20) => chamar<ImpactoNoticia[]>(`/assessor/radar?limite=${limite}`),
+    registrarNota: (id, transcricao, origem) =>
+      chamar<ResultadoNota>(`/clientes/${seg(id)}/notas`, { method: "POST", json: { transcricao, origem } }),
+    contextoAssessor: (id) => chamar<ContextoAssessor>(`/clientes/${seg(id)}/contexto`),
     motivoNoticia: (id, noticiaId) =>
       chamar<MotivoNoticia>(`/clientes/${seg(id)}/radar/${seg(noticiaId)}/motivo`, { method: "POST" }),
     criarConvite: (id, inst) => chamar<Convite>(`/clientes/${seg(id)}/convites/${seg(inst)}`, { method: "POST" }),

@@ -1,6 +1,7 @@
 // Implementação mock da API (NEXT_PUBLIC_USE_MOCKS=true). Plano B da demo.
 // Estado (consentimentos concedidos/revogados) fica no localStorage: ver ./estado.ts.
 import { ApiError, type Api } from "@/lib/api-base";
+import { primeiroNome } from "@/lib/formato";
 import type { ClienteResumo, ConsentimentoComNome, Id, ItemFila, PainelCarteira, PosicaoXp, Visao360 } from "@/lib/api-types";
 import { ANCORAS, DATA_REFERENCIA, DEFS_ESTATICAS, defMarina, type DefCliente } from "./dados";
 import { concedidoEm, lerEstado, registrarConcessao, registrarRevogacao, resetarEstado, revogadoEm } from "./estado";
@@ -12,6 +13,7 @@ import {
   instituicaoDaAcaoConvidar,
   mensagemConvite,
 } from "./convites";
+import { contextoMock, registrarNotaMock } from "./anotacoes";
 import { montarVisao } from "./montar";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "./radar";
 import { briefingStub, mensagemStub } from "./textos";
@@ -209,6 +211,14 @@ export const mockApi: Api = {
   },
   async confirmarConvite(token) {
     return esperar(confirmarConviteMock(token, visao));
+  },
+  async registrarNota(id, transcricao, origem) {
+    const def = defDe(id); // 404 se o cliente não existe
+    return esperar(registrarNotaMock(id, primeiroNome(def.visao.cliente.nome), transcricao, origem));
+  },
+  async contextoAssessor(id) {
+    defDe(id);
+    return esperar(contextoMock(id));
   },
 };
 

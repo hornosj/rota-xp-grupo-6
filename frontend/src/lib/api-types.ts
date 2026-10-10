@@ -360,3 +360,59 @@ export interface ErroApi {
   erro: string;
   mensagem: string;
 }
+
+// ---------- Notas do assessor: "editar cliente" (aditivo) ----------
+
+export type OrigemAnotacao = "AUDIO" | "TEXTO";
+export type TipoNecessidade =
+  | "PROTECAO_VEICULO"
+  | "PROTECAO_VIDA"
+  | "PROTECAO_RESIDENCIAL"
+  | "SAUDE"
+  | "RESERVA_EMERGENCIA"
+  | "EDUCACAO"
+  | "APOSENTADORIA"
+  | "COMPRA_IMOVEL"
+  | "COMPRA_VEICULO"
+  | "VIAGEM"
+  | "SUCESSAO";
+
+/** Necessidade revelada na nota ("bateu o carro" → PROTECAO_VEICULO). O LLM só classifica. */
+export interface Necessidade {
+  tipo: TipoNecessidade;
+  motivo?: string;
+}
+
+/** Produto do catálogo do backend para a necessidade (regra, não LLM). */
+export interface RecomendacaoProduto {
+  necessidade: TipoNecessidade;
+  produto: string;
+  descricao?: string;
+  motivo?: string;
+}
+
+export interface ResultadoNota {
+  resumo?: string;
+  eventosCriados: EventoVida[];
+  metas: string[];
+  mudancasPerfil: string[];
+  necessidades: Necessidade[];
+  recomendacoes: RecomendacaoProduto[];
+  acoesCriadas: AcaoSugerida[];
+  geradoPor: GeradoPor;
+}
+
+export interface Anotacao {
+  id: Id;
+  texto: string;
+  origem: OrigemAnotacao;
+  data: string;
+  resumo?: string;
+}
+
+/** Notas do assessor (mais recentes primeiro) e produtos que elas sugerem. */
+export interface ContextoAssessor {
+  clienteId: Id;
+  anotacoes: Anotacao[];
+  recomendacoes: RecomendacaoProduto[];
+}

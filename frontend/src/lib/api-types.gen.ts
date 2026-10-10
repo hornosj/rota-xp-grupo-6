@@ -20,6 +20,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/simulacoes/desagio/detalhado": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["simular"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/radar/processar": {
         parameters: {
             query?: never;
@@ -260,6 +276,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/clientes/{id}/desagio/posicoes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["posicoes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/clientes/{id}/convites": {
         parameters: {
             query?: never;
@@ -268,6 +300,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["doCliente_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/clientes/{id}/contexto": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["contexto"];
         put?: never;
         post?: never;
         delete?: never;
@@ -392,6 +440,62 @@ export interface components {
             compensa?: boolean;
             explicacao?: string;
         };
+        DesagioPedido: {
+            clienteId?: string;
+            posicaoId?: string;
+            valorAtual?: number;
+            taxaAntiga?: number;
+            prazoRestanteAnos?: number;
+            desagio?: number;
+            precoVenda?: number;
+            taxaNova?: number;
+        };
+        DesagioDetalhado: {
+            entrada?: components["schemas"]["EntradaUsada"];
+            perdaImediata?: number;
+            valorFinalManter?: number;
+            valorFinalVender?: number;
+            ganhoDaTroca?: number;
+            /** Format: double */
+            ganhoDaTrocaPercentual?: number;
+            /** Format: double */
+            breakEvenAnos?: number;
+            /** Format: int32 */
+            breakEvenMeses?: number;
+            compensa?: boolean;
+            /** Format: double */
+            desagioMaximoQueCompensa?: number;
+            precoMinimoQueCompensa?: number;
+            /** Format: double */
+            spreadTaxas?: number;
+            serie?: components["schemas"]["PontoSerie"][];
+            explicacao?: string;
+            premissas?: string[];
+            avisos?: string[];
+        };
+        EntradaUsada: {
+            posicaoId?: string;
+            posicaoNome?: string;
+            valorAtual?: number;
+            /** Format: double */
+            taxaAntiga?: number;
+            /** Format: double */
+            taxaNova?: number;
+            /** Format: double */
+            prazoRestanteAnos?: number;
+            /** Format: double */
+            desagio?: number;
+            precoVenda?: number;
+        };
+        PontoSerie: {
+            /** Format: int32 */
+            mes?: number;
+            /** Format: double */
+            anos?: number;
+            valorManter?: number;
+            valorVender?: number;
+            diferenca?: number;
+        };
         ResultadoProcessamento: {
             /** Format: int32 */
             coletadas?: number;
@@ -429,6 +533,8 @@ export interface components {
         };
         NotaBody: {
             transcricao?: string;
+            /** @enum {string} */
+            origem?: "AUDIO" | "TEXTO";
         };
         AcaoSugerida: {
             id?: string;
@@ -451,11 +557,25 @@ export interface components {
             /** @enum {string} */
             origem?: "CADASTRO" | "NOTA_REUNIAO";
         };
+        Necessidade: {
+            /** @enum {string} */
+            tipo?: "PROTECAO_VEICULO" | "PROTECAO_VIDA" | "PROTECAO_RESIDENCIAL" | "SAUDE" | "RESERVA_EMERGENCIA" | "EDUCACAO" | "APOSENTADORIA" | "COMPRA_IMOVEL" | "COMPRA_VEICULO" | "VIAGEM" | "SUCESSAO";
+            motivo?: string;
+        };
+        RecomendacaoProduto: {
+            /** @enum {string} */
+            necessidade?: "PROTECAO_VEICULO" | "PROTECAO_VIDA" | "PROTECAO_RESIDENCIAL" | "SAUDE" | "RESERVA_EMERGENCIA" | "EDUCACAO" | "APOSENTADORIA" | "COMPRA_IMOVEL" | "COMPRA_VEICULO" | "VIAGEM" | "SUCESSAO";
+            produto?: string;
+            descricao?: string;
+            motivo?: string;
+        };
         ResultadoNota: {
             resumo?: string;
             eventosCriados?: components["schemas"]["EventoVida"][];
             metas?: string[];
             mudancasPerfil?: string[];
+            necessidades?: components["schemas"]["Necessidade"][];
+            recomendacoes?: components["schemas"]["RecomendacaoProduto"][];
             acoesCriadas?: components["schemas"]["AcaoSugerida"][];
             /** @enum {string} */
             geradoPor?: "stub" | "cache" | "live";
@@ -654,6 +774,14 @@ export interface components {
             /** Format: date */
             dataReferencia?: string;
             modoCopiloto?: string;
+            modeloLlm?: string;
+            llm?: components["schemas"]["UsoLlm"];
+        };
+        UsoLlm: {
+            /** Format: int32 */
+            chamadasHoje?: number;
+            /** Format: int32 */
+            limiteDiario?: number;
         };
         ClienteResumo: {
             id?: string;
@@ -680,6 +808,61 @@ export interface components {
             fracaoPatrimonio?: number;
             motivo?: string;
             gatilhos?: string[];
+        };
+        PosicaoDesagio: {
+            posicaoId?: string;
+            nome?: string;
+            /** @enum {string} */
+            produto?: "CDB" | "RDB" | "LCI" | "LCA" | "LC" | "POUPANCA" | "TESOURO" | "DEBENTURE" | "CRI" | "CRA" | "FUNDO" | "ACAO" | "PREVIDENCIA";
+            /** @enum {string} */
+            indexador?: "CDI" | "IPCA" | "PRE" | "SELIC" | "NA";
+            instituicaoId?: string;
+            instituicaoNome?: string;
+            emissorNome?: string;
+            valorAplicado?: number;
+            valorAtual?: number;
+            /** Format: date */
+            dataAplicacao?: string;
+            /** Format: date */
+            vencimento?: string;
+            /** Format: double */
+            prazoRestanteAnos?: number;
+            taxaTexto?: string;
+            /** Format: double */
+            taxaAnualEstimada?: number;
+            taxaDependeDePremissa?: boolean;
+            elegivel?: boolean;
+            motivoInelegibilidade?: string;
+        };
+        PosicoesDesagio: {
+            clienteId?: string;
+            clienteNome?: string;
+            /** Format: date */
+            dataReferencia?: string;
+            premissas?: components["schemas"]["PremissasMercado"];
+            posicoes?: components["schemas"]["PosicaoDesagio"][];
+        };
+        PremissasMercado: {
+            /** Format: double */
+            cdiAnual?: number;
+            /** Format: double */
+            ipcaAnual?: number;
+            /** Format: double */
+            selicAnual?: number;
+        };
+        Anotacao: {
+            id?: string;
+            texto?: string;
+            /** @enum {string} */
+            origem?: "AUDIO" | "TEXTO";
+            /** Format: date */
+            data?: string;
+            resumo?: string;
+        };
+        ContextoAssessor: {
+            clienteId?: string;
+            anotacoes?: components["schemas"]["Anotacao"][];
+            recomendacoes?: components["schemas"]["RecomendacaoProduto"][];
         };
         Briefing: {
             clienteId?: string;
@@ -757,6 +940,75 @@ export interface operations {
                     "*/*": components["schemas"]["DesagioResultado"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Gone */
+            410: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    simular: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DesagioPedido"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DesagioDetalhado"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -804,6 +1056,15 @@ export interface operations {
                     "*/*": components["schemas"]["ResultadoProcessamento"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -848,6 +1109,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
             };
             /** @description Not Found */
             404: {
@@ -898,6 +1168,15 @@ export interface operations {
                     "*/*": components["schemas"]["Convite"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -946,6 +1225,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MotivoNoticia"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1001,6 +1289,15 @@ export interface operations {
                     "*/*": components["schemas"]["ResultadoNota"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1049,6 +1346,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Convite"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1101,6 +1407,15 @@ export interface operations {
                     "*/*": components["schemas"]["Visao360"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1149,6 +1464,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Visao360"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1205,6 +1529,15 @@ export interface operations {
                     "*/*": components["schemas"]["MensagemGerada"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1252,6 +1585,15 @@ export interface operations {
                     "*/*": components["schemas"]["NoticiaClassificada"][];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1297,6 +1639,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["DemoEstado"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1348,6 +1699,15 @@ export interface operations {
                     "*/*": components["schemas"]["Convite"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1393,6 +1753,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ClienteResumo"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1444,6 +1813,15 @@ export interface operations {
                     "*/*": components["schemas"]["ImpactoNoticia"][];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1491,6 +1869,73 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Principalidade"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Gone */
+            410: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    posicoes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PosicoesDesagio"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1542,6 +1987,73 @@ export interface operations {
                     "*/*": components["schemas"]["Convite"][];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Gone */
+            410: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    contexto: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ContextoAssessor"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1589,6 +2101,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ConsentimentoView"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1640,6 +2161,15 @@ export interface operations {
                     "*/*": components["schemas"]["Briefing"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1687,6 +2217,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Visao360"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1738,6 +2277,15 @@ export interface operations {
                     "*/*": components["schemas"]["ImpactoNoticia"][];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1785,6 +2333,15 @@ export interface operations {
                     "*/*": components["schemas"]["PainelCarteira"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1830,6 +2387,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ItemFila"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */

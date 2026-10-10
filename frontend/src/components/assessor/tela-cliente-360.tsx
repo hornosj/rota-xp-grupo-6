@@ -11,10 +11,12 @@ import { useAoVivo } from "@/lib/ao-vivo";
 import { useDemoEstado, useVisao360 } from "@/lib/queries";
 import { CabecalhoCliente } from "./cabecalho-cliente";
 import { CardBriefing } from "./card-briefing";
+import { CardContextoAssessor } from "./card-contexto-assessor";
 import { CardFluxoCaixa } from "./card-fluxo-caixa";
 import { CardPatrimonio } from "./card-patrimonio";
 import { CardPrincipalidade } from "./card-principalidade";
 import { CardRadarCliente } from "./card-radar-cliente";
+import { DialogEditarCliente } from "./dialog-editar-cliente";
 import { LinhaDoTempo } from "./linha-do-tempo";
 import { ListaAcoes } from "./lista-acoes";
 import { ListaAlertas } from "./lista-alertas";
@@ -51,7 +53,11 @@ export function TelaCliente360({ clienteId }: { clienteId: Id }) {
         {voltar}
         {aoVivo && <IndicadorAoVivo atualizando={visao.isFetching} />}
       </div>
-      <CabecalhoCliente visao={v} aoVivo={aoVivo} />
+      <CabecalhoCliente
+        visao={v}
+        aoVivo={aoVivo}
+        acoes={<DialogEditarCliente clienteId={clienteId} nome={v.cliente.nome} />}
+      />
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-5">
@@ -88,6 +94,7 @@ export function TelaCliente360({ clienteId }: { clienteId: Id }) {
               <LinhaDoTempo cliente={v.cliente} dataReferencia={demo.data?.dataReferencia} />
             </CardContent>
           </Card>
+          <CardContextoAssessor clienteId={clienteId} />
           <CardBriefing clienteId={clienteId} />
         </div>
       </div>
