@@ -6,6 +6,15 @@ spring:
     name: copiloto
   jackson:
     default-property-inclusion: non_null
+  datasource:
+    url: jdbc:sqlite:${BANCO_ARQUIVO:./copiloto.db}?foreign_keys=on&journal_mode=WAL&synchronous=NORMAL
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 1           # SQLite: um escritor por vez; evita SQLITE_BUSY
+
+banco:
+  tipo: ${BANCO_TIPO:sqlite}         # sqlite | memoria
+  recriar-no-inicio: false           # true: reimporta a seed a cada startup (o reset da demo sempre reimporta)
 
 springdoc:
   api-docs:
