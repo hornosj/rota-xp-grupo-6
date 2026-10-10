@@ -10,6 +10,7 @@ import type {
   ItemFila,
   MensagemGerada,
   PainelCarteira,
+  PropostaEdicao,
   ResultadoOnboarding,
   Visao360,
 } from "@/lib/api-types";
@@ -22,6 +23,7 @@ import formularioOnboarding from "@/mocks/fixtures-contrato/onboarding-formulari
 import resultadoOnboarding from "@/mocks/fixtures-contrato/onboarding-resultado.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
+import propostaEdicao from "@/mocks/fixtures-contrato/proposta-edicao-cli-004.json";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "@/mocks/radar";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
 import visaoDepois from "@/mocks/fixtures-contrato/visao360-cli-001-depois.json";
@@ -41,6 +43,7 @@ export const fixtures = {
   convitesOnboarding: () => como<ConviteOnboarding[]>(convitesOnboarding),
   formularioOnboarding: () => como<FormularioOnboarding>(formularioOnboarding),
   resultadoOnboarding: () => como<ResultadoOnboarding>(resultadoOnboarding),
+  propostaEdicao: () => como<PropostaEdicao>(propostaEdicao),
 };
 
 export const estadoFixtures = { conectado: false, convites: [] as Convite[] };
@@ -145,4 +148,10 @@ export const apiFixtures: Api = {
     return fixtures.formularioOnboarding();
   },
   concluirOnboarding: async () => fixtures.resultadoOnboarding(),
+  transcreverAudio: async () => ({ texto: fixtures.propostaEdicao().transcricao, modelo: "whisper-1" }),
+  proporEdicao: async () => fixtures.propostaEdicao(),
+  editarCliente: async (id, edicao) => {
+    const v = visao(id);
+    return { ...v, cliente: { ...v.cliente, ...edicao } };
+  },
 };

@@ -2,6 +2,7 @@ import { BadgePosicaoXp, ChipPerfil } from "@/components/comum/marcadores";
 import type { Visao360 } from "@/lib/api-types";
 import { brlCurto, dataHora, pct } from "@/lib/formato";
 import { CoberturaConvites } from "./cobertura-convites";
+import { BotaoEdicaoVoz } from "./dialog-edicao-voz";
 
 function Numero({ rotulo, valor, detalhe }: { rotulo: string; valor: string; detalhe?: string }) {
   return (
@@ -19,9 +20,12 @@ export function CabecalhoCliente({ visao, aoVivo }: { visao: Visao360; aoVivo?: 
     <header className="flex flex-wrap items-end justify-between gap-7">
       <div className="flex min-w-0 flex-col gap-3">
         <h1 className="text-4xl leading-none font-extrabold tracking-tight sm:text-[56px]">{cliente.nome}</h1>
-        <p className="text-lg text-[#333] sm:text-xl">
-          {cliente.idade} anos · {cliente.profissao} · {cliente.cidade}
-        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <p className="text-lg text-[#333] sm:text-xl">
+            {cliente.idade} anos · {cliente.profissao} · {cliente.cidade}
+          </p>
+          <BotaoEdicaoVoz cliente={cliente} />
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           <ChipPerfil perfil={cliente.perfil} />
           <BadgePosicaoXp posicao={principalidade.posicaoXp} />

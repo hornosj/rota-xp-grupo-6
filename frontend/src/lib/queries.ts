@@ -4,7 +4,7 @@
 // polling lento só como rede de segurança. Consultas de IA nunca refazem sozinhas.
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "./api";
-import type { CadastroInvestidor, Canal, Id } from "./api-types";
+import type { CadastroInvestidor, Canal, EdicaoCadastro, Id } from "./api-types";
 import { avisarDadosAlterados, invalidarDados } from "./sinal";
 
 export const INTERVALO_AO_VIVO_MS = 15000;
@@ -207,6 +207,36 @@ export function useMensagem() {
   return useMutation({
     mutationFn: ({ clienteId, acaoId, canal }: { clienteId: Id; acaoId: Id; canal: Canal }) =>
       api.mensagem(clienteId, acaoId, canal),
+  });
+}
+
+// ---------- Edição do cadastro por voz ----------
+
+export function useTranscreverAudio() {
+  return useMutation({
+    mutationFn: ({ clienteId, audio, nomeArquivo }: { clienteId: Id; audio: Blob; nomeArquivo: string }) =>
+      api.transcreverAudio(clienteId, audio, nomeArquivo),
+  });
+}
+
+/** Só propõe (nada é gravado): o assessor confere antes de aplicar. */
+export function usePropostaEdicao() {
+  return useMutation({
+    mutationFn: ({ clienteId, transcricao }: { clienteId: Id; transcricao: string }) =>
+      api.proporEdicao(clienteId, transcricao),
+  });
+}
+
+/** Grava o que o assessor confirmou. Nome e cadastro aparecem na fila, no painel e nas mensagens. */
+export function useEditarCliente() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ clienteId, edicao }: { clienteId: Id; edicao: EdicaoCadastro }) => api.editarCliente(clienteId, edicao),
+    onSuccess: async (visao, { clienteId }) => {
+      qc.setQueryData(chaves.visao360(clienteId), visao);
+      await invalidarCliente(qc, clienteId);
+      avisarDadosAlterados();
+    },
   });
 }
 

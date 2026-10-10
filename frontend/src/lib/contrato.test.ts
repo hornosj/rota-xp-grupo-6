@@ -21,6 +21,7 @@ import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
 import mensagemConvite from "@/mocks/fixtures-contrato/mensagem-cli-001-convite.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
+import propostaEdicao from "@/mocks/fixtures-contrato/proposta-edicao-cli-004.json";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
 import visaoDepois from "@/mocks/fixtures-contrato/visao360-cli-001-depois.json";
 import type * as H from "./api-types";
@@ -85,6 +86,13 @@ export type ChecagensForma = [
   Esperar<Compativel<H.ResultadoOnboarding, S["ResultadoOnboarding"]>>,
   Esperar<Compativel<H.CadastroInvestidor, S["CadastroInvestidor"]>>,
   Esperar<Compativel<{ nome: string }, S["NovoConviteBody"]>>,
+  // edição do cadastro por voz
+  Esperar<Compativel<H.Transcricao, S["Transcricao"]>>,
+  Esperar<Compativel<H.TranscricaoVoz, S["TranscricaoVoz"]>>,
+  Esperar<Compativel<H.PropostaEdicao, S["PropostaEdicao"]>>,
+  Esperar<Compativel<H.AlteracaoCampo, S["AlteracaoCampo"]>>,
+  Esperar<Compativel<H.EdicaoCadastro, S["EdicaoCadastro"]>>,
+  Esperar<Compativel<{ transcricao: string }, S["PedidoProposta"]>>,
 ];
 
 // 3: enums idênticos
@@ -107,6 +115,8 @@ export type ChecagensEnum = [
   Esperar<Igual<H.Escopo, ElemDe<S["Convite"]["escopos"]>>>,
   Esperar<Igual<H.StatusConviteOnboarding, En<S["ConviteOnboarding"]["status"]>>>,
   Esperar<Igual<H.TipoEventoVida, En<S["EventoPlanejado"]["tipo"]>>>,
+  Esperar<Igual<H.CampoCadastro, En<S["AlteracaoCampo"]["campo"]>>>,
+  Esperar<Igual<H.GeradoPor, En<S["PropostaEdicao"]["geradoPor"]>>>,
 ];
 
 // ---------------------------------------------------------------- runtime: campos obrigatórios nas fixtures
@@ -200,6 +210,10 @@ R.convite = {
     "token", "clienteId", "instituicaoId", "instituicaoNome", "escopos", "prazoMeses", "link", "status", "criadoEm", "expiraEm",
   ),
 };
+R.propostaEdicao = {
+  chaves: obrigatorias<H.PropostaEdicao>()("clienteId", "transcricao", "alteracoes", "avisos", "geradoPor"),
+  filhos: { alteracoes: { chaves: obrigatorias<H.AlteracaoCampo>()("campo", "valorNovo") } },
+};
 R.clienteResumo = { chaves: obrigatorias<H.ClienteResumo>()("id", "nome", "perfil", "posicaoXp", "prioridade") };
 
 function faltando(obj: unknown, regra: Regra, caminho: string): string[] {
@@ -226,6 +240,7 @@ describe("fixtures reais do backend × tipos do front", () => {
     ["convite pendente", convitePendente, R.convite],
     ["convite confirmado", conviteConfirmado, R.convite],
     ["mensagem do convite", mensagemConvite, R.mensagem],
+    ["proposta de edição por voz", propostaEdicao, R.propostaEdicao],
   ] as const)("%s: todos os campos obrigatórios presentes", (_nome, fixture, regra) => {
     expect(faltando(fixture, regra, "$")).toEqual([]);
   });

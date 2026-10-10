@@ -8,6 +8,7 @@ import type {
   ConviteOnboarding,
   Convite,
   DemoEstado,
+  EdicaoCadastro,
   FormularioOnboarding,
   Id,
   ImpactoNoticia,
@@ -17,8 +18,10 @@ import type {
   NoticiaClassificada,
   PainelCarteira,
   Principalidade,
+  PropostaEdicao,
   ResultadoOnboarding,
   ResultadoProcessamento,
+  Transcricao,
   Visao360,
 } from "./api-types";
 
@@ -60,6 +63,13 @@ export interface Api {
   formularioOnboarding(token: string): Promise<FormularioOnboarding>;
   /** 400 (REQUISICAO_INVALIDA) em dado inválido; 409 se já concluído ou CPF repetido. */
   concluirOnboarding(token: string, cadastro: CadastroInvestidor): Promise<ResultadoOnboarding>;
+  // Edição do cadastro por voz
+  /** Whisper. 503 sem chave configurada no servidor; 502 se o serviço falhar; 400 em formato não suportado. */
+  transcreverAudio(clienteId: Id, audio: Blob, nomeArquivo: string): Promise<Transcricao>;
+  /** Só propõe: nada é gravado. 400 se a transcrição estiver vazia. */
+  proporEdicao(clienteId: Id, transcricao: string): Promise<PropostaEdicao>;
+  /** Grava o que o assessor confirmou e devolve a 360 recalculada. 400 em valor inválido. */
+  editarCliente(clienteId: Id, edicao: EdicaoCadastro): Promise<Visao360>;
 }
 
 export class ApiError extends Error {

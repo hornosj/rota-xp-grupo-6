@@ -1,5 +1,6 @@
 // Rótulos pt-BR para os enums do contrato.
 import type {
+  CampoCadastro,
   ComponentesPrincipalidade,
   DirecaoNoticia,
   Escopo,
@@ -17,6 +18,13 @@ export const rotuloPosicaoXp: Record<PosicaoXp, string> = {
   SECUNDARIA: "XP secundária",
   SO_INVESTIMENTOS: "Só investimentos",
   AUSENTE: "XP ausente",
+};
+
+export const rotuloCampoCadastro: Record<CampoCadastro, string> = {
+  NOME: "Nome",
+  IDADE: "Idade",
+  PROFISSAO: "Profissão",
+  CIDADE: "Cidade",
 };
 
 export const rotuloPerfil: Record<PerfilInvestidor, string> = {

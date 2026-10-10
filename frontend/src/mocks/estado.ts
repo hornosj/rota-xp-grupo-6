@@ -1,6 +1,7 @@
 // Estado do modo mock, guardado no localStorage para sobreviver a recarregamentos
 // e ser compartilhado entre abas da mesma origem.
 // Sempre relido a cada chamada; se o localStorage não existir, cai num fallback em memória.
+import type { EdicaoCadastro } from "@/lib/api-types";
 
 export interface EstadoMock {
   /** "clienteId|instituicaoId" → ISO de quando foi concedido */
@@ -9,6 +10,8 @@ export interface EstadoMock {
   revogacoes: Record<string, string>;
   /** token → convite de consentimento (modo mock) */
   convites: Record<string, ConviteMock>;
+  /** clienteId → campos do cadastro editados pelo assessor (edição por voz) */
+  edicoes: Record<string, EdicaoCadastro>;
 }
 
 export interface ConviteMock {
@@ -24,7 +27,7 @@ const CHAVE = "copiloto:mock:estado:v1";
 let memoria: EstadoMock = vazio();
 
 function vazio(): EstadoMock {
-  return { concessoes: {}, revogacoes: {}, convites: {} };
+  return { concessoes: {}, revogacoes: {}, convites: {}, edicoes: {} };
 }
 
 function storage(): Storage | null {
@@ -43,7 +46,12 @@ export function lerEstado(): EstadoMock {
     const bruto = s.getItem(CHAVE);
     if (!bruto) return vazio();
     const obj = JSON.parse(bruto) as Partial<EstadoMock>;
-    return { concessoes: obj.concessoes ?? {}, revogacoes: obj.revogacoes ?? {}, convites: obj.convites ?? {} };
+    return {
+      concessoes: obj.concessoes ?? {},
+      revogacoes: obj.revogacoes ?? {},
+      convites: obj.convites ?? {},
+      edicoes: obj.edicoes ?? {},
+    };
   } catch {
     return memoria;
   }
@@ -93,6 +101,16 @@ export function lerConvites(): ConviteMock[] {
 export function gravarConvite(c: ConviteMock) {
   const e = lerEstado();
   e.convites[c.token] = c;
+  gravar(e);
+}
+
+export function edicaoDe(clienteId: string): EdicaoCadastro | undefined {
+  return lerEstado().edicoes[clienteId];
+}
+
+export function registrarEdicao(clienteId: string, edicao: EdicaoCadastro) {
+  const e = lerEstado();
+  e.edicoes[clienteId] = { ...e.edicoes[clienteId], ...edicao };
   gravar(e);
 }
 

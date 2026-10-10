@@ -266,6 +266,48 @@ export interface ClienteResumo {
 export interface DemoEstado {
   dataReferencia: string;
   modoCopiloto: string;
+  /** Edição do cadastro por voz: falta em backends antigos. */
+  transcricao?: TranscricaoVoz;
+}
+
+// ---------- Edição do cadastro por voz (aditivo) ----------
+
+export interface TranscricaoVoz {
+  /** false sem chave do Whisper no servidor: o assessor digita o que mudou. */
+  disponivel: boolean;
+  modelo?: string;
+}
+
+/** O perfil de investidor fica de fora: vem do questionário de suitability. */
+export type CampoCadastro = "NOME" | "IDADE" | "PROFISSAO" | "CIDADE";
+
+export interface Transcricao {
+  texto: string;
+  modelo: string;
+}
+
+export interface AlteracaoCampo {
+  campo: CampoCadastro;
+  valorAtual?: string;
+  valorNovo: string;
+}
+
+/** Só uma proposta: nada é gravado até o assessor confirmar (PATCH). */
+export interface PropostaEdicao {
+  clienteId: Id;
+  transcricao: string;
+  alteracoes: AlteracaoCampo[];
+  /** O que foi entendido mas não entra na proposta (valor inválido, perfil de investidor). */
+  avisos: string[];
+  geradoPor: GeradoPor;
+}
+
+/** Corpo do PATCH /clientes/{id}: só os campos que mudam. */
+export interface EdicaoCadastro {
+  nome?: string;
+  idade?: number;
+  profissao?: string;
+  cidade?: string;
 }
 
 // ---------- Radar de notícias (BE2-10, aditivo) ----------
