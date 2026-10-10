@@ -13,7 +13,7 @@ import { ChipNivel } from "./chip-nivel";
 import { FluxoConectar } from "./fluxo-conectar";
 import { JornadaCliente } from "./jornada-cliente";
 import { ListaConsentimentos } from "./lista-consentimentos";
-import { MolduraCelular } from "./moldura-celular";
+import { MolduraCelular } from "@/components/palco/moldura-celular";
 
 describe("peças da jornada", () => {
   it("anel mostra o percentual visível", () => {
