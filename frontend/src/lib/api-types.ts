@@ -375,12 +375,20 @@ export type TipoNecessidade =
   | "COMPRA_IMOVEL"
   | "COMPRA_VEICULO"
   | "VIAGEM"
-  | "SUCESSAO";
+  | "SUCESSAO"
+  | "LUTO"
+  | "REORGANIZACAO_FINANCEIRA"
+  | "ALOCACAO_LIQUIDEZ"
+  | "AUMENTO_RENDA"
+  | "EMPREENDIMENTO"
+  | "INTERNACIONAL";
 
 /** Necessidade revelada na nota ("bateu o carro" → PROTECAO_VEICULO). O LLM só classifica. */
 export interface Necessidade {
   tipo: TipoNecessidade;
   motivo?: string;
+  /** A nota diz que o cliente já tem a proteção ("o carro tá com seguro"). */
+  jaPossui: boolean;
 }
 
 /** Produto do catálogo do backend para a necessidade (regra, não LLM). */
@@ -389,6 +397,10 @@ export interface RecomendacaoProduto {
   produto: string;
   descricao?: string;
   motivo?: string;
+  /** O cliente já tem o produto: a sugestão é revisá-lo. */
+  revisao: boolean;
+  /** Momento delicado (luto, doença, perda): acolher antes de ofertar. */
+  sensivel: boolean;
 }
 
 export interface ResultadoNota {

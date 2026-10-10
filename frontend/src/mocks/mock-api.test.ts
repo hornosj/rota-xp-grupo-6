@@ -163,3 +163,37 @@ describe("mockApi — notas do assessor (editar cliente)", () => {
     await expect(api.contextoAssessor("cli-999")).rejects.toMatchObject({ status: 404 });
   });
 });
+
+describe("mockApi — notas ditadas de verdade (sem pontuação)", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
+  it("quem já tem seguro recebe revisão; luto e perda vêm primeiro como momento delicado", async () => {
+    const api = await novaInstancia();
+    const r1 = await api.registrarNota("cli-004", "ó a Patrícia bateu o carro e o carro dela tá com seguro a gente precisa avaliar melhor", "AUDIO");
+    expect(r1.necessidades[0]).toMatchObject({ tipo: "PROTECAO_VEICULO", jaPossui: true, motivo: "ó a Patrícia bateu o carro" });
+    expect(r1.recomendacoes[0]).toMatchObject({ produto: "Revisão do seguro auto", revisao: true, sensivel: false });
+
+    const r2 = await api.registrarNota(
+      "cli-004",
+      "a Patrícia bateu o carro depois ela perdeu o filho agora ela perdeu todo o dinheiro dela ela agora ela só tem r$ 20.000 de patrimônio",
+      "AUDIO",
+    );
+    expect(r2.recomendacoes.map((x) => x.necessidade)).toEqual(["LUTO", "REORGANIZACAO_FINANCEIRA", "PROTECAO_VEICULO"]);
+    expect(r2.recomendacoes[0]).toMatchObject({ sensivel: true, motivo: "ela perdeu o filho" });
+
+    const ctx = await api.contextoAssessor("cli-004");
+    expect(ctx.recomendacoes.find((x) => x.necessidade === "PROTECAO_VEICULO")?.produto).toBe("Revisão do seguro auto");
+  });
+
+  it("doente e outros eventos de vida", async () => {
+    const api = await novaInstancia();
+    const r = await api.registrarNota("cli-004", "o filho da Patrícia ficou doente agora depois ela bateu o carro", "AUDIO");
+    expect(r.necessidades.map((n) => n.tipo)).toEqual(["SAUDE", "PROTECAO_VEICULO"]);
+    const r2 = await api.registrarNota("cli-004", "Ela casou e recebeu uma herança. Foi promovida e quer abrir uma empresa. Vai morar fora.", "TEXTO");
+    expect(r2.necessidades.map((n) => n.tipo)).toEqual([
+      "PROTECAO_VIDA", "ALOCACAO_LIQUIDEZ", "AUMENTO_RENDA", "EMPREENDIMENTO", "INTERNACIONAL",
+    ]);
+  });
+});

@@ -559,15 +559,18 @@ export interface components {
         };
         Necessidade: {
             /** @enum {string} */
-            tipo?: "PROTECAO_VEICULO" | "PROTECAO_VIDA" | "PROTECAO_RESIDENCIAL" | "SAUDE" | "RESERVA_EMERGENCIA" | "EDUCACAO" | "APOSENTADORIA" | "COMPRA_IMOVEL" | "COMPRA_VEICULO" | "VIAGEM" | "SUCESSAO";
+            tipo?: "PROTECAO_VEICULO" | "PROTECAO_VIDA" | "PROTECAO_RESIDENCIAL" | "SAUDE" | "RESERVA_EMERGENCIA" | "EDUCACAO" | "APOSENTADORIA" | "COMPRA_IMOVEL" | "COMPRA_VEICULO" | "VIAGEM" | "SUCESSAO" | "LUTO" | "REORGANIZACAO_FINANCEIRA" | "ALOCACAO_LIQUIDEZ" | "AUMENTO_RENDA" | "EMPREENDIMENTO" | "INTERNACIONAL";
             motivo?: string;
+            jaPossui?: boolean;
         };
         RecomendacaoProduto: {
             /** @enum {string} */
-            necessidade?: "PROTECAO_VEICULO" | "PROTECAO_VIDA" | "PROTECAO_RESIDENCIAL" | "SAUDE" | "RESERVA_EMERGENCIA" | "EDUCACAO" | "APOSENTADORIA" | "COMPRA_IMOVEL" | "COMPRA_VEICULO" | "VIAGEM" | "SUCESSAO";
+            necessidade?: "PROTECAO_VEICULO" | "PROTECAO_VIDA" | "PROTECAO_RESIDENCIAL" | "SAUDE" | "RESERVA_EMERGENCIA" | "EDUCACAO" | "APOSENTADORIA" | "COMPRA_IMOVEL" | "COMPRA_VEICULO" | "VIAGEM" | "SUCESSAO" | "LUTO" | "REORGANIZACAO_FINANCEIRA" | "ALOCACAO_LIQUIDEZ" | "AUMENTO_RENDA" | "EMPREENDIMENTO" | "INTERNACIONAL";
             produto?: string;
             descricao?: string;
             motivo?: string;
+            revisao?: boolean;
+            sensivel?: boolean;
         };
         ResultadoNota: {
             resumo?: string;

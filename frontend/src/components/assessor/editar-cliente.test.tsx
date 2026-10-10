@@ -120,4 +120,16 @@ describe("CardContextoAssessor", () => {
     expect(within(nota).getByLabelText("Nota de áudio")).toBeInTheDocument();
     await waitFor(() => expect(nota).toHaveTextContent("11/10/2026"));
   });
+
+  it("momento delicado aparece primeiro com orientação; quem já tem seguro vê revisão", async () => {
+    await mockApi.registrarNota("cli-004", "ó a Patrícia bateu o carro e o carro dela tá com seguro", "AUDIO");
+    await mockApi.registrarNota("cli-004", "ela perdeu o filho", "AUDIO");
+    renderComQuery(<CardContextoAssessor clienteId="cli-004" />);
+
+    const itens = within(await screen.findByTestId("produtos-sugeridos")).getAllByRole("listitem");
+    expect(itens[0]).toHaveTextContent("Momento delicado");
+    expect(itens[0]).toHaveTextContent(/acolha antes de ofertar/i);
+    expect(itens[1]).toHaveTextContent("Revisão do seguro auto");
+    expect(within(itens[1]).getByText("Já tem")).toBeInTheDocument();
+  });
 });
