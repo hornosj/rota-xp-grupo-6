@@ -122,6 +122,31 @@ class AgentesEmbabelTest {
         assertThat(ctx.getLlmInvocations().get(0).getPrompt()).contains("Banco Aurora é a instituição principal");
     }
 
+    // ---------- AgenteClassificacaoNoticias ----------
+
+    @Test
+    void classificaUmLoteNumaChamadaComOModeloDoLote() {
+        AgenteClassificacaoNoticias agente = new AgenteClassificacaoNoticias();
+        var lote = new AgentesTipos.LoteNoticias(
+                List.of(new br.com.rotaxp.copiloto.dominio.Radar.Noticia("not-001", "f", "Agro Sul adia juros de CRA", "resumo A", null, null),
+                        new br.com.rotaxp.copiloto.dominio.Radar.Noticia("not-003", "f", "Copom eleva a Selic", "resumo B", null, null)),
+                "openai/gpt-oss-120b",
+                List.of(new AgentesTipos.LoteNoticias.EmissorPermitido("emi-agrosul", "Agro Sul Sementes S.A."),
+                        new AgentesTipos.LoteNoticias.EmissorPermitido("emi-horizonte", "Banco Horizonte")));
+        var resposta = new AgentesTipos.LoteClassificado(List.of(
+                new AgentesTipos.ItemClassificado("not-001", List.of("emi-agrosul"), List.of(), List.of("CRA"), "NEGATIVA", 0.9, "x")));
+        ctx.expectResponse(resposta);
+
+        AgentesTipos.LoteClassificado r = agente.classificar(lote, ctx);
+
+        assertThat(r).isEqualTo(resposta);
+        assertThat(ctx.getLlmInvocations()).hasSize(1);
+        LlmInvocation inv = ctx.getLlmInvocations().get(0);
+        assertThat(inv.getInteraction().getLlm().getModel()).isEqualTo("openai/gpt-oss-120b");
+        assertThat(inv.getPrompt()).contains("not-001", "Agro Sul adia juros de CRA", "not-003", "Copom eleva a Selic");
+        assertThat(system(inv)).contains("emi-agrosul", "emi-horizonte", "SELIC", "DEBENTURE", "NEGATIVA");
+    }
+
     // ---------- AgenteNotaPosReuniao ----------
 
     @Test

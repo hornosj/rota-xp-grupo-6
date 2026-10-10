@@ -37,4 +37,16 @@ public final class AgentesTipos {
     public record FatosExtraidos(String resumo, List<EventoExtraido> eventos, List<String> metas, List<String> mudancasPerfil) {}
 
     public record EventoExtraido(String tipo, String descricao, String data) {}
+
+    // AgenteClassificacaoNoticias: LoteNoticias -> LoteClassificado (várias notícias numa chamada)
+    public record LoteNoticias(List<br.com.rotaxp.copiloto.dominio.Radar.Noticia> noticias, String modelo,
+                               List<EmissorPermitido> emissoresPermitidos) {
+        public record EmissorPermitido(String id, String nome) {}
+    }
+
+    /** Saída estruturada do LLM: valores como texto, validados depois pelo ClassificadorLlm. */
+    public record LoteClassificado(List<ItemClassificado> itens) {}
+
+    public record ItemClassificado(String noticiaId, List<String> emissores, List<String> indexadores, List<String> produtos,
+                                   String direcao, double relevancia, String resumoImpacto) {}
 }
