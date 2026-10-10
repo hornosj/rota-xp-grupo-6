@@ -132,14 +132,20 @@ public class RadarService {
         return cruzamento.impactos(gateway.dados(clienteId), noticias());
     }
 
-    /** Impactos de todos os clientes do assessor, por pontos. */
+    /** Impactos de todos os clientes do assessor, por pontos, com no máximo N clientes por notícia. */
     public List<ImpactoNoticia> impactosDaCarteira(int limite) {
         List<ImpactoNoticia> todos = new ArrayList<>();
         for (Cliente c : repo.clientes()) {
             if (demo.assessorId().equals(c.assessorId())) todos.addAll(impactosDoCliente(c.id()));
         }
         todos.sort(Comparator.comparingDouble(ImpactoNoticia::pontos).reversed());
-        return todos.size() > limite ? List.copyOf(todos.subList(0, limite)) : todos;
+        Map<String, Integer> porNoticia = new LinkedHashMap<>();
+        List<ImpactoNoticia> r = new ArrayList<>();
+        for (ImpactoNoticia i : todos) {
+            if (r.size() >= limite) break;
+            if (porNoticia.merge(i.noticiaId(), 1, Integer::sum) <= props.maxClientesPorNoticia()) r.add(i);
+        }
+        return r;
     }
 
     public NoticiaClassificada noticia(String id) {

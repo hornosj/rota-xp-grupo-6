@@ -53,7 +53,7 @@ public class RadarServiceTest {
 
     public static RadarProps props(String classificacao, boolean preFiltro) {
         return new RadarProps(classificacao, "openai/gpt-oss-120b", 10, "0 0 7,10,12,14,16,19 * * MON-FRI",
-                "0 */30 * * * *", true, true, 0.25, 10, preFiltro);
+                "0 */30 * * * *", true, true, 0.25, 10, preFiltro, 3);
     }
 
     private RadarService service(String modo, AgenteContador agente, FonteNoticias... fontes) {
@@ -234,6 +234,33 @@ public class RadarServiceTest {
         assertThat(carteira).hasSizeLessThanOrEqualTo(5);
         assertThat(carteira).extracting(ImpactoNoticia::pontos).isSortedAccordingTo((a, b) -> Double.compare(b, a));
         assertThat(carteira.get(0).clienteId()).isEqualTo("cli-001");
+    }
+
+    @Test
+    void naCarteiraCadaNoticiaApareceParaNoMaximoTresClientes() {
+        // notícia macro (CDI) atinge todos os clientes; não pode tomar a lista inteira
+        CenarioBuilder b = CenarioBuilder.comInstituicoesPadrao();
+        for (int k = 1; k <= 5; k++) {
+            String cli = "cli-x" + k;
+            b.cliente(cli, "Cliente " + k, "00" + k, br.com.rotaxp.copiloto.dominio.Enums.PerfilInvestidor.MODERADO,
+                    List.of(), List.of(), List.of()).interno(cli);
+            b.posicao(cli, "inst-xp", "emi-ipe", br.com.rotaxp.copiloto.dominio.Enums.Produto.CDB, "CDB", 100_000 * k, null, false);
+        }
+        i = new Infra(b.build());
+        FonteManual fonte = new FonteManual();
+        OffsetDateTime t = OffsetDateTime.parse("2026-10-10T08:00:00-03:00");
+        fonte.itens.add(new NoticiaColetada(new Noticia("macro", "rss", "Copom eleva a Selic", "", null, t),
+                new br.com.rotaxp.copiloto.dominio.Radar.Classificacao(List.of(),
+                        List.of(br.com.rotaxp.copiloto.dominio.Enums.Indexador.CDI), List.of(),
+                        br.com.rotaxp.copiloto.dominio.Radar.DirecaoNoticia.NEUTRA, 0.7, null, OrigemClassificacao.REFERENCIA)));
+        RadarService s = service("referencia", new AgenteContador(), fonte);
+        s.processar();
+
+        assertThat(s.impactosDoCliente("cli-x1")).hasSize(1);          // por cliente segue tudo
+        List<ImpactoNoticia> carteira = s.impactosDaCarteira(20);
+
+        assertThat(carteira).hasSize(3);
+        assertThat(carteira).extracting(ImpactoNoticia::noticiaId).containsOnly("macro");
     }
 
     @Test

@@ -110,6 +110,7 @@ radar:
   fracao-plena: 0.25
   pontos-minimos: 10
   pre-filtro: true                    # só manda ao LLM o que as regras acham financeiro
+  max-clientes-por-noticia: 3          # na visão da carteira, uma notícia macro não domina a lista
   rss:
     habilitado: ${RADAR_RSS:false}          # feeds reais; a demo usa só as curadas (offline)
     max-itens-por-feed: 30
