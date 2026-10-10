@@ -9,18 +9,16 @@
 // que todo campo obrigatório dos tipos à mão está presente (o backend omite nulos — Jackson NON_NULL).
 //
 // Estreitamentos aceitos (o front é mais específico que o OpenAPI):
-//   - Nivel.numero: number → 1 | 2 | 3 | 4
 //   - PorProduto.produto: string → Produto | "SALDO_CONTA"
 //   - PainelCarteira.distribuicaoPosicaoXp: Record<string, number> → Record<PosicaoXp, number>
-//   - Diagnostico.detalhes: Record<string, unknown> → formas por tipo (Detalhes*), conferidas abaixo nas fixtures.
 import { describe, expect, it } from "vitest";
 import briefing from "@/mocks/fixtures-contrato/briefing-cli-001.json";
 import clientes from "@/mocks/fixtures-contrato/clientes.json";
+import conviteConfirmado from "@/mocks/fixtures-contrato/convite-cli-001-confirmado.json";
+import convitePendente from "@/mocks/fixtures-contrato/convite-cli-001-pendente.json";
 import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
-import jornadaAntes from "@/mocks/fixtures-contrato/jornada-cli-001-antes.json";
-import jornadaDepois from "@/mocks/fixtures-contrato/jornada-cli-001-depois.json";
-import jornada003 from "@/mocks/fixtures-contrato/jornada-cli-003-antes.json";
+import mensagemConvite from "@/mocks/fixtures-contrato/mensagem-cli-001-convite.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
@@ -73,15 +71,12 @@ export type ChecagensForma = [
   Esperar<Compativel<H.Dependente, S["Dependente"]>>,
   Esperar<Compativel<H.ItemFila, S["ItemFila"]>>,
   Esperar<Compativel<H.PainelCarteira, S["PainelCarteira"]>>,
-  Esperar<Compativel<H.Jornada, S["Jornada"]>>,
-  Esperar<Compativel<H.NivelJornada, S["Nivel"]>>,
-  Esperar<Compativel<H.Missao, S["Missao"]>>,
-  Esperar<Compativel<H.Diagnostico, S["Diagnostico"]>>,
   Esperar<Compativel<H.MensagemGerada, S["MensagemGerada"]>>,
   Esperar<Compativel<H.Briefing, S["Briefing"]>>,
   Esperar<Compativel<H.ClienteResumo, S["ClienteResumo"]>>,
   Esperar<Compativel<H.DemoEstado, S["DemoEstado"]>>,
   Esperar<Compativel<H.ErroApi, S["ErroResposta"]>>,
+  Esperar<Compativel<H.Convite, S["Convite"]>>,
   // onboarding (respostas e corpos de requisição)
   Esperar<Compativel<H.ConviteOnboarding, S["ConviteOnboarding"]>>,
   Esperar<Compativel<H.FormularioOnboarding, S["FormularioOnboarding"]>>,
@@ -103,15 +98,14 @@ export type ChecagensEnum = [
   Esperar<Igual<H.Consentimento["tipo"], En<S["ConsentimentoView"]["tipo"]>>>,
   Esperar<Igual<H.Escopo, ElemDe<S["ConsentimentoView"]["escopos"]>>>,
   Esperar<Igual<H.ProdutoDeclarado, ElemDe<S["InstituicaoDeclarada"]["produtos"]>>>,
-  Esperar<Igual<H.Missao["tipo"], En<S["Missao"]["tipo"]>>>,
-  Esperar<Igual<H.Missao["status"], En<S["Missao"]["status"]>>>,
-  Esperar<Igual<H.TipoDiagnostico, En<S["Diagnostico"]["tipo"]>>>,
   Esperar<Igual<H.GeradoPor, En<S["MensagemGerada"]["geradoPor"]>>>,
   Esperar<Igual<H.GeradoPor, En<S["Briefing"]["geradoPor"]>>>,
   Esperar<Igual<H.Canal, En<S["MensagemGerada"]["canal"]>>>,
   Esperar<Igual<H.EventoVida["tipo"], En<S["EventoVida"]["tipo"]>>>,
   Esperar<Igual<H.EventoVida["origem"], En<S["EventoVida"]["origem"]>>>,
-  Esperar<Igual<H.StatusConvite, En<S["ConviteOnboarding"]["status"]>>>,
+  Esperar<Igual<H.Convite["status"], En<S["Convite"]["status"]>>>,
+  Esperar<Igual<H.Escopo, ElemDe<S["Convite"]["escopos"]>>>,
+  Esperar<Igual<H.StatusConviteOnboarding, En<S["ConviteOnboarding"]["status"]>>>,
   Esperar<Igual<H.TipoEventoVida, En<S["EventoPlanejado"]["tipo"]>>>,
 ];
 
@@ -199,30 +193,14 @@ R.painel = {
   ),
   filhos: { distribuicaoPosicaoXp: { chaves: ["PRINCIPAL", "SECUNDARIA", "SO_INVESTIMENTOS", "AUSENTE"] } },
 };
-R.jornada = {
-  chaves: obrigatorias<H.Jornada>()("clienteId", "completude", "nivel", "missoes", "diagnosticos"),
-  filhos: {
-    nivel: { chaves: obrigatorias<H.NivelJornada>()("numero", "nome", "beneficios") },
-    missoes: { chaves: obrigatorias<H.Missao>()("id", "tipo", "titulo", "descricao", "recompensa", "status", "progresso") },
-    diagnosticos: { chaves: obrigatorias<H.Diagnostico>()("tipo", "titulo", "desbloqueado", "requisito") },
-  },
-};
 R.mensagem = { chaves: obrigatorias<H.MensagemGerada>()("texto", "canal", "geradoPor") };
 R.briefing = { chaves: obrigatorias<H.Briefing>()("clienteId", "bullets", "perguntasSugeridas", "geradoPor") };
-R.clienteResumo = { chaves: obrigatorias<H.ClienteResumo>()("id", "nome", "perfil", "posicaoXp", "prioridade") };
-
-// Detalhes dos diagnósticos (forma combinada com o backend; `detalhes` é livre no OpenAPI).
-const regraDetalhes: Record<H.TipoDiagnostico, Regra> = {
-  PATRIMONIO_COMPLETO: { chaves: obrigatorias<H.DetalhesPatrimonioCompleto>()("instituicoes", "total") },
-  PROTECAO_FGC: {
-    chaves: obrigatorias<H.DetalhesProtecaoFgc>()("valorSemCobertura", "conglomerados"),
-    filhos: {
-      conglomerados: { chaves: obrigatorias<H.ConglomeradoFgc>()("conglomeradoId", "nome", "valor", "coberto", "descoberto") },
-    },
-  },
-  CUSTO_DE_VIDA: { chaves: obrigatorias<H.DetalhesCustoDeVida>()("total", "categorias", "parcial") },
-  RESERVA_EMERGENCIA: { chaves: obrigatorias<H.DetalhesReservaEmergencia>()("meses", "liquidezImediata", "metaMeses", "meta") },
+R.convite = {
+  chaves: obrigatorias<H.Convite>()(
+    "token", "clienteId", "instituicaoId", "instituicaoNome", "escopos", "prazoMeses", "link", "status", "criadoEm", "expiraEm",
+  ),
 };
+R.clienteResumo = { chaves: obrigatorias<H.ClienteResumo>()("id", "nome", "perfil", "posicaoXp", "prioridade") };
 
 function faltando(obj: unknown, regra: Regra, caminho: string): string[] {
   if (Array.isArray(obj)) return obj.flatMap((x, i) => faltando(x, regra, `${caminho}[${i}]`));
@@ -242,22 +220,20 @@ describe("fixtures reais do backend × tipos do front", () => {
     ["fila antes", filaAntes, R.itemFila],
     ["fila depois", filaDepois, R.itemFila],
     ["painel", painel, R.painel],
-    ["jornada cli-001 antes", jornadaAntes, R.jornada],
-    ["jornada cli-001 depois", jornadaDepois, R.jornada],
-    ["jornada cli-003 antes", jornada003, R.jornada],
     ["mensagem", mensagem, R.mensagem],
     ["briefing", briefing, R.briefing],
     ["clientes", clientes, R.clienteResumo],
+    ["convite pendente", convitePendente, R.convite],
+    ["convite confirmado", conviteConfirmado, R.convite],
+    ["mensagem do convite", mensagemConvite, R.mensagem],
   ] as const)("%s: todos os campos obrigatórios presentes", (_nome, fixture, regra) => {
     expect(faltando(fixture, regra, "$")).toEqual([]);
   });
 
-  it("detalhes dos diagnósticos desbloqueados seguem a forma por tipo", () => {
-    const diags = [...jornadaAntes.diagnosticos, ...jornadaDepois.diagnosticos, ...jornada003.diagnosticos] as unknown as H.Diagnostico[];
-    const erros = diags
-      .filter((d) => d.desbloqueado)
-      .flatMap((d) => faltando(d.detalhes, regraDetalhes[d.tipo], `${d.tipo}.detalhes`));
-    expect(erros).toEqual([]);
+  it("a mensagem do convite traz o link exato (o WhatsApp transforma em link clicável)", () => {
+    expect(convitePendente.status).toBe("PENDENTE");
+    expect(conviteConfirmado.status).toBe("CONFIRMADO");
+    expect(mensagemConvite.texto).toContain(convitePendente.link);
   });
 
   it("valores de enum das fixtures são conhecidos pelo front", () => {
@@ -269,9 +245,5 @@ describe("fixtures reais do backend × tipos do front", () => {
       "CDB", "RDB", "LCI", "LCA", "LC", "POUPANCA", "TESOURO", "DEBENTURE", "CRI", "CRA", "FUNDO", "ACAO", "PREVIDENCIA", "SALDO_CONTA",
     ];
     for (const p of produtos) expect(conhecidos).toContain(p);
-    const categorias: H.CategoriaCusto[] = ["CONTAS_RECORRENTES", "PARCELAS", "CONSUMO", "CARTOES"];
-    const custo = jornadaAntes.diagnosticos.find((d) => d.tipo === "CUSTO_DE_VIDA")!.detalhes as unknown as H.DetalhesCustoDeVida;
-    for (const k of Object.keys(custo.categorias)) expect(categorias).toContain(k);
-    for (const j of [jornadaAntes, jornadaDepois, jornada003]) expect([1, 2, 3, 4]).toContain(j.nivel.numero);
   });
 });

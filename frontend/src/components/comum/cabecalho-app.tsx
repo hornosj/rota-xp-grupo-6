@@ -20,6 +20,7 @@ export function Marca({ complemento }: { complemento?: string }) {
 const LINKS = [
   { href: "/assessor/hoje", rotulo: "Hoje", contador: true },
   { href: "/assessor", rotulo: "Meus clientes", contador: false },
+  { href: "/assessor/radar", rotulo: "Radar de notícias", contador: false },
   { href: "/assessor/convites", rotulo: "Cadastrar investidores", contador: false },
 ] as const;
 

@@ -16,6 +16,7 @@ import { CardBriefing } from "./card-briefing";
 import { CardFluxoCaixa } from "./card-fluxo-caixa";
 import { CardPatrimonio } from "./card-patrimonio";
 import { CardPrincipalidade } from "./card-principalidade";
+import { CardRadarCliente } from "./card-radar-cliente";
 import { DialogMensagem } from "./dialog-mensagem";
 import { LinhaDoTempo } from "./linha-do-tempo";
 import { ListaAcoes } from "./lista-acoes";
@@ -100,7 +101,7 @@ export function TelaCliente360({ clienteId }: { clienteId: Id }) {
         {voltar}
         {aoVivo && <IndicadorAoVivo atualizando={visao.isFetching} />}
       </div>
-      <CabecalhoCliente visao={v} />
+      <CabecalhoCliente visao={v} aoVivo={aoVivo} />
       <MotivoLigacao visao={v} />
 
       <div className="flex flex-wrap items-start gap-6">
@@ -128,6 +129,7 @@ export function TelaCliente360({ clienteId }: { clienteId: Id }) {
               <ListaAcoes clienteId={clienteId} nomeCliente={v.cliente.nome} acoes={v.acoes} />
             </CardContent>
           </Card>
+          <CardRadarCliente clienteId={clienteId} aoVivo={aoVivo} />
           <CardPrincipalidade principalidade={v.principalidade} />
         </div>
         <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-6">

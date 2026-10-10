@@ -6,15 +6,19 @@ import type {
   ClienteResumo,
   ConsentimentoComNome,
   ConviteOnboarding,
+  Convite,
   DemoEstado,
   FormularioOnboarding,
   Id,
+  ImpactoNoticia,
   ItemFila,
-  Jornada,
   MensagemGerada,
+  MotivoNoticia,
+  NoticiaClassificada,
   PainelCarteira,
   Principalidade,
   ResultadoOnboarding,
+  ResultadoProcessamento,
   Visao360,
 } from "./api-types";
 
@@ -28,17 +32,33 @@ export interface Api {
   revogar(clienteId: Id, instituicaoId: Id): Promise<Visao360>;
   fila(): Promise<ItemFila[]>;
   painel(): Promise<PainelCarteira>;
-  jornada(clienteId: Id): Promise<Jornada>;
   mensagem(clienteId: Id, acaoId: Id, canal: Canal): Promise<MensagemGerada>;
   briefing(clienteId: Id): Promise<Briefing>;
   resetDemo(): Promise<void>;
   demoEstado(): Promise<DemoEstado>;
+  // Radar de notícias
+  noticiasRadar(): Promise<NoticiaClassificada[]>;
+  processarRadar(): Promise<ResultadoProcessamento>;
+  /** Ordenado por pontos (desc). Depende dos consentimentos do cliente. */
+  radarCliente(clienteId: Id): Promise<ImpactoNoticia[]>;
+  /** Toda a carteira, por pontos (desc). Padrão: 20. */
+  radarCarteira(limite?: number): Promise<ImpactoNoticia[]>;
+  /** 404 se a notícia não mexe na carteira do cliente. */
+  motivoNoticia(clienteId: Id, noticiaId: Id): Promise<MotivoNoticia>;
+  // Convites de consentimento Open Finance
+  /** Reaproveita o PENDENTE se existir. 409 se a instituição já está conectada. */
+  criarConvite(clienteId: Id, instituicaoId: Id): Promise<Convite>;
+  convites(clienteId: Id): Promise<Convite[]>;
+  /** 404 se o token não existe. */
+  convite(token: string): Promise<Convite>;
+  /** 409 (já confirmado) é tratado como sucesso; 410 se expirado; 404 se não existe. */
+  confirmarConvite(token: string): Promise<Convite>;
   // Onboarding
-  convites(): Promise<ConviteOnboarding[]>;
-  criarConvite(nome: string): Promise<ConviteOnboarding>;
+  convitesOnboarding(): Promise<ConviteOnboarding[]>;
+  criarConviteOnboarding(nome: string): Promise<ConviteOnboarding>;
   /** 404 se o token não existir. Marca o convite como ABERTO. */
   formularioOnboarding(token: string): Promise<FormularioOnboarding>;
-  /** 400 (INVALIDO) em dado inválido; 409 se já concluído ou CPF repetido. */
+  /** 400 (REQUISICAO_INVALIDA) em dado inválido; 409 se já concluído ou CPF repetido. */
   concluirOnboarding(token: string, cadastro: CadastroInvestidor): Promise<ResultadoOnboarding>;
 }
 

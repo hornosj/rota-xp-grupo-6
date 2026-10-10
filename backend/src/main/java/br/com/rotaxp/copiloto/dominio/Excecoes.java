@@ -11,7 +11,12 @@ public final class Excecoes {
         public Conflito(String mensagem) { super(mensagem); }
     }
 
-    public static class Invalido extends RuntimeException {
-        public Invalido(String mensagem) { super(mensagem); }
+    /** Recurso que existiu mas não vale mais (ex.: convite expirado) — HTTP 410. */
+    public static class Expirado extends RuntimeException {
+        public Expirado(String mensagem) { super(mensagem); }
+    }
+
+    public static class RequisicaoInvalida extends RuntimeException {
+        public RequisicaoInvalida(String mensagem) { super(mensagem); }
     }
 }

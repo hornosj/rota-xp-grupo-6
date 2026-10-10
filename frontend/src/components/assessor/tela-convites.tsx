@@ -8,15 +8,15 @@ import { ChipPerfil, ErroCarregar, Sobretitulo, Vazio } from "@/components/comum
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ApiError } from "@/lib/api-base";
-import type { ConviteOnboarding, StatusConvite } from "@/lib/api-types";
+import type { ConviteOnboarding, StatusConviteOnboarding } from "@/lib/api-types";
 import { dataHora } from "@/lib/formato";
-import { useConvites, useCriarConvite } from "@/lib/queries";
+import { useConvitesOnboarding, useCriarConviteOnboarding } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
 const INTERVALO_CONVITES_MS = 3000;
 
 /** Concluído preenchido de preto, em preenchimento contornado, link gerado em cinza; `passos` de 3. */
-const statusConvite: Record<StatusConvite, { rotulo: string; cor: string; passos: number }> = {
+const statusConvite: Record<StatusConviteOnboarding, { rotulo: string; cor: string; passos: number }> = {
   PENDENTE: { rotulo: "Link gerado", cor: "bg-muted text-muted-foreground", passos: 0 },
   ABERTO: { rotulo: "Em preenchimento", cor: "bg-white text-black ring-1 ring-black", passos: 2 },
   CONCLUIDO: { rotulo: "Cadastro concluído", cor: "bg-black text-white", passos: 3 },
@@ -99,8 +99,8 @@ function LinhaConvite({ convite, origem }: { convite: ConviteOnboarding; origem:
 }
 
 export function TelaConvites() {
-  const convites = useConvites({ intervaloMs: INTERVALO_CONVITES_MS });
-  const criar = useCriarConvite();
+  const convites = useConvitesOnboarding({ intervaloMs: INTERVALO_CONVITES_MS });
+  const criar = useCriarConviteOnboarding();
   const origem = useOrigem();
   const [nome, setNome] = useState("");
   const [erro, setErro] = useState<string | null>(null);

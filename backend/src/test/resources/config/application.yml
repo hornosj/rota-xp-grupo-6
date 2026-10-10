@@ -1,0 +1,9 @@
+# Sobrepõe o application.yml principal só nos testes (classpath:/config/ tem precedência).
+# Os testes de integração usam um banco SQLite descartável em target/, recriado a cada contexto.
+spring:
+  datasource:
+    url: jdbc:sqlite:target/copiloto-test.db?foreign_keys=on&journal_mode=WAL&synchronous=NORMAL
+
+banco:
+  tipo: sqlite
+  recriar-no-inicio: true

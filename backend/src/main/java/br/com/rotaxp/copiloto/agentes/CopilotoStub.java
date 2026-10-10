@@ -40,9 +40,29 @@ public class CopilotoStub implements Copiloto {
     private static final List<String> PALAVRAS_META = List.of("quer ", "meta", "objetivo", "planeja", "juntar");
 
     private final ContextoClienteFactory contextos;
+    private final ContextoNoticiaFactory contextosNoticia;
 
-    public CopilotoStub(ContextoClienteFactory contextos) {
+    public CopilotoStub(ContextoClienteFactory contextos, ContextoNoticiaFactory contextosNoticia) {
         this.contextos = contextos;
+        this.contextosNoticia = contextosNoticia;
+    }
+
+    // ---------- motivo de contato (radar) ----------
+
+    @Override
+    public br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId) {
+        AgentesTipos.ContextoNoticia c = contextosNoticia.para(clienteId, noticiaId);
+        String leitura = switch (c.direcao()) {
+            case "NEGATIVA" -> "A notícia aumenta o risco dessa parte da carteira. Sugestão: ligar hoje, explicar o fato com calma "
+                    + "e avaliar com o cliente se faz sentido reduzir ou diversificar essa exposição.";
+            case "POSITIVA" -> "A notícia é favorável a essa parte da carteira. Sugestão: aproveitar para um contato de "
+                    + "relacionamento e revisar os objetivos.";
+            default -> "A notícia pode mudar o cenário dessa parte da carteira. Sugestão: revisar a posição com o cliente "
+                    + "na próxima conversa.";
+        };
+        String texto = c.cliente().primeiroNome() + " tem " + c.impacto().motivo() + ". Notícia: \"" + c.titulo() + "\" ("
+                + c.fonte() + "). " + leitura;
+        return new br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia(texto, GeradoPor.stub);
     }
 
     // ---------- mensagem ----------
@@ -51,6 +71,15 @@ public class CopilotoStub implements Copiloto {
     public MensagemGerada redigirMensagem(String clienteId, String acaoId, Canal canal) {
         ContextoCliente c = contextos.paraAcao(clienteId, acaoId);
         String corpo = corpo(c);
+        if (c.acao().tipo() == TipoAcao.CONVIDAR_CONEXAO && c.acao().link() != null) {
+            String convite = "Para eu enxergar seu patrimônio completo e checar sua proteção no FGC, você pode conectar o "
+                    + c.acao().instituicaoNome() + " por aqui: " + c.acao().link() + ". Leva 1 minuto e você pode revogar quando quiser.";
+            String t = canal == Canal.EMAIL
+                    ? "Assunto: " + c.acao().titulo() + "\n\nOlá, " + c.primeiroNome() + ",\n\n" + convite
+                      + "\n\nAbraços,\nSeu assessor de investimentos"
+                    : "Oi, " + c.primeiroNome() + "! " + convite;
+            return new MensagemGerada(t, canal, GeradoPor.stub);
+        }
         String texto = canal == Canal.EMAIL
                 ? "Assunto: " + c.acao().titulo() + "\n\nOlá, " + c.primeiroNome() + ",\n\n" + corpo
                   + "\n\nAbraços,\nSeu assessor de investimentos"

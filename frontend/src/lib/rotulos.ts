@@ -1,14 +1,14 @@
 // Rótulos pt-BR para os enums do contrato.
 import type {
-  CategoriaCusto,
   ComponentesPrincipalidade,
+  DirecaoNoticia,
   Escopo,
+  OrigemClassificacao,
   PerfilInvestidor,
   PosicaoXp,
   Produto,
   ProdutoDeclarado,
   Severidade,
-  StatusConsentimento,
   TipoAlerta,
 } from "./api-types";
 
@@ -82,13 +82,6 @@ export const rotuloProduto: Record<Produto | "SALDO_CONTA", string> = {
   SALDO_CONTA: "Saldo em conta",
 };
 
-export const rotuloStatusConsentimento: Record<StatusConsentimento, string> = {
-  ATIVO: "Ativo",
-  PENDENTE: "Pendente",
-  EXPIRADO: "Expirado",
-  REVOGADO: "Revogado",
-};
-
 export type Componente = keyof ComponentesPrincipalidade;
 
 /** Ordem dos componentes da principalidade (§7.4). */
@@ -101,9 +94,31 @@ export const componentes: { chave: Componente; rotulo: string }[] = [
   { chave: "credito", rotulo: "Crédito" },
 ];
 
-export const rotuloCategoriaCusto: Record<CategoriaCusto, string> = {
-  CONTAS_RECORRENTES: "Contas recorrentes",
-  PARCELAS: "Parcelas",
-  CONSUMO: "Consumo",
-  CARTOES: "Cartões",
+// ---------- Radar de notícias ----------
+
+export const rotuloDirecao: Record<DirecaoNoticia, string> = {
+  NEGATIVA: "Negativa",
+  POSITIVA: "Positiva",
+  NEUTRA: "Neutra",
 };
+
+export const rotuloOrigem: Record<OrigemClassificacao, string> = {
+  REFERENCIA: "Referência",
+  REGRAS: "Regras",
+  LLM: "IA",
+};
+
+/** A classificação traz ids de emissor (seed/emissores.json); mostramos o nome. */
+const nomesEmissor: Record<string, string> = {
+  "emi-xp": "XP Investimentos",
+  "emi-aurora": "Banco Aurora",
+  "emi-aurora-fin": "Aurora Financeira",
+  "emi-horizonte": "Banco Horizonte",
+  "emi-ipe": "Banco Ipê",
+  "emi-tesouro": "Tesouro Nacional",
+  "emi-agrosul": "Agro Sul Sementes S.A.",
+};
+
+export function rotuloEmissor(id: string): string {
+  return nomesEmissor[id] ?? id;
+}

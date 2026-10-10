@@ -13,12 +13,25 @@ public class CopilotoCache implements Copiloto {
 
     private final CacheLlm cache;
     private final ContextoClienteFactory contextos;
+    private final ContextoNoticiaFactory contextosNoticia;
     private final CopilotoStub stub;
 
-    public CopilotoCache(CacheLlm cache, ContextoClienteFactory contextos, CopilotoStub stub) {
+    public CopilotoCache(CacheLlm cache, ContextoClienteFactory contextos, ContextoNoticiaFactory contextosNoticia, CopilotoStub stub) {
         this.cache = cache;
         this.contextos = contextos;
+        this.contextosNoticia = contextosNoticia;
         this.stub = stub;
+    }
+
+    static String chaveMotivo(CacheLlm cache, ContextoNoticiaFactory contextosNoticia, String clienteId, String noticiaId) {
+        return cache.chave("motivo", contextosNoticia.para(clienteId, noticiaId).cliente(), noticiaId);
+    }
+
+    @Override
+    public br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId) {
+        return cache.ler(chaveMotivo(cache, contextosNoticia, clienteId, noticiaId), br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia.class)
+                .map(m -> new br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia(m.texto(), GeradoPor.cache))
+                .orElseGet(() -> stub.redigirMotivoNoticia(clienteId, noticiaId));
     }
 
     static String chaveMensagem(CacheLlm cache, ContextoCliente c, String acaoId, Canal canal) {

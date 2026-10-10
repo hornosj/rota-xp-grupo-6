@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import br.com.rotaxp.copiloto.config.OnboardingProps;
 import br.com.rotaxp.copiloto.dominio.Enums.PerfilInvestidor;
-import br.com.rotaxp.copiloto.dominio.Excecoes.Invalido;
+import br.com.rotaxp.copiloto.dominio.Excecoes.RequisicaoInvalida;
 import br.com.rotaxp.copiloto.dominio.Onboarding.PerguntaSuitability;
 import br.com.rotaxp.copiloto.dominio.Onboarding.RespostaSuitability;
 import java.util.ArrayList;
@@ -49,18 +49,18 @@ class SuitabilityTest {
     void exigeUmaRespostaValidaPorPergunta() {
         List<RespostaSuitability> faltando = new ArrayList<>(todas("a"));
         faltando.remove(0);
-        assertThatThrownBy(() -> s.avaliar(faltando)).isInstanceOf(Invalido.class).hasMessageContaining("Responda");
+        assertThatThrownBy(() -> s.avaliar(faltando)).isInstanceOf(RequisicaoInvalida.class).hasMessageContaining("Responda");
 
         List<RespostaSuitability> repetida = new ArrayList<>(todas("a"));
         repetida.add(repetida.get(0));
-        assertThatThrownBy(() -> s.avaliar(repetida)).isInstanceOf(Invalido.class).hasMessageContaining("mais de uma vez");
+        assertThatThrownBy(() -> s.avaliar(repetida)).isInstanceOf(RequisicaoInvalida.class).hasMessageContaining("mais de uma vez");
 
-        assertThatThrownBy(() -> s.avaliar(todas("z"))).isInstanceOf(Invalido.class).hasMessageContaining("Opção inválida");
+        assertThatThrownBy(() -> s.avaliar(todas("z"))).isInstanceOf(RequisicaoInvalida.class).hasMessageContaining("Opção inválida");
 
         List<RespostaSuitability> extra = new ArrayList<>(todas("a"));
         extra.add(new RespostaSuitability("inventada", "a"));
-        assertThatThrownBy(() -> s.avaliar(extra)).isInstanceOf(Invalido.class).hasMessageContaining("desconhecida");
+        assertThatThrownBy(() -> s.avaliar(extra)).isInstanceOf(RequisicaoInvalida.class).hasMessageContaining("desconhecida");
 
-        assertThatThrownBy(() -> s.avaliar(null)).isInstanceOf(Invalido.class);
+        assertThatThrownBy(() -> s.avaliar(null)).isInstanceOf(RequisicaoInvalida.class);
     }
 }

@@ -2,7 +2,7 @@ package br.com.rotaxp.copiloto.onboarding;
 
 import br.com.rotaxp.copiloto.config.OnboardingProps;
 import br.com.rotaxp.copiloto.dominio.Enums.PerfilInvestidor;
-import br.com.rotaxp.copiloto.dominio.Excecoes.Invalido;
+import br.com.rotaxp.copiloto.dominio.Excecoes.RequisicaoInvalida;
 import br.com.rotaxp.copiloto.dominio.Onboarding.OpcaoSuitability;
 import br.com.rotaxp.copiloto.dominio.Onboarding.PerguntaSuitability;
 import br.com.rotaxp.copiloto.dominio.Onboarding.RespostaSuitability;
@@ -68,20 +68,20 @@ public class Suitability {
     public Resultado avaliar(List<RespostaSuitability> respostas) {
         Map<String, String> porPergunta = new HashMap<>();
         for (RespostaSuitability r : respostas == null ? List.<RespostaSuitability>of() : respostas) {
-            if (r == null || r.perguntaId() == null) throw new Invalido("Resposta do questionário sem pergunta");
+            if (r == null || r.perguntaId() == null) throw new RequisicaoInvalida("Resposta do questionário sem pergunta");
             if (porPergunta.put(r.perguntaId(), r.opcaoId()) != null) {
-                throw new Invalido("Pergunta respondida mais de uma vez: " + r.perguntaId());
+                throw new RequisicaoInvalida("Pergunta respondida mais de uma vez: " + r.perguntaId());
             }
         }
         int pontos = 0;
         for (Pergunta p : PERGUNTAS) {
             String opcaoId = porPergunta.remove(p.id());
-            if (opcaoId == null) throw new Invalido("Responda a pergunta: " + p.texto());
+            if (opcaoId == null) throw new RequisicaoInvalida("Responda a pergunta: " + p.texto());
             pontos += p.opcoes().stream().filter(o -> o.id().equals(opcaoId)).findFirst()
-                    .orElseThrow(() -> new Invalido("Opção inválida na pergunta " + p.id()))
+                    .orElseThrow(() -> new RequisicaoInvalida("Opção inválida na pergunta " + p.id()))
                     .pontos();
         }
-        if (!porPergunta.isEmpty()) throw new Invalido("Pergunta desconhecida: " + porPergunta.keySet().iterator().next());
+        if (!porPergunta.isEmpty()) throw new RequisicaoInvalida("Pergunta desconhecida: " + porPergunta.keySet().iterator().next());
         return new Resultado(perfil(pontos), pontos);
     }
 

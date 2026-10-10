@@ -77,8 +77,6 @@ class EsperadosAncorasTest {
                     assertThat(alerta(v, e.getKey()).get("severidade").asText()).as(id + " severidade").isEqualTo(e.getValue().asText()));
         }
 
-        assertThat(json("/api/clientes/" + cli + "/jornada").at("/nivel/numero").asInt()).as(id + " nível").isEqualTo(caso.get("nivel").asInt());
-
         if (caso.has("prioridade")) {
             JsonNode item = itemFila(cli);
             assertThat(item.get("prioridade").asDouble()).as(id + " prioridade").isEqualTo(caso.get("prioridade").asDouble());

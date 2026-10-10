@@ -1,6 +1,7 @@
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { avisarDadosAlterados } from "@/lib/sinal";
 import { mockApi } from "@/mocks";
 import { navegacao } from "@/test/navegacao";
 import { renderComQuery } from "@/test/utils";
@@ -12,15 +13,16 @@ import { TelaHoje } from "./assessor/tela-hoje";
 import { TelaPainel } from "./assessor/tela-painel";
 
 describe("TelaHoje", () => {
-  it("modo ao vivo: Marina sobe para 1º com NOVO sozinha (polling) após o consentimento", async () => {
+  it("Marina sobe para 1º com NOVO na hora em que o outro iframe avisa (sem esperar o polling)", async () => {
     navegacao.search = "aoVivo=1";
     renderComQuery(<TelaHoje />);
     expect(await screen.findByText(/Ao vivo/)).toBeInTheDocument();
     await waitFor(() => expect(screen.getAllByTestId("item-fila")[1]).toHaveTextContent("Dra. Marina Costa"));
     expect(within(screen.getAllByTestId("item-fila")[1]).getByRole("link")).toHaveAttribute("href", "/assessor/clientes/cli-001?aoVivo=1");
 
-    // a cliente concede no "outro iframe"
+    // a cliente confirma no "outro iframe": o hook de lá grava e avisa as outras telas
     await mockApi.conceder("cli-001", "inst-horizonte");
+    avisarDadosAlterados();
 
     await waitFor(
       () => {
@@ -28,7 +30,7 @@ describe("TelaHoje", () => {
         expect(primeira).toHaveTextContent("Dra. Marina Costa");
         expect(primeira).toHaveTextContent("NOVO");
       },
-      { timeout: 4000 },
+      { timeout: 1500 },   // bem abaixo dos 15 s do polling de segurança
     );
   });
 

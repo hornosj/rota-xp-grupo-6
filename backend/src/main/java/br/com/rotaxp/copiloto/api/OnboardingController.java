@@ -42,7 +42,7 @@ public class OnboardingController {
         return onboarding.formulario(token);
     }
 
-    /** Cria o cliente. 400 com { erro: INVALIDO } em dado inválido; 409 se já concluído ou CPF repetido. */
+    /** Cria o cliente. 400 com { erro: REQUISICAO_INVALIDA } em dado inválido; 409 se já concluído ou CPF repetido. */
     @PostMapping("/api/onboarding/{token}")
     public ResultadoOnboarding concluir(@PathVariable String token, @RequestBody CadastroInvestidor body) {
         return onboarding.concluir(token, body);

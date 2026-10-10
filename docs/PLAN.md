@@ -25,27 +25,32 @@ Sumário:
 
 **Tese:** o assessor não tem tempo para o relacionamento. O Copiloto junta os dados do cliente
 (Open Finance), identifica **onde a XP está na vida financeira dele (principalidade)** e transforma
-isso em uma fila de **motivos para ligar** com mensagem pronta. Do lado do cliente, a
-**gamificação do Open Finance** dá motivo para ele conectar mais instituições — o que gera mais
-dados, mais motivos e mais principalidade.
+isso em uma fila de **motivos para ligar** com mensagem pronta.
 
-Ciclo: gamificação → consentimentos → dados → principalidade e visão 360 → assessor age →
+**O sistema é só do assessor.** Não há app do cliente nem gamificação: o cliente só aparece na ponta de
+um **convite de consentimento Open Finance** enviado pelo assessor (tela simulada do banco de origem).
+O incentivo para o cliente conectar é o motivo concreto que o assessor dá ("checar sua proteção no FGC").
+Visão de futuro (só no pitch, sem código): o convite cai no app da XP, que já é instituição receptora de
+Open Finance; dali dá para evoluir uma experiência do lado do cliente.
+
+Ciclo: assessor convida → consentimento → dados → principalidade e visão 360 → assessor age →
 relacionamento → principalidade sobe.
 
 **Roteiro da demo (o fluxo sagrado — tudo que não serve a ele é P1/P2):**
 
-1. Tela `/palco`: à esquerda a visão do assessor, à direita o celular da cliente.
+1. `/palco`: à esquerda o assessor, à direita o celular da Marina (conversa de WhatsApp simulada).
 2. A assessora abre a **fila "Hoje"**. A Dra. Marina (cli-001) está em 2º lugar: Banco Aurora é a
    instituição principal (salário, contas, cartão, financiamento); a XP é "só investimentos";
    R$ 61 mil parados em conta corrente; aniversário da filha em 5 dias.
-3. No celular da Marina: "Seu patrimônio está 67% visível", nível 2 "Visão Clara", missão
-   "Conecte o Banco Horizonte e descubra se você está protegida pelo FGC".
-4. Marina conecta o Banco Horizonte (consentimento simulado). A barra vai a 100%, ela sobe para o
-   nível 3 e desbloqueia o diagnóstico: **R$ 400 mil acima da cobertura do FGC**.
-5. A tela da assessora atualiza sozinha (polling): Marina vai para o **1º lugar** da fila, com
-   alerta "NOVO" de FGC e de exposição sem garantia, e a próxima melhor ação "Diversificar emissores".
-6. A assessora clica em "Gerar mensagem": o agente escreve a mensagem de WhatsApp, citando o
-   aniversário da Sofia. Fim com o ciclo.
+3. Na 360 da Marina: cobertura 2 de 3, Banco Horizonte pendente. Ação "Convidar a conectar o Banco
+   Horizonte" → **Enviar convite** → mensagem gerada com o link.
+4. No celular aparece a mensagem com o link; Marina abre e confirma no "ambiente do Banco Horizonte"
+   (simulado; botão "Simular confirmação" no palco como plano B).
+5. A tela da assessora atualiza sozinha (polling): cobertura 3 de 3, Marina vai para o **1º lugar** da
+   fila, com alertas **NOVO** de FGC (**R$ 400 mil acima da cobertura**) e de exposição sem garantia, e a
+   próxima melhor ação "Diversificar emissores".
+6. A assessora clica em **Gerar mensagem** na nova ação: o agente escreve a mensagem de WhatsApp, citando
+   o aniversário da Sofia. Fim com o ciclo.
 
 ---
 
@@ -53,22 +58,22 @@ relacionamento → principalidade sobe.
 
 ```
 ┌──────────────────────── Next.js :3000 ─────────────────────────┐
-│ /assessor (painel, hoje, clientes/[id])  /cliente/[id]  /palco │
+│ /assessor (painel, hoje, radar, clientes/[id])  /convite  /palco │
 │ TanStack Query (polling 2s no modo ao vivo)                     │
 └───────────────┬────────────────────────────────────────────────┘
                 │ fetch /api/*  (rewrite do Next → :8080)
 ┌───────────────▼──────────── Spring Boot :8080 ─────────────────┐
 │ api/            controllers REST (springdoc → /v3/api-docs)     │
-│ openfinance/    provedor OF simulado + consentimentos           │
+│ openfinance/    provedor OF simulado, consentimentos, convites  │
 │                 OpenFinanceGateway: só devolve dados de         │
 │                 instituições com consentimento ATIVO + escopo   │
 │ consolidacao/   patrimônio, cobertura, Visao360Assembler        │
 │ analise/        categorização, renda, fluxo de caixa,           │
 │                 principalidade, FGC, alertas, prioridade        │
-│ inteligencia/   próximas melhores ações, fila, jornada/missões  │
+│ inteligencia/   próximas melhores ações, fila, painel, radar    │
 │ agentes/        Copiloto (stub|cache|record|live) + Embabel     │
 │ demo/           DataReferencia, reset, registro de alertas      │
-│ repositório em memória  ←  resources/seed/*.json                │
+│ SQLite (copiloto.db)  ←  resources/seed/*.json (startup/reset)  │
 └────────────────────────────────────────────────────────────────┘
                 ▲ gerado por data/gerar_seed.py (analista)
 ```
@@ -89,10 +94,10 @@ Princípios:
 /
 ├── CLAUDE.md
 ├── README.md                      (BE1 cria: como rodar)
-├── docs/  PLAN.md  prompts/  pitch-numeros.md (analista, P1)
+├── docs/  PLAN.md  prompts/  pitch-numeros.md (analista, P1)  radar.md
 ├── contract/
 │   ├── openapi.json               (exportado do springdoc)
-│   └── fixtures/                  (respostas de exemplo: cli-001 antes/depois, fila, jornada...)
+│   └── fixtures/                  (respostas de exemplo: cli-001 antes/depois, fila, convite...)
 ├── data/
 │   └── gerar_seed.py
 ├── backend/
@@ -102,11 +107,12 @@ Princípios:
 │       ├── CopilotoApplication.java
 │       ├── config/                (propriedades tipadas: Premissas, PesosPrincipalidade, ...)
 │       ├── dominio/               (records do §4)
-│       ├── openfinance/           (SeedLoader, Repositorios, OpenFinanceGateway, ConsentimentoService)
+│       ├── openfinance/           (SeedLoader, Repositorios, OpenFinanceGateway, ConsentimentoService,
+│       │                           ConviteService)
 │       ├── consolidacao/          (PatrimonioService, CoberturaService, Visao360Assembler)
 │       ├── analise/               (Categorizador, DetectorRenda, FluxoCaixaService,
 │       │                           PrincipalidadeService, FgcService, AlertaService, PrioridadeService)
-│       ├── inteligencia/          (AcaoSugeridaService, FilaService, JornadaService, PainelService)
+│       ├── inteligencia/          (AcaoSugeridaService, FilaService, PainelService, radar/)
 │       ├── agentes/               (Copiloto, CopilotoStub, CopilotoCache, agentes Embabel)
 │       ├── demo/                  (DataReferencia, DemoService, RegistroAlertas)
 │       └── api/                   (controllers)
@@ -115,8 +121,8 @@ Princípios:
 └── frontend/
     ├── next.config.ts             (rewrite /api/* → BACKEND_URL)
     └── src/
-        ├── app/  page.tsx  assessor/  cliente/  palco/
-        ├── components/  ui/ (shadcn)  assessor/  cliente/  comum/
+        ├── app/  page.tsx  assessor/  convite/  palco/
+        ├── components/  ui/ (shadcn)  assessor/  convite/  palco/  comum/
         ├── lib/  api.ts  api-types.ts (gerado)  queries.ts  formato.ts
         └── mocks/                 (cópia de contract/fixtures para o modo mock)
 ```
@@ -247,20 +253,12 @@ interface PainelCarteira {
   pctClientesXpPrincipal: number; distribuicaoPosicaoXp: Record<PosicaoXp, number>;
   coberturaMedia: number; consentimentosExpirando15d: number; clientesComAlertaAlto: number;
 }
-interface Jornada {
-  clienteId: Id; completude: number;
-  nivel: { numero: 1 | 2 | 3 | 4; nome: string; proximo?: string; comoSubir?: string; beneficios: string[] };
-  missoes: Missao[]; diagnosticos: Diagnostico[];
-}
-interface Missao {
-  id: Id; tipo: 'CONECTAR_INSTITUICAO' | 'CONECTAR_CARTAO' | 'RESERVA_EMERGENCIA' | 'RENOVAR_CONSENTIMENTO';
-  titulo: string; descricao: string; recompensa: string;
-  status: 'DISPONIVEL' | 'CONCLUIDA'; progresso: number; instituicaoId?: Id;
-}
-interface Diagnostico {
-  tipo: 'PATRIMONIO_COMPLETO' | 'PROTECAO_FGC' | 'CUSTO_DE_VIDA' | 'RESERVA_EMERGENCIA';
-  titulo: string; desbloqueado: boolean; requisito: string;
-  resumo?: string; detalhes?: Record<string, unknown>;
+interface Convite {        // convite de consentimento Open Finance enviado pelo assessor
+  token: string; clienteId: Id; instituicaoId: Id; instituicaoNome: string;
+  escopos: Escopo[]; prazoMeses: number;          // 12
+  link: string;                                   // ex.: http://localhost:3000/convite/{token}
+  status: 'PENDENTE' | 'CONFIRMADO' | 'EXPIRADO';
+  criadoEm: string; expiraEm: string;             // expira em 48h
 }
 interface MensagemGerada { texto: string; canal: 'WHATSAPP' | 'EMAIL'; geradoPor: 'stub' | 'cache' | 'live'; }
 interface Briefing { clienteId: Id; bullets: string[]; perguntasSugeridas: string[]; geradoPor: 'stub' | 'cache' | 'live'; }
@@ -284,16 +282,25 @@ Base `/api`. JSON. Sem autenticação (demo). Um único assessor: `ass-001`.
 | POST | `/clientes/{id}/consentimentos/{instituicaoId}/revogar` | `Visao360` | BE1 | P1 |
 | GET | `/assessor/fila` | `ItemFila[]` (ordenada) | BE2 | P0 |
 | GET | `/assessor/painel` | `PainelCarteira` | BE1 | P1 |
-| GET | `/clientes/{id}/jornada` | `Jornada` | BE2 | P0 |
+| POST | `/clientes/{id}/convites/{instituicaoId}` | `Convite` (reaproveita o PENDENTE se já existir) | BE1 | P0 |
+| GET | `/clientes/{id}/convites` | `Convite[]` | BE1 | P0 |
+| GET | `/convites/{token}` | `Convite` | BE1 | P0 |
+| POST | `/convites/{token}/confirmar` | `Convite` (CONFIRMADO; chama `conceder`) | BE1 | P0 |
 | POST | `/clientes/{id}/acoes/{acaoId}/mensagem` body `{ canal }` | `MensagemGerada` | BE2 | P0 |
 | GET | `/clientes/{id}/briefing` | `Briefing` | BE2 | P1 |
 | POST | `/clientes/{id}/notas` body `{ transcricao }` | `ResultadoNota` | BE2 | P2 |
 | POST | `/simulacoes/desagio` body `{ desagio, taxaAntiga, taxaNova, prazoRestanteAnos }` | `{ breakEvenAnos, compensa, explicacao }` | Analista | P2 |
 | POST | `/demo/reset` | `204` | BE1 | P0 |
 | GET | `/demo/estado` | `{ dataReferencia, modoCopiloto }` | BE1 | P0 |
+| GET/POST | `/radar/noticias`, `/radar/processar`, `/clientes/{id}/radar`, `/assessor/radar`, `/clientes/{id}/radar/{noticiaId}/motivo` | radar de notícias (ver `docs/radar.md`) | BE2 | P2 |
 
-Erros: `404` com `{ erro, mensagem }` para cliente/instituição inexistente; `409` ao conceder
-consentimento já ativo (o front trata como sucesso).
+Erros: `404` com `{ erro, mensagem }` para cliente/instituição/convite inexistente; `409` ao conceder
+consentimento já ativo, ao confirmar convite já confirmado (o front trata os dois como sucesso) e ao
+convidar para instituição já conectada; `410` para convite expirado.
+
+Convites ficam em memória e são apagados no `POST /demo/reset`; token determinístico (sem
+`UUID.randomUUID()`), para a demo ser reprodutível. **Contrato v2:** `GET /clientes/{id}/jornada` e os tipos
+`Jornada`, `Missao` e `Diagnostico` foram removidos no reescopo.
 
 ---
 
@@ -393,23 +400,19 @@ esperada: 15.
 
 ### 6.5 Resultados esperados (viram `backend/src/test/resources/esperados.json`)
 
-| Cliente | Principal | posicaoXp | Custo vida | Alertas obrigatórios | Nível |
-|---|---|---|---|---|---|
-| cli-001 antes | inst-aurora | SO_INVESTIMENTOS | 24.000 | SALDO_PARADO (61.000), RENDA_FORA_XP, EVENTO_VIDA_PROXIMO — **sem** FGC e sem RESERVA | 2 |
-| cli-001 depois de conceder inst-horizonte | inst-aurora | SO_INVESTIMENTOS | 24.000 | + **FGC_EXCEDIDO 400.000** (cong-horizonte), + CONCENTRACAO_EMISSOR (MEDIA, 24,5%) | 3 |
-| cli-002 | inst-xp | PRINCIPAL | 13.600 | VENCIMENTO_PROXIMO (240.000), CONSENTIMENTO_EXPIRANDO (Aurora) | 4 |
-| cli-003 | inst-ipe | SO_INVESTIMENTOS | 9.000 | SALDO_PARADO (13.000), RENDA_FORA_XP, RESERVA_INSUFICIENTE (3,0 meses) | 2 |
-| cli-004 | inst-aurora | SO_INVESTIMENTOS | 4.000 | **FGC_EXCEDIDO 80.000** (cong-aurora), RENDA_FORA_XP | 3 |
-| cli-005 | inst-ipe | SO_INVESTIMENTOS | 19.000 | CONCENTRACAO_EMISSOR **ALTA** (Agro Sul, ~44%) | 3 |
-| cli-006 | inst-xp | PRINCIPAL | 12.500 | nenhum | 4 |
+| Cliente | Principal | posicaoXp | Custo vida | Alertas obrigatórios |
+|---|---|---|---|---|
+| cli-001 antes | inst-aurora | SO_INVESTIMENTOS | 24.000 | SALDO_PARADO (61.000), RENDA_FORA_XP, EVENTO_VIDA_PROXIMO — **sem** FGC e sem RESERVA |
+| cli-001 depois de conceder inst-horizonte | inst-aurora | SO_INVESTIMENTOS | 24.000 | + **FGC_EXCEDIDO 400.000** (cong-horizonte), + CONCENTRACAO_EMISSOR (MEDIA, 24,5%) |
+| cli-002 | inst-xp | PRINCIPAL | 13.600 | VENCIMENTO_PROXIMO (240.000), CONSENTIMENTO_EXPIRANDO (Aurora) |
+| cli-003 | inst-ipe | SO_INVESTIMENTOS | 9.000 | SALDO_PARADO (13.000), RENDA_FORA_XP, RESERVA_INSUFICIENTE (3,0 meses) |
+| cli-004 | inst-aurora | SO_INVESTIMENTOS | 4.000 | **FGC_EXCEDIDO 80.000** (cong-aurora), RENDA_FORA_XP |
+| cli-005 | inst-ipe | SO_INVESTIMENTOS | 19.000 | CONCENTRACAO_EMISSOR **ALTA** (Agro Sul, ~44%) |
+| cli-006 | inst-xp | PRINCIPAL | 12.500 | nenhum |
 
 Fila (com os pesos do §7.9): antes → cli-004 (54) · cli-001 (39,1) · cli-003 (34,3) · cli-005 (30)
 · cli-002 (29,8) · cli-006 (0). **Depois** do consentimento da Marina → cli-001 em 1º (100).
 O teste obrigatório é: *Marina não é a 1ª antes; é a 1ª depois*. O resto é calibrável.
-
-Diagnósticos da Marina: antes — CUSTO_DE_VIDA e RESERVA_EMERGENCIA desbloqueados (reserva 6,5 meses),
-PROTECAO_FGC e PATRIMONIO_COMPLETO bloqueados; depois — todos desbloqueados, FGC com "R$ 400 mil sem cobertura".
-Juliana: CUSTO_DE_VIDA bloqueado até conceder inst-aurora.
 
 ---
 
@@ -527,24 +530,17 @@ foi detectada. No startup e no reset, registra tudo como antigo. Alertas detecta
 
 `prioridade = min(100, soma)`. `motivos` = cada origem com seus pontos (explicável, como um scorecard).
 
-### 7.10 Gamificação (BE2)
-- `completude` = instituições declaradas com consentimento ATIVO / declaradas (XP conta como conectada).
-- Níveis: **1 Explorador** (< 50%) · **2 Visão Clara** (50–99%) · **3 Patrimônio Completo** (100%) ·
-  **4 Cliente Principal** (100% e posicaoXp = PRINCIPAL). Benefícios ilustrativos por nível
-  (ex.: relatório mensal personalizado, eventos, atendimento prioritário) — marcar como exemplo no pitch.
-- Missões:
-  - por instituição declarada não conectada: `CONECTAR_CARTAO` se declarou CARTAO, senão
-    `CONECTAR_INSTITUICAO`; recompensa = diagnóstico que ela desbloqueia;
-  - `RESERVA_EMERGENCIA` se reserva < 6 meses (progresso = reserva/6);
-  - `RENOVAR_CONSENTIMENTO` se expira em ≤ 15 dias.
-  - Missões concluídas continuam na lista com status CONCLUIDA.
-- Diagnósticos:
-  - `PATRIMONIO_COMPLETO` e `PROTECAO_FGC`: completude = 100% (só dá para garantir vendo tudo);
-    resumo do FGC: "R$ 400 mil sem cobertura no Banco Horizonte" ou "Todo o seu patrimônio está protegido".
-  - `CUSTO_DE_VIDA`: todas as instituições declaradas com CARTAO estão visíveis com escopo CARTOES;
-    detalhes = custo por categoria.
-  - `RESERVA_EMERGENCIA`: exige CUSTO_DE_VIDA desbloqueado.
-- Guardrail: gamificar **consentimento e saúde financeira**, nunca giro de carteira ou risco.
+### 7.10 Convites de conexão (BE1)
+No Open Finance Brasil não existe "OTP emitido pelo assessor": a XP (receptora) cria a intenção de
+consentimento, o cliente é redirecionado ao **app do banco de origem**, autentica, confirma os escopos e
+volta. Na demo isso é simulado:
+- A ação `CONVIDAR_CONEXAO` (cobertura < 100%) tem **Enviar convite**: o backend cria um `Convite`
+  (token determinístico, escopos do consentimento pendente — ou dos produtos declarados —, prazo de
+  12 meses, expira em 48h) e o Copiloto redige a mensagem de WhatsApp com o link.
+- Convidar de novo reaproveita o convite PENDENTE; convidar para instituição já conectada é `409`.
+- O cliente abre `/convite/[token]` (tela simulada "Você está no ambiente do Banco Horizonte") e confirma;
+  a confirmação chama o `conceder` existente — o resto do sistema recalcula como sempre.
+- `Cobertura` continua: é dado, não jogo (instituições **declaradas** pelo cliente que estão conectadas).
 
 ### 7.11 P2 — simulações
 - **Break-even pós-deságio:** `t = ln(1/(1−D)) / ln((1+rNova)/(1+rAntiga))`; `compensa = t < prazoRestante`.
@@ -577,7 +573,7 @@ protegido. Podemos falar 10 minutos amanhã? E já adianto: parabéns antecipado
 ### 8.2 Contexto (sem LLM)
 `ContextoClienteFactory` monta um objeto enxuto a partir da `Visao360`: primeiro nome, perfil,
 principalidade (explicação), números relevantes da ação, eventos de vida dos próximos 15 dias,
-alertas. **O LLM só vê isso** — nunca dados de outros clientes, nunca números que não estão no contexto.
+alertas e, na ação `CONVIDAR_CONEXAO`, o `link` do convite (criado se não existir). **O LLM só vê isso** — nunca dados de outros clientes, nunca números que não estão no contexto.
 
 ### 8.3 Agentes Embabel (pacote `agentes`)
 Embabel planeja a execução pelos **tipos** de entrada e saída das ações (GOAP). Desenho:
@@ -632,8 +628,8 @@ com fallback de textarea e um botão "usar transcrição de exemplo" para a demo
   `npm run sync:fixtures` (copia `../contract/fixtures` → `src/mocks`); `npm run typecheck`.
 - `lib/api.ts`: funções tipadas por endpoint. Com `NEXT_PUBLIC_USE_MOCKS=true`, lê de `src/mocks`
   (e `conceder` troca a Marina para a fixture "depois"). **Isso é também o plano B da demo.**
-- `lib/queries.ts`: hooks (`useFila`, `useVisao360`, `useJornada`, `usePainel`, `useConceder`, `useMensagem`).
-  `useConceder` invalida `fila`, `360` e `jornada`. Modo ao vivo (`?aoVivo=1` ou toggle): `refetchInterval: 2000`.
+- `lib/queries.ts`: hooks (`useFila`, `useVisao360`, `usePainel`, `useConvites`, `useConfirmarConvite`, `useMensagem`).
+  `useConfirmarConvite` invalida `fila`, `360`, `radar` e `convites`. Modo ao vivo (`?aoVivo=1` ou toggle): `refetchInterval: 2000`.
 - `lib/formato.ts`: `brl()`, `pct()`, `data()`, `diasAte()`.
 
 ### 9.2 Assessor (FE1)
@@ -656,26 +652,21 @@ com fallback de textarea e um botão "usar transcrição de exemplo" para a demo
 - `/assessor` painel (P1): KPIs do `PainelCarteira` + gráfico de distribuição da posição XP.
 - Briefing (P1), nota de áudio (P2), calculadora de deságio (P2).
 
-### 9.3 Cliente (FE2) — mobile first (390px)
-- `/cliente/[id]` (P0): saudação, **anel de completude** ("Seu patrimônio: 67% visível"), chip de
-  nível + "como subir", missões (cards com CTA), grade de diagnósticos (bloqueado com cadeado +
-  requisito / desbloqueado com resumo; toque abre detalhe).
-- `/cliente/[id]/conectar/[instituicaoId]` (P0), 4 passos:
-  1. o que vamos ver, por quanto tempo, e que dá para revogar a qualquer momento;
-  2. escopos (vindos do consentimento pendente) + prazo 12 meses → "Continuar para o Banco Horizonte";
-  3. tela simulada "Você está no ambiente do Banco Horizonte" (fictícia, deixar claro que é simulação)
-     → "Confirmar compartilhamento";
-  4. loading ~1,5s → `POST conceder` → sucesso com confete, novo nível e
-     "Diagnóstico desbloqueado: Proteção FGC" → detalhe "R$ 400 mil do seu patrimônio estão acima da
-     cobertura do FGC no Banco Horizonte. Sua assessora já foi avisada."
-- `/cliente/[id]/consentimentos` (P1): lista e revogar (mostra LGPD na prática).
-- `/palco` (P0): tela dividida — esquerda `iframe` com `/assessor/hoje?aoVivo=1` (abas para trocar
-  para a 360 da Marina), direita moldura de celular com `iframe` `/cliente/cli-001`; barra superior
-  com **Resetar demo** (`POST /api/demo/reset` + recarrega iframes).
-- `/` : lançador com links para palco, assessor e cada cliente-âncora.
+### 9.3 Convite e palco (FE2)
+- `/assessor/clientes/[id]`: o card de cobertura ganha **Enviar convite** por instituição pendente (abre o
+  dialog de mensagem com o link) e mostra o status do convite (pendente/confirmado).
+- `/convite/[token]` (P0, mobile 390px): logo fictício do banco, aviso "ambiente simulado", escopos, prazo,
+  "você pode revogar quando quiser" → **Confirmar** → "Pronto! Sua assessora já consegue ver seus dados do
+  Banco Horizonte." Trata convite confirmado, expirado e inexistente.
+- `/palco` (P0): esquerda `iframe` com `/assessor/hoje?aoVivo=1` (abas para a 360 da Marina); direita
+  moldura de celular com uma **conversa de WhatsApp simulada** com o convite da Marina
+  (`GET /clientes/cli-001/convites`) e o link abrindo `/convite/[token]`; barra superior com **Resetar demo**
+  e **Simular confirmação**. Precisa caber num projetor 1920x1080.
+- `/`: lançador com palco, assessor (painel, hoje, radar) e as 360 dos clientes-âncora.
+- Modo mock: fixtures de convite (pendente/confirmado); `confirmar` troca a Marina para a fixture "depois".
 
-Design: limpo e profissional, números grandes e legíveis, verde para conquistas, animações curtas
-(subida de nível, desbloqueio). Identidade inspirada na XP só se a organização permitir.
+Design: limpo e profissional, números grandes e legíveis, verde para o que é bom, vermelho só para risco
+alto. Identidade inspirada na XP só se a organização permitir.
 
 ---
 
@@ -689,8 +680,10 @@ Formato: **ID · prio · tarefa** — critério de aceite.
 - **BE1-02 · P0 · Contrato e stubs** — records do §4, controllers do §5 devolvendo fixtures
   escritas à mão com os números da Marina (antes e depois), da fila e da jornada; exportar
   `contract/openapi.json` e `contract/fixtures/*.json`. **Push o quanto antes: destrava o front.**
-- **BE1-03 · P0 · Seed e repositório em memória** — `SeedLoader` lê `seed/*.json`; `POST /demo/reset`
-  recarrega tudo e reinicia `RegistroAlertas`.
+- **BE1-03 · P0 · Seed e repositório SQLite** — `SeedLoader` lê `seed/*.json` e o `RepositorioSqlite`
+  importa no banco (esquema em `resources/db/schema.sql`) se ele estiver vazio; consentimentos, eventos
+  de vida e o `RegistroAlertas` persistem entre reinícios. `POST /demo/reset` reimporta a seed e limpa
+  o `RegistroAlertas`. `banco.tipo=memoria` mantém o repositório em memória (testes unitários).
 - **BE1-04 · P0 · OpenFinanceGateway** — só expõe dados de consentimentos ATIVOS com o escopo certo.
   Teste: Horizonte invisível para cli-001 até conceder.
 - **BE1-05 · P0 · Consentimentos** — conceder/revogar, publica `ConsentimentoAlterado`, invalida cache.
@@ -700,6 +693,9 @@ Formato: **ID · prio · tarefa** — critério de aceite.
 - **BE1-08 · P1 · Painel da carteira.**
 - **BE1-09 · P1 · Revogar consentimento** de ponta a ponta.
 - **BE1-10 · P2 · SSE** `/api/eventos` (só se o polling incomodar).
+- **BE1-11 · P0 · Convites** — entidade, repositório em memória, 4 endpoints, reset. TDD; teste de
+  integração "convidar → confirmar → Horizonte visível → Marina em 1º".
+- **BE1-12 · P0 · Contrato v2** — remover jornada, exportar `openapi.json` e fixtures.
 
 ### Analista — dados, regras e score (dirige o Claude Code no pacote `analise`; BE1 revisa)
 - **AN-01 · P0 · Gerador de seed** — `data/gerar_seed.py` com os 6 âncoras exatos (§6.3) e os 30 de
@@ -720,14 +716,15 @@ Formato: **ID · prio · tarefa** — critério de aceite.
 - **BE2-02 · P0 · `Copiloto` + modos** stub/cache/record/live + `ContextoClienteFactory`.
 - **BE2-03 · P0 · Próximas melhores ações** (§7.8).
 - **BE2-04 · P0 · Fila** — `FilaService` usando `PrioridadeService` (analista) e a ação principal.
-- **BE2-05 · P0 · Jornada** (§7.10): completude, nível, missões, diagnósticos.
+- ~~BE2-05 · Jornada~~ — **removido no reescopo** (sem gamificação).
 - **BE2-06 · P0 · AgenteMensagemCliente** + endpoint.
-- **BE2-07 · P0 · Gravar o cache da demo** — rodar em `record` para todas as ações dos âncoras;
+- **BE2-07 · P0 · Gravar o cache da demo** — rodar em `record` para todas as ações dos âncoras (inclui
+  a mensagem de convite da Marina);
   commitar `backend/llm-cache/`. Fazer antes do freeze.
 - **BE2-08 · P1 · AgenteBriefing.**
 - **BE2-09 · P2 · AgenteNotaPosReuniao** (+ persistir eventos criados).
-- **BE2-10 · P2 · Radar de notícias** — 20–30 notícias curadas em JSON, tags estruturadas
-  (emissores, setores, indexadores, impacto), cruzamento com carteiras.
+- **BE2-10 · P2 · Radar de notícias** — feito (ver `docs/radar.md`).
+- **BE2-11 · P0 · Mensagem de convite** — contexto de `CONVIDAR_CONEXAO` com o link; stub e cache.
 
 ### FE1 — Assessor
 - **FE1-01 · P0 · Base do frontend** (§9.1), rodando com mocks.
@@ -740,17 +737,16 @@ Formato: **ID · prio · tarefa** — critério de aceite.
 - **FE1-08 · P1 · Painel da carteira.**
 - **FE1-09 · P1 · Briefing pré-reunião.**
 - **FE1-10 · P2 · Nota de áudio** e **FE1-11 · P2 · Calculadora de deságio.**
+- **FE1-12 · P0 · Enviar convite** na 360 + status do convite.
 
-### FE2 — Cliente, palco e pitch
-- **FE2-01 · P0 · Layout mobile** e moldura de celular.
-- **FE2-02 · P0 · Jornada:** anel de completude, nível, missões.
-- **FE2-03 · P0 · Fluxo de conectar instituição** (4 passos).
-- **FE2-04 · P0 · Diagnósticos** bloqueados/desbloqueados + detalhe do FGC.
-- **FE2-05 · P0 · `/palco`** com reset.
-- **FE2-06 · P1 · Animações** de subida de nível e desbloqueio.
-- **FE2-07 · P1 · Consentimentos e revogação.**
-- **FE2-08 · P1 · Diagnóstico de custo de vida e reserva** (detalhe).
-- **FE2-09 · P1 · Slides do pitch** e vídeo de backup da demo (com o analista).
+### FE2 — Palco, convite e pitch
+- **FE2-10 · P0 · `/convite/[token]`** — tela única de confirmação.
+- **FE2-05 · P0 · `/palco`** com WhatsApp simulado, "Simular confirmação" e reset.
+- **FE2-11 · P0 · Limpeza** — remover `app/cliente/**`, `components/cliente/*`, `mocks/jornada.ts`,
+  `useJornada` e testes associados; regenerar tipos.
+- **FE1-08 · P1 · Painel da carteira** — assumido pelo FE2 para aliviar o FE1.
+- **FE2-09 · P1 · Slides e vídeo de backup** (incluir o slide de visão de futuro no app da XP).
+- FE2-01..04, 06..08: **removidos no reescopo** (app do cliente e gamificação).
 
 ---
 
@@ -760,9 +756,9 @@ Ajustem os horários ao cronograma da hackathon. Proporções sobre o tempo rest
 
 | Fase | Duração | O que acontece | Saída (checkpoint) |
 |---|---|---|---|
-| F0 Fundação | ~1h | BE1: BE1-01/02 (push do contrato em ~40 min). FE1: FE1-01. Analista: AN-01. BE2: BE2-01. FE2: telas da jornada com fixtures. | **C0:** `openapi.json` + fixtures em `main`; front rodando em mock; contrato v1 congelado (só mudanças aditivas). |
-| F1 Núcleo | ~40% | Todos os P0 de dados reais. | **C1:** 360, fila e jornada reais para os 6 âncoras; testes do §6.5 verdes. |
-| F2 Fluxo da demo | ~20% | Conceder → recalcular → assessor atualiza; `/palco`; mensagem; cache gravado. | **C2:** roteiro do §1 roda 3× seguidas com reset, sem mocks. |
+| F0 Fundação | ~1h | BE1: BE1-01/02 (push do contrato em ~40 min). FE1: FE1-01. Analista: AN-01. BE2: BE2-01. FE2: palco e convite com fixtures. | **C0:** `openapi.json` + fixtures em `main`; front rodando em mock; contrato v1 congelado (só mudanças aditivas). |
+| F1 Núcleo | ~40% | Todos os P0 de dados reais. | **C1:** 360 e fila reais para os 6 âncoras; testes do §6.5 verdes. |
+| F2 Fluxo da demo | ~20% | Convidar → confirmar → recalcular → assessor atualiza; `/palco`; mensagem; cache gravado. | **C2:** roteiro do §1 roda 3× seguidas com reset, sem mocks. |
 | F3 P1 e polimento | ~20% | P1 por ordem de impacto no pitch. | **C3:** painel, briefing, animações. |
 | F4 Freeze e ensaio | ~20% | Só correção de bug. Vídeo de backup. Ensaio ≥ 3×. | **C4:** demo em `copiloto.modo=cache`, offline. |
 
@@ -777,8 +773,10 @@ Ajustem os horários ao cronograma da hackathon. Proporções sobre o tempo rest
 | Integração atrasada | front em `NEXT_PUBLIC_USE_MOCKS=true` com fixtures antes/depois roda o roteiro inteiro |
 | Wi-Fi do evento | tudo local; nenhuma chamada externa no modo `cache` |
 | Conflitos de merge | tabela de donos no `CLAUDE.md`; contrato só aditivo |
-| Pergunta sobre LGPD/consentimento | consentimento explícito por escopo e prazo, revogação no app, dados fictícios, LLM só vê contexto mínimo |
-| Pergunta "como saber 67% se não vemos o resto?" | completude = instituições **declaradas pelo cliente** que estão conectadas |
+| Pergunta sobre LGPD/consentimento | consentimento explícito por escopo e prazo, confirmado no ambiente do banco de origem, revogável; dados fictícios; LLM só vê contexto mínimo |
+| Pergunta "como saber 67% se não vemos o resto?" | cobertura = instituições **declaradas pelo cliente** que estão conectadas |
+| "Cadê a gamificação do Open Finance?" | decisão de foco: o valor está no assessor agir; o incentivo para o cliente conectar é o motivo concreto que o assessor dá ("checar sua proteção no FGC"). Gamificação no app da XP é visão de futuro |
+| O cliente não abre o link na demo | botão "Simular confirmação" no palco chama `/convites/{token}/confirmar` |
 
 ---
 

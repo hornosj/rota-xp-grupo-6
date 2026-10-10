@@ -16,5 +16,8 @@ public final class Requisicoes {
 
     public record ErroResposta(String erro, String mensagem) {}
 
-    public record DemoEstado(java.time.LocalDate dataReferencia, String modoCopiloto) {}
+    public record DemoEstado(java.time.LocalDate dataReferencia, String modoCopiloto, String modeloLlm, UsoLlm llm) {}
+
+    /** Chamadas ao LLM hoje e o teto diário (trava de crédito). */
+    public record UsoLlm(int chamadasHoje, int limiteDiario) {}
 }

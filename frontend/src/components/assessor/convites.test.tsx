@@ -37,10 +37,10 @@ describe("TelaConvites (Cadastrar investidores)", () => {
     await waitFor(() => expect(screen.getByTestId("convite-conv-001")).toHaveTextContent("Em preenchimento"), {
       timeout: 5000,
     });
-  });
+  }, 15000); // espera um ciclo do polling (3 s)
 
   it("convite concluído mostra o perfil e leva à visão 360", async () => {
-    const c = await mockApi.criarConvite("Bruno Lima");
+    const c = await mockApi.criarConviteOnboarding("Bruno Lima");
     await mockApi.concluirOnboarding(c.token, {
       nome: "Bruno Lima",
       cpf: "111.222.333-44",

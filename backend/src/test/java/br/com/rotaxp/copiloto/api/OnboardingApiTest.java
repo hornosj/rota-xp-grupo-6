@@ -110,8 +110,9 @@ class OnboardingApiTest {
                 .andExpect(jsonPath("$.cobertura.instituicoesDeclaradas").value(3))
                 .andExpect(jsonPath("$.cobertura.pendentes[0].instituicaoId").value("inst-ipe"));
 
-        mvc.perform(get(cliente + "/jornada")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.missoes[*].instituicaoId", hasItem("inst-ipe")));
+        // A instituição pendente recebe o convite de consentimento como a de qualquer outro cliente.
+        mvc.perform(post(cliente + "/convites/inst-ipe")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("PENDENTE"));
         mvc.perform(get("/api/clientes")).andExpect(jsonPath("$", hasSize(37)))
                 .andExpect(jsonPath("$[*].id", hasItem("cli-201")));
         mvc.perform(get("/api/assessor/fila")).andExpect(status().isOk())
@@ -143,7 +144,7 @@ class OnboardingApiTest {
         String token = criarConvite("Carla");
         String ok = cadastro("12345678900", "b");
         concluir(token, ok.replace("\"cpf\": \"12345678900\"", "\"cpf\": \"123\"")).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.erro").value("INVALIDO"))
+                .andExpect(jsonPath("$.erro").value("REQUISICAO_INVALIDA"))
                 .andExpect(jsonPath("$.mensagem", startsWith("CPF")));
         concluir(token, ok.replace("1988-05-20", "2015-01-01")).andExpect(status().isBadRequest());
         concluir(token, ok.replace("carla@exemplo.com", "carla")).andExpect(status().isBadRequest());

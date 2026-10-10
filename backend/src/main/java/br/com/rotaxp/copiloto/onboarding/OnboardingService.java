@@ -14,7 +14,7 @@ import br.com.rotaxp.copiloto.dominio.Enums.StatusConsentimento;
 import br.com.rotaxp.copiloto.dominio.Enums.TipoConsentimento;
 import br.com.rotaxp.copiloto.dominio.EventoVida;
 import br.com.rotaxp.copiloto.dominio.Excecoes.Conflito;
-import br.com.rotaxp.copiloto.dominio.Excecoes.Invalido;
+import br.com.rotaxp.copiloto.dominio.Excecoes.RequisicaoInvalida;
 import br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado;
 import br.com.rotaxp.copiloto.dominio.Instituicao;
 import br.com.rotaxp.copiloto.dominio.Onboarding.CadastroInvestidor;
@@ -45,7 +45,7 @@ import org.springframework.stereotype.Service;
  * Convites de onboarding (em memória, zerados no reset da demo) e o cadastro do investidor.
  * Concluir o cadastro cria um Cliente de verdade no repositório: XP com consentimento INTERNO e
  * as demais instituições declaradas como PENDENTE (ou ATIVO, se o investidor autorizar na hora).
- * A partir daí ele entra na fila, na 360 e na jornada como qualquer outro cliente.
+ * A partir daí ele entra na fila e na 360 como qualquer outro cliente.
  */
 @Service
 public class OnboardingService {
@@ -82,7 +82,7 @@ public class OnboardingService {
 
     public synchronized ConviteOnboarding criarConvite(String nome) {
         String limpo = texto(nome);
-        if (limpo.length() < 2) throw new Invalido("Informe o nome do investidor");
+        if (limpo.length() < 2) throw new RequisicaoInvalida("Informe o nome do investidor");
         String token = novoToken();
         ConviteOnboarding c = new ConviteOnboarding(String.format("conv-%03d", ++sequenciaConvite), token,
                 props.caminhoLink() + token, limpo, demo.assessorId(), StatusConvite.PENDENTE,
@@ -122,26 +122,26 @@ public class OnboardingService {
     public synchronized ResultadoOnboarding concluir(String token, CadastroInvestidor cad) {
         ConviteOnboarding convite = convite(token);
         if (convite.status() == StatusConvite.CONCLUIDO) throw new Conflito("Este cadastro já foi concluído");
-        if (cad == null) throw new Invalido("Cadastro vazio");
+        if (cad == null) throw new RequisicaoInvalida("Cadastro vazio");
         LocalDate hoje = dataReferencia.hoje();
 
         // 1. Valida tudo antes de mexer no repositório.
         String nome = texto(cad.nome());
-        if (nome.split("\\s+").length < 2) throw new Invalido("Informe nome e sobrenome");
+        if (nome.split("\\s+").length < 2) throw new RequisicaoInvalida("Informe nome e sobrenome");
         String cpf = cpf(cad.cpf());
         if (repo.clientes().stream().anyMatch(c -> cpf.equals(c.cpf()))) throw new Conflito("Já existe um cliente com este CPF");
-        if (cad.dataNascimento() == null) throw new Invalido("Informe a data de nascimento");
+        if (cad.dataNascimento() == null) throw new RequisicaoInvalida("Informe a data de nascimento");
         int idade = Period.between(cad.dataNascimento(), hoje).getYears();
-        if (idade < props.idadeMinima()) throw new Invalido("O investidor precisa ter pelo menos " + props.idadeMinima() + " anos");
-        if (idade > 120) throw new Invalido("Data de nascimento inválida");
-        if (!EMAIL.matcher(texto(cad.email())).matches()) throw new Invalido("E-mail inválido");
+        if (idade < props.idadeMinima()) throw new RequisicaoInvalida("O investidor precisa ter pelo menos " + props.idadeMinima() + " anos");
+        if (idade > 120) throw new RequisicaoInvalida("Data de nascimento inválida");
+        if (!EMAIL.matcher(texto(cad.email())).matches()) throw new RequisicaoInvalida("E-mail inválido");
         String celular = digitos(cad.celular());
-        if (celular.length() < 10 || celular.length() > 11) throw new Invalido("Celular inválido: use DDD + número");
+        if (celular.length() < 10 || celular.length() > 11) throw new RequisicaoInvalida("Celular inválido: use DDD + número");
         String profissao = obrigatorio(cad.profissao(), "Informe a profissão");
         String cidade = obrigatorio(cad.cidade(), "Informe a cidade");
         String uf = texto(cad.uf()).toUpperCase();
-        if (!UFS.contains(uf)) throw new Invalido("UF inválida");
-        if (!cad.aceiteTermos()) throw new Invalido("É preciso aceitar os termos de uso e a política de privacidade");
+        if (!UFS.contains(uf)) throw new RequisicaoInvalida("UF inválida");
+        if (!cad.aceiteTermos()) throw new RequisicaoInvalida("É preciso aceitar os termos de uso e a política de privacidade");
 
         List<Dependente> dependentes = dependentes(cad.dependentes(), hoje);
         List<EventoPlanejado> eventos = eventos(cad.eventosVida(), hoje);
@@ -213,7 +213,7 @@ public class OnboardingService {
             String nome = obrigatorio(d.nome(), "Informe o nome do dependente");
             String parentesco = obrigatorio(d.parentesco(), "Informe o parentesco de " + nome).toUpperCase();
             if (d.dataNascimento() == null || d.dataNascimento().isAfter(hoje)) {
-                throw new Invalido("Data de nascimento inválida para " + nome);
+                throw new RequisicaoInvalida("Data de nascimento inválida para " + nome);
             }
             r.add(new Dependente(nome, parentesco, d.dataNascimento()));
         }
@@ -223,9 +223,9 @@ public class OnboardingService {
     private static List<EventoPlanejado> eventos(List<EventoPlanejado> lista, LocalDate hoje) {
         List<EventoPlanejado> r = new ArrayList<>();
         for (EventoPlanejado e : lista == null ? List.<EventoPlanejado>of() : lista) {
-            if (e.tipo() == null) throw new Invalido("Informe o tipo do acontecimento");
+            if (e.tipo() == null) throw new RequisicaoInvalida("Informe o tipo do acontecimento");
             String descricao = obrigatorio(e.descricao(), "Descreva o acontecimento");
-            if (e.data() == null || e.data().isBefore(hoje)) throw new Invalido("A data de \"" + descricao + "\" precisa ser futura");
+            if (e.data() == null || e.data().isBefore(hoje)) throw new RequisicaoInvalida("A data de \"" + descricao + "\" precisa ser futura");
             r.add(new EventoPlanejado(e.tipo(), descricao, e.data()));
         }
         return r;
@@ -236,11 +236,11 @@ public class OnboardingService {
         Set<String> vistas = new HashSet<>();
         for (InstituicaoInformada i : lista == null ? List.<InstituicaoInformada>of() : lista) {
             Instituicao inst = repo.instituicao(i.instituicaoId())
-                    .orElseThrow(() -> new Invalido("Instituição desconhecida: " + i.instituicaoId()));
-            if (inst.ehXp()) throw new Invalido("A XP já entra automaticamente no seu cadastro");
-            if (!vistas.add(inst.id())) throw new Invalido(inst.nome() + " informado mais de uma vez");
+                    .orElseThrow(() -> new RequisicaoInvalida("Instituição desconhecida: " + i.instituicaoId()));
+            if (inst.ehXp()) throw new RequisicaoInvalida("A XP já entra automaticamente no seu cadastro");
+            if (!vistas.add(inst.id())) throw new RequisicaoInvalida(inst.nome() + " informado mais de uma vez");
             if (i.produtos() == null || i.produtos().isEmpty()) {
-                throw new Invalido("Escolha ao menos um produto que você tem no " + inst.nome());
+                throw new RequisicaoInvalida("Escolha ao menos um produto que você tem no " + inst.nome());
             }
             r.add(new InstituicaoInformada(inst.id(), i.produtos().stream().distinct().toList(), i.compartilharAgora()));
         }
@@ -259,13 +259,13 @@ public class OnboardingService {
     /** Só confere o formato (11 dígitos): os CPFs da demo são fictícios. */
     private static String cpf(String bruto) {
         String d = digitos(bruto);
-        if (d.length() != 11) throw new Invalido("CPF inválido: informe os 11 dígitos");
+        if (d.length() != 11) throw new RequisicaoInvalida("CPF inválido: informe os 11 dígitos");
         return d.substring(0, 3) + "." + d.substring(3, 6) + "." + d.substring(6, 9) + "-" + d.substring(9);
     }
 
     private static String obrigatorio(String valor, String mensagem) {
         String t = texto(valor);
-        if (t.isEmpty()) throw new Invalido(mensagem);
+        if (t.isEmpty()) throw new RequisicaoInvalida(mensagem);
         return t;
     }
 

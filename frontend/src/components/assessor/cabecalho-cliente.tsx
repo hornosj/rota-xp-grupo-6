@@ -1,7 +1,7 @@
 import { BadgePosicaoXp, ChipPerfil } from "@/components/comum/marcadores";
 import type { Visao360 } from "@/lib/api-types";
 import { brlCurto, dataHora, pct } from "@/lib/formato";
-import { rotuloProdutoDeclarado } from "@/lib/rotulos";
+import { CoberturaConvites } from "./cobertura-convites";
 
 function Numero({ rotulo, valor, detalhe }: { rotulo: string; valor: string; detalhe?: string }) {
   return (
@@ -13,7 +13,7 @@ function Numero({ rotulo, valor, detalhe }: { rotulo: string; valor: string; det
   );
 }
 
-export function CabecalhoCliente({ visao }: { visao: Visao360 }) {
+export function CabecalhoCliente({ visao, aoVivo }: { visao: Visao360; aoVivo?: boolean }) {
   const { cliente, cobertura, patrimonio, principalidade } = visao;
   return (
     <header className="flex flex-wrap items-end justify-between gap-7">
@@ -28,7 +28,7 @@ export function CabecalhoCliente({ visao }: { visao: Visao360 }) {
           <span className="text-sm text-muted-foreground">Atualizado em {dataHora(visao.atualizadoEm)}</span>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div data-testid="cobertura" className="flex flex-col gap-3">
         <dl className="flex flex-wrap divide-x divide-[#d9d9d9] overflow-hidden rounded-[20px] border-2 border-black">
           <Numero rotulo="Patrimônio visível" valor={brlCurto(patrimonio.totalVisivel)} />
           <Numero rotulo="Na XP" valor={pct(patrimonio.shareOfWalletXp)} />
@@ -38,16 +38,7 @@ export function CabecalhoCliente({ visao }: { visao: Visao360 }) {
             detalhe={`${cobertura.instituicoesConectadas} de ${cobertura.instituicoesDeclaradas} instituições conectadas`}
           />
         </dl>
-        {cobertura.pendentes.length > 0 && (
-          <ul className="text-[15px]">
-            {cobertura.pendentes.map((p) => (
-              <li key={p.instituicaoId}>
-                Pendente: <span className="font-bold">{p.nome}</span>{" "}
-                <span className="text-muted-foreground">({p.produtos.map((x) => rotuloProdutoDeclarado[x]).join(", ")})</span>
-              </li>
-            ))}
-          </ul>
-        )}
+        <CoberturaConvites visao={visao} aoVivo={aoVivo} />
       </div>
     </header>
   );

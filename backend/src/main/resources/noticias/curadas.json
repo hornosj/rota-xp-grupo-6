@@ -1,0 +1,142 @@
+[
+  {
+    "id": "not-001", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-09T08:10:00-03:00",
+    "titulo": "Agro Sul Sementes adia pagamento de juros de CRA e contrata assessoria de reestruturação",
+    "resumo": "A Agro Sul Sementes S.A. comunicou aos investidores que vai adiar em 30 dias o pagamento de juros de seus Certificados de Recebíveis do Agronegócio e contratou assessoria financeira para renegociar dívidas.",
+    "referencia": { "emissores": ["emi-agrosul"], "indexadores": [], "produtos": ["CRA"], "direcao": "NEGATIVA", "relevancia": 0.9,
+      "resumoImpacto": "Risco de crédito maior para quem tem CRA da Agro Sul." }
+  },
+  {
+    "id": "not-002", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-09T09:30:00-03:00",
+    "titulo": "Agência rebaixa rating do Banco Horizonte de A para BBB",
+    "resumo": "A agência de classificação de risco rebaixou a nota do Banco Horizonte, citando piora na qualidade da carteira de crédito e dependência de captação via CDB.",
+    "referencia": { "emissores": ["emi-horizonte"], "indexadores": [], "produtos": ["CDB", "LCA"], "direcao": "NEGATIVA", "relevancia": 0.8,
+      "resumoImpacto": "Papéis do Banco Horizonte ficam mais arriscados; atenção ao que está acima do FGC." }
+  },
+  {
+    "id": "not-003", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-08T18:40:00-03:00",
+    "titulo": "Copom eleva a Selic em 0,50 ponto percentual",
+    "resumo": "O Comitê de Política Monetária elevou a taxa básica de juros e indicou que pode fazer novos ajustes se a inflação não ceder.",
+    "referencia": { "emissores": [], "indexadores": ["SELIC", "CDI", "PRE"], "produtos": [], "direcao": "NEUTRA", "relevancia": 0.7,
+      "resumoImpacto": "Pós-fixados rendem mais; prefixados podem oscilar na marcação a mercado." }
+  },
+  {
+    "id": "not-004", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-09T09:00:00-03:00",
+    "titulo": "IPCA de setembro vem acima do esperado",
+    "resumo": "A inflação oficial de setembro superou as projeções, pressionada por alimentos e serviços.",
+    "referencia": { "emissores": [], "indexadores": ["IPCA"], "produtos": [], "direcao": "NEUTRA", "relevancia": 0.5,
+      "resumoImpacto": "Títulos atrelados ao IPCA protegem o poder de compra, mas podem oscilar." }
+  },
+  {
+    "id": "not-005", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-07T10:15:00-03:00",
+    "titulo": "Banco Ipê conclui aumento de capital",
+    "resumo": "O Banco Ipê concluiu aumento de capital que reforça seus índices de solvência.",
+    "referencia": { "emissores": ["emi-ipe"], "indexadores": [], "produtos": ["CDB"], "direcao": "POSITIVA", "relevancia": 0.5,
+      "resumoImpacto": "Emissor mais sólido para quem tem CDB do Banco Ipê." }
+  },
+  {
+    "id": "not-006", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-06T11:00:00-03:00",
+    "titulo": "Banco Aurora anuncia incorporação da Aurora Financeira",
+    "resumo": "O Banco Aurora vai incorporar a Aurora Financeira; os produtos dos clientes seguem válidos até o vencimento.",
+    "referencia": { "emissores": ["emi-aurora", "emi-aurora-fin"], "indexadores": [], "produtos": [], "direcao": "NEUTRA", "relevancia": 0.4,
+      "resumoImpacto": "Instituições do mesmo conglomerado: o limite do FGC já era somado." }
+  },
+  {
+    "id": "not-007", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-08T15:20:00-03:00",
+    "titulo": "Tesouro anuncia recompra extraordinária de títulos prefixados",
+    "resumo": "O Tesouro Nacional fará leilões de recompra de títulos prefixados para dar liquidez ao mercado.",
+    "referencia": { "emissores": ["emi-tesouro"], "indexadores": ["PRE"], "produtos": ["TESOURO"], "direcao": "NEUTRA", "relevancia": 0.4,
+      "resumoImpacto": "Mais liquidez para títulos públicos prefixados." }
+  },
+  {
+    "id": "not-008", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-09T07:50:00-03:00",
+    "titulo": "Quebra de safra no Centro-Oeste pressiona empresas do agronegócio",
+    "resumo": "A estiagem reduziu a produção de grãos e deve afetar o caixa de empresas do setor, inclusive emissoras de CRA.",
+    "referencia": { "emissores": ["emi-agrosul"], "indexadores": [], "produtos": ["CRA", "LCA"], "direcao": "NEGATIVA", "relevancia": 0.6,
+      "resumoImpacto": "Risco maior para títulos do agronegócio." }
+  },
+  {
+    "id": "not-009", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-10T08:30:00-03:00",
+    "titulo": "Banco Horizonte eleva taxas de CDB para reforçar captação",
+    "resumo": "O Banco Horizonte passou a pagar até 120% do CDI em CDBs de dois anos.",
+    "referencia": { "emissores": ["emi-horizonte"], "indexadores": ["CDI"], "produtos": ["CDB"], "direcao": "NEUTRA", "relevancia": 0.4,
+      "resumoImpacto": "Taxa alta pode indicar necessidade de caixa do emissor." }
+  },
+  {
+    "id": "not-010", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-09T17:30:00-03:00",
+    "titulo": "Bolsa renova máxima histórica com fluxo estrangeiro",
+    "resumo": "O índice de ações fechou em alta pelo quinto pregão seguido.",
+    "referencia": { "emissores": [], "indexadores": [], "produtos": ["ACAO"], "direcao": "POSITIVA", "relevancia": 0.3,
+      "resumoImpacto": "Valorização das carteiras de ações." }
+  },
+  {
+    "id": "not-011", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-07T16:00:00-03:00",
+    "titulo": "Fundos multimercado registram resgates líquidos no trimestre",
+    "resumo": "A indústria de multimercados teve mais saques que aportes pelo terceiro trimestre seguido.",
+    "referencia": { "emissores": [], "indexadores": [], "produtos": ["FUNDO"], "direcao": "NEGATIVA", "relevancia": 0.3,
+      "resumoImpacto": "Vale revisar o desempenho dos fundos da carteira." }
+  },
+  {
+    "id": "not-012", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-10T12:00:00-03:00",
+    "titulo": "Juros futuros sobem com incerteza fiscal",
+    "resumo": "As taxas dos contratos de juros futuros avançaram em todos os vencimentos.",
+    "referencia": { "emissores": [], "indexadores": ["PRE", "IPCA"], "produtos": [], "direcao": "NEGATIVA", "relevancia": 0.5,
+      "resumoImpacto": "Prefixados e IPCA+ podem ter perda na marcação a mercado." }
+  },
+  {
+    "id": "not-013", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-06T09:00:00-03:00",
+    "titulo": "Banco Aurora reduz tarifas da conta digital",
+    "resumo": "O banco zerou a tarifa do pacote básico para novos clientes.",
+    "referencia": { "emissores": ["emi-aurora"], "indexadores": [], "produtos": [], "direcao": "NEUTRA", "relevancia": 0.1,
+      "resumoImpacto": "Sem impacto relevante para investimentos." }
+  },
+  {
+    "id": "not-014", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-08T10:00:00-03:00",
+    "titulo": "Banco Ipê lança CDB com liquidez diária a 105% do CDI",
+    "resumo": "O novo produto do Banco Ipê permite resgate a qualquer momento.",
+    "referencia": { "emissores": ["emi-ipe"], "indexadores": ["CDI"], "produtos": ["CDB"], "direcao": "POSITIVA", "relevancia": 0.3,
+      "resumoImpacto": "Alternativa para reserva de emergência." }
+  },
+  {
+    "id": "not-015", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-10T19:00:00-03:00",
+    "titulo": "Agro Sul Sementes tem prejuízo no trimestre e alavancagem sobe",
+    "resumo": "A companhia reportou prejuízo pelo segundo trimestre seguido; a dívida líquida chegou a 5 vezes o resultado operacional.",
+    "referencia": { "emissores": ["emi-agrosul"], "indexadores": [], "produtos": ["CRA"], "direcao": "NEGATIVA", "relevancia": 0.7,
+      "resumoImpacto": "Piora do crédito da Agro Sul." }
+  },
+  {
+    "id": "not-016", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-07T09:00:00-03:00",
+    "titulo": "Inflação de serviços desacelera",
+    "resumo": "O núcleo de serviços recuou pelo segundo mês, segundo a prévia da inflação.",
+    "referencia": { "emissores": [], "indexadores": ["IPCA"], "produtos": [], "direcao": "NEUTRA", "relevancia": 0.3,
+      "resumoImpacto": "Alívio nas projeções de inflação." }
+  },
+  {
+    "id": "not-017", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-06T14:00:00-03:00",
+    "titulo": "Emissões de debêntures incentivadas batem recorde",
+    "resumo": "O volume de debêntures de infraestrutura emitidas no ano já supera todo o ano anterior.",
+    "referencia": { "emissores": [], "indexadores": [], "produtos": ["DEBENTURE"], "direcao": "POSITIVA", "relevancia": 0.3,
+      "resumoImpacto": "Mais oferta de crédito privado isento de IR." }
+  },
+  {
+    "id": "not-018", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-08T13:00:00-03:00",
+    "titulo": "Mercado imobiliário aquecido aumenta demanda por CRI",
+    "resumo": "Lançamentos residenciais cresceram e os certificados de recebíveis imobiliários ganharam procura.",
+    "referencia": { "emissores": [], "indexadores": [], "produtos": ["CRI"], "direcao": "POSITIVA", "relevancia": 0.3,
+      "resumoImpacto": "Mercado de CRI mais líquido." }
+  },
+  {
+    "id": "not-019", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-10T16:00:00-03:00",
+    "titulo": "Copom sinaliza fim do ciclo de alta da Selic",
+    "resumo": "A ata da última reunião indicou que o ciclo de aperto monetário está próximo do fim.",
+    "referencia": { "emissores": [], "indexadores": ["SELIC", "CDI"], "produtos": [], "direcao": "NEUTRA", "relevancia": 0.4,
+      "resumoImpacto": "Bom momento para avaliar travar taxas em prefixados." }
+  },
+  {
+    "id": "not-020", "fonte": "Curadoria (fictícia)", "publicadaEm": "2026-10-11T07:30:00-03:00",
+    "titulo": "Banco Horizonte nega problemas de liquidez após boatos",
+    "resumo": "Em fato relevante, o Banco Horizonte afirmou que seus índices de liquidez estão acima do mínimo regulatório.",
+    "referencia": { "emissores": ["emi-horizonte"], "indexadores": [], "produtos": ["CDB", "LCA"], "direcao": "NEGATIVA", "relevancia": 0.6,
+      "resumoImpacto": "Boatos de liquidez aumentam a atenção a quem tem papéis do Horizonte." }
+  }
+]
