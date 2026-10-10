@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Compass } from "lucide-react";
+import { SinoNotificacoes } from "@/components/assessor/sino-notificacoes";
 
 const linkNav = "rounded-md px-3 py-1.5 font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900";
 
@@ -18,8 +19,14 @@ export default function AssessorLayout({ children }: LayoutProps<"/assessor">) {
             <Link href="/assessor/hoje" className={linkNav}>
               Hoje
             </Link>
+            <Link href="/assessor/notificacoes" className={linkNav}>
+              Notificações
+            </Link>
           </nav>
-          <span className="ml-auto text-sm text-muted-foreground">Assessora · ass-001</span>
+          <div className="ml-auto flex items-center gap-3">
+            <SinoNotificacoes />
+            <span className="text-sm text-muted-foreground">Assessora · ass-001</span>
+          </div>
         </div>
       </header>
       <main className="mx-auto w-full max-w-7xl flex-1 px-6 py-6">{children}</main>

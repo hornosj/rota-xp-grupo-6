@@ -4,6 +4,7 @@
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "./api";
 import type { Canal, Id } from "./api-types";
+import { carregarNotificacoes } from "./notificacoes";
 
 export const INTERVALO_AO_VIVO_MS = 2000;
 
@@ -16,6 +17,7 @@ export const chaves = {
   jornada: (id: Id) => ["jornada", id] as const,
   consentimentos: (id: Id) => ["consentimentos", id] as const,
   briefing: (id: Id) => ["briefing", id] as const,
+  notificacoes: ["notificacoes"] as const,
 };
 
 interface OpcoesAoVivo {
@@ -56,6 +58,16 @@ export function useConsentimentos(id: Id, o?: OpcoesAoVivo) {
   });
 }
 
+/** Provisório: montado no front a partir de /clientes + /360 (ver lib/notificacoes). */
+export function useNotificacoes(o?: OpcoesAoVivo) {
+  return useQuery({
+    queryKey: chaves.notificacoes,
+    queryFn: () => carregarNotificacoes(api),
+    refetchInterval: intervalo(o),
+    staleTime: 30 * 1000,
+  });
+}
+
 export function useBriefing(id: Id, o?: { enabled?: boolean }) {
   return useQuery({
     queryKey: chaves.briefing(id),
@@ -70,6 +82,7 @@ function invalidarCliente(qc: QueryClient, clienteId: Id) {
     qc.invalidateQueries({ queryKey: chaves.fila }),
     qc.invalidateQueries({ queryKey: chaves.painel }),
     qc.invalidateQueries({ queryKey: chaves.clientes }),
+    qc.invalidateQueries({ queryKey: chaves.notificacoes }),
     qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.jornada(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.consentimentos(clienteId) }),
