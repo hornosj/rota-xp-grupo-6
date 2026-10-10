@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { brl, brlCurto, data, diasAte, emDias, pct, primeiroNome, proximoAniversario } from "./formato";
+import { brl, brlCurto, data, diaPorExtenso, diasAte, emDias, mesCurto, pct, primeiroNome, proximoAniversario } from "./formato";
 
 const nbsp = (s: string) => s.replace(/ /g, " ");
 
@@ -24,15 +24,21 @@ describe("formato", () => {
     expect(data(undefined)).toBe("—");
   });
   it("diasAte conta dias a partir da referência", () => {
-    expect(diasAte("2026-10-16", "2026-10-11")).toBe(5);
-    expect(diasAte("2026-10-11", "2026-10-11")).toBe(0);
-    expect(diasAte("2026-10-01", "2026-10-11")).toBe(-10);
+    expect(diasAte("2026-10-15", "2026-10-10")).toBe(5);
+    expect(diasAte("2026-10-10", "2026-10-10")).toBe(0);
+    expect(diasAte("2026-09-30", "2026-10-10")).toBe(-10);
   });
   it("proximoAniversario e emDias", () => {
-    expect(proximoAniversario("2014-10-16", "2026-10-11")).toBe("2026-10-16");
-    expect(proximoAniversario("2017-03-02", "2026-10-11")).toBe("2027-03-02");
+    expect(proximoAniversario("2014-10-15", "2026-10-10")).toBe("2026-10-15");
+    expect(proximoAniversario("2017-03-02", "2026-10-10")).toBe("2027-03-02");
     expect(emDias(5)).toBe("em 5 dias");
     expect(emDias(0)).toBe("hoje");
+  });
+  it("diaPorExtenso e mesCurto para sobretítulos e datas compactas", () => {
+    expect(diaPorExtenso("2026-10-10")).toBe("Sábado, 10 de outubro");
+    expect(diaPorExtenso(undefined)).toBe("");
+    expect(mesCurto("2026-10-16")).toBe("out");
+    expect(mesCurto("2027-03-02")).toBe("mar");
   });
   it("primeiroNome remove tratamento", () => {
     expect(primeiroNome("Dra. Marina Costa")).toBe("Marina");

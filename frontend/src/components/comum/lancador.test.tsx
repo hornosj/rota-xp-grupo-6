@@ -1,6 +1,9 @@
-import { screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { renderComQuery } from "@/test/utils";
+
+vi.mock("@/lib/api", async () => ({ api: (await import("@/mocks")).mockApi }));
+
 import { Lancador } from "./lancador";
 
 describe("Lancador", () => {
@@ -8,11 +11,18 @@ describe("Lancador", () => {
     renderComQuery(<Lancador />);
     expect(screen.queryByRole("link", { name: /Palco/ })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Cadastrar investidores/ })).toHaveAttribute("href", "/assessor/convites");
-    expect(screen.getByRole("link", { name: /Fila Hoje/ })).toHaveAttribute("href", "/assessor/hoje");
-    expect(screen.getByRole("link", { name: /Meus clientes/ })).toHaveAttribute("href", "/assessor");
+    expect(screen.getByRole("link", { name: /Abrir a fila de hoje/ })).toHaveAttribute("href", "/assessor/hoje");
+    expect(screen.getByRole("link", { name: /Ver meus clientes/ })).toHaveAttribute("href", "/assessor");
     for (const id of ["cli-001", "cli-002", "cli-003", "cli-004", "cli-005", "cli-006"]) {
       expect(document.querySelector(`a[href="/assessor/clientes/${id}"]`)).not.toBeNull();
       expect(document.querySelector(`a[href="/cliente/${id}"]`)).toBeNull();
     }
+  });
+
+  it("mostra quem ligar primeiro e os números da carteira", async () => {
+    renderComQuery(<Lancador />);
+    expect(await screen.findByRole("link", { name: /^1º\s*Patrícia Gomes/ })).toHaveAttribute("href", "/assessor/clientes/cli-004");
+    await waitFor(() => expect(screen.getByLabelText("Números da carteira")).not.toHaveTextContent("—"));
+    expect(screen.getByLabelText("Números da carteira")).toHaveTextContent("têm a XP como instituição principal");
   });
 });

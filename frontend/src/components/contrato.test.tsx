@@ -1,6 +1,6 @@
 // Testes de contrato: as telas renderizadas com as respostas REAIS do backend
 // (contract/fixtures, copiadas por `npm run sync:fixtures`), não com os mocks escritos à mão.
-import { screen, waitFor, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { estadoFixtures, fixtures } from "@/test/api-fixtures";

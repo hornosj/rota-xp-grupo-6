@@ -32,6 +32,22 @@ describe("TelaHoje", () => {
     );
   });
 
+  it("filtra a sequência pelo tipo da próxima ação e gera a mensagem direto do destaque", async () => {
+    const user = userEvent.setup();
+    renderComQuery(<TelaHoje />);
+    await screen.findAllByTestId("item-fila");
+    await user.click(screen.getByRole("button", { name: /Dinheiro parado/ }));
+    const [destaque, ...linhas] = screen.getAllByTestId("item-fila");
+    expect(destaque).toHaveTextContent("Patrícia Gomes");
+    expect(linhas.length).toBeGreaterThan(0);
+    expect(linhas[0]).toHaveTextContent("Dra. Marina Costa");
+    for (const l of linhas) expect(l).toHaveTextContent(/parados/);
+
+    await user.click(within(destaque).getByRole("button", { name: /Gerar mensagem/ }));
+    expect(await screen.findByTestId("texto-mensagem")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toHaveTextContent("Patrícia Gomes");
+  });
+
   it("sem ao vivo: sem indicador", async () => {
     renderComQuery(<TelaHoje />);
     await screen.findAllByTestId("item-fila");
