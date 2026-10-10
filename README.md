@@ -79,6 +79,22 @@ Teste real contra o OpenRouter (opt-in, custa frações de centavo):
 Para gravar o cache antes do freeze (BE2-07): suba com `COPILOTO_MODO=record`, percorra as ações dos âncoras
 (antes e depois do consentimento da Marina) e commite `backend/llm-cache/`.
 
+### Edição do cadastro por voz (Whisper)
+
+Na 360 do cliente, **Editar por voz**: o assessor grava (ou envia) um áudio contando o que mudou, o **Whisper**
+transcreve, o Copiloto (`AgenteEdicaoCadastro`, com os mesmos modos acima) extrai os campos e as regras
+(`RegrasCadastro`) validam e montam a proposta. O assessor confere o antes → depois de cada campo e só então
+aplica (`PATCH /api/clientes/{id}`). Campos: nome, idade, profissão e cidade. O **perfil de investidor não muda
+por voz** (vem do questionário de suitability); se o assessor citar, a proposta mostra um aviso.
+
+- Qualquer API compatível com a `/audio/transcriptions` da OpenAI: `WHISPER_APIKEY` (obrigatória),
+  `WHISPER_URL` (padrão `https://api.openai.com/v1`) e `WHISPER_MODELO` (padrão `whisper-1`).
+  Groq, por exemplo: `WHISPER_URL=https://api.groq.com/openai/v1` e `WHISPER_MODELO=whisper-large-v3-turbo`.
+- Sem `WHISPER_APIKEY`, `/demo/estado` informa `transcricao.disponivel=false` e a tela pede o texto digitado; o
+  resto do fluxo funciona igual (inclusive no modo mock do front).
+- O Whisper recebe o áudio e o nome do cliente (como dica de grafia); o LLM recebe o texto e o cadastro atual
+  (sem CPF). Nada é gravado sem a confirmação do assessor, e o reset da demo desfaz as edições.
+
 ## Contrato
 
 `contract/openapi.json` e `contract/fixtures/` são exportados da API real:
@@ -96,5 +112,8 @@ cd frontend && npm run gen:api && npm run sync:fixtures
 - Regras ambíguas resolvidas como no checker de referência (`data/checar_seed.py`): `SO_INVESTIMENTOS` é
   avaliado antes de `PRINCIPAL`; reserva arredondada a 1 casa (HALF_EVEN); janelas de movimentação e contas
   recorrentes = 3 meses; `FATURA CARTAO <X>` casa com a última palavra do nome do banco.
+- **Edição do cadastro por voz** (fora do PLAN): transcrição com **Whisper no backend**, não com a Web Speech API
+  do §8.4 (que segue sendo o plano para a nota pós-reunião). Funciona em qualquer navegador com microfone e
+  aceita arquivo de áudio.
 
 Dados 100% fictícios (bancos Aurora, Horizonte, Ipê). XP é a única marca real.
