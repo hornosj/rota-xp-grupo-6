@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LayoutDashboard, ListOrdered, MonitorPlay, Smartphone, UserRound } from "lucide-react";
+import { BotaoNotificacoes } from "@/components/assessor/botao-notificacoes";
 import { USE_MOCKS } from "@/lib/config";
 
 const ANCORAS = [
@@ -14,7 +15,8 @@ const ANCORAS = [
 export function Lancador() {
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 py-12">
-      <header>
+      <header className="relative">
+        <BotaoNotificacoes className="mb-6 sm:absolute sm:top-0 sm:right-0 sm:mb-0" />
         <p className="text-sm font-medium tracking-wide text-muted-foreground uppercase">Hackathon · Grupo 6</p>
         <h1 className="mt-1 text-4xl font-bold tracking-tight">Copiloto do Assessor</h1>
         <p className="mt-2 max-w-2xl text-lg text-slate-600">
