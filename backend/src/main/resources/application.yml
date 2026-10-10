@@ -108,3 +108,15 @@ radar:
   processar-no-inicio: true
   fracao-plena: 0.25
   pontos-minimos: 10
+  pre-filtro: true                    # só manda ao LLM o que as regras acham financeiro
+  rss:
+    habilitado: ${RADAR_RSS:false}          # feeds reais; a demo usa só as curadas (offline)
+    max-itens-por-feed: 30
+    timeout-segundos: 10
+    feeds:                                   # título + resumo + link; o texto fica no site de origem
+      - nome: InfoMoney
+        url: https://www.infomoney.com.br/feed/
+      - nome: CNN Brasil
+        url: https://www.cnnbrasil.com.br/feed/
+      - nome: Bloomberg Línea
+        url: https://www.bloomberglinea.com.br/arc/outboundfeeds/rss/?outputType=xml

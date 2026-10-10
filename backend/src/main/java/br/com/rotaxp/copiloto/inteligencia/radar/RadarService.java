@@ -74,6 +74,16 @@ public class RadarService {
             else semReferencia.add(n);
         }
         List<Noticia> pendentes = semReferencia.stream().map(NoticiaColetada::noticia).toList();
+        if ("llm".equals(props.classificacao()) && props.preFiltro()) {
+            // sem nada financeiro pelas regras: fica com a classificação por regra e não gasta LLM
+            List<Noticia> financeiras = new ArrayList<>();
+            for (Noticia n : pendentes) {
+                Classificacao c = regras.classificar(n, repo.emissores());
+                if (c.emissores().isEmpty() && c.indexadores().isEmpty() && c.produtos().isEmpty()) classificacoes.put(n.id(), c);
+                else financeiras.add(n);
+            }
+            pendentes = financeiras;
+        }
         if ("llm".equals(props.classificacao()) && !pendentes.isEmpty()) {
             ClassificadorLlm.Resultado r = llm.classificar(pendentes, repo.emissores());
             classificacoes.putAll(r.classificacoes());

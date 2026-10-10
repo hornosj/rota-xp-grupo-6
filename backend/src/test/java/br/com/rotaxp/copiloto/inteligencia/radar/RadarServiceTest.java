@@ -48,11 +48,19 @@ public class RadarServiceTest {
     }
 
     public static RadarProps props(String classificacao) {
-        return new RadarProps(classificacao, "openai/gpt-oss-120b", 10, "0 0 7,10,12,14,16,19 * * MON-FRI", true, true, 0.25, 10);
+        return props(classificacao, false);
+    }
+
+    public static RadarProps props(String classificacao, boolean preFiltro) {
+        return new RadarProps(classificacao, "openai/gpt-oss-120b", 10, "0 0 7,10,12,14,16,19 * * MON-FRI", true, true, 0.25, 10,
+                preFiltro);
     }
 
     private RadarService service(String modo, AgenteContador agente, FonteNoticias... fontes) {
-        RadarProps p = props(modo);
+        return service(props(modo), agente, fontes);
+    }
+
+    private RadarService service(RadarProps p, AgenteContador agente, FonteNoticias... fontes) {
         return new RadarService(List.of(fontes), new ClassificadorRegras(),
                 new ClassificadorLlm(agente, new ClassificadorRegras(), p.modeloClassificacao(), p.tamanhoLote()),
                 new CruzamentoCarteira(p.fracaoPlena(), p.pontosMinimos()), i.gateway, i.repo, i.dataReferencia,
@@ -117,6 +125,42 @@ public class RadarServiceTest {
 
         assertThat(s.processar().novas()).isZero();
         assertThat(eventos).isEmpty();
+    }
+
+    /** Agente que registra quais notícias recebeu. */
+    static class AgenteQueGuarda extends AgenteContador {
+        final List<String> recebidas = new ArrayList<>();
+        @Override public <T> T executar(Object entrada, Class<T> resultado) {
+            ((LoteNoticias) entrada).noticias().forEach(n -> recebidas.add(n.id()));
+            return super.executar(entrada, resultado);
+        }
+    }
+
+    @Test
+    void preFiltroSoMandaAoLlmNoticiasComAlgoFinanceiro() {
+        AgenteQueGuarda agente = new AgenteQueGuarda();
+        FonteManual fonte = new FonteManual();
+        OffsetDateTime t = OffsetDateTime.parse("2026-10-10T08:00:00-03:00");
+        fonte.itens.add(new NoticiaColetada(new Noticia("fin", "rss", "Copom eleva a Selic", "", null, t), null));
+        fonte.itens.add(new NoticiaColetada(new Noticia("pol", "rss", "Feriado prolongado movimenta rodovias", "", null, t), null));
+
+        ResultadoProcessamento r = service(props("llm", true), agente, fonte).processar();
+
+        assertThat(agente.recebidas).containsExactly("fin");
+        assertThat(r.classificadasPorLlm()).isEqualTo(1);
+        assertThat(r.classificadasPorRegra()).isEqualTo(1);
+    }
+
+    @Test
+    void semPreFiltroTudoVaiAoLlm() {
+        AgenteQueGuarda agente = new AgenteQueGuarda();
+        FonteManual fonte = new FonteManual();
+        OffsetDateTime t = OffsetDateTime.parse("2026-10-10T08:00:00-03:00");
+        fonte.itens.add(new NoticiaColetada(new Noticia("pol", "rss", "Feriado prolongado movimenta rodovias", "", null, t), null));
+
+        service(props("llm", false), agente, fonte).processar();
+
+        assertThat(agente.recebidas).containsExactly("pol");
     }
 
     @Test
