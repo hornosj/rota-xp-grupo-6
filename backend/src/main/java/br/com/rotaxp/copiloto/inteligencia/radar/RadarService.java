@@ -22,8 +22,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
- * Pipeline do radar: coletar → descartar o que já foi visto → classificar só as novas (em lotes) →
- * guardar → publicar NoticiasClassificadas. O cruzamento com as carteiras é feito na leitura,
+ * Pipeline do radar em duas cadências: coletar (frequente, sem LLM) guarda pendentes; processar classifica o
+ * que acumulou (em lotes) → guarda → publica NoticiasClassificadas. O cruzamento com as carteiras é feito na leitura,
  * então segue os consentimentos atuais.
  */
 @Service
@@ -40,6 +40,7 @@ public class RadarService {
     private final RadarProps props;
     private final ApplicationEventPublisher eventos;
     private final Map<String, NoticiaClassificada> processadas = new ConcurrentHashMap<>();
+    private final Map<String, NoticiaColetada> pendentes = new LinkedHashMap<>();
 
     public RadarService(List<FonteNoticias> fontes, ClassificadorRegras regras, ClassificadorLlm llm, CruzamentoCarteira cruzamento,
                         OpenFinanceGateway gateway, Repositorio repo, DataReferencia dataReferencia, DemoProps demo,
@@ -56,15 +57,32 @@ public class RadarService {
         this.eventos = eventos;
     }
 
-    public synchronized ResultadoProcessamento processar() {
-        Map<String, NoticiaColetada> novas = new LinkedHashMap<>();
-        int coletadas = 0;
+    /** Busca as fontes e guarda como pendente o que ainda não foi visto. Sem LLM. Devolve quantas entraram. */
+    public synchronized int coletar() {
+        return coletarContando()[1];
+    }
+
+    public int pendentes() {
+        return pendentes.size();
+    }
+
+    /** {coletadas nas fontes, novas pendentes} */
+    private int[] coletarContando() {
+        int coletadas = 0, novas = 0;
         for (FonteNoticias f : fontes) {
             for (NoticiaColetada n : f.coletar()) {
                 coletadas++;
-                if (!processadas.containsKey(n.noticia().id())) novas.putIfAbsent(n.noticia().id(), n);
+                String id = n.noticia().id();
+                if (!processadas.containsKey(id) && pendentes.putIfAbsent(id, n) == null) novas++;
             }
         }
+        return new int[] {coletadas, novas};
+    }
+
+    /** Coleta e classifica tudo o que estiver pendente (em lotes, no modo llm). */
+    public synchronized ResultadoProcessamento processar() {
+        int coletadas = coletarContando()[0];
+        Map<String, NoticiaColetada> novas = new LinkedHashMap<>(pendentes);
 
         int porLlm = 0, lotes = 0;
         Map<String, Classificacao> classificacoes = new LinkedHashMap<>();
@@ -73,27 +91,28 @@ public class RadarService {
             if ("referencia".equals(props.classificacao()) && n.referencia() != null) classificacoes.put(n.noticia().id(), n.referencia());
             else semReferencia.add(n);
         }
-        List<Noticia> pendentes = semReferencia.stream().map(NoticiaColetada::noticia).toList();
+        List<Noticia> aClassificar = semReferencia.stream().map(NoticiaColetada::noticia).toList();
         if ("llm".equals(props.classificacao()) && props.preFiltro()) {
             // sem nada financeiro pelas regras: fica com a classificação por regra e não gasta LLM
             List<Noticia> financeiras = new ArrayList<>();
-            for (Noticia n : pendentes) {
+            for (Noticia n : aClassificar) {
                 Classificacao c = regras.classificar(n, repo.emissores());
                 if (c.emissores().isEmpty() && c.indexadores().isEmpty() && c.produtos().isEmpty()) classificacoes.put(n.id(), c);
                 else financeiras.add(n);
             }
-            pendentes = financeiras;
+            aClassificar = financeiras;
         }
-        if ("llm".equals(props.classificacao()) && !pendentes.isEmpty()) {
-            ClassificadorLlm.Resultado r = llm.classificar(pendentes, repo.emissores());
+        if ("llm".equals(props.classificacao()) && !aClassificar.isEmpty()) {
+            ClassificadorLlm.Resultado r = llm.classificar(aClassificar, repo.emissores());
             classificacoes.putAll(r.classificacoes());
             porLlm = r.porLlm();
             lotes = r.lotes();
         } else {
-            pendentes.forEach(n -> classificacoes.put(n.id(), regras.classificar(n, repo.emissores())));
+            aClassificar.forEach(n -> classificacoes.put(n.id(), regras.classificar(n, repo.emissores())));
         }
 
         novas.values().forEach(n -> processadas.put(n.noticia().id(), new NoticiaClassificada(n.noticia(), classificacoes.get(n.noticia().id()))));
+        novas.keySet().forEach(pendentes::remove);
         int porRegra = (int) classificacoes.values().stream()
                 .filter(c -> c.origem() == br.com.rotaxp.copiloto.dominio.Radar.OrigemClassificacao.REGRAS).count();
         if (!novas.isEmpty()) eventos.publishEvent(new NoticiasClassificadas(List.copyOf(novas.keySet())));

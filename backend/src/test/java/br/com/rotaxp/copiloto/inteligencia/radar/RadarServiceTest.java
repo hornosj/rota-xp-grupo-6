@@ -52,8 +52,8 @@ public class RadarServiceTest {
     }
 
     public static RadarProps props(String classificacao, boolean preFiltro) {
-        return new RadarProps(classificacao, "openai/gpt-oss-120b", 10, "0 0 7,10,12,14,16,19 * * MON-FRI", true, true, 0.25, 10,
-                preFiltro);
+        return new RadarProps(classificacao, "openai/gpt-oss-120b", 10, "0 0 7,10,12,14,16,19 * * MON-FRI",
+                "0 */30 * * * *", true, true, 0.25, 10, preFiltro);
     }
 
     private RadarService service(String modo, AgenteContador agente, FonteNoticias... fontes) {
@@ -161,6 +161,40 @@ public class RadarServiceTest {
         service(props("llm", false), agente, fonte).processar();
 
         assertThat(agente.recebidas).containsExactly("pol");
+    }
+
+    @Test
+    void coletaFrequenteGuardaPendentesSemLlmEClassificacaoPegaTudoQueAcumulou() {
+        // feed curto que gira (como o do InfoMoney, com 10 itens): 1–10 numa coleta, 6–15 na seguinte
+        AgenteContador agente = new AgenteContador();
+        FonteManual fonte = new FonteManual();
+        OffsetDateTime t = OffsetDateTime.parse("2026-10-10T08:00:00-03:00");
+        for (int k = 1; k <= 10; k++) fonte.itens.add(new NoticiaColetada(new Noticia("n" + k, "rss", "Copom e Selic " + k, "", null, t.plusMinutes(k)), null));
+        RadarService s = service(props("llm"), agente, fonte);
+
+        assertThat(s.coletar()).isEqualTo(10);
+        fonte.itens.subList(0, 5).clear();
+        for (int k = 11; k <= 15; k++) fonte.itens.add(new NoticiaColetada(new Noticia("n" + k, "rss", "Copom e Selic " + k, "", null, t.plusMinutes(k)), null));
+        assertThat(s.coletar()).isEqualTo(5);
+
+        assertThat(agente.chamadas).isZero();           // coletar não gasta LLM
+        assertThat(s.pendentes()).isEqualTo(15);
+        assertThat(s.noticias()).isEmpty();
+
+        ResultadoProcessamento r = s.processar();
+
+        assertThat(r.novas()).isEqualTo(15);            // inclui n1–n5, que já tinham saído do feed
+        assertThat(r.lotes()).isEqualTo(2);
+        assertThat(s.pendentes()).isZero();
+        assertThat(s.noticias()).hasSize(15);
+    }
+
+    @Test
+    void cronDeColetaRodaACada30Minutos() {
+        CronExpression cron = CronExpression.parse(props("referencia").cronColeta());
+        java.time.ZonedDateTime dia = java.time.ZonedDateTime.parse("2026-10-12T00:00:00-03:00[America/Sao_Paulo]");
+
+        assertThat(execucoes(cron, dia)).isEqualTo(48);
     }
 
     @Test

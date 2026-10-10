@@ -103,7 +103,8 @@ radar:
   classificacao: ${RADAR_CLASSIFICACAO:referencia}
   modelo-classificacao: ${RADAR_MODELO:openai/gpt-oss-120b}   # barato e com saída estruturada
   tamanho-lote: 10                                           # notícias por chamada ao LLM
-  cron: "0 0 7,10,12,14,16,19 * * MON-FRI"                   # 6x por dia útil (America/Sao_Paulo)
+  cron: "0 0 7,10,12,14,16,19 * * MON-FRI"                   # classificação (LLM em lotes): 6x por dia útil
+  cron-coleta: "0 */30 * * * *"                              # coleta sem LLM: feeds curtos giram rápido
   worker-habilitado: true
   processar-no-inicio: true
   fracao-plena: 0.25
