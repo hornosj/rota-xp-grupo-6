@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Clock, Link2, Link2Off, Loader2, Send } from "lucide-react";
+import { Check, Clock, Loader2, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api-base";
 import type { AcaoSugerida, Convite, Id, Visao360 } from "@/lib/api-types";
-import { pct } from "@/lib/formato";
 import { useConvites, useCriarConvite } from "@/lib/queries";
 import { rotuloProdutoDeclarado } from "@/lib/rotulos";
+import { cn } from "@/lib/utils";
 import { DialogMensagem } from "./dialog-mensagem";
 
 /** Id da ação CONVIDAR_CONEXAO no backend: acao-{clienteId}-convidar_conexao-{instituicaoId}. */
@@ -35,32 +35,35 @@ function ultimosPorInstituicao(convites: Convite[]): Map<Id, Convite> {
   return m;
 }
 
+const chip = "inline-flex items-center gap-1 self-start rounded-full px-2.5 py-0.5 text-[13px] font-bold";
+
+/** Confirmado preenchido de preto, pendente contornado, expirado em cinza. */
 function StatusConvite({ convite, comNome }: { convite: Convite; comNome?: boolean }) {
   const nome = comNome ? `${convite.instituicaoNome} · ` : "";
   if (convite.status === "CONFIRMADO") {
     return (
-      <span data-testid="status-convite" className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
-        <CheckCircle2 className="size-3.5" /> {nome}Confirmado
+      <span data-testid="status-convite" className={cn(chip, "bg-black text-white")}>
+        <Check className="size-3.5" /> {nome}Confirmado
       </span>
     );
   }
   if (convite.status === "EXPIRADO") {
     return (
-      <span data-testid="status-convite" className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+      <span data-testid="status-convite" className={cn(chip, "bg-muted font-semibold text-muted-foreground")}>
         <Clock className="size-3.5" /> {nome}Convite expirado
       </span>
     );
   }
   return (
-    <span data-testid="status-convite" className="inline-flex items-center gap-1 text-xs font-medium text-amber-700">
+    <span data-testid="status-convite" className={cn(chip, "ring-1 ring-black")}>
       <Clock className="size-3.5" /> {nome}Convite pendente · expira em {diaHora(convite.expiraEm)}
     </span>
   );
 }
 
+/** Instituições pendentes com o botão de convite e o status de cada convite enviado. */
 export function CoberturaConvites({ visao, aoVivo }: { visao: Visao360; aoVivo?: boolean }) {
   const { cliente, cobertura } = visao;
-  const completo = cobertura.pendentes.length === 0;
   const convites = useConvites(cliente.id, { aoVivo });
   const criar = useCriarConvite();
   const [acaoAberta, setAcaoAberta] = useState<AcaoSugerida | null>(null);
@@ -96,30 +99,23 @@ export function CoberturaConvites({ visao, aoVivo }: { visao: Visao360; aoVivo?:
     }
   }
 
+  if (!cobertura.pendentes.length && !confirmados.length) return null;
+
   return (
-    <div data-testid="cobertura" className="min-w-64 rounded-lg bg-slate-50 p-3">
-      <div className="flex items-center gap-2">
-        {completo ? <Link2 className="size-4 text-emerald-600" /> : <Link2Off className="size-4 text-amber-600" />}
-        <span className="font-semibold">
-          {cobertura.instituicoesConectadas} de {cobertura.instituicoesDeclaradas} instituições conectadas
-        </span>
-        <span className="ml-auto text-sm font-bold tabular-nums">{pct(cobertura.percentual)}</span>
-      </div>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200">
-        <div
-          className={completo ? "h-full bg-emerald-500 transition-all duration-700" : "h-full bg-amber-500 transition-all duration-700"}
-          style={{ width: `${Math.round(cobertura.percentual * 100)}%` }}
-        />
-      </div>
+    <>
       {cobertura.pendentes.length > 0 && (
-        <ul className="mt-2 flex flex-col gap-2 text-sm text-slate-700">
+        <ul className="flex flex-col gap-3 text-[15px]">
           {cobertura.pendentes.map((p) => {
             const convite = ultimos.get(p.instituicaoId);
             return (
-              <li key={p.instituicaoId} data-testid={`pendente-cobertura-${p.instituicaoId}`} className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <div className="min-w-0 flex-1">
+              <li
+                key={p.instituicaoId}
+                data-testid={`pendente-cobertura-${p.instituicaoId}`}
+                className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2"
+              >
+                <div className="flex min-w-0 flex-col gap-1.5">
                   <p>
-                    Pendente: <span className="font-medium">{p.nome}</span>{" "}
+                    Pendente: <span className="font-bold">{p.nome}</span>{" "}
                     <span className="text-muted-foreground">({p.produtos.map((x) => rotuloProdutoDeclarado[x]).join(", ")})</span>
                   </p>
                   {convite && <StatusConvite convite={convite} />}
@@ -133,7 +129,7 @@ export function CoberturaConvites({ visao, aoVivo }: { visao: Visao360; aoVivo?:
         </ul>
       )}
       {confirmados.length > 0 && (
-        <ul className="mt-2 flex flex-col gap-1">
+        <ul className="flex flex-wrap gap-2">
           {confirmados.map((c) => (
             <li key={c.token}>
               <StatusConvite convite={c} comNome />
@@ -144,6 +140,7 @@ export function CoberturaConvites({ visao, aoVivo }: { visao: Visao360; aoVivo?:
       {acaoAberta && (
         <DialogMensagem
           clienteId={cliente.id}
+          nomeCliente={cliente.nome}
           acao={acaoAberta}
           open
           onOpenChange={(o) => {
@@ -151,6 +148,6 @@ export function CoberturaConvites({ visao, aoVivo }: { visao: Visao360; aoVivo?:
           }}
         />
       )}
-    </div>
+    </>
   );
 }

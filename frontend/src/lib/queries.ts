@@ -4,7 +4,7 @@
 // polling lento só como rede de segurança. Consultas de IA nunca refazem sozinhas.
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "./api";
-import type { Canal, Id } from "./api-types";
+import type { CadastroInvestidor, Canal, Id } from "./api-types";
 import { avisarDadosAlterados, invalidarDados } from "./sinal";
 
 export const INTERVALO_AO_VIVO_MS = 15000;
@@ -25,6 +25,8 @@ export const chaves = {
   radarCliente: (id: Id) => ["radar", "cliente", id] as const,
   convites: (id: Id) => ["convites", id] as const,
   convite: (token: string) => ["convite", token] as const,
+  convitesOnboarding: ["convites-onboarding"] as const,
+  formularioOnboarding: (token: string) => ["onboarding", token] as const,
 };
 
 interface OpcoesAoVivo {
@@ -214,6 +216,52 @@ export function useResetDemo() {
     mutationFn: () => api.resetDemo(),
     onSuccess: async () => {
       await invalidarDados(qc);
+      avisarDadosAlterados();
+    },
+  });
+}
+
+// ---------- Onboarding ----------
+
+/** Lista de convites de cadastro do assessor; com polling para ver o investidor abrindo/concluindo. */
+export function useConvitesOnboarding(o?: { intervaloMs?: number }) {
+  return useQuery({
+    queryKey: chaves.convitesOnboarding,
+    queryFn: () => api.convitesOnboarding(),
+    // Com erro (ex.: backend sem o endpoint), para de bater a cada intervalo.
+    refetchInterval: (q) => (q.state.status === "error" ? false : (o?.intervaloMs ?? false)),
+  });
+}
+
+export function useCriarConviteOnboarding() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (nome: string) => api.criarConviteOnboarding(nome),
+    onSuccess: () => qc.invalidateQueries({ queryKey: chaves.convitesOnboarding }),
+  });
+}
+
+export function useFormularioOnboarding(token: string) {
+  return useQuery({
+    queryKey: chaves.formularioOnboarding(token),
+    queryFn: () => api.formularioOnboarding(token),
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
+}
+
+export function useConcluirOnboarding() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ token, cadastro }: { token: string; cadastro: CadastroInvestidor }) =>
+      api.concluirOnboarding(token, cadastro),
+    onSuccess: async () => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: chaves.convitesOnboarding }),
+        qc.invalidateQueries({ queryKey: chaves.clientes }),
+        qc.invalidateQueries({ queryKey: chaves.fila }),
+        qc.invalidateQueries({ queryKey: chaves.painel }),
+      ]);
       avisarDadosAlterados();
     },
   });

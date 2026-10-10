@@ -307,12 +307,12 @@ Convites ficam em memória e são apagados no `POST /demo/reset`; token determin
 ## 6. Dados sintéticos e casos-âncora
 
 Gerador: `data/gerar_seed.py` (Python 3, só biblioteca padrão, `random.seed(42)`), parâmetro
-`--data-referencia` (padrão `2026-10-11`; **usem a data do pitch**). Saída em
+`--data-referencia` (padrão `2026-10-10`; **usem a data do pitch**). Saída em
 `backend/src/main/resources/seed/`: `instituicoes.json`, `emissores.json`, `clientes.json`,
 `consentimentos.json`, `contas.json`, `transacoes.json`, `faturas.json`, `creditos.json`,
 `investimentos.json`.
 
-**Período:** 6 meses completos antes do mês de referência (abr–set/2026 para ref 2026-10-11).
+**Período:** 6 meses completos antes do mês de referência (abr–set/2026 para ref 2026-10-10).
 **Totais mensais exatos** por categoria; a aleatoriedade só reparte o total de "consumo" em 8–15
 transações. Datas de vencimento, expiração e aniversários são **relativas à data de referência**.
 
@@ -342,7 +342,7 @@ do cliente. Contas na XP são tipo `PAGAMENTO`; nos bancos, `CORRENTE`.
 **cli-001 — Dra. Marina Costa** · 42 · médica cardiologista · Ribeirão Preto/SP · ARROJADO
 - Declaradas: XP `[INVESTIMENTOS]`, Aurora `[CONTA, CARTAO, CREDITO]`, Horizonte `[INVESTIMENTOS]`.
 - Consentimentos: XP INTERNO ATIVO · Aurora ATIVO (expira ref+300d) · **Horizonte PENDENTE** `[INVESTIMENTOS]`.
-- Dependentes: Sofia (filha) nascida **2014-10-16** (aniversário em ref+5) · Pedro (filho) 2017-03-02.
+- Dependentes: Sofia (filha) nascida **2014-10-15** (aniversário em ref+5) · Pedro (filho) 2017-03-02.
 - Aurora, conta corrente saldo **85.000**. Mensal: `SALARIO HOSPITAL SANTA CLARA` 38.000 (dia 5) ·
   CONDOMINIO 2.800 · ENERGIA 450 · INTERNET 150 · ESCOLA 3.200 · PARCELA FINANCIAMENTO 6.500 ·
   consumo 1.900 · `FATURA CARTAO AURORA` 9.000 (paga da conta) · `APLICACAO XP` 5.000.
@@ -787,7 +787,7 @@ server:
   port: 8080
 
 demo:
-  data-referencia: 2026-10-11        # usar a data do pitch
+  data-referencia: 2026-10-10        # usar a data do pitch
   assessor-id: ass-001
   janela-alerta-novo-minutos: 10
 

@@ -3,7 +3,7 @@
 """Gerador do seed sintético do Copiloto do Assessor (PLAN §6).
 
 Uso:
-    python data/gerar_seed.py --data-referencia 2026-10-11 --saida backend/src/main/resources/seed
+    python data/gerar_seed.py --data-referencia 2026-10-10 --saida backend/src/main/resources/seed
 
 - Python 3.9+, só biblioteca padrão, random.seed(42) (determinístico).
 - 6 clientes-âncora com valores exatos (§6.3) + 30 clientes de fundo (§6.4).
@@ -684,7 +684,7 @@ def gerar(ref):
 
 def main():
     ap = argparse.ArgumentParser(description="Gera o seed sintético do Copiloto do Assessor.")
-    ap.add_argument("--data-referencia", default="2026-10-11")
+    ap.add_argument("--data-referencia", default="2026-10-10")
     ap.add_argument("--saida", default="backend/src/main/resources/seed")
     args = ap.parse_args()
     ref = date.fromisoformat(args.data_referencia)

@@ -57,6 +57,22 @@ export function data(iso: string | null | undefined): string {
   return d.toLocaleDateString("pt-BR");
 }
 
+/** ISO → "Sábado, 10 de outubro" (vazio sem data). */
+export function diaPorExtenso(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = parseIsoData(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const texto = d.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+  const [semana, ...resto] = texto.split(",");
+  const dia = semana.replace("-feira", "");
+  return `${dia.charAt(0).toUpperCase()}${dia.slice(1)},${resto.join(",")}`;
+}
+
+/** ISO → mês abreviado sem ponto: "out". */
+export function mesCurto(iso: string): string {
+  return parseIsoData(iso).toLocaleDateString("pt-BR", { month: "short" }).replace(".", "");
+}
+
 /** ISO com hora → "11/10/2026 14:32". */
 export function dataHora(iso: string | null | undefined): string {
   if (!iso) return "—";

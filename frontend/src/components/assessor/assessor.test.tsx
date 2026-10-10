@@ -75,7 +75,7 @@ describe("CardPrincipalidade", () => {
 });
 
 describe("ListaAlertas", () => {
-  it("vermelho só para ALTA, ordena por severidade e destaca NOVO", async () => {
+  it("ALTA primeiro com selo preto, ordena por severidade e destaca NOVO", async () => {
     await mockApi.conceder("cli-001", "inst-horizonte");
     const v = await mockApi.visao360("cli-001");
     renderComQuery(<ListaAlertas alertas={v.alertas} />);
@@ -83,10 +83,10 @@ describe("ListaAlertas", () => {
     expect(itens[0]).toHaveAttribute("data-severidade", "ALTA");
     expect(itens[0]).toHaveTextContent("R$ 400 mil acima da cobertura do FGC");
     expect(itens[0]).toHaveTextContent("NOVO");
-    expect(itens[0].className).toMatch(/red/);
+    expect(within(itens[0]).getByText("Alta").className).toMatch(/bg-black/);
     for (const el of itens.slice(1)) {
       expect(el.getAttribute("data-severidade")).not.toBe("ALTA");
-      expect(el.className).not.toMatch(/red/);
+      expect(within(el).queryByText("Alta")).not.toBeInTheDocument();
     }
     expect(itens[0].textContent?.replace(/ /g, " ")).toContain("R$ 400.000");
   });
@@ -166,7 +166,7 @@ describe("Cabeçalho, patrimônio, fluxo e linha do tempo", () => {
 
   it("linha do tempo calcula aniversário a partir da data de referência", async () => {
     const v = await mockApi.visao360("cli-001");
-    renderComQuery(<LinhaDoTempo cliente={v.cliente} dataReferencia="2026-10-11" />);
+    renderComQuery(<LinhaDoTempo cliente={v.cliente} dataReferencia="2026-10-10" />);
     expect(screen.getAllByText(/Sofia/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/em 5 dias/).length).toBeGreaterThan(0);
   });

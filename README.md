@@ -16,17 +16,17 @@ cd backend && ./mvnw spring-boot:run
 cd frontend && npm install && npm run dev
 ```
 
-Abra **http://localhost:3000/palco** para a demo (assessora à esquerda, celular da Marina à direita).
+Abra **http://localhost:3000** para a demo (fila do assessor, visão 360 e cadastro de investidores).
 
 - Sem backend: `NEXT_PUBLIC_USE_MOCKS=true npm run dev` (plano B — roda o roteiro inteiro com fixtures).
-- Resetar a demo: botão "Resetar demo" no `/palco` ou `curl -X POST localhost:8080/api/demo/reset`.
+- Resetar a demo: `curl -X POST localhost:8080/api/demo/reset`.
 
 ## Testes
 
 | Parte | Comando | O que cobre |
 |---|---|---|
-| Backend | `cd backend && ./mvnw test` | regras da `analise` (unitários), ações, convites, radar, Copiloto (stub/cache/record/live com LLM falso) e integração com a seed real: todos os âncoras do §6.5 (`src/test/resources/esperados.json`) e o roteiro da demo pela API |
-| Frontend | `cd frontend && npm test && npm run typecheck && npm run lint` | formatação, camada de API/mocks, hooks, telas do assessor, do cliente e do palco |
+| Backend | `cd backend && ./mvnw test` | regras da `analise` (unitários), ações, convites, onboarding, radar, Copiloto (stub/cache/record/live com LLM falso) e integração com a seed real: todos os âncoras do §6.5 (`src/test/resources/esperados.json`) e o roteiro da demo pela API |
+| Frontend | `cd frontend && npm test && npm run typecheck && npm run lint` | formatação, camada de API/mocks, hooks, telas do assessor, do convite e do onboarding |
 | Dados | `python -m unittest discover -s data/tests` | gerador da seed e o checker de referência das regras |
 
 Tudo foi desenvolvido com TDD.
@@ -34,7 +34,7 @@ Tudo foi desenvolvido com TDD.
 ## Seed
 
 ```bash
-python data/gerar_seed.py --data-referencia 2026-10-11 --saida backend/src/main/resources/seed
+python data/gerar_seed.py --data-referencia 2026-10-10 --saida backend/src/main/resources/seed
 python data/checar_seed.py            # imprime os números de cada âncora e confere com o §6.5
 ```
 

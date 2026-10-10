@@ -8,8 +8,10 @@ import type {
   ClienteResumo,
   ConsentimentoComNome,
   Convite,
+  ConviteOnboarding,
   DemoEstado,
   ErroApi,
+  FormularioOnboarding,
   ImpactoNoticia,
   ItemFila,
   MensagemGerada,
@@ -17,6 +19,7 @@ import type {
   NoticiaClassificada,
   PainelCarteira,
   Principalidade,
+  ResultadoOnboarding,
   ResultadoProcessamento,
   Visao360,
 } from "./api-types";
@@ -96,6 +99,11 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
         throw e;
       }
     },
+    convitesOnboarding: () => chamar<ConviteOnboarding[]>("/assessor/convites"),
+    criarConviteOnboarding: (nome) => chamar<ConviteOnboarding>("/assessor/convites", { method: "POST", json: { nome } }),
+    formularioOnboarding: (token) => chamar<FormularioOnboarding>(`/onboarding/${seg(token)}`),
+    concluirOnboarding: (token, cadastro) =>
+      chamar<ResultadoOnboarding>(`/onboarding/${seg(token)}`, { method: "POST", json: cadastro }),
   };
   return api;
 }

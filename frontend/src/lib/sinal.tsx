@@ -1,8 +1,8 @@
 "use client";
 
 // Atualizar pelo clique: depois de uma ação (enviar/confirmar convite, conceder, resetar...), avisa todas as
-// telas abertas — inclusive os iframes do /palco — para buscarem os dados de novo na hora. O polling vira
-// só rede de segurança. Consultas de IA (briefing, mensagem do convite) nunca refazem sozinhas: gastam crédito.
+// telas abertas (outras abas inclusive) para buscarem os dados de novo na hora. O polling vira
+// só rede de segurança. Consultas de IA (briefing) nunca refazem sozinhas: gastam crédito.
 import { useQueryClient, type QueryClient, type QueryKey } from "@tanstack/react-query";
 import { useEffect } from "react";
 
@@ -33,7 +33,7 @@ export function ouvirDadosAlterados(aoAlterar: () => void): () => void {
 
 /** Consultas que chamam o LLM: nunca são refeitas por polling, aviso ou invalidação automática. */
 export function ehChaveDeIa(chave: QueryKey): boolean {
-  return chave[0] === "briefing" || (chave[0] === "palco" && chave[1] === "mensagem-convite");
+  return chave[0] === "briefing";
 }
 
 /** Invalida tudo que é dado (barato); deixa as respostas de IA como estão. */

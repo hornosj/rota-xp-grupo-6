@@ -77,6 +77,14 @@ export type ChecagensForma = [
   Esperar<Compativel<H.DemoEstado, S["DemoEstado"]>>,
   Esperar<Compativel<H.ErroApi, S["ErroResposta"]>>,
   Esperar<Compativel<H.Convite, S["Convite"]>>,
+  // onboarding (respostas e corpos de requisição)
+  Esperar<Compativel<H.ConviteOnboarding, S["ConviteOnboarding"]>>,
+  Esperar<Compativel<H.FormularioOnboarding, S["FormularioOnboarding"]>>,
+  Esperar<Compativel<H.PerguntaSuitability, S["PerguntaSuitability"]>>,
+  Esperar<Compativel<H.InstituicaoDisponivel, S["InstituicaoDisponivel"]>>,
+  Esperar<Compativel<H.ResultadoOnboarding, S["ResultadoOnboarding"]>>,
+  Esperar<Compativel<H.CadastroInvestidor, S["CadastroInvestidor"]>>,
+  Esperar<Compativel<{ nome: string }, S["NovoConviteBody"]>>,
 ];
 
 // 3: enums idênticos
@@ -97,6 +105,8 @@ export type ChecagensEnum = [
   Esperar<Igual<H.EventoVida["origem"], En<S["EventoVida"]["origem"]>>>,
   Esperar<Igual<H.Convite["status"], En<S["Convite"]["status"]>>>,
   Esperar<Igual<H.Escopo, ElemDe<S["Convite"]["escopos"]>>>,
+  Esperar<Igual<H.StatusConviteOnboarding, En<S["ConviteOnboarding"]["status"]>>>,
+  Esperar<Igual<H.TipoEventoVida, En<S["EventoPlanejado"]["tipo"]>>>,
 ];
 
 // ---------------------------------------------------------------- runtime: campos obrigatórios nas fixtures
@@ -220,7 +230,7 @@ describe("fixtures reais do backend × tipos do front", () => {
     expect(faltando(fixture, regra, "$")).toEqual([]);
   });
 
-  it("a mensagem do convite traz o link exato (o palco transforma em link clicável)", () => {
+  it("a mensagem do convite traz o link exato (o WhatsApp transforma em link clicável)", () => {
     expect(convitePendente.status).toBe("PENDENTE");
     expect(conviteConfirmado.status).toBe("CONFIRMADO");
     expect(mensagemConvite.texto).toContain(convitePendente.link);

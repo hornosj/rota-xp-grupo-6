@@ -12,6 +12,7 @@ import {
   instituicaoDaAcaoConvidar,
   mensagemConvite,
 } from "./convites";
+import * as onboarding from "./onboarding";
 import { montarVisao } from "./montar";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "./radar";
 import { briefingStub, mensagemStub } from "./textos";
@@ -174,6 +175,7 @@ export const mockApi: Api = {
   },
   async resetDemo() {
     resetarEstado();
+    onboarding.resetarConvites();
     await esperar(null);
   },
   async demoEstado() {
@@ -209,6 +211,18 @@ export const mockApi: Api = {
   },
   async confirmarConvite(token) {
     return esperar(confirmarConviteMock(token, visao));
+  },
+  async convitesOnboarding() {
+    return esperar(onboarding.listarConvites());
+  },
+  async criarConviteOnboarding(nome) {
+    return esperar(onboarding.criarConvite(nome));
+  },
+  async formularioOnboarding(token) {
+    return esperar(onboarding.formulario(token));
+  },
+  async concluirOnboarding(token, cadastro) {
+    return esperar(onboarding.concluir(token, cadastro));
   },
 };
 

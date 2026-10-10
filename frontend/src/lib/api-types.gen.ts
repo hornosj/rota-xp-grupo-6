@@ -372,6 +372,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/onboarding/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["formulario"];
+        put?: never;
+        post: operations["concluir"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assessor/convites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["convites"];
+        put?: never;
+        post: operations["criarConvite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -726,6 +758,87 @@ export interface components {
             /** Format: double */
             pontos?: number;
         };
+        CadastroInvestidor: {
+            nome?: string;
+            cpf?: string;
+            /** Format: date */
+            dataNascimento?: string;
+            email?: string;
+            celular?: string;
+            profissao?: string;
+            cidade?: string;
+            uf?: string;
+            dependentes?: components["schemas"]["Dependente"][];
+            eventosVida?: components["schemas"]["EventoPlanejado"][];
+            respostasSuitability?: components["schemas"]["RespostaSuitability"][];
+            instituicoes?: components["schemas"]["InstituicaoInformada"][];
+            aceiteTermos?: boolean;
+        };
+        EventoPlanejado: {
+            /** @enum {string} */
+            tipo?: "ANIVERSARIO" | "CASAMENTO" | "NASCIMENTO" | "FERIAS" | "APOSENTADORIA" | "MUDANCA" | "OUTRO";
+            descricao?: string;
+            /** Format: date */
+            data?: string;
+        };
+        InstituicaoInformada: {
+            instituicaoId?: string;
+            produtos?: ("CONTA" | "CARTAO" | "CREDITO" | "INVESTIMENTOS")[];
+            compartilharAgora?: boolean;
+        };
+        RespostaSuitability: {
+            perguntaId?: string;
+            opcaoId?: string;
+        };
+        ConviteOnboarding: {
+            id?: string;
+            token?: string;
+            link?: string;
+            nome?: string;
+            assessorId?: string;
+            /** @enum {string} */
+            status?: "PENDENTE" | "ABERTO" | "CONCLUIDO";
+            /** Format: date-time */
+            criadoEm?: string;
+            /** Format: date-time */
+            abertoEm?: string;
+            /** Format: date-time */
+            concluidoEm?: string;
+            clienteId?: string;
+            /** @enum {string} */
+            perfil?: "CONSERVADOR" | "MODERADO" | "ARROJADO" | "AGRESSIVO";
+        };
+        ResultadoOnboarding: {
+            convite?: components["schemas"]["ConviteOnboarding"];
+            clienteId?: string;
+            /** @enum {string} */
+            perfil?: "CONSERVADOR" | "MODERADO" | "ARROJADO" | "AGRESSIVO";
+            /** Format: int32 */
+            pontuacaoSuitability?: number;
+            consentimentos?: components["schemas"]["ConsentimentoView"][];
+        };
+        NovoConviteBody: {
+            nome?: string;
+        };
+        FormularioOnboarding: {
+            convite?: components["schemas"]["ConviteOnboarding"];
+            instituicoes?: components["schemas"]["InstituicaoDisponivel"][];
+            questionario?: components["schemas"]["PerguntaSuitability"][];
+            produtos?: ("CONTA" | "CARTAO" | "CREDITO" | "INVESTIMENTOS")[];
+        };
+        InstituicaoDisponivel: {
+            id?: string;
+            nome?: string;
+        };
+        OpcaoSuitability: {
+            id?: string;
+            texto?: string;
+        };
+        PerguntaSuitability: {
+            id?: string;
+            texto?: string;
+            opcoes?: components["schemas"]["OpcaoSuitability"][];
+        };
     };
     responses: never;
     parameters: never;
@@ -755,6 +868,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["DesagioResultado"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -848,6 +970,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
             };
             /** @description Not Found */
             404: {
@@ -1001,6 +1132,15 @@ export interface operations {
                     "*/*": components["schemas"]["ResultadoNota"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1101,6 +1241,15 @@ export interface operations {
                     "*/*": components["schemas"]["Visao360"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1149,6 +1298,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Visao360"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1203,6 +1361,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["MensagemGerada"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1299,6 +1466,15 @@ export interface operations {
                     "*/*": components["schemas"]["DemoEstado"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1393,6 +1569,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ClienteResumo"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1493,6 +1678,15 @@ export interface operations {
                     "*/*": components["schemas"]["Principalidade"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1540,6 +1734,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Convite"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1591,6 +1794,15 @@ export interface operations {
                     "*/*": components["schemas"]["ConsentimentoView"][];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1640,6 +1852,15 @@ export interface operations {
                     "*/*": components["schemas"]["Briefing"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1687,6 +1908,15 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["Visao360"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */
@@ -1785,6 +2015,15 @@ export interface operations {
                     "*/*": components["schemas"]["PainelCarteira"];
                 };
             };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
             /** @description Not Found */
             404: {
                 headers: {
@@ -1830,6 +2069,215 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ItemFila"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    formulario: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FormularioOnboarding"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    concluir: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CadastroInvestidor"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ResultadoOnboarding"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    convites: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConviteOnboarding"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
+                };
+            };
+        };
+    };
+    criarConvite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NovoConviteBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ConviteOnboarding"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErroResposta"];
                 };
             };
             /** @description Not Found */

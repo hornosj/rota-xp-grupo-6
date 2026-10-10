@@ -1,26 +1,45 @@
-import { MapPin } from "lucide-react";
-import { ChipPerfil } from "@/components/comum/marcadores";
+import { BadgePosicaoXp, ChipPerfil } from "@/components/comum/marcadores";
 import type { Visao360 } from "@/lib/api-types";
-import { dataHora } from "@/lib/formato";
+import { brlCurto, dataHora, pct } from "@/lib/formato";
 import { CoberturaConvites } from "./cobertura-convites";
 
-export function CabecalhoCliente({ visao, aoVivo }: { visao: Visao360; aoVivo?: boolean }) {
-  const { cliente } = visao;
+function Numero({ rotulo, valor, detalhe }: { rotulo: string; valor: string; detalhe?: string }) {
   return (
-    <header className="flex flex-col gap-4 rounded-xl border bg-card p-5 md:flex-row md:items-end md:justify-between">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">{cliente.nome}</h1>
-        <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground">
-          <span>{cliente.idade} anos</span>·<span>{cliente.profissao}</span>·
-          <span className="inline-flex items-center gap-1">
-            <MapPin className="size-3.5" />
-            {cliente.cidade}
-          </span>
-          <ChipPerfil perfil={cliente.perfil} />
+    <div className="flex flex-col gap-1 px-5 py-4 sm:px-6">
+      <dt className="text-[15px] text-muted-foreground">{rotulo}</dt>
+      <dd className="text-3xl font-extrabold tracking-tight">{valor}</dd>
+      {detalhe && <dd className="text-sm text-muted-foreground">{detalhe}</dd>}
+    </div>
+  );
+}
+
+export function CabecalhoCliente({ visao, aoVivo }: { visao: Visao360; aoVivo?: boolean }) {
+  const { cliente, cobertura, patrimonio, principalidade } = visao;
+  return (
+    <header className="flex flex-wrap items-end justify-between gap-7">
+      <div className="flex min-w-0 flex-col gap-3">
+        <h1 className="text-4xl leading-none font-extrabold tracking-tight sm:text-[56px]">{cliente.nome}</h1>
+        <p className="text-lg text-[#333] sm:text-xl">
+          {cliente.idade} anos · {cliente.profissao} · {cliente.cidade}
         </p>
-        <p className="mt-1 text-xs text-muted-foreground">Atualizado em {dataHora(visao.atualizadoEm)}</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <ChipPerfil perfil={cliente.perfil} />
+          <BadgePosicaoXp posicao={principalidade.posicaoXp} />
+          <span className="text-sm text-muted-foreground">Atualizado em {dataHora(visao.atualizadoEm)}</span>
+        </div>
       </div>
-      <CoberturaConvites visao={visao} aoVivo={aoVivo} />
+      <div data-testid="cobertura" className="flex flex-col gap-3">
+        <dl className="flex flex-wrap divide-x divide-[#d9d9d9] overflow-hidden rounded-[20px] border-2 border-black">
+          <Numero rotulo="Patrimônio visível" valor={brlCurto(patrimonio.totalVisivel)} />
+          <Numero rotulo="Na XP" valor={pct(patrimonio.shareOfWalletXp)} />
+          <Numero
+            rotulo="Cobertura"
+            valor={pct(cobertura.percentual)}
+            detalhe={`${cobertura.instituicoesConectadas} de ${cobertura.instituicoesDeclaradas} instituições conectadas`}
+          />
+        </dl>
+        <CoberturaConvites visao={visao} aoVivo={aoVivo} />
+      </div>
     </header>
   );
 }

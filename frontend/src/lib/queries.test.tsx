@@ -12,7 +12,7 @@ const fake = vi.hoisted(() => ({
   revogar: vi.fn(async (id: string) => ({ cliente: { id }, cobertura: { percentual: 0.5 } })),
   mensagem: vi.fn(async () => ({ texto: "Oi", canal: "WHATSAPP", geradoPor: "stub" })),
   briefing: vi.fn(async (id: string) => ({ clienteId: id, bullets: [], perguntasSugeridas: [], geradoPor: "stub" })),
-  demoEstado: vi.fn(async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" })),
+  demoEstado: vi.fn(async () => ({ dataReferencia: "2026-10-10", modoCopiloto: "stub" })),
   resetDemo: vi.fn(async () => undefined),
   noticiasRadar: vi.fn(async () => [{ noticia: { id: "not-001" } }]),
   processarRadar: vi.fn(async () => ({ coletadas: 20, novas: 2, lotes: 1 })),

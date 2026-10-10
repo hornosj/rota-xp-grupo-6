@@ -48,7 +48,7 @@ function corpo(v: Visao360, a: AcaoSugerida): string {
 export function mensagemStub(v: Visao360, a: AcaoSugerida, canal: Canal): MensagemGerada {
   const texto = corpo(v, a);
   return {
-    texto: canal === "EMAIL" ? `Assunto: ${a.titulo}\n\n${texto}\n\nAbraço,\nSua assessora XP` : texto,
+    texto: canal === "EMAIL" ? `Assunto: ${a.titulo}\n\n${texto}\n\nAbraço,\nBruno, seu assessor XP` : texto,
     canal,
     geradoPor: "stub",
   };

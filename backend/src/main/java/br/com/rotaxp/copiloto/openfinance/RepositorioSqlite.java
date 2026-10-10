@@ -100,28 +100,7 @@ public class RepositorioSqlite extends Repositorio {
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 s.clientes(), (c, n) -> new Object[] {c.id(), c.nome(), c.cpf(), c.idade(), c.profissao(), c.cidade(),
                         txt(c.perfil()), c.assessorId(), bit(c.ancora()), n});
-        List<Object[]> declaradas = new ArrayList<>();
-        List<Object[]> produtos = new ArrayList<>();
-        List<Object[]> dependentes = new ArrayList<>();
-        for (Cliente c : s.clientes()) {
-            List<InstituicaoDeclarada> ds = lista(c.instituicoesDeclaradas());
-            for (int j = 0; j < ds.size(); j++) {
-                declaradas.add(new Object[] {c.id(), j, ds.get(j).instituicaoId()});
-                List<ProdutoDeclarado> ps = lista(ds.get(j).produtos());
-                for (int k = 0; k < ps.size(); k++) {
-                    produtos.add(new Object[] {c.id(), j, k, txt(ps.get(k))});
-                }
-            }
-            List<Dependente> deps = lista(c.dependentes());
-            for (int j = 0; j < deps.size(); j++) {
-                Dependente d = deps.get(j);
-                dependentes.add(new Object[] {c.id(), j, d.nome(), d.parentesco(), txt(d.dataNascimento())});
-            }
-            inserirEventos(c.id(), lista(c.eventosVida()));
-        }
-        jdbc.batchUpdate("INSERT INTO cliente_instituicao_declarada (cliente_id, ordem, instituicao_id) VALUES (?, ?, ?)", declaradas);
-        jdbc.batchUpdate("INSERT INTO cliente_produto_declarado (cliente_id, declaracao, ordem, produto) VALUES (?, ?, ?, ?)", produtos);
-        jdbc.batchUpdate("INSERT INTO dependente (cliente_id, ordem, nome, parentesco, data_nascimento) VALUES (?, ?, ?, ?, ?)", dependentes);
+        inserirFilhosDosClientes(s.clientes());
 
         lote("INSERT INTO consentimento (id, cliente_id, instituicao_id, tipo, status, concedido_em, expira_em, ordem)"
                         + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -147,6 +126,46 @@ public class RepositorioSqlite extends Repositorio {
                 s.investimentos(), (p, n) -> new Object[] {p.id(), p.clienteId(), p.instituicaoId(), p.emissorId(),
                         txt(p.produto()), p.nome(), txt(p.valorAplicado()), txt(p.valorAtual()), txt(p.dataAplicacao()),
                         txt(p.vencimento()), txt(p.indexador()), p.taxa(), bit(p.liquidezDiaria()), n});
+    }
+
+    /** Instituições e produtos declarados, dependentes e eventos de vida de cada cliente. */
+    private void inserirFilhosDosClientes(List<Cliente> clientes) {
+        List<Object[]> declaradas = new ArrayList<>();
+        List<Object[]> produtos = new ArrayList<>();
+        List<Object[]> dependentes = new ArrayList<>();
+        for (Cliente c : clientes) {
+            List<InstituicaoDeclarada> ds = lista(c.instituicoesDeclaradas());
+            for (int j = 0; j < ds.size(); j++) {
+                declaradas.add(new Object[] {c.id(), j, ds.get(j).instituicaoId()});
+                List<ProdutoDeclarado> ps = lista(ds.get(j).produtos());
+                for (int k = 0; k < ps.size(); k++) {
+                    produtos.add(new Object[] {c.id(), j, k, txt(ps.get(k))});
+                }
+            }
+            List<Dependente> deps = lista(c.dependentes());
+            for (int j = 0; j < deps.size(); j++) {
+                Dependente d = deps.get(j);
+                dependentes.add(new Object[] {c.id(), j, d.nome(), d.parentesco(), txt(d.dataNascimento())});
+            }
+            inserirEventos(c.id(), lista(c.eventosVida()));
+        }
+        jdbc.batchUpdate("INSERT INTO cliente_instituicao_declarada (cliente_id, ordem, instituicao_id) VALUES (?, ?, ?)", declaradas);
+        jdbc.batchUpdate("INSERT INTO cliente_produto_declarado (cliente_id, declaracao, ordem, produto) VALUES (?, ?, ?, ?)", produtos);
+        jdbc.batchUpdate("INSERT INTO dependente (cliente_id, ordem, nome, parentesco, data_nascimento) VALUES (?, ?, ?, ?, ?)", dependentes);
+    }
+
+    @Override
+    public synchronized void adicionarCliente(Cliente c) {
+        tx.executeWithoutResult(status -> {
+            Integer existe = jdbc.queryForObject("SELECT COUNT(*) FROM cliente WHERE id = ?", Integer.class, c.id());
+            if (existe != null && existe > 0) throw new IllegalStateException("Cliente " + c.id() + " já existe");
+            // Cliente novo vai para o fim da lista.
+            jdbc.update("INSERT INTO cliente (id, nome, cpf, idade, profissao, cidade, perfil, assessor_id, ancora, ordem)"
+                            + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT COALESCE(MAX(ordem), -1) + 1 FROM cliente))",
+                    c.id(), c.nome(), c.cpf(), c.idade(), c.profissao(), c.cidade(), txt(c.perfil()), c.assessorId(),
+                    bit(c.ancora()));
+            inserirFilhosDosClientes(List.of(c));
+        });
     }
 
     @Override

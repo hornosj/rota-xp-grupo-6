@@ -1,23 +1,29 @@
-import { screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { renderComQuery } from "@/test/utils";
+
+vi.mock("@/lib/api", async () => ({ api: (await import("@/mocks")).mockApi }));
+
 import { Lancador } from "./lancador";
 
 describe("Lancador", () => {
-  it("tem links para palco, assessor (painel, hoje, radar) e a 360 de cada cliente-âncora", () => {
+  it("tem links para o assessor, o radar e a visão 360 de cada cliente-âncora, sem palco nem app da cliente", () => {
     renderComQuery(<Lancador />);
-    expect(screen.getByRole("link", { name: /Palco/ })).toHaveAttribute("href", "/palco");
-    expect(screen.getByRole("link", { name: /Fila Hoje/ })).toHaveAttribute("href", "/assessor/hoje");
-    expect(screen.getByRole("link", { name: /Painel da carteira/ })).toHaveAttribute("href", "/assessor");
+    expect(screen.queryByRole("link", { name: /Palco/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Cadastrar investidores/ })).toHaveAttribute("href", "/assessor/convites");
     expect(screen.getByRole("link", { name: /Radar de notícias/ })).toHaveAttribute("href", "/assessor/radar");
+    expect(screen.getByRole("link", { name: /Abrir a fila de hoje/ })).toHaveAttribute("href", "/assessor/hoje");
+    expect(screen.getByRole("link", { name: /Ver meus clientes/ })).toHaveAttribute("href", "/assessor");
     for (const id of ["cli-001", "cli-002", "cli-003", "cli-004", "cli-005", "cli-006"]) {
       expect(document.querySelector(`a[href="/assessor/clientes/${id}"]`)).not.toBeNull();
     }
+    expect(document.querySelector('a[href^="/cliente"]')).toBeNull();
   });
 
-  it("não tem mais app do cliente nem gamificação", () => {
+  it("mostra quem ligar primeiro e os números da carteira", async () => {
     renderComQuery(<Lancador />);
-    expect(document.querySelector('a[href^="/cliente"]')).toBeNull();
-    expect(screen.queryByText(/bApp da cliente/)).not.toBeInTheDocument();
+    expect(await screen.findByRole("link", { name: /^1º\s*Patrícia Gomes/ })).toHaveAttribute("href", "/assessor/clientes/cli-004");
+    await waitFor(() => expect(screen.getByLabelText("Números da carteira")).not.toHaveTextContent("—"));
+    expect(screen.getByLabelText("Números da carteira")).toHaveTextContent("têm a XP como instituição principal");
   });
 });

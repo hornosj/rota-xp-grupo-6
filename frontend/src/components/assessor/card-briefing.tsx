@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { NotebookPen } from "lucide-react";
-import { BadgeGeradoPor, ErroCarregar } from "@/components/comum/marcadores";
+import { BadgeGeradoPor, ErroCarregar, Sobretitulo } from "@/components/comum/marcadores";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,10 +13,10 @@ export function CardBriefing({ clienteId }: { clienteId: Id }) {
   const [pedido, setPedido] = useState(false);
   const briefing = useBriefing(clienteId, { enabled: pedido });
   return (
-    <Card>
+    <Card id="briefing" className="scroll-mt-6">
       <CardHeader>
-        <div className="flex items-center justify-between gap-2">
-          <CardTitle className="text-lg">Briefing pré-reunião</CardTitle>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle>Briefing pré-reunião</CardTitle>
           {briefing.data && <BadgeGeradoPor geradoPor={briefing.data.geradoPor} />}
         </div>
       </CardHeader>
@@ -35,16 +35,16 @@ export function CardBriefing({ clienteId }: { clienteId: Id }) {
         )}
         {briefing.isError && <ErroCarregar erro={briefing.error} />}
         {briefing.data && (
-          <div className="flex flex-col gap-3 text-sm">
-            <ul data-testid="briefing-bullets" className="list-disc space-y-1 pl-5">
+          <div className="flex flex-col gap-4 text-base leading-relaxed">
+            <ul data-testid="briefing-bullets" className="list-disc space-y-1.5 pl-5 marker:text-black">
               {briefing.data.bullets.map((b) => (
                 <li key={b}>{b}</li>
               ))}
             </ul>
             {briefing.data.perguntasSugeridas.length > 0 && (
-              <div>
-                <p className="mb-1 text-xs font-medium text-muted-foreground uppercase">Perguntas sugeridas</p>
-                <ol data-testid="briefing-perguntas" className="list-decimal space-y-1 pl-5">
+              <div className="flex flex-col gap-2 border-t pt-4">
+                <Sobretitulo className="text-[13px]">Perguntas sugeridas</Sobretitulo>
+                <ol data-testid="briefing-perguntas" className="list-decimal space-y-1.5 pl-5 marker:font-bold">
                   {briefing.data.perguntasSugeridas.map((p) => (
                     <li key={p}>{p}</li>
                   ))}

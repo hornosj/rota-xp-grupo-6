@@ -30,6 +30,9 @@ public abstract class Repositorio {
     /** @throws br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado se o cliente não existir */
     public abstract Cliente cliente(String id);
 
+    /** Cliente cadastrado pelo onboarding (some no próximo reset da demo). */
+    public abstract void adicionarCliente(Cliente c);
+
     public abstract void adicionarEventos(String clienteId, List<EventoVida> eventos);
 
     public abstract Optional<Instituicao> instituicao(String id);

@@ -30,7 +30,7 @@ public final class Infra {
         });
         this.gateway = new OpenFinanceGateway(repo);
         this.dataReferencia = new DataReferencia(CenarioBuilder.REF,
-                Clock.fixed(Instant.parse("2026-10-11T12:00:00Z"), DataReferencia.ZONA));
+                Clock.fixed(Instant.parse("2026-10-10T12:00:00Z"), DataReferencia.ZONA));
         this.consentimentos = new ConsentimentoService(repo, dataReferencia, new ConsentimentoProps(365), eventos::add);
     }
 

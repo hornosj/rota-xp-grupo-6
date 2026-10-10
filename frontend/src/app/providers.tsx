@@ -26,7 +26,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={qc}>
       <SincronizarDados />
       <TooltipProvider>{children}</TooltipProvider>
-      <Toaster theme="light" position="top-center" richColors />
+      <Toaster theme="light" position="top-center" />
     </QueryClientProvider>
   );
 }

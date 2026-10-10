@@ -16,14 +16,14 @@ export function CardRadarCliente({ clienteId, aoVivo }: { clienteId: Id; aoVivo?
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Notícias que mexem na carteira</CardTitle>
+        <CardTitle>Notícias que mexem na carteira</CardTitle>
       </CardHeader>
       <CardContent>
         {radar.isError && <ErroCarregar erro={radar.error} />}
         {!radar.data && !radar.isError && (
-          <div className="flex flex-col gap-2" aria-label="Carregando notícias">
-            <Skeleton className="h-16 w-full" />
-            <Skeleton className="h-16 w-full" />
+          <div className="flex flex-col gap-3" aria-label="Carregando notícias">
+            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-2xl" />
           </div>
         )}
         {radar.data && radar.data.length === 0 && <Vazio>Nenhuma notícia relevante para a carteira visível.</Vazio>}
@@ -55,23 +55,23 @@ function ItemImpacto({ impacto: i }: { impacto: ImpactoNoticia }) {
   }
 
   return (
-    <li data-testid="impacto-cliente" data-direcao={i.direcao} className="rounded-lg border p-3">
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <p className="text-sm font-medium">{i.titulo}</p>
-          <p className="text-xs text-muted-foreground">{i.fonte}</p>
+    <li data-testid="impacto-cliente" data-direcao={i.direcao} className="flex flex-col gap-3 rounded-2xl border p-5">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="flex min-w-0 flex-[1_1_240px] flex-col gap-1.5">
+          <BadgeDirecao direcao={i.direcao} className="self-start" />
+          <p className="text-lg leading-snug font-bold">{i.titulo}</p>
+          <p className="text-sm text-muted-foreground">{i.fonte}</p>
         </div>
-        <BadgeDirecao direcao={i.direcao} />
+        <BarraPontos pontos={i.pontos} />
       </div>
-      <BarraPontos className="mt-2" pontos={i.pontos} direcao={i.direcao} />
-      <p className="mt-1 text-sm">{i.motivo}</p>
-      <Chips className="mt-2" itens={i.gatilhos} />
+      <p className="text-base leading-relaxed text-[#333]">{i.motivo}</p>
+      <Chips itens={i.gatilhos} />
 
       {!motivo.data && (
         <Button
           variant="outline"
           size="sm"
-          className="mt-3"
+          className="self-start"
           disabled={motivo.isPending}
           onClick={() => motivo.mutate({ clienteId: i.clienteId, noticiaId: i.noticiaId })}
         >
@@ -79,19 +79,19 @@ function ItemImpacto({ impacto: i }: { impacto: ImpactoNoticia }) {
         </Button>
       )}
       {motivo.isPending && (
-        <div className="mt-3 flex flex-col gap-2" aria-label="Gerando motivo">
+        <div className="flex flex-col gap-2" aria-label="Gerando motivo">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-4/5" />
         </div>
       )}
       {motivo.isError && (
-        <p className="mt-3 rounded-md bg-slate-100 p-3 text-sm">
+        <p className="rounded-2xl border-2 border-black p-4 text-base">
           Não foi possível gerar o motivo. {motivo.error instanceof Error ? motivo.error.message : ""}
         </p>
       )}
       {motivo.data && (
-        <div className="mt-3 flex flex-col gap-2">
-          <p data-testid="texto-motivo" className="rounded-lg border bg-slate-50 p-3 text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="flex flex-col gap-2">
+          <p data-testid="texto-motivo" className="rounded-2xl bg-muted p-4 text-base leading-relaxed whitespace-pre-wrap">
             {motivo.data.texto}
           </p>
           <div className="flex items-center justify-between gap-2">

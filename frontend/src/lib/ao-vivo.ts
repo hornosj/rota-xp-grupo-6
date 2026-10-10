@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 
-/** Modo ao vivo: `?aoVivo=1` na URL (usado pelo /palco). Liga o polling lento de segurança; o normal é atualizar pelo clique. */
+/** Modo ao vivo: `?aoVivo=1` na URL. Liga o polling lento de segurança; o normal é atualizar pelo clique. */
 export function useAoVivo(): boolean {
   const sp = useSearchParams();
   const v = sp.get("aoVivo");

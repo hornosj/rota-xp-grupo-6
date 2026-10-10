@@ -1,5 +1,5 @@
-// Estado do modo mock, guardado no localStorage para ser compartilhado entre os iframes do /palco
-// (cada iframe tem seu próprio módulo JS, mas a mesma origem → mesmo localStorage).
+// Estado do modo mock, guardado no localStorage para sobreviver a recarregamentos
+// e ser compartilhado entre abas da mesma origem.
 // Sempre relido a cada chamada; se o localStorage não existir, cai num fallback em memória.
 
 export interface EstadoMock {

@@ -38,6 +38,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -130,6 +140,16 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not Found",
@@ -329,6 +349,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -465,6 +495,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -529,6 +569,16 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/Visao360"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -606,6 +656,16 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/MensagemGerada"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -709,6 +769,16 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/DemoEstado"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -822,6 +892,16 @@
                   "items": {
                     "$ref": "#/components/schemas/ClienteResumo"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -949,6 +1029,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1008,6 +1098,16 @@
                   "items": {
                     "$ref": "#/components/schemas/Convite"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -1075,6 +1175,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1135,6 +1245,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1191,6 +1311,16 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/Visao360"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -1310,6 +1440,16 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -1359,6 +1499,255 @@
                   "items": {
                     "$ref": "#/components/schemas/ItemFila"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/{token}": {
+      "get": {
+        "tags": [
+          "onboarding-controller"
+        ],
+        "operationId": "formulario",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FormularioOnboarding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "onboarding-controller"
+        ],
+        "operationId": "concluir",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CadastroInvestidor"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoOnboarding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assessor/convites": {
+      "get": {
+        "tags": [
+          "onboarding-controller"
+        ],
+        "operationId": "convites",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConviteOnboarding"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "onboarding-controller"
+        ],
+        "operationId": "criarConvite",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoConviteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConviteOnboarding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
                 }
               }
             }
@@ -2513,6 +2902,282 @@
           "pontos": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "CadastroInvestidor": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          },
+          "email": {
+            "type": "string"
+          },
+          "celular": {
+            "type": "string"
+          },
+          "profissao": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          },
+          "uf": {
+            "type": "string"
+          },
+          "dependentes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dependente"
+            }
+          },
+          "eventosVida": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventoPlanejado"
+            }
+          },
+          "respostasSuitability": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RespostaSuitability"
+            }
+          },
+          "instituicoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstituicaoInformada"
+            }
+          },
+          "aceiteTermos": {
+            "type": "boolean"
+          }
+        }
+      },
+      "EventoPlanejado": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "ANIVERSARIO",
+              "CASAMENTO",
+              "NASCIMENTO",
+              "FERIAS",
+              "APOSENTADORIA",
+              "MUDANCA",
+              "OUTRO"
+            ]
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "InstituicaoInformada": {
+        "type": "object",
+        "properties": {
+          "instituicaoId": {
+            "type": "string"
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTA",
+                "CARTAO",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          },
+          "compartilharAgora": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RespostaSuitability": {
+        "type": "object",
+        "properties": {
+          "perguntaId": {
+            "type": "string"
+          },
+          "opcaoId": {
+            "type": "string"
+          }
+        }
+      },
+      "ConviteOnboarding": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "assessorId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDENTE",
+              "ABERTO",
+              "CONCLUIDO"
+            ]
+          },
+          "criadoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "abertoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "concluidoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          }
+        }
+      },
+      "ResultadoOnboarding": {
+        "type": "object",
+        "properties": {
+          "convite": {
+            "$ref": "#/components/schemas/ConviteOnboarding"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          },
+          "pontuacaoSuitability": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "consentimentos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentimentoView"
+            }
+          }
+        }
+      },
+      "NovoConviteBody": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "FormularioOnboarding": {
+        "type": "object",
+        "properties": {
+          "convite": {
+            "$ref": "#/components/schemas/ConviteOnboarding"
+          },
+          "instituicoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstituicaoDisponivel"
+            }
+          },
+          "questionario": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PerguntaSuitability"
+            }
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTA",
+                "CARTAO",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          }
+        }
+      },
+      "InstituicaoDisponivel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          }
+        }
+      },
+      "OpcaoSuitability": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "texto": {
+            "type": "string"
+          }
+        }
+      },
+      "PerguntaSuitability": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "texto": {
+            "type": "string"
+          },
+          "opcoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpcaoSuitability"
+            }
           }
         }
       }
