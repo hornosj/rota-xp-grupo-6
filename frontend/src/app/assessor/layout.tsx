@@ -18,6 +18,9 @@ export default function AssessorLayout({ children }: LayoutProps<"/assessor">) {
             <Link href="/assessor/hoje" className={linkNav}>
               Hoje
             </Link>
+            <Link href="/assessor/radar" className={linkNav}>
+              Radar
+            </Link>
           </nav>
           <span className="ml-auto text-sm text-muted-foreground">Assessora · ass-001</span>
         </div>

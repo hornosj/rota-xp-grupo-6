@@ -16,6 +16,12 @@ export const chaves = {
   jornada: (id: Id) => ["jornada", id] as const,
   consentimentos: (id: Id) => ["consentimentos", id] as const,
   briefing: (id: Id) => ["briefing", id] as const,
+  /** Prefixo de todas as consultas do radar de notícias. */
+  radar: ["radar"] as const,
+  noticiasRadar: ["radar", "noticias"] as const,
+  /** Prefixo; a consulta usa [...radarCarteira, limite]. */
+  radarCarteira: ["radar", "carteira"] as const,
+  radarCliente: (id: Id) => ["radar", "cliente", id] as const,
 };
 
 interface OpcoesAoVivo {
@@ -65,6 +71,44 @@ export function useBriefing(id: Id, o?: { enabled?: boolean }) {
   });
 }
 
+// ---------- Radar de notícias ----------
+
+export function useNoticiasRadar() {
+  return useQuery({ queryKey: chaves.noticiasRadar, queryFn: () => api.noticiasRadar() });
+}
+
+export function useRadarCarteira(limite = 20, o?: OpcoesAoVivo) {
+  return useQuery({
+    queryKey: [...chaves.radarCarteira, limite],
+    queryFn: () => api.radarCarteira(limite),
+    refetchInterval: intervalo(o),
+  });
+}
+
+export function useRadarCliente(id: Id, o?: OpcoesAoVivo) {
+  return useQuery({
+    queryKey: chaves.radarCliente(id),
+    queryFn: () => api.radarCliente(id),
+    refetchInterval: intervalo(o),
+  });
+}
+
+/** Processamento pontual (coleta + classificação das novas); depois recarrega tudo do radar. */
+export function useProcessarRadar() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.processarRadar(),
+    onSuccess: () => qc.invalidateQueries({ queryKey: chaves.radar }),
+  });
+}
+
+/** Texto para o assessor: por que ligar por causa desta notícia. */
+export function useMotivoNoticia() {
+  return useMutation({
+    mutationFn: ({ clienteId, noticiaId }: { clienteId: Id; noticiaId: Id }) => api.motivoNoticia(clienteId, noticiaId),
+  });
+}
+
 function invalidarCliente(qc: QueryClient, clienteId: Id) {
   return Promise.all([
     qc.invalidateQueries({ queryKey: chaves.fila }),
@@ -74,6 +118,9 @@ function invalidarCliente(qc: QueryClient, clienteId: Id) {
     qc.invalidateQueries({ queryKey: chaves.jornada(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.consentimentos(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.briefing(clienteId) }),
+    // consentimento muda a carteira visível → muda o que as notícias tocam
+    qc.invalidateQueries({ queryKey: chaves.radarCliente(clienteId) }),
+    qc.invalidateQueries({ queryKey: chaves.radarCarteira }),
   ]);
 }
 

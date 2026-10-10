@@ -63,3 +63,56 @@ describe("httpApi", () => {
     expect(f).toHaveBeenCalledWith("/api/clientes/cli%201%2Fx/jornada", expect.anything());
   });
 });
+
+describe("httpApi · radar de notícias", () => {
+  it("noticiasRadar faz GET em /api/radar/noticias", async () => {
+    const f = vi.fn(async () => resposta(200, []));
+    await criarHttpApi(f).noticiasRadar();
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe("/api/radar/noticias");
+    expect(init.method ?? "GET").toBe("GET");
+  });
+
+  it("processarRadar faz POST em /api/radar/processar e devolve o resultado", async () => {
+    const f = vi.fn(async () => resposta(200, { coletadas: 20, novas: 3, lotes: 1 }));
+    const r = await criarHttpApi(f).processarRadar();
+    expect(r.novas).toBe(3);
+    expect(f).toHaveBeenCalledWith("/api/radar/processar", expect.objectContaining({ method: "POST" }));
+  });
+
+  it("radarCliente faz GET em /api/clientes/{id}/radar (id codificado)", async () => {
+    const f = vi.fn(async () => resposta(200, [{ noticiaId: "not-001" }]));
+    const r = await criarHttpApi(f).radarCliente("cli 5");
+    expect(r[0].noticiaId).toBe("not-001");
+    const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe("/api/clientes/cli%205/radar");
+    expect(init.method ?? "GET").toBe("GET");
+  });
+
+  it("radarCarteira usa limite 20 por padrão e aceita outro limite", async () => {
+    const f = vi.fn(async () => resposta(200, []));
+    const api = criarHttpApi(f);
+    await api.radarCarteira();
+    await api.radarCarteira(5);
+    expect(f).toHaveBeenNthCalledWith(1, "/api/assessor/radar?limite=20", expect.anything());
+    expect(f).toHaveBeenNthCalledWith(2, "/api/assessor/radar?limite=5", expect.anything());
+  });
+
+  it("motivoNoticia faz POST e devolve { texto, geradoPor }", async () => {
+    const f = vi.fn(async () => resposta(200, { texto: "Roberto tem R$ 900 mil", geradoPor: "stub" }));
+    const m = await criarHttpApi(f).motivoNoticia("cli-005", "not-001");
+    expect(m).toEqual({ texto: "Roberto tem R$ 900 mil", geradoPor: "stub" });
+    expect(f).toHaveBeenCalledWith("/api/clientes/cli-005/radar/not-001/motivo", expect.objectContaining({ method: "POST" }));
+  });
+
+  it("motivoNoticia com 404 (notícia não mexe na carteira) vira ApiError 404", async () => {
+    const f = vi.fn(async () =>
+      resposta(404, { erro: "NAO_ENCONTRADO", mensagem: "A notícia not-001 não mexe na carteira de cli-001" }),
+    );
+    await expect(criarHttpApi(f).motivoNoticia("cli-001", "not-001")).rejects.toMatchObject({
+      status: 404,
+      erro: "NAO_ENCONTRADO",
+      message: "A notícia not-001 não mexe na carteira de cli-001",
+    });
+  });
+});

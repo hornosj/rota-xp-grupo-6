@@ -6,11 +6,15 @@ import type {
   ConsentimentoComNome,
   DemoEstado,
   Id,
+  ImpactoNoticia,
   ItemFila,
   Jornada,
   MensagemGerada,
+  MotivoNoticia,
+  NoticiaClassificada,
   PainelCarteira,
   Principalidade,
+  ResultadoProcessamento,
   Visao360,
 } from "./api-types";
 
@@ -29,6 +33,15 @@ export interface Api {
   briefing(clienteId: Id): Promise<Briefing>;
   resetDemo(): Promise<void>;
   demoEstado(): Promise<DemoEstado>;
+  // Radar de notícias
+  noticiasRadar(): Promise<NoticiaClassificada[]>;
+  processarRadar(): Promise<ResultadoProcessamento>;
+  /** Ordenado por pontos (desc). Depende dos consentimentos do cliente. */
+  radarCliente(clienteId: Id): Promise<ImpactoNoticia[]>;
+  /** Toda a carteira, por pontos (desc). Padrão: 20. */
+  radarCarteira(limite?: number): Promise<ImpactoNoticia[]>;
+  /** 404 se a notícia não mexe na carteira do cliente. */
+  motivoNoticia(clienteId: Id, noticiaId: Id): Promise<MotivoNoticia>;
 }
 
 export class ApiError extends Error {

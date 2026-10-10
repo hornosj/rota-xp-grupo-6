@@ -352,6 +352,72 @@ export interface DemoEstado {
   modoCopiloto: string;
 }
 
+// ---------- Radar de notícias (BE2-10, aditivo) ----------
+
+export type IndexadorRadar = "CDI" | "IPCA" | "PRE" | "SELIC";
+export type DirecaoNoticia = "POSITIVA" | "NEGATIVA" | "NEUTRA";
+export type OrigemClassificacao = "REFERENCIA" | "REGRAS" | "LLM";
+
+export interface Noticia {
+  id: Id;
+  fonte: string;
+  titulo: string;
+  resumo?: string;
+  url?: string;
+  /** ISO com fuso. */
+  publicadaEm?: string;
+}
+
+export interface ClassificacaoNoticia {
+  /** Ids de emissor (ex.: "emi-horizonte"), não nomes. */
+  emissores: string[];
+  indexadores: IndexadorRadar[];
+  produtos: Produto[];
+  direcao: DirecaoNoticia;
+  /** 0–1 */
+  relevancia: number;
+  resumoImpacto?: string;
+  origem: OrigemClassificacao;
+}
+
+export interface NoticiaClassificada {
+  noticia: Noticia;
+  classificacao: ClassificacaoNoticia;
+}
+
+export interface ResultadoProcessamento {
+  coletadas: number;
+  novas: number;
+  classificadasPorLlm: number;
+  classificadasPorRegra: number;
+  lotes: number;
+  processadoEm: string;
+}
+
+/** Uma notícia que mexe na carteira visível de um cliente (calculado por regra). */
+export interface ImpactoNoticia {
+  clienteId: Id;
+  clienteNome: string;
+  noticiaId: Id;
+  titulo: string;
+  fonte: string;
+  direcao: DirecaoNoticia;
+  /** 0–100 */
+  pontos: number;
+  /** reais */
+  valorExposto: number;
+  /** 0–1 */
+  fracaoPatrimonio: number;
+  motivo: string;
+  gatilhos: string[];
+}
+
+/** Texto para o ASSESSOR: por que ligar e do que falar. */
+export interface MotivoNoticia {
+  texto: string;
+  geradoPor: GeradoPor;
+}
+
 export interface ErroApi {
   erro: string;
   mensagem: string;

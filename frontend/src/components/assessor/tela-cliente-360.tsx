@@ -14,6 +14,7 @@ import { CardBriefing } from "./card-briefing";
 import { CardFluxoCaixa } from "./card-fluxo-caixa";
 import { CardPatrimonio } from "./card-patrimonio";
 import { CardPrincipalidade } from "./card-principalidade";
+import { CardRadarCliente } from "./card-radar-cliente";
 import { LinhaDoTempo } from "./linha-do-tempo";
 import { ListaAcoes } from "./lista-acoes";
 import { ListaAlertas } from "./lista-alertas";
@@ -73,6 +74,7 @@ export function TelaCliente360({ clienteId }: { clienteId: Id }) {
               <ListaAcoes clienteId={clienteId} acoes={v.acoes} />
             </CardContent>
           </Card>
+          <CardRadarCliente clienteId={clienteId} aoVivo={aoVivo} />
           <CardPrincipalidade principalidade={v.principalidade} />
         </div>
         <div className="flex flex-col gap-5">

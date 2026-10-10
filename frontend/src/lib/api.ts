@@ -9,11 +9,15 @@ import type {
   ConsentimentoComNome,
   DemoEstado,
   ErroApi,
+  ImpactoNoticia,
   ItemFila,
   Jornada,
   MensagemGerada,
+  MotivoNoticia,
+  NoticiaClassificada,
   PainelCarteira,
   Principalidade,
+  ResultadoProcessamento,
   Visao360,
 } from "./api-types";
 
@@ -75,6 +79,12 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     briefing: (id) => chamar<Briefing>(`/clientes/${seg(id)}/briefing`),
     resetDemo: () => chamar<void>("/demo/reset", { method: "POST" }),
     demoEstado: () => chamar<DemoEstado>("/demo/estado"),
+    noticiasRadar: () => chamar<NoticiaClassificada[]>("/radar/noticias"),
+    processarRadar: () => chamar<ResultadoProcessamento>("/radar/processar", { method: "POST" }),
+    radarCliente: (id) => chamar<ImpactoNoticia[]>(`/clientes/${seg(id)}/radar`),
+    radarCarteira: (limite = 20) => chamar<ImpactoNoticia[]>(`/assessor/radar?limite=${limite}`),
+    motivoNoticia: (id, noticiaId) =>
+      chamar<MotivoNoticia>(`/clientes/${seg(id)}/radar/${seg(noticiaId)}/motivo`, { method: "POST" }),
   };
   return api;
 }

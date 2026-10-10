@@ -6,6 +6,7 @@ import { ANCORAS, DATA_REFERENCIA, DEFS_ESTATICAS, defMarina, type DefCliente } 
 import { concedidoEm, lerEstado, registrarConcessao, registrarRevogacao, resetarEstado, revogadoEm } from "./estado";
 import { jornadaDerivada, jornadaMarina } from "./jornada";
 import { montarVisao } from "./montar";
+import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "./radar";
 import { briefingStub, mensagemStub } from "./textos";
 
 const JANELA_NOVO_MS = 10 * 60 * 1000;
@@ -168,6 +169,25 @@ export const mockApi: Api = {
   },
   async demoEstado() {
     return esperar({ dataReferencia: DATA_REFERENCIA, modoCopiloto: "mock" });
+  },
+  async noticiasRadar() {
+    return esperar(noticiasMock());
+  },
+  async processarRadar() {
+    return esperar(processarMock());
+  },
+  async radarCliente(id) {
+    defDe(id); // 404 se o cliente não existe
+    return esperar(radarDoCliente(id, estadoMarina() !== null));
+  },
+  async radarCarteira(limite = 20) {
+    return esperar(radarDaCarteira(todosIds(), estadoMarina() !== null, limite));
+  },
+  async motivoNoticia(id, noticiaId) {
+    defDe(id);
+    const impacto = radarDoCliente(id, estadoMarina() !== null).find((i) => i.noticiaId === noticiaId);
+    if (!impacto) throw new ApiError(404, `A notícia ${noticiaId} não mexe na carteira de ${id}`, "NAO_ENCONTRADO");
+    return esperar(motivoDe(impacto));
   },
 };
 

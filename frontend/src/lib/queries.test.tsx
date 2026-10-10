@@ -15,10 +15,30 @@ const fake = vi.hoisted(() => ({
   briefing: vi.fn(async (id: string) => ({ clienteId: id, bullets: [], perguntasSugeridas: [], geradoPor: "stub" })),
   demoEstado: vi.fn(async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" })),
   resetDemo: vi.fn(async () => undefined),
+  noticiasRadar: vi.fn(async () => [{ noticia: { id: "not-001" } }]),
+  processarRadar: vi.fn(async () => ({ coletadas: 20, novas: 2, lotes: 1 })),
+  radarCliente: vi.fn(async (id: string) => [{ clienteId: id, noticiaId: "not-001" }]),
+  radarCarteira: vi.fn(async () => [{ clienteId: "cli-005", noticiaId: "not-001" }]),
+  motivoNoticia: vi.fn(async () => ({ texto: "Ligue hoje", geradoPor: "stub" })),
 }));
 vi.mock("./api", () => ({ api: fake }));
 
-import { chaves, useBriefing, useConceder, useFila, useJornada, useMensagem, useResetDemo, useRevogar, useVisao360 } from "./queries";
+import {
+  chaves,
+  useBriefing,
+  useConceder,
+  useFila,
+  useJornada,
+  useMensagem,
+  useMotivoNoticia,
+  useNoticiasRadar,
+  useProcessarRadar,
+  useRadarCarteira,
+  useRadarCliente,
+  useResetDemo,
+  useRevogar,
+  useVisao360,
+} from "./queries";
 
 function montar() {
   const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -93,5 +113,49 @@ describe("queries", () => {
     await act(() => result.current.mutateAsync());
     expect(fake.resetDemo).toHaveBeenCalled();
     expect(qc.getQueryState(chaves.fila)?.isInvalidated ?? true).toBe(true);
+  });
+
+  it("useConceder e useRevogar também invalidam o radar do cliente e o da carteira", async () => {
+    for (const hook of [useConceder, useRevogar]) {
+      const { qc, wrapper } = montar();
+      const spy = vi.spyOn(qc, "invalidateQueries");
+      const { result } = renderHook(() => hook(), { wrapper });
+      await act(() => result.current.mutateAsync({ clienteId: "cli-001", instituicaoId: "inst-horizonte" }));
+      const invalidadas = spy.mock.calls.map((c) => JSON.stringify(c[0]?.queryKey));
+      expect(invalidadas).toContain(JSON.stringify(chaves.radarCliente("cli-001")));
+      expect(invalidadas).toContain(JSON.stringify(chaves.radarCarteira));
+    }
+  });
+
+  it("useRadarCliente, useRadarCarteira e useNoticiasRadar buscam da API", async () => {
+    const { qc, wrapper } = montar();
+    const c = renderHook(() => useRadarCliente("cli-005"), { wrapper });
+    await waitFor(() => expect(c.result.current.data?.[0].clienteId).toBe("cli-005"));
+    expect(fake.radarCliente).toHaveBeenCalledWith("cli-005");
+    const k = renderHook(() => useRadarCarteira(), { wrapper });
+    await waitFor(() => expect(k.result.current.isSuccess).toBe(true));
+    expect(fake.radarCarteira).toHaveBeenCalledWith(20);
+    const n = renderHook(() => useNoticiasRadar(), { wrapper });
+    await waitFor(() => expect(n.result.current.data?.[0].noticia.id).toBe("not-001"));
+    // as chaves do radar começam por "radar" (invalidação em bloco)
+    for (const q of qc.getQueryCache().getAll()) expect(q.queryKey[0]).toBe("radar");
+  });
+
+  it("useProcessarRadar processa e invalida todas as consultas do radar", async () => {
+    const { qc, wrapper } = montar();
+    const spy = vi.spyOn(qc, "invalidateQueries");
+    const { result } = renderHook(() => useProcessarRadar(), { wrapper });
+    const r = await act(() => result.current.mutateAsync());
+    expect(r.novas).toBe(2);
+    expect(fake.processarRadar).toHaveBeenCalled();
+    expect(spy.mock.calls.map((c) => JSON.stringify(c[0]?.queryKey))).toContain(JSON.stringify(chaves.radar));
+  });
+
+  it("useMotivoNoticia pede o motivo do cliente para a notícia", async () => {
+    const { wrapper } = montar();
+    const { result } = renderHook(() => useMotivoNoticia(), { wrapper });
+    const m = await act(() => result.current.mutateAsync({ clienteId: "cli-005", noticiaId: "not-001" }));
+    expect(m).toEqual({ texto: "Ligue hoje", geradoPor: "stub" });
+    expect(fake.motivoNoticia).toHaveBeenCalledWith("cli-005", "not-001");
   });
 });

@@ -19,6 +19,7 @@ import jornadaDepois from "@/mocks/fixtures-contrato/jornada-cli-001-depois.json
 import jornada003 from "@/mocks/fixtures-contrato/jornada-cli-003-antes.json";
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
+import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "@/mocks/radar";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
 import visaoDepois from "@/mocks/fixtures-contrato/visao360-cli-001-depois.json";
 
@@ -71,4 +72,14 @@ export const apiFixtures: Api = {
     estadoFixtures.conectado = false;
   },
   demoEstado: async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" }),
+  noticiasRadar: async () => noticiasMock(),
+  processarRadar: async () => processarMock(),
+  radarCliente: async (id) => radarDoCliente(id, estadoFixtures.conectado),
+  radarCarteira: async (limite = 20) =>
+    radarDaCarteira(["cli-001", "cli-002", "cli-003", "cli-004", "cli-005", "cli-006"], estadoFixtures.conectado, limite),
+  motivoNoticia: async (id, noticiaId) => {
+    const impacto = radarDoCliente(id, estadoFixtures.conectado).find((i) => i.noticiaId === noticiaId);
+    if (!impacto) throw new ApiError(404, `A notícia ${noticiaId} não mexe na carteira de ${id}`, "NAO_ENCONTRADO");
+    return motivoDe(impacto);
+  },
 };
