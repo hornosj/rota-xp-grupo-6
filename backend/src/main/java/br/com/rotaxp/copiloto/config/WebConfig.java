@@ -8,6 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowedOrigins("http://localhost:3000").allowedMethods("*");
+        // O front chama pelo proxy do Next, que repassa o Origin do navegador: aceita o front local em
+        // qualquer porta (3000, 3010...). Origem externa continua bloqueada.
+        registry.addMapping("/api/**").allowedOriginPatterns("http://localhost:[*]", "http://127.0.0.1:[*]")
+                .allowedMethods("*");
     }
 }

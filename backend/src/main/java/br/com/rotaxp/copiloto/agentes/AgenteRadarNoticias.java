@@ -38,7 +38,7 @@ public class AgenteRadarNoticias {
     @AchievesGoal(description = "Motivo de contato pronto para o assessor")
     @Action(description = "Redige o motivo de contato com o LLM")
     public MotivoNoticia redigir(ContextoNoticia c, OperationContext ctx) {
-        MotivoRedigido r = ctx.ai().withLlm(props.modelo())
+        MotivoRedigido r = ctx.ai().withLlm(new com.embabel.common.ai.model.LlmOptions(null, props.modelo()).withMaxTokens(props.maxTokens()))
                 .withSystemPrompt(Prompts.MOTIVO_NOTICIA)
                 .createObject("Notícia e impacto na carteira (JSON):\n" + json(c), MotivoRedigido.class);
         return new MotivoNoticia(r.texto().strip(), GeradoPor.live);

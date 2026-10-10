@@ -34,7 +34,7 @@ public class AgenteMensagemCliente {
     @AchievesGoal(description = "Mensagem pronta para o assessor enviar ao cliente")
     @Action(description = "Redige a mensagem com o LLM")
     public MensagemGerada redigir(ContextoMensagem c, OperationContext ctx) {
-        MensagemRedigida r = ctx.ai().withLlm(props.modelo())
+        MensagemRedigida r = ctx.ai().withLlm(new com.embabel.common.ai.model.LlmOptions(null, props.modelo()).withMaxTokens(props.maxTokens()))
                 .withSystemPrompt(Prompts.MENSAGEM)
                 .createObject("Canal: " + c.canal() + "\nContexto do cliente (JSON):\n" + Prompts.contexto(mapper, c.contexto())
                         + "\nEscreva a mensagem do assessor para o cliente sobre a ação sugerida.", MensagemRedigida.class);

@@ -95,6 +95,7 @@ class MotivoNoticiaTest {
         assertThat(m.texto()).isEqualTo("Ligar para a Marina hoje.");
         assertThat(m.geradoPor()).isEqualTo(GeradoPor.live);
         assertThat(ctx.getLlmInvocations().get(0).getInteraction().getLlm().getModel()).isEqualTo("deepseek/deepseek-v4-pro");
+        assertThat(ctx.getLlmInvocations().get(0).getInteraction().getLlm().getMaxTokens()).isEqualTo(1024);
         assertThat(ctx.getLlmInvocations().get(0).getPrompt()).contains("R$ 650 mil", "rebaixa rating");
     }
 

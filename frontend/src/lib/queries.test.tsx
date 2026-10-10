@@ -55,13 +55,13 @@ function montar() {
 describe("queries", () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it("useFila busca a fila; ao vivo usa refetchInterval de 2s", async () => {
+  it("useFila busca a fila; ao vivo usa o polling de fallback (15 s)", async () => {
     const { qc, wrapper } = montar();
     const { result } = renderHook(() => useFila({ aoVivo: true }), { wrapper });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data?.[0].clienteId).toBe("cli-001");
     const q = qc.getQueryCache().find({ queryKey: chaves.fila });
-    expect((q?.options as { refetchInterval?: unknown }).refetchInterval).toBe(2000);
+    expect((q?.options as { refetchInterval?: unknown }).refetchInterval).toBe(15000);
   });
 
   it("fora do modo ao vivo não faz polling", async () => {
@@ -169,7 +169,7 @@ describe("queries", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(fake.convites).toHaveBeenCalledWith("cli-001");
     const q = qc.getQueryCache().find({ queryKey: chaves.convites("cli-001") });
-    expect((q?.options as { refetchInterval?: unknown }).refetchInterval).toBe(2000);
+    expect((q?.options as { refetchInterval?: unknown }).refetchInterval).toBe(15000);
   });
 
   it("useConvite busca pelo token (sem retry: 404/410 aparecem logo)", async () => {

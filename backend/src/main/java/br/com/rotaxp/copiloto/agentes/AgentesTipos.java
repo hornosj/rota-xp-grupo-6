@@ -39,7 +39,7 @@ public final class AgentesTipos {
     public record EventoExtraido(String tipo, String descricao, String data) {}
 
     // AgenteClassificacaoNoticias: LoteNoticias -> LoteClassificado (várias notícias numa chamada)
-    public record LoteNoticias(List<br.com.rotaxp.copiloto.dominio.Radar.Noticia> noticias, String modelo,
+    public record LoteNoticias(List<br.com.rotaxp.copiloto.dominio.Radar.Noticia> noticias, String modelo, int maxTokens,
                                List<EmissorPermitido> emissoresPermitidos) {
         public record EmissorPermitido(String id, String nome) {}
     }

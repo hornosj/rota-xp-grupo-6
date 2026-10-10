@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ApiError } from "@/lib/api-base";
+import { SincronizarDados } from "@/lib/sinal";
 
 function criarQueryClient() {
   return new QueryClient({
@@ -23,6 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [qc] = useState(criarQueryClient);
   return (
     <QueryClientProvider client={qc}>
+      <SincronizarDados />
       <TooltipProvider>{children}</TooltipProvider>
       <Toaster theme="light" position="top-center" richColors />
     </QueryClientProvider>

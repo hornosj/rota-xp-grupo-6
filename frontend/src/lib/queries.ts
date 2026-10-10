@@ -1,11 +1,13 @@
 "use client";
 
-// Hooks do TanStack Query (§9.1). Modo ao vivo → polling a cada 2 s.
+// Hooks do TanStack Query (§9.1). As telas atualizam pelo clique (lib/sinal); no modo ao vivo há um
+// polling lento só como rede de segurança. Consultas de IA nunca refazem sozinhas.
 import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { api } from "./api";
 import type { Canal, Id } from "./api-types";
+import { avisarDadosAlterados, invalidarDados } from "./sinal";
 
-export const INTERVALO_AO_VIVO_MS = 2000;
+export const INTERVALO_AO_VIVO_MS = 15000;
 
 export const chaves = {
   fila: ["fila"] as const,
@@ -95,7 +97,10 @@ export function useProcessarRadar() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => api.processarRadar(),
-    onSuccess: () => qc.invalidateQueries({ queryKey: chaves.radar }),
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: chaves.radar });
+      avisarDadosAlterados();
+    },
   });
 }
 
@@ -113,7 +118,6 @@ function invalidarCliente(qc: QueryClient, clienteId: Id) {
     qc.invalidateQueries({ queryKey: chaves.clientes }),
     qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.consentimentos(clienteId) }),
-    qc.invalidateQueries({ queryKey: chaves.briefing(clienteId) }),
     // consentimento muda a carteira visível → muda o que as notícias tocam
     qc.invalidateQueries({ queryKey: chaves.radarCliente(clienteId) }),
     qc.invalidateQueries({ queryKey: chaves.radarCarteira }),
@@ -141,11 +145,13 @@ export function useCriarConvite() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ clienteId, instituicaoId }: VarsConsentimento) => api.criarConvite(clienteId, instituicaoId),
-    onSettled: (_c, _e, { clienteId }) =>
-      Promise.all([
+    onSettled: async (_c, _e, { clienteId }) => {
+      await Promise.all([
         qc.invalidateQueries({ queryKey: chaves.convites(clienteId) }),
         qc.invalidateQueries({ queryKey: chaves.visao360(clienteId) }),
-      ]),
+      ]);
+      avisarDadosAlterados();
+    },
   });
 }
 
@@ -160,6 +166,7 @@ export function useConfirmarConvite() {
         invalidarCliente(qc, convite.clienteId),
         qc.invalidateQueries({ queryKey: chaves.convites(convite.clienteId) }),
       ]);
+      avisarDadosAlterados();
     },
   });
 }
@@ -177,6 +184,7 @@ export function useConceder() {
     onSuccess: async (visao, { clienteId }) => {
       qc.setQueryData(chaves.visao360(clienteId), visao);
       await invalidarCliente(qc, clienteId);
+      avisarDadosAlterados();
     },
   });
 }
@@ -188,6 +196,7 @@ export function useRevogar() {
     onSuccess: async (visao, { clienteId }) => {
       qc.setQueryData(chaves.visao360(clienteId), visao);
       await invalidarCliente(qc, clienteId);
+      avisarDadosAlterados();
     },
   });
 }
@@ -203,6 +212,9 @@ export function useResetDemo() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => api.resetDemo(),
-    onSuccess: () => qc.invalidateQueries(),
+    onSuccess: async () => {
+      await invalidarDados(qc);
+      avisarDadosAlterados();
+    },
   });
 }

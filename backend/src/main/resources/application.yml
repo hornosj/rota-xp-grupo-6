@@ -30,7 +30,8 @@ copiloto:
   modelo: ${COPILOTO_MODELO:deepseek/deepseek-v4-pro}   # via OpenRouter; barato para testes
   cache-dir: ./llm-cache
   api-key: ${OPENROUTER_APIKEY:}     # sem chave, live/record viram stub
-  max-tokens: 1024
+  max-tokens: 700                     # teto de tokens de saída por resposta (trava de crédito)
+  limite-chamadas-dia: ${COPILOTO_LIMITE_DIA:100}   # trava de crédito: passou, cai no stub
 
 # Embabel: provedor compatível com OpenAI apontando para o OpenRouter.
 # Sem OPENROUTER_APIKEY a aplicação sobe com uma chave provisória (o Embabel exige alguma);
@@ -142,3 +143,6 @@ desagio:
   selic-anual: 0.10                  # ILUSTRATIVO — usado para estimar títulos Selic+
   dias-por-ano: 365
   produtos-elegiveis: CDB,RDB,LCI,LCA,LC,TESOURO,DEBENTURE,CRI,CRA
+
+rentabilidade:
+  max-periodos: 120                  # subperíodos aceitos na simulação com aportes
