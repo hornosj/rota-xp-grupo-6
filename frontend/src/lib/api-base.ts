@@ -9,6 +9,8 @@ import type {
   ConviteOnboarding,
   Convite,
   DemoEstado,
+  DesagioDetalhado,
+  DesagioPedido,
   EdicaoCadastro,
   FormularioOnboarding,
   Id,
@@ -19,6 +21,7 @@ import type {
   NoticiaClassificada,
   OrigemAnotacao,
   PainelCarteira,
+  PosicoesDesagio,
   Principalidade,
   ResultadoNota,
   PropostaEdicao,
@@ -77,6 +80,11 @@ export interface Api {
   proporEdicao(clienteId: Id, transcricao: string): Promise<PropostaEdicao>;
   /** Grava o que o assessor confirmou e devolve a 360 recalculada. 400 em valor inválido. */
   editarCliente(clienteId: Id, edicao: EdicaoCadastro): Promise<Visao360>;
+  // Calculadora de deságio
+  /** Posições visíveis (dependem dos consentimentos), elegíveis primeiro. 404 se o cliente não existe. */
+  posicoesDesagio(clienteId: Id): Promise<PosicoesDesagio>;
+  /** Break-even da venda com deságio. 400 em pedido inválido ou posição inelegível; 404 se a posição não é visível. */
+  simularDesagio(pedido: DesagioPedido): Promise<DesagioDetalhado>;
 }
 
 export class ApiError extends Error {

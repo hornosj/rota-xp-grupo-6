@@ -16,6 +16,8 @@ import briefing from "@/mocks/fixtures-contrato/briefing-cli-001.json";
 import clientes from "@/mocks/fixtures-contrato/clientes.json";
 import conviteConfirmado from "@/mocks/fixtures-contrato/convite-cli-001-confirmado.json";
 import convitePendente from "@/mocks/fixtures-contrato/convite-cli-001-pendente.json";
+import posicoesDesagio from "@/mocks/fixtures-desagio/posicoes.json";
+import simulacaoDesagio from "@/mocks/fixtures-desagio/simulacao-cli-001-inv-001-03.json";
 import filaAntes from "@/mocks/fixtures-contrato/fila-antes.json";
 import filaDepois from "@/mocks/fixtures-contrato/fila-depois.json";
 import mensagemConvite from "@/mocks/fixtures-contrato/mensagem-cli-001-convite.json";
@@ -98,6 +100,14 @@ export type ChecagensForma = [
   Esperar<Compativel<H.AlteracaoCampo, S["AlteracaoCampo"]>>,
   Esperar<Compativel<H.EdicaoCadastro, S["EdicaoCadastro"]>>,
   Esperar<Compativel<{ transcricao: string }, S["PedidoProposta"]>>,
+  // calculadora de deságio
+  Esperar<Compativel<H.PosicoesDesagio, S["PosicoesDesagio"]>>,
+  Esperar<Compativel<H.PosicaoDesagio, S["PosicaoDesagio"]>>,
+  Esperar<Compativel<H.PremissasMercado, S["PremissasMercado"]>>,
+  Esperar<Compativel<H.DesagioPedido, S["DesagioPedido"]>>,
+  Esperar<Compativel<H.DesagioDetalhado, S["DesagioDetalhado"]>>,
+  Esperar<Compativel<H.EntradaUsada, S["EntradaUsada"]>>,
+  Esperar<Compativel<H.PontoSerie, S["PontoSerie"]>>,
 ];
 
 // 3: enums idênticos
@@ -126,6 +136,8 @@ export type ChecagensEnum = [
   Esperar<Igual<H.TipoEventoVida, En<S["EventoPlanejado"]["tipo"]>>>,
   Esperar<Igual<H.CampoCadastro, En<S["AlteracaoCampo"]["campo"]>>>,
   Esperar<Igual<H.GeradoPor, En<S["PropostaEdicao"]["geradoPor"]>>>,
+  Esperar<Igual<H.Produto, En<S["PosicaoDesagio"]["produto"]>>>,
+  Esperar<Igual<H.Indexador, En<S["PosicaoDesagio"]["indexador"]>>>,
 ];
 
 // ---------------------------------------------------------------- runtime: campos obrigatórios nas fixtures
@@ -223,6 +235,29 @@ R.propostaEdicao = {
   chaves: obrigatorias<H.PropostaEdicao>()("clienteId", "transcricao", "alteracoes", "avisos", "geradoPor"),
   filhos: { alteracoes: { chaves: obrigatorias<H.AlteracaoCampo>()("campo", "valorNovo") } },
 };
+R.posicoesDesagio = {
+  chaves: obrigatorias<H.PosicoesDesagio>()("clienteId", "clienteNome", "dataReferencia", "premissas", "posicoes"),
+  filhos: {
+    premissas: { chaves: obrigatorias<H.PremissasMercado>()("cdiAnual", "ipcaAnual", "selicAnual") },
+    posicoes: {
+      chaves: obrigatorias<H.PosicaoDesagio>()(
+        "posicaoId", "nome", "produto", "indexador", "instituicaoId", "valorAplicado", "valorAtual", "taxaDependeDePremissa", "elegivel",
+      ),
+    },
+  },
+};
+R.desagioDetalhado = {
+  chaves: obrigatorias<H.DesagioDetalhado>()(
+    "entrada", "perdaImediata", "valorFinalManter", "valorFinalVender", "ganhoDaTroca", "ganhoDaTrocaPercentual",
+    "compensa", "spreadTaxas", "serie", "explicacao", "premissas", "avisos",
+  ),
+  filhos: {
+    entrada: {
+      chaves: obrigatorias<H.EntradaUsada>()("valorAtual", "taxaAntiga", "taxaNova", "prazoRestanteAnos", "desagio", "precoVenda"),
+    },
+    serie: { chaves: obrigatorias<H.PontoSerie>()("mes", "anos", "valorManter", "valorVender", "diferenca") },
+  },
+};
 R.clienteResumo = { chaves: obrigatorias<H.ClienteResumo>()("id", "nome", "perfil", "posicaoXp", "prioridade") };
 
 function faltando(obj: unknown, regra: Regra, caminho: string): string[] {
@@ -250,6 +285,8 @@ describe("fixtures reais do backend × tipos do front", () => {
     ["convite confirmado", conviteConfirmado, R.convite],
     ["mensagem do convite", mensagemConvite, R.mensagem],
     ["proposta de edição por voz", propostaEdicao, R.propostaEdicao],
+    ["posições do deságio (todos os clientes)", Object.values(posicoesDesagio), R.posicoesDesagio],
+    ["simulação de deságio", simulacaoDesagio, R.desagioDetalhado],
   ] as const)("%s: todos os campos obrigatórios presentes", (_nome, fixture, regra) => {
     expect(faltando(fixture, regra, "$")).toEqual([]);
   });

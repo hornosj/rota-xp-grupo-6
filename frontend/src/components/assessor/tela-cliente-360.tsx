@@ -14,6 +14,7 @@ import { useDemoEstado, useVisao360 } from "@/lib/queries";
 import { CabecalhoCliente } from "./cabecalho-cliente";
 import { CardBriefing } from "./card-briefing";
 import { CardContextoAssessor } from "./card-contexto-assessor";
+import { CardDesagio } from "./card-desagio";
 import { CardFluxoCaixa } from "./card-fluxo-caixa";
 import { CardPatrimonio } from "./card-patrimonio";
 import { CardPrincipalidade } from "./card-principalidade";
@@ -132,6 +133,7 @@ export function TelaCliente360({ clienteId }: { clienteId: Id }) {
           </Card>
           <CardRadarCliente clienteId={clienteId} aoVivo={aoVivo} />
           <CardPrincipalidade principalidade={v.principalidade} />
+          <CardDesagio clienteId={clienteId} />
         </div>
         <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-6">
           <CardPatrimonio patrimonio={v.patrimonio} cobertura={v.cobertura} />

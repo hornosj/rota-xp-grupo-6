@@ -554,3 +554,99 @@ export interface ResultadoOnboarding {
   pontuacaoSuitability: number;
   consentimentos: ConsentimentoComNome[];
 }
+
+// ---------- Calculadora de deságio (FE1-11, aditivo) ----------
+
+export type Indexador = "CDI" | "IPCA" | "PRE" | "SELIC" | "NA";
+
+/** Premissas ilustrativas usadas para estimar a taxa anual de títulos pós-fixados (frações 0–1). */
+export interface PremissasMercado {
+  cdiAnual: number;
+  ipcaAnual: number;
+  selicAnual: number;
+}
+
+/** Uma posição de investimento visível e se ela permite simular venda com deságio. */
+export interface PosicaoDesagio {
+  posicaoId: Id;
+  nome: string;
+  produto: Produto;
+  indexador: Indexador;
+  instituicaoId: Id;
+  instituicaoNome?: string;
+  emissorNome?: string;
+  valorAplicado: number;
+  valorAtual: number;
+  dataAplicacao?: string;
+  vencimento?: string;
+  /** anos até o vencimento (falta sem vencimento) */
+  prazoRestanteAnos?: number;
+  taxaTexto?: string;
+  /** fração a.a.; falta quando a taxa não pode ser interpretada */
+  taxaAnualEstimada?: number;
+  /** true quando a taxa anual depende de premissa (CDI, IPCA, Selic) */
+  taxaDependeDePremissa: boolean;
+  elegivel: boolean;
+  motivoInelegibilidade?: string;
+}
+
+export interface PosicoesDesagio {
+  clienteId: Id;
+  clienteNome: string;
+  dataReferencia: string;
+  premissas: PremissasMercado;
+  /** elegíveis primeiro, por vencimento */
+  posicoes: PosicaoDesagio[];
+}
+
+/** Informe exatamente um entre `desagio` (fração 0–1) e `precoVenda` (R$). Com `posicaoId`, o resto vem da posição. */
+export interface DesagioPedido {
+  clienteId?: Id;
+  posicaoId?: Id;
+  valorAtual?: number;
+  taxaAntiga?: number;
+  prazoRestanteAnos?: number;
+  desagio?: number;
+  precoVenda?: number;
+  taxaNova: number;
+}
+
+export interface EntradaUsada {
+  posicaoId?: Id;
+  posicaoNome?: string;
+  valorAtual: number;
+  taxaAntiga: number;
+  taxaNova: number;
+  prazoRestanteAnos: number;
+  desagio: number;
+  precoVenda: number;
+}
+
+export interface PontoSerie {
+  mes: number;
+  anos: number;
+  valorManter: number;
+  valorVender: number;
+  diferenca: number;
+}
+
+export interface DesagioDetalhado {
+  entrada: EntradaUsada;
+  perdaImediata: number;
+  valorFinalManter: number;
+  valorFinalVender: number;
+  ganhoDaTroca: number;
+  ganhoDaTrocaPercentual: number;
+  /** anos até recuperar o deságio; falta quando a nova taxa não supera a atual (nunca recupera) */
+  breakEvenAnos?: number;
+  breakEvenMeses?: number;
+  /** break-even antes do vencimento */
+  compensa: boolean;
+  desagioMaximoQueCompensa?: number;
+  precoMinimoQueCompensa?: number;
+  spreadTaxas: number;
+  serie: PontoSerie[];
+  explicacao: string;
+  premissas: string[];
+  avisos: string[];
+}

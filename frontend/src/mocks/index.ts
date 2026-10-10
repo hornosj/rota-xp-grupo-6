@@ -15,6 +15,7 @@ import {
   revogadoEm,
 } from "./estado";
 import { proporEdicaoMock, validarEdicaoMock } from "./edicao";
+import { posicoesDesagioMock, simularDesagioMock } from "./desagio";
 import {
   buscarConviteMock,
   confirmarConviteMock,
@@ -131,6 +132,10 @@ function exigirConsentimento(clienteId: Id, instituicaoId: Id) {
     throw new ApiError(404, `Instituição ${instituicaoId} não encontrada para ${clienteId}`, "INSTITUICAO_NAO_ENCONTRADA");
   }
   return v;
+}
+
+function posicoesDesagio(clienteId: Id) {
+  return posicoesDesagioMock(clienteId, visao(clienteId).cliente.nome, estadoMarina() !== null);
 }
 
 export const mockApi: Api = {
@@ -256,6 +261,12 @@ export const mockApi: Api = {
     defDe(id);
     registrarEdicao(id, validarEdicaoMock(edicao));
     return esperar(visao(id));
+  },
+  async posicoesDesagio(id) {
+    return esperar(posicoesDesagio(id));
+  },
+  async simularDesagio(pedido) {
+    return esperar(simularDesagioMock(pedido, posicoesDesagio));
   },
 };
 
