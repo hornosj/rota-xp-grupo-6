@@ -6,8 +6,8 @@ import { useNotificacoes } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 import { useLidas } from "./tela-notificacoes";
 
-/** Sino do cabeçalho do assessor com o número de notificações não lidas. */
-export function SinoNotificacoes() {
+/** Sino da barra preta do topo, com o número de notificações não lidas. */
+export function SinoNotificacoes({ atual = false }: { atual?: boolean }) {
   const q = useNotificacoes();
   const lidas = useLidas();
   const naoLidas = q.data?.notificacoes.filter((n) => !lidas.has(n.id)).length ?? 0;
@@ -16,17 +16,18 @@ export function SinoNotificacoes() {
     <Link
       href="/assessor/notificacoes"
       aria-label={rotulo}
+      aria-current={atual ? "page" : undefined}
       title={rotulo}
-      className="relative flex size-9 items-center justify-center rounded-md text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+      className={cn(
+        "relative flex size-11 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white",
+        atual && "bg-white text-black hover:bg-white hover:text-black",
+      )}
     >
-      <Bell className="size-5" />
+      <Bell className="size-[22px]" />
       {naoLidas > 0 && (
         <span
           data-testid="contador-notificacoes"
-          className={cn(
-            "absolute -top-0.5 -right-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-red-600 px-1",
-            "text-[10px] font-bold text-white tabular-nums ring-2 ring-white",
-          )}
+          className="absolute -top-0.5 -right-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-xs font-extrabold text-black ring-2 ring-black"
         >
           {naoLidas > 99 ? "99+" : naoLidas}
         </span>

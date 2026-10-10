@@ -13,7 +13,7 @@ import { TelaNotificacoes } from "./tela-notificacoes";
 describe("carregarNotificacoes", () => {
   it("junta alertas da carteira com aniversários de dependentes, sem duplicar eventos de vida", async () => {
     const r = await carregarNotificacoes(mockApi);
-    expect(r.dataReferencia).toBe("2026-10-11");
+    expect(r.dataReferencia).toBe("2026-10-10");
     expect(r.notificacoes.some((n) => n.tipoAlerta === "EVENTO_VIDA_PROXIMO")).toBe(false);
 
     const sofia = r.notificacoes.filter((n) => n.titulo.includes("Sofia"));
@@ -88,9 +88,9 @@ describe("TelaNotificacoes", () => {
 
     await user.click(screen.getByRole("button", { name: /Marcar todas como lidas/ }));
     expect(screen.queryByTestId("contador-notificacoes")).not.toBeInTheDocument();
-    expect(screen.getByText(/0 não lidas/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Tudo em dia.");
 
     await user.click(screen.getByRole("button", { name: /Não lidas/ }));
-    expect(screen.getByText(/Tudo em dia/)).toBeInTheDocument();
+    expect(screen.getByText("Nenhuma notificação não lida.")).toBeInTheDocument();
   });
 });

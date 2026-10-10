@@ -2,24 +2,14 @@
 
 import Link from "next/link";
 import { useMemo, useState, useSyncExternalStore } from "react";
-import {
-  BellOff,
-  Cake,
-  CalendarHeart,
-  CheckCheck,
-  CircleDot,
-  Link2,
-  ShieldAlert,
-  TrendingUp,
-  type LucideIcon,
-} from "lucide-react";
+import { BellOff, Cake, CheckCheck } from "lucide-react";
 import { IndicadorAoVivo } from "@/components/comum/indicador-ao-vivo";
-import { ChipSeveridade, ErroCarregar, TagNovo, Vazio } from "@/components/comum/marcadores";
+import { ChipSeveridade, ErroCarregar, Sobretitulo, TagNovo, Vazio } from "@/components/comum/marcadores";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAoVivo } from "@/lib/ao-vivo";
-import { brl, data, dataHora, emDias } from "@/lib/formato";
+import { brl, data, dataHora, emDias, mesCurto } from "@/lib/formato";
 import {
   JANELA_PROXIMAS_DATAS,
   ehAniversarioHoje,
@@ -46,13 +36,6 @@ const rotuloFiltro: Record<Filtro, string> = {
   ...rotuloCategoria,
 };
 
-const estiloCategoria: Record<CategoriaNotificacao, { icone: LucideIcon; cor: string }> = {
-  RISCO: { icone: ShieldAlert, cor: "bg-amber-100 text-amber-700" },
-  OPORTUNIDADE: { icone: TrendingUp, cor: "bg-emerald-100 text-emerald-700" },
-  OPEN_FINANCE: { icone: Link2, cor: "bg-sky-100 text-sky-700" },
-  DATA_ESPECIAL: { icone: CalendarHeart, cor: "bg-violet-100 text-violet-700" },
-};
-
 /** IDs de um conjunto local (ex.: lidas). Provisório até o backend guardar isso. */
 export function useConjunto(c: ConjuntoLocal): ReadonlySet<string> {
   const ids = useSyncExternalStore(c.assinar, c.ler, c.noServidor);
@@ -61,10 +44,26 @@ export function useConjunto(c: ConjuntoLocal): ReadonlySet<string> {
 
 export const useLidas = () => useConjunto(conjuntoLidas);
 
-function iconeDe(n: Notificacao): { icone: LucideIcon; cor: string } {
-  if (n.categoria === "DATA_ESPECIAL" && n.aniversario) return { icone: Cake, cor: "bg-violet-100 text-violet-700" };
-  if (n.categoria === "RISCO" && n.severidade === "ALTA") return { icone: ShieldAlert, cor: "bg-red-600 text-white" };
-  return estiloCategoria[n.categoria];
+function manchete(naoLidas: number | undefined) {
+  if (naoLidas == null) return "Notificações";
+  if (naoLidas === 0) return "Tudo em dia.";
+  return `${naoLidas} ${naoLidas === 1 ? "notificação não lida." : "notificações não lidas."}`;
+}
+
+function BotaoFiltro({ ativo, onClick, children }: { ativo: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={ativo}
+      onClick={onClick}
+      className={cn(
+        "h-11 rounded-full border-2 border-black px-4.5 text-[15px] font-semibold transition",
+        ativo ? "bg-black font-bold text-white" : "bg-white hover:bg-muted",
+      )}
+    >
+      {children}
+    </button>
+  );
 }
 
 export function TelaNotificacoes() {
@@ -86,22 +85,18 @@ export function TelaNotificacoes() {
   const jaLidas = visiveis.filter((n) => lidas.has(n.id));
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Notificações</h1>
-          <p className="text-muted-foreground">
-            Alertas da carteira e datas especiais dos clientes
-            {q.data && ` · ${naoLidas.length} não lida${naoLidas.length === 1 ? "" : "s"}`}
-          </p>
+    <div className="flex flex-col gap-9">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col gap-3">
+          <Sobretitulo>Notificações</Sobretitulo>
+          <h1 className="text-5xl leading-none font-extrabold tracking-tight sm:text-[56px]">
+            {manchete(q.data ? naoLidas.length : undefined)}
+          </h1>
+          <p className="text-lg text-muted-foreground">Alertas da carteira e aniversários dos clientes e dependentes.</p>
         </div>
         <div className="flex items-center gap-3">
           {aoVivo && <IndicadorAoVivo atualizando={q.isFetching} />}
-          <Button
-            variant="outline"
-            disabled={!naoLidas.length}
-            onClick={() => marcarLidas(naoLidas.map((n) => n.id))}
-          >
+          <Button variant="outline" disabled={!naoLidas.length} onClick={() => marcarLidas(naoLidas.map((n) => n.id))}>
             <CheckCheck /> Marcar todas como lidas
           </Button>
         </div>
@@ -111,35 +106,20 @@ export function TelaNotificacoes() {
       {!q.data && !q.isError && <EsqueletoNotificacoes />}
 
       {q.data && (
-        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="flex min-w-0 flex-col gap-4">
-            <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar notificações">
-              {FILTROS.map((f) => {
-                const ativo = filtro === f;
-                return (
-                  <button
-                    key={f}
-                    type="button"
-                    aria-pressed={ativo}
-                    onClick={() => setFiltro(f)}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium transition-colors",
-                      ativo ? "border-slate-900 bg-slate-900 text-white" : "bg-white text-slate-600 hover:border-slate-400",
-                    )}
-                  >
-                    {rotuloFiltro[f]}
-                    <span className={cn("tabular-nums text-xs", ativo ? "text-slate-300" : "text-slate-400")}>
-                      {contagem(f)}
-                    </span>
-                  </button>
-                );
-              })}
+        <div className="flex flex-wrap items-start gap-6">
+          <section aria-label="Notificações" className="flex min-w-0 flex-[999_1_600px] flex-col gap-6">
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar notificações">
+              {FILTROS.map((f) => (
+                <BotaoFiltro key={f} ativo={filtro === f} onClick={() => setFiltro(f)}>
+                  {rotuloFiltro[f]} · {contagem(f)}
+                </BotaoFiltro>
+              ))}
             </div>
 
             {!visiveis.length && (
-              <Vazio className="flex flex-col items-center gap-2 bg-white py-10">
-                <BellOff className="size-6 text-slate-300" />
-                {filtro === "NAO_LIDAS" ? "Tudo em dia: nenhuma notificação não lida." : "Nenhuma notificação aqui."}
+              <Vazio className="flex flex-col items-center gap-2 py-10">
+                <BellOff className="size-6" />
+                {filtro === "NAO_LIDAS" ? "Nenhuma notificação não lida." : "Nenhuma notificação aqui."}
               </Vazio>
             )}
 
@@ -157,7 +137,7 @@ export function TelaNotificacoes() {
                 ))}
               </Secao>
             )}
-          </div>
+          </section>
 
           <ProximasDatas datas={q.data.proximasDatas} />
         </div>
@@ -168,83 +148,77 @@ export function TelaNotificacoes() {
 
 function Secao({ titulo, quantidade, children }: { titulo: string; quantidade: number; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-2">
-      <h2 className="text-sm font-semibold text-slate-500">
-        {titulo} <span className="font-normal tabular-nums">· {quantidade}</span>
+    <section className="flex flex-col gap-3">
+      <h2 className="text-3xl font-extrabold tracking-tight">
+        {titulo} <span className="text-muted-foreground">· {quantidade}</span>
       </h2>
-      <ul className="flex flex-col gap-2">{children}</ul>
+      <ol className="border-t-2 border-black">{children}</ol>
     </section>
   );
 }
 
 export function ItemNotificacao({ n, lida }: { n: Notificacao; lida: boolean }) {
-  const { icone: Icone, cor } = iconeDe(n);
-  const festa = ehAniversarioHoje(n);
+  const hoje = ehAniversarioHoje(n);
   const quando =
-    n.dataEvento != null
-      ? `${data(n.dataEvento)} · ${emDias(n.emDias ?? 0)}`
-      : `detectado em ${dataHora(n.criadaEm)}`;
+    n.dataEvento != null ? `${data(n.dataEvento)} · ${emDias(n.emDias ?? 0)}` : `detectado em ${dataHora(n.criadaEm)}`;
   return (
     <li
       data-testid="notificacao"
       data-categoria={n.categoria}
       data-lida={lida}
-      className={cn(
-        "rounded-xl border bg-card p-4 shadow-xs transition-colors",
-        !lida && n.severidade === "ALTA" && !festa && "border-red-300",
-        !lida && festa && "border-violet-300 bg-linear-to-r from-violet-50 to-pink-50 ring-2 ring-violet-100",
-        !lida && n.novo && "animate-entrada border-blue-300 ring-2 ring-blue-100",
-        lida && "bg-slate-50/60 shadow-none",
-      )}
+      className={cn("border-b py-6", !lida && n.novo && "animate-entrada")}
     >
-      <div className="flex items-start gap-3">
-        <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-full", cor, lida && "opacity-60")}>
-          <Icone className="size-4.5" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            {!lida && <CircleDot className="size-3 text-blue-600" aria-label="Não lida" />}
-            <span className={cn("font-semibold", lida && "font-medium text-slate-600")}>{n.titulo}</span>
+      <div className="grid gap-x-5 gap-y-3 px-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:px-2">
+        <div className="flex min-w-0 flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
+            {!lida && <span aria-label="Não lida" className="size-2.5 shrink-0 rounded-full bg-black" />}
+            {n.categoria === "DATA_ESPECIAL" ? (
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-bold tracking-wide uppercase ring-2 ring-black",
+                  hoje && "bg-black text-white",
+                )}
+              >
+                {n.aniversario && <Cake className="size-3.5" />}
+                {hoje ? "Hoje" : n.aniversario ? "Aniversário" : "Data especial"}
+              </span>
+            ) : (
+              <ChipSeveridade severidade={n.severidade} />
+            )}
+            <span className={cn("text-lg font-bold", lida && "text-muted-foreground")}>{n.titulo}</span>
             {n.novo && !lida && <TagNovo />}
           </div>
-          <p className="mt-0.5 text-sm">
+          <p className="text-base">
             <Link
               href={`/assessor/clientes/${n.clienteId}`}
               onClick={() => marcarLidas([n.id])}
-              className="font-medium text-slate-900 hover:underline"
+              className="font-bold hover:underline"
             >
               {n.clienteNome}
             </Link>
             <span className="text-muted-foreground"> · {quando}</span>
           </p>
-          <p className={cn("mt-1.5 text-sm text-slate-700", lida && "text-slate-500")}>{n.descricao}</p>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            {n.categoria !== "DATA_ESPECIAL" && <ChipSeveridade severidade={n.severidade} />}
-            <span className="text-xs text-muted-foreground">
+          <p className={cn("text-[17px] leading-relaxed text-[#333]", lida && "text-muted-foreground")}>{n.descricao}</p>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <span className="mr-auto text-sm text-muted-foreground">
               {n.tipoAlerta ? rotuloTipoAlerta[n.tipoAlerta] : rotuloCategoria[n.categoria]}
             </span>
-            <span className="ml-auto flex gap-1">
-              <Link
-                href={`/assessor/clientes/${n.clienteId}`}
-                onClick={() => marcarLidas([n.id])}
-                className={buttonVariants({ variant: "outline", size: "sm" })}
-              >
-                Abrir cliente
-              </Link>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => (lida ? marcarNaoLida(n.id) : marcarLidas([n.id]))}
-              >
-                {lida ? "Marcar como não lida" : "Marcar como lida"}
-              </Button>
-            </span>
+            <Link
+              href={`/assessor/clientes/${n.clienteId}`}
+              onClick={() => marcarLidas([n.id])}
+              className={buttonVariants({ variant: "outline", size: "sm" })}
+            >
+              Abrir cliente
+            </Link>
+            <Button variant="ghost" size="sm" onClick={() => (lida ? marcarNaoLida(n.id) : marcarLidas([n.id]))}>
+              {lida ? "Marcar como não lida" : "Marcar como lida"}
+            </Button>
           </div>
         </div>
         {n.valor != null && (
-          <div className={cn("shrink-0 text-right text-lg font-bold tabular-nums", lida && "text-slate-500")}>
+          <p className={cn("text-2xl font-extrabold tracking-tight sm:text-right", lida && "text-muted-foreground")}>
             {brl(n.valor, { inteiro: true })}
-          </div>
+          </p>
         )}
       </div>
     </li>
@@ -253,45 +227,41 @@ export function ItemNotificacao({ n, lida }: { n: Notificacao; lida: boolean }) 
 
 function ProximasDatas({ datas }: { datas: DataEspecial[] }) {
   return (
-    <Card className="lg:sticky lg:top-20">
+    <Card className="min-w-0 flex-[1_1_340px]">
       <CardHeader>
         <CardTitle>Próximas datas</CardTitle>
-        <CardDescription>Aniversários e eventos de vida nos próximos {JANELA_PROXIMAS_DATAS} dias</CardDescription>
+        <p className="text-base text-muted-foreground">
+          Aniversários e eventos de vida nos próximos {JANELA_PROXIMAS_DATAS} dias
+        </p>
       </CardHeader>
       <CardContent>
         {!datas.length ? (
-          <p className="text-sm text-muted-foreground">Nenhuma data especial no período.</p>
+          <Vazio>Nenhuma data especial no período.</Vazio>
         ) : (
-          <ol className="flex flex-col gap-3" data-testid="proximas-datas">
-            {datas.map((d) => {
-              const Icone = d.aniversario ? Cake : CalendarHeart;
-              const [, mes, dia] = d.data.split("-");
-              return (
-                <li key={d.id} className="flex items-start gap-3">
-                  <span
-                    className={cn(
-                      "flex w-11 shrink-0 flex-col items-center rounded-lg py-1 leading-tight",
-                      d.emDias <= 7 ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700",
-                    )}
-                  >
-                    <span className="text-base font-bold tabular-nums">{dia}</span>
-                    <span className="text-[10px] uppercase tracking-wide">{nomeMes(Number(mes))}</span>
+          <ol className="flex flex-col gap-4" data-testid="proximas-datas">
+            {datas.map((d) => (
+              <li key={d.id} className="grid grid-cols-[4rem_minmax(0,1fr)] items-center gap-3.5">
+                <span
+                  aria-hidden
+                  className={cn(
+                    "flex flex-col items-center rounded-2xl py-1.5 leading-tight",
+                    d.emDias <= 7 ? "bg-black text-white" : "border-2 border-black",
+                  )}
+                >
+                  <span className="text-[22px] font-extrabold">{d.data.slice(8, 10)}</span>
+                  <span className="text-xs font-bold uppercase">{mesCurto(d.data)}</span>
+                </span>
+                <span className="flex min-w-0 flex-col gap-0.5">
+                  <span className="text-base font-bold">{d.titulo}</span>
+                  <span className="text-sm text-[#333]">
+                    <Link href={`/assessor/clientes/${d.clienteId}`} className="hover:underline">
+                      {d.clienteNome}
+                    </Link>{" "}
+                    · {emDias(d.emDias)}
                   </span>
-                  <div className="min-w-0 text-sm">
-                    <p className="flex items-center gap-1 font-medium">
-                      <Icone className="size-3.5 shrink-0 text-violet-600" />
-                      <span className="truncate">{d.titulo}</span>
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      <Link href={`/assessor/clientes/${d.clienteId}`} className="hover:underline">
-                        {d.clienteNome}
-                      </Link>{" "}
-                      · {emDias(d.emDias)}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
+                </span>
+              </li>
+            ))}
           </ol>
         )}
       </CardContent>
@@ -299,19 +269,16 @@ function ProximasDatas({ datas }: { datas: DataEspecial[] }) {
   );
 }
 
-const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
-const nomeMes = (m: number) => MESES[m - 1] ?? "";
-
 export function EsqueletoNotificacoes() {
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]" aria-label="Carregando">
-      <div className="flex flex-col gap-3">
-        <Skeleton className="h-8 w-2/3 rounded-full" />
+    <div className="flex flex-wrap items-start gap-6" aria-label="Carregando">
+      <div className="flex min-w-0 flex-[999_1_600px] flex-col gap-4">
+        <Skeleton className="h-11 w-2/3 rounded-full" />
         {Array.from({ length: 4 }, (_, i) => (
-          <Skeleton key={i} className="h-32 w-full rounded-xl" />
+          <Skeleton key={i} className="h-28 w-full rounded-2xl" />
         ))}
       </div>
-      <Skeleton className="h-72 rounded-xl" />
+      <Skeleton className="h-72 min-w-0 flex-[1_1_340px] rounded-2xl" />
     </div>
   );
 }
