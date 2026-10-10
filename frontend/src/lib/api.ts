@@ -10,6 +10,7 @@ import type {
   Convite,
   ConviteOnboarding,
   DemoEstado,
+  DesagioDetalhado,
   ErroApi,
   FormularioOnboarding,
   ImpactoNoticia,
@@ -18,6 +19,7 @@ import type {
   MotivoNoticia,
   NoticiaClassificada,
   PainelCarteira,
+  PosicoesDesagio,
   Principalidade,
   PropostaEdicao,
   ResultadoOnboarding,
@@ -115,6 +117,8 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     proporEdicao: (id, transcricao) =>
       chamar<PropostaEdicao>(`/clientes/${seg(id)}/edicao/proposta`, { method: "POST", json: { transcricao } }),
     editarCliente: (id, edicao) => chamar<Visao360>(`/clientes/${seg(id)}`, { method: "PATCH", json: edicao }),
+    posicoesDesagio: (id) => chamar<PosicoesDesagio>(`/clientes/${seg(id)}/desagio/posicoes`),
+    simularDesagio: (pedido) => chamar<DesagioDetalhado>("/simulacoes/desagio/detalhado", { method: "POST", json: pedido }),
   };
   return api;
 }

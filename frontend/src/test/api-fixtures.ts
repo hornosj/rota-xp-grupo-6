@@ -24,6 +24,7 @@ import resultadoOnboarding from "@/mocks/fixtures-contrato/onboarding-resultado.
 import mensagem from "@/mocks/fixtures-contrato/mensagem-cli-001-fgc.json";
 import painel from "@/mocks/fixtures-contrato/painel.json";
 import propostaEdicao from "@/mocks/fixtures-contrato/proposta-edicao-cli-004.json";
+import { posicoesDesagioMock, simularDesagioMock } from "@/mocks/desagio";
 import { motivoDe, noticiasMock, processarMock, radarDaCarteira, radarDoCliente } from "@/mocks/radar";
 import visaoAntes from "@/mocks/fixtures-contrato/visao360-cli-001-antes.json";
 import visaoDepois from "@/mocks/fixtures-contrato/visao360-cli-001-depois.json";
@@ -96,6 +97,11 @@ function visao(id: string): Visao360 {
   return estadoFixtures.conectado ? fixtures.visaoDepois() : fixtures.visaoAntes();
 }
 
+/** Posições reais do backend (src/mocks/fixtures-desagio), antes/depois do consentimento do Horizonte. */
+function posicoesDesagio(id: string) {
+  return posicoesDesagioMock(id, visao(id).cliente.nome, estadoFixtures.conectado);
+}
+
 export const apiFixtures: Api = {
   listarClientes: async () => fixtures.clientes(),
   visao360: async (id) => visao(id),
@@ -154,4 +160,6 @@ export const apiFixtures: Api = {
     const v = visao(id);
     return { ...v, cliente: { ...v.cliente, ...edicao } };
   },
+  posicoesDesagio: async (id) => posicoesDesagio(id),
+  simularDesagio: async (pedido) => simularDesagioMock(pedido, posicoesDesagio),
 };
