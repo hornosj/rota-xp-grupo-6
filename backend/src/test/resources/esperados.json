@@ -1,5 +1,5 @@
 {
-  "_fonte": "docs/PLAN.md §6.5 — resultados esperados dos clientes-âncora com a seed de data/gerar_seed.py (ref 2026-10-11)",
+  "_fonte": "docs/PLAN.md §6.5 — resultados esperados dos clientes-âncora com a seed de data/gerar_seed.py (ref 2026-10-10)",
   "casos": [
     {
       "clienteId": "cli-001", "momento": "antes",

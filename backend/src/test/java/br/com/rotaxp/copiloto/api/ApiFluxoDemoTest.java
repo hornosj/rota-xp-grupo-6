@@ -130,7 +130,7 @@ class ApiFluxoDemoTest {
 
     @Test
     void demoEstadoEDesagio() throws Exception {
-        mvc.perform(get("/api/demo/estado")).andExpect(jsonPath("$.dataReferencia").value("2026-10-11"))
+        mvc.perform(get("/api/demo/estado")).andExpect(jsonPath("$.dataReferencia").value("2026-10-10"))
                 .andExpect(jsonPath("$.modoCopiloto").value("stub"));
         mvc.perform(post("/api/simulacoes/desagio").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"desagio\":0.03,\"taxaAntiga\":0.12,\"taxaNova\":0.14,\"prazoRestanteAnos\":3}"))

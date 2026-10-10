@@ -92,7 +92,7 @@ class OnboardingApiTest {
                 .andExpect(jsonPath("$.consentimentos", hasSize(3)))
                 .andExpect(jsonPath("$.consentimentos[?(@.instituicaoId=='inst-xp')].tipo").value("INTERNO"))
                 .andExpect(jsonPath("$.consentimentos[?(@.instituicaoId=='inst-aurora')].status").value("ATIVO"))
-                .andExpect(jsonPath("$.consentimentos[?(@.instituicaoId=='inst-aurora')].expiraEm").value("2027-10-11"))
+                .andExpect(jsonPath("$.consentimentos[?(@.instituicaoId=='inst-aurora')].expiraEm").value("2027-10-10"))
                 .andExpect(jsonPath("$.consentimentos[?(@.instituicaoId=='inst-ipe')].status").value("PENDENTE"))
                 .andReturn().getResponse().getContentAsString();
         JsonNode r = mapper.readTree(corpo);

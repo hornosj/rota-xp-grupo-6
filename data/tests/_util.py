@@ -12,7 +12,7 @@ if DATA not in sys.path:
 import gerar_seed  # noqa: E402
 import checar_seed  # noqa: E402
 
-REF = date(2026, 10, 11)
+REF = date(2026, 10, 10)
 _cache = {}
 
 

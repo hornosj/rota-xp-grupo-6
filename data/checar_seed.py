@@ -3,7 +3,7 @@
 """Checagem do seed contra o PLAN (§6.5, §7.1–7.7, §7.9, §7.10).
 
 Uso:
-    python data/checar_seed.py [--seed backend/src/main/resources/seed] [--data-referencia 2026-10-11]
+    python data/checar_seed.py [--seed backend/src/main/resources/seed] [--data-referencia 2026-10-10]
 
 Implementação de referência (Python, Decimal) das regras da camada `analise`. O backend Java deve
 produzir os mesmos números. Sai com código != 0 se alguma linha der FAIL.
@@ -627,7 +627,7 @@ FILA_ESPERADA = [("cli-004", "54"), ("cli-001", "39.1"), ("cli-003", "34.3"), ("
 def main():
     ap = argparse.ArgumentParser(description="Checa o seed contra o PLAN §6.5 / §6.4.")
     ap.add_argument("--seed", default="backend/src/main/resources/seed")
-    ap.add_argument("--data-referencia", default="2026-10-11")
+    ap.add_argument("--data-referencia", default="2026-10-10")
     args = ap.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")

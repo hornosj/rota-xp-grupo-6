@@ -12,7 +12,7 @@ springdoc:
     path: /v3/api-docs
 
 demo:
-  data-referencia: 2026-10-11        # usar a data do pitch
+  data-referencia: 2026-10-10        # usar a data do pitch
   assessor-id: ass-001
   janela-alerta-novo-minutos: 10
 
