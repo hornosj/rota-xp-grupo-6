@@ -222,7 +222,7 @@ function defCarlos(): DefCliente {
       { texto: "Consentimento do Aurora expira em 10 dias", pontos: 10 },
     ],
     visao: {
-      cliente: comNascimento("1965-10-11", cliente({
+      cliente: comNascimento("1965-10-10", cliente({
         id: c, nome: "Carlos Andrade", idade: 61, profissao: "Empresário (embalagens)", cidade: "Campinas/SP", perfil: "CONSERVADOR",
         instituicoesDeclaradas: [
           { instituicaoId: "inst-xp", produtos: ["CONTA", "CARTAO", "INVESTIMENTOS"] },
