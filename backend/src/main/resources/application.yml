@@ -36,7 +36,7 @@ embabel:
           custom:
             base-url: https://openrouter.ai/api
             api-key: ${OPENROUTER_APIKEY:sem-chave}
-            models: ${copiloto.modelo}
+            models: ${copiloto.modelo},${radar.modelo-classificacao}
             max-attempts: 2
             backoff-millis: 500
             backoff-multiplier: 2.0
@@ -97,3 +97,14 @@ prioridade:
   reserva-insuficiente: 8
   evento-vida: 8
   bonus-so-investimentos: 5
+
+# Radar de notícias (BE2-10). Classificação: referencia (gabarito curado, demo offline) | regras | llm
+radar:
+  classificacao: ${RADAR_CLASSIFICACAO:referencia}
+  modelo-classificacao: ${RADAR_MODELO:openai/gpt-oss-120b}   # barato e com saída estruturada
+  tamanho-lote: 10                                           # notícias por chamada ao LLM
+  cron: "0 0 7,10,12,14,16,19 * * MON-FRI"                   # 6x por dia útil (America/Sao_Paulo)
+  worker-habilitado: true
+  processar-no-inicio: true
+  fracao-plena: 0.25
+  pontos-minimos: 10
