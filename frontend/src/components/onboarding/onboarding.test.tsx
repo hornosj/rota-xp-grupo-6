@@ -103,7 +103,7 @@ describe("WizardOnboarding", () => {
     expect(within(fim).getByTestId("perfil-resultado")).toHaveTextContent("Arrojado");
     expect(fim).toHaveTextContent("pendente");
     expect(within(fim).queryByRole("link")).not.toBeInTheDocument();
-  });
+  }, 20_000); // percorre as 8 etapas digitando: passa de 5 s com a suíte inteira rodando
 
   it("voltar mantém o que foi preenchido", async () => {
     renderComQuery(<WizardOnboarding token="TOKEN-EXEMPLO" />);

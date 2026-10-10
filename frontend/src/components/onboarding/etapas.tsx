@@ -47,7 +47,7 @@ export const rotuloEvento: Record<TipoEventoVida, string> = {
 };
 
 const classeCampo =
-  "h-11 w-full rounded-lg border border-input bg-background px-3 text-base outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive";
+  "h-12 w-full rounded-xl border-2 border-input bg-background px-4 text-base outline-none focus-visible:border-black focus-visible:ring-3 focus-visible:ring-black/15 aria-invalid:border-destructive";
 
 function Campo({
   id,
@@ -63,17 +63,17 @@ function Campo({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium">
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-base font-bold">
         {rotulo}
       </label>
       {children}
       {erro ? (
-        <p id={`${id}-erro`} className="text-xs text-destructive">
+        <p id={`${id}-erro`} className="text-sm font-semibold text-destructive">
           {erro}
         </p>
       ) : (
-        dica && <p className="text-xs text-muted-foreground">{dica}</p>
+        dica && <p className="text-sm text-muted-foreground">{dica}</p>
       )}
     </div>
   );
@@ -89,8 +89,8 @@ const a11y = (id: string, erro?: string) => ({
 function Titulo({ titulo, subtitulo }: { titulo: string; subtitulo?: string }) {
   return (
     <div>
-      <h2 className="text-xl font-bold">{titulo}</h2>
-      {subtitulo && <p className="mt-1 text-sm text-slate-600">{subtitulo}</p>}
+      <h2 className="text-3xl leading-tight font-extrabold tracking-tight sm:text-[40px]">{titulo}</h2>
+      {subtitulo && <p className="mt-2 text-lg leading-relaxed text-muted-foreground">{subtitulo}</p>}
     </div>
   );
 }
@@ -100,35 +100,33 @@ function Titulo({ titulo, subtitulo }: { titulo: string; subtitulo?: string }) {
 export function EtapaBoasVindas({ formulario }: PropsEtapa) {
   const primeiro = formulario.convite.nome.split(" ")[0];
   return (
-    <div className="flex flex-col gap-5">
-      <div className="rounded-2xl bg-slate-900 p-5 text-white">
-        <p className="text-sm text-slate-300">Convite da sua assessoria XP</p>
-        <h2 className="mt-1 text-2xl font-bold">Olá, {primeiro}!</h2>
-        <p className="mt-2 text-sm text-slate-200">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-5">
+        <p className="text-sm font-bold tracking-[0.12em] uppercase">Convite da sua assessoria XP</p>
+        <h2 className="text-6xl leading-[0.95] font-extrabold tracking-tight sm:text-8xl">Olá, {primeiro}!</h2>
+        <p className="text-xl leading-relaxed text-muted-foreground">
           Em poucos minutos montamos seu cadastro e seu perfil de investidor, para a sua assessoria cuidar do seu dinheiro
-          com a visão completa.
+          com a visão completa. Leva cerca de 4 minutos.
         </p>
       </div>
-      <ul className="flex flex-col gap-3 text-sm">
+      <ol className="flex flex-col border-t-2 border-black">
         {[
-          ["Seus dados", "nome, CPF, contato e família"],
-          ["Seu perfil de investidor", "5 perguntas rápidas"],
-          ["O que compartilhar", "você escolhe quais instituições conectar pelo Open Finance"],
+          ["Seus dados", "Nome, CPF, contato e família"],
+          ["Seu perfil de investidor", "5 perguntas rápidas, sem resposta certa"],
+          ["O que compartilhar", "Você escolhe quais instituições conectar pelo Open Finance"],
         ].map(([t, d], i) => (
-          <li key={t} className="flex gap-3">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold">
-              {i + 1}
-            </span>
-            <span>
-              <span className="font-medium">{t}</span>
-              <span className="block text-muted-foreground">{d}</span>
+          <li key={t} className="grid grid-cols-[4rem_1fr] items-baseline gap-3 border-b py-5">
+            <span className="text-4xl font-extrabold tracking-tight">{String(i + 1).padStart(2, "0")}</span>
+            <span className="flex flex-col gap-1">
+              <span className="text-xl font-bold">{t}</span>
+              <span className="text-base text-muted-foreground">{d}</span>
             </span>
           </li>
         ))}
-      </ul>
-      <p className="flex items-start gap-2 rounded-xl bg-emerald-50 p-3 text-xs text-emerald-900">
-        <ShieldCheck className="mt-0.5 size-4 shrink-0" />
-        Seus dados são protegidos pela LGPD. Você decide o que compartilhar e pode revogar quando quiser.
+      </ol>
+      <p className="flex items-start gap-2.5 text-base">
+        <ShieldCheck className="mt-0.5 size-5 shrink-0" />
+        Seus dados são protegidos pela LGPD. Só leitura: você decide o que compartilhar e pode revogar quando quiser.
       </p>
     </div>
   );
@@ -249,9 +247,9 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
       />
 
       <section className="flex flex-col gap-3">
-        <h3 className="font-semibold">Dependentes</h3>
+        <h3 className="text-xl font-extrabold">Dependentes</h3>
         {f.dependentes.map((d, i) => (
-          <div key={i} data-testid={`dependente-${i}`} className="flex flex-col gap-3 rounded-2xl border p-4">
+          <div key={i} data-testid={`dependente-${i}`} className="flex flex-col gap-4 rounded-2xl border-2 p-5">
             <Campo id={`dep-${i}-nome`} rotulo="Nome" erro={erros[`dependentes.${i}.nome`]}>
               <input
                 {...a11y(`dep-${i}-nome`, erros[`dependentes.${i}.nome`])}
@@ -288,7 +286,7 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
             </div>
             <Button
               variant="ghost"
-              className="self-end text-muted-foreground"
+              className="self-end"
               onClick={() => set({ dependentes: f.dependentes.filter((_, k) => k !== i) })}
             >
               <Trash2 /> Remover
@@ -297,7 +295,6 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
         ))}
         <Button
           variant="outline"
-          className="h-11"
           onClick={() => set({ dependentes: [...f.dependentes, { nome: "", parentesco: "", dataNascimento: "" }] })}
         >
           <Plus /> Adicionar dependente
@@ -305,10 +302,10 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h3 className="font-semibold">Próximos acontecimentos</h3>
-        <p className="-mt-2 text-xs text-muted-foreground">Casamento, viagem, aposentadoria, mudança…</p>
+        <h3 className="text-xl font-extrabold">Próximos acontecimentos</h3>
+        <p className="-mt-2 text-base text-muted-foreground">Casamento, viagem, aposentadoria, mudança…</p>
         {f.eventosVida.map((ev, i) => (
-          <div key={i} data-testid={`evento-${i}`} className="flex flex-col gap-3 rounded-2xl border p-4">
+          <div key={i} data-testid={`evento-${i}`} className="flex flex-col gap-4 rounded-2xl border-2 p-5">
             <div className="grid grid-cols-2 gap-3">
               <Campo id={`ev-${i}-tipo`} rotulo="Tipo">
                 <select
@@ -345,7 +342,7 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
             </Campo>
             <Button
               variant="ghost"
-              className="self-end text-muted-foreground"
+              className="self-end"
               onClick={() => set({ eventosVida: f.eventosVida.filter((_, k) => k !== i) })}
             >
               <Trash2 /> Remover
@@ -354,7 +351,6 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
         ))}
         <Button
           variant="outline"
-          className="h-11"
           onClick={() => set({ eventosVida: [...f.eventosVida, { tipo: "FERIAS", descricao: "", data: "" }] })}
         >
           <Plus /> Adicionar acontecimento
@@ -368,27 +364,30 @@ export function EtapaFamilia({ f, set, erros }: PropsEtapa) {
 
 export function EtapaPerfil({ f, set, erros, formulario }: PropsEtapa) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <Titulo
         titulo="Seu perfil de investidor"
-        subtitulo="Não existe resposta certa. É isso que define quais investimentos combinam com você."
+        subtitulo="Não existe resposta certa. Responda como você realmente agiria: é isso que define quais investimentos combinam com você."
       />
       {formulario.questionario.map((p, n) => {
         const erro = erros[`perfil.${p.id}`];
         return (
-          <fieldset key={p.id} className="flex flex-col gap-2" aria-invalid={!!erro}>
-            <legend className="mb-2 text-sm font-semibold">
-              {n + 1}. {p.texto}
+          <fieldset key={p.id} className="flex flex-col gap-3" aria-invalid={!!erro}>
+            <legend className="mb-3 flex flex-col gap-1">
+              <span className="text-sm font-bold tracking-[0.12em] uppercase">
+                Pergunta {n + 1} de {formulario.questionario.length}
+              </span>
+              <span className="text-2xl leading-snug font-extrabold tracking-tight">{p.texto}</span>
             </legend>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               {p.opcoes.map((o) => {
                 const marcada = f.respostas[p.id] === o.id;
                 return (
                   <label
                     key={o.id}
                     className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-sm transition",
-                      marcada ? "border-slate-900 bg-slate-50 ring-1 ring-slate-900" : "hover:border-slate-400",
+                      "flex min-h-16 cursor-pointer items-center gap-3.5 rounded-2xl border-2 p-4 text-[17px] transition",
+                      marcada ? "border-black bg-black font-bold text-white" : "border-[#bdbdbd] hover:border-black",
                     )}
                   >
                     <input
@@ -397,14 +396,14 @@ export function EtapaPerfil({ f, set, erros, formulario }: PropsEtapa) {
                       value={o.id}
                       checked={marcada}
                       onChange={() => set({ respostas: { ...f.respostas, [p.id]: o.id } })}
-                      className="size-4 accent-slate-900"
+                      className={cn("size-5 shrink-0", marcada ? "accent-white" : "accent-black")}
                     />
                     {o.texto}
                   </label>
                 );
               })}
             </div>
-            {erro && <p className="text-xs text-destructive">{erro}</p>}
+            {erro && <p className="text-sm font-semibold text-destructive">{erro}</p>}
           </fieldset>
         );
       })}
@@ -441,26 +440,26 @@ export function EtapaInstituicoes({ f, set, erros, formulario }: PropsEtapa) {
             <li
               key={inst.id}
               data-testid={`instituicao-${inst.id}`}
-              className={cn("rounded-2xl border transition", escolhida && "border-slate-900 ring-1 ring-slate-900")}
+              className={cn("rounded-2xl border-2 transition", escolhida ? "border-black" : "border-[#bdbdbd]")}
             >
-              <label className="flex cursor-pointer items-center gap-3 p-4">
+              <label className="flex cursor-pointer items-center gap-3.5 p-5">
                 <input
                   type="checkbox"
                   checked={!!escolhida}
                   onChange={() => alternar(inst.id)}
-                  className="size-5 accent-slate-900"
+                  className="size-5 accent-black"
                 />
-                <Building2 className="size-5 text-slate-500" />
-                <span className="font-semibold">{inst.nome}</span>
+                <Building2 className="size-5" />
+                <span className="text-lg font-bold">{inst.nome}</span>
                 {escolhida && escolhida.produtos.length > 0 && (
-                  <span className="ml-auto text-xs text-muted-foreground">
+                  <span className="ml-auto text-sm text-muted-foreground">
                     {escolhida.produtos.length} {escolhida.produtos.length === 1 ? "produto" : "produtos"}
                   </span>
                 )}
               </label>
               {escolhida && (
-                <div className="flex flex-col gap-2 border-t px-4 py-3 sm:flex-row sm:items-center sm:gap-4">
-                  <p className="shrink-0 text-xs text-muted-foreground">O que você tem lá?</p>
+                <div className="flex flex-col gap-3 border-t px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
+                  <p className="shrink-0 text-base font-semibold">O que você tem lá?</p>
                   <div className="flex flex-wrap gap-2" role="group" aria-label={`Produtos no ${inst.nome}`}>
                     {formulario.produtos.map((p) => {
                       const ativo = escolhida.produtos.includes(p);
@@ -471,8 +470,8 @@ export function EtapaInstituicoes({ f, set, erros, formulario }: PropsEtapa) {
                           aria-pressed={ativo}
                           onClick={() => alternarProduto(inst.id, p)}
                           className={cn(
-                            "inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-sm capitalize transition",
-                            ativo ? "border-slate-900 bg-slate-900 text-white" : "hover:border-slate-400",
+                            "inline-flex h-10 items-center gap-1.5 rounded-full border-2 border-black px-4 text-[15px] font-semibold capitalize transition",
+                            ativo ? "bg-black font-bold text-white" : "hover:bg-muted",
                           )}
                         >
                           {ativo && <Check className="size-3.5" />}
@@ -481,7 +480,7 @@ export function EtapaInstituicoes({ f, set, erros, formulario }: PropsEtapa) {
                       );
                     })}
                   </div>
-                  {erro && <p className="text-xs text-destructive sm:ml-auto">{erro}</p>}
+                  {erro && <p className="text-sm font-semibold text-destructive sm:ml-auto">{erro}</p>}
                 </div>
               )}
             </li>
@@ -506,8 +505,8 @@ function Interruptor({ ligado, onChange, rotulo }: { ligado: boolean; onChange: 
         onChange={(e) => onChange(e.target.checked)}
         className="peer sr-only"
       />
-      <span className="h-6 w-11 rounded-full bg-slate-300 transition peer-checked:bg-emerald-600 peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50" />
-      <span className="absolute left-0.5 size-5 rounded-full bg-white shadow transition peer-checked:translate-x-5" />
+      <span className="h-8 w-14 rounded-full border-2 border-black bg-white transition peer-checked:bg-black peer-focus-visible:ring-3 peer-focus-visible:ring-black/25" />
+      <span className="absolute left-1 size-6 rounded-full bg-black transition peer-checked:translate-x-6 peer-checked:bg-white" />
     </label>
   );
 }
@@ -522,53 +521,49 @@ export function EtapaCompartilhamento({ f, set, formulario }: PropsEtapa) {
         titulo="O que você quer compartilhar?"
         subtitulo="Pela LGPD e pelo Open Finance, você decide quem vê seus dados, por quanto tempo, e pode revogar quando quiser."
       />
-      <ul className="flex flex-col divide-y rounded-2xl border">
-        <li className="flex items-center gap-4 p-4">
+      <ul className="flex flex-col divide-y overflow-hidden rounded-2xl border-2 border-black">
+        <li className="flex items-center gap-4 bg-muted p-5">
           <div className="min-w-0 flex-1">
-            <p className="font-semibold">XP Investimentos</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">Plataforma XP · dados próprios</p>
+            <p className="text-lg font-bold">XP Investimentos</p>
+            <p className="mt-0.5 text-base text-muted-foreground">Plataforma XP · dados próprios</p>
           </div>
-          <span className="shrink-0 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">
-            Sempre ativo
-          </span>
+          <span className="shrink-0 rounded-full px-3 py-1 text-sm font-bold ring-1 ring-black">Sempre ativo</span>
         </li>
         {escolhidas.map(([id, inst]) => {
           const escopos = [...new Set(inst.produtos.map((p) => ESCOPO[p]))];
           return (
-            <li key={id} data-testid={`compartilhar-${id}`} className="flex items-start gap-4 p-4">
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold">{nome(id)}</p>
-                <ul className="mt-1 flex flex-col gap-0.5 text-xs text-muted-foreground">
+            <li key={id} data-testid={`compartilhar-${id}`} className="flex flex-wrap items-center gap-4 p-5">
+              <div className="min-w-0 flex-[1_1_240px]">
+                <p className="text-lg font-bold">{nome(id)}</p>
+                <ul className="mt-1 flex flex-col gap-0.5 text-[15px] text-muted-foreground">
                   {escopos.map((e) => (
                     <li key={e}>
-                      <span className="font-medium text-slate-700">{rotuloEscopo[e]}</span>: {descricaoEscopo[e]}
+                      <span className="font-semibold text-foreground">{rotuloEscopo[e]}</span>: {descricaoEscopo[e]}
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="flex shrink-0 flex-col items-end gap-1.5">
+              <div className="flex shrink-0 items-center gap-3.5">
+                <span className={cn("text-base", inst.compartilharAgora ? "font-bold" : "text-muted-foreground")}>
+                  {inst.compartilharAgora ? "Agora, por 12 meses" : "Conectar depois"}
+                </span>
                 <Interruptor
                   ligado={inst.compartilharAgora}
                   rotulo={`Compartilhar ${nome(id)} agora`}
                   onChange={(v) => set({ instituicoes: { ...f.instituicoes, [id]: { ...inst, compartilharAgora: v } } })}
                 />
-                <span
-                  className={cn("text-xs font-medium", inst.compartilharAgora ? "text-emerald-700" : "text-amber-700")}
-                >
-                  {inst.compartilharAgora ? "Agora, por 12 meses" : "Conectar depois"}
-                </span>
               </div>
             </li>
           );
         })}
       </ul>
       {!escolhidas.length && (
-        <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
+        <p className="rounded-2xl border-2 border-dashed p-4 text-base text-muted-foreground">
           Você não marcou outras instituições. Se precisar, sua assessoria pode enviar um novo link depois.
         </p>
       )}
-      <p className="flex items-start gap-2 text-xs text-muted-foreground">
-        <Lock className="mt-0.5 size-3.5 shrink-0" />
+      <p className="flex items-start gap-2.5 text-base">
+        <Lock className="mt-0.5 size-5 shrink-0" />
         Só leitura: ninguém movimenta seu dinheiro. Você pode revogar o compartilhamento quando quiser.
       </p>
     </div>
@@ -579,9 +574,9 @@ export function EtapaCompartilhamento({ f, set, formulario }: PropsEtapa) {
 
 function Linha({ rotulo, valor }: { rotulo: string; valor: React.ReactNode }) {
   return (
-    <div className="flex justify-between gap-4 py-2 text-sm">
+    <div className="flex justify-between gap-4 py-2.5 text-base">
       <dt className="text-muted-foreground">{rotulo}</dt>
-      <dd className="text-right font-medium">{valor}</dd>
+      <dd className="text-right font-semibold">{valor}</dd>
     </div>
   );
 }
@@ -629,12 +624,12 @@ export function EtapaRevisao({ f, set, erros, formulario, irPara }: PropsEtapa &
   return (
     <div className="flex flex-col gap-4">
       <Titulo titulo="Confira e conclua" subtitulo="Seu perfil de investidor é calculado quando você concluir." />
-      <div className="divide-y rounded-2xl border">
+      <div className="divide-y overflow-hidden rounded-2xl border-2 border-black">
         {blocos.map((b) => (
-          <section key={b.titulo} className="flex flex-col gap-1 p-4 sm:flex-row sm:gap-6">
-            <div className="flex items-center sm:w-44 sm:shrink-0 sm:flex-col sm:items-start sm:gap-1 sm:pt-2">
-              <h3 className="font-semibold">{b.titulo}</h3>
-              <Button variant="link" className="ml-auto h-auto p-0 sm:ml-0" onClick={() => irPara(b.etapa)}>
+          <section key={b.titulo} className="flex flex-col gap-1 p-5 sm:flex-row sm:gap-6">
+            <div className="flex items-center sm:w-48 sm:shrink-0 sm:flex-col sm:items-start sm:gap-1.5 sm:pt-2.5">
+              <h3 className="text-lg font-bold">{b.titulo}</h3>
+              <Button variant="link" className="ml-auto sm:ml-0" onClick={() => irPara(b.etapa)}>
                 Editar
               </Button>
             </div>
@@ -646,17 +641,17 @@ export function EtapaRevisao({ f, set, erros, formulario, irPara }: PropsEtapa &
           </section>
         ))}
       </div>
-      <label className="flex cursor-pointer items-start gap-3 rounded-xl bg-slate-50 p-3 text-sm">
+      <label className="flex cursor-pointer items-start gap-3.5 rounded-2xl border-2 border-[#bdbdbd] p-5 text-base leading-relaxed">
         <input
           type="checkbox"
           checked={f.aceiteTermos}
           onChange={(e) => set({ aceiteTermos: e.target.checked })}
           aria-invalid={!!erros.aceiteTermos}
-          className="mt-0.5 size-5 accent-slate-900"
+          className="mt-0.5 size-5 shrink-0 accent-black"
         />
         <span>Li e aceito os termos de uso e a política de privacidade, e confirmo que as informações são verdadeiras.</span>
       </label>
-      {erros.aceiteTermos && <p className="-mt-2 text-xs text-destructive">{erros.aceiteTermos}</p>}
+      {erros.aceiteTermos && <p className="-mt-2 text-sm font-semibold text-destructive">{erros.aceiteTermos}</p>}
     </div>
   );
 }

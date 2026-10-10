@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { ArrowLeft, Check, CheckCircle2, Compass, Loader2, ShieldCheck, Trophy } from "lucide-react";
+import { ArrowLeft, Check, Loader2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
-import { ChipPerfil, ErroCarregar } from "@/components/comum/marcadores";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Marca } from "@/components/comum/cabecalho-app";
+import { ErroCarregar, Sobretitulo } from "@/components/comum/marcadores";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ApiError } from "@/lib/api-base";
 import type { ResultadoOnboarding } from "@/lib/api-types";
@@ -27,123 +27,168 @@ import {
 import { ETAPAS, type Erros, type EstadoFormulario, estadoInicial, montarCadastro, validarEtapa } from "./formulario";
 
 const hojeLocal = () => new Date().toLocaleDateString("sv-SE");
+const TOTAL = ETAPAS.length - 1; // a boas-vindas não conta
 
 function Progresso({ atual }: { atual: number }) {
-  const total = ETAPAS.length - 1; // a boas-vindas não conta
   return (
-    <div className="flex items-center gap-3" aria-label={`Etapa ${atual} de ${total}`}>
-      <div className="flex flex-1 gap-1">
-        {Array.from({ length: total }, (_, i) => (
-          <span key={i} className={cn("h-1.5 flex-1 rounded-full", i < atual ? "bg-slate-900" : "bg-slate-200")} />
+    <div className="flex items-center gap-3" aria-label={`Etapa ${atual} de ${TOTAL}`}>
+      <div className="flex gap-1">
+        {Array.from({ length: TOTAL }, (_, i) => (
+          <span key={i} className={cn("h-1.5 w-6 rounded-full sm:w-8", i < atual ? "bg-black" : "bg-[#d9d9d9]")} />
         ))}
       </div>
-      <span className="text-xs whitespace-nowrap text-muted-foreground">
-        {atual} de {total}
+      <span className="text-[15px] whitespace-nowrap text-muted-foreground">
+        {atual} de {TOTAL}
       </span>
     </div>
   );
 }
 
-/** Barra lateral do desktop: marca, convite e lista de etapas. */
-function Lateral({ nome, atual, irPara }: { nome?: string; atual?: number; irPara?: (n: number) => void }) {
+/** Lista de etapas no desktop (fundo cinza claro, ao lado do formulário). */
+function Lateral({ atual, irPara }: { atual: number; irPara: (n: number) => void }) {
   return (
-    <aside className="sticky top-0 hidden h-dvh w-80 shrink-0 flex-col gap-8 bg-slate-900 p-8 text-white lg:flex xl:w-96">
-      <p className="flex items-center gap-2 font-bold tracking-tight">
-        <Compass className="size-5" /> XP · Cadastro de investidor
-      </p>
-      {nome && <p className="text-sm text-slate-300">Convite para {nome}</p>}
-      {atual !== undefined && (
-        <ol className="flex flex-col gap-1">
-          {ETAPAS.map((e, i) => {
-            const feita = i < atual;
-            const corrente = i === atual;
-            return (
-              <li key={e.id}>
-                <button
-                  type="button"
-                  disabled={!feita}
-                  onClick={() => irPara?.(i)}
-                  aria-current={corrente ? "step" : undefined}
+    <aside className="sticky top-0 hidden h-dvh w-80 shrink-0 flex-col gap-8 self-start bg-muted p-8 lg:flex">
+      <ol className="flex flex-col gap-0.5">
+        {ETAPAS.map((e, i) => {
+          const feita = i < atual;
+          const corrente = i === atual;
+          return (
+            <li key={e.id}>
+              <button
+                type="button"
+                disabled={!feita}
+                onClick={() => irPara(i)}
+                aria-current={corrente ? "step" : undefined}
+                className="flex w-full items-center gap-3.5 rounded-lg py-2.5 text-left text-[17px] enabled:hover:underline"
+              >
+                <span
                   className={cn(
-                    "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition",
-                    corrente ? "bg-white/10 font-semibold text-white" : feita ? "text-slate-200 hover:bg-white/5" : "text-slate-500",
+                    "flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-extrabold",
+                    feita && "bg-black text-white",
+                    corrente && "bg-black text-white ring-4 ring-black/20",
+                    !feita && !corrente && "border-2 border-[#8a8a8a] bg-white text-muted-foreground",
                   )}
                 >
-                  <span
-                    className={cn(
-                      "flex size-6 shrink-0 items-center justify-center rounded-full text-xs",
-                      feita ? "bg-emerald-500 text-white" : corrente ? "bg-white text-slate-900" : "border border-slate-600",
-                    )}
-                  >
-                    {feita ? <Check className="size-3.5" /> : i}
-                  </span>
+                  {feita ? <Check className="size-4" /> : i + 1}
+                </span>
+                <span
+                  className={cn(
+                    corrente ? "font-extrabold underline underline-offset-4" : feita ? "font-medium" : "text-muted-foreground",
+                  )}
+                >
                   {e.titulo}
-                </button>
-              </li>
-            );
-          })}
-        </ol>
-      )}
-      <p className="mt-auto flex items-start gap-2 text-xs text-slate-400">
-        <ShieldCheck className="mt-0.5 size-4 shrink-0" />
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      <p className="mt-auto flex items-start gap-2 text-[15px]">
+        <ShieldCheck className="mt-0.5 size-5 shrink-0" />
         Seus dados são protegidos pela LGPD. Você decide o que compartilhar.
       </p>
     </aside>
   );
 }
 
-/** Tela cheia: lateral no desktop e conteúdo centralizado com largura de leitura. */
-function Casca({ children, lateral }: { children: React.ReactNode; lateral?: React.ReactNode }) {
+/** Tela cheia: barra preta com a marca (e o progresso), lista de etapas no desktop e conteúdo com largura de leitura. */
+function Casca({
+  children,
+  lateral,
+  nome,
+  progresso,
+}: {
+  children: React.ReactNode;
+  lateral?: React.ReactNode;
+  nome?: string;
+  progresso?: number;
+}) {
   return (
-    <div className="flex min-h-dvh">
-      {lateral ?? <Lateral />}
-      <div className="flex min-w-0 flex-1 flex-col">{children}</div>
+    <div className="flex min-h-dvh flex-col">
+      <header className="bg-black text-white">
+        <div className="flex min-h-18 items-center justify-between gap-4 px-4 sm:px-8 lg:px-16">
+          <Marca complemento="Cadastro de investidor" />
+          <span className="flex items-center gap-2 text-[15px] text-white/80">
+            {nome ? (
+              `Convite para ${nome}`
+            ) : (
+              <>
+                <ShieldCheck className="size-4" /> Ambiente seguro · LGPD
+              </>
+            )}
+          </span>
+        </div>
+        {progresso !== undefined && (
+          <div className="h-1.5 bg-white/30" aria-hidden>
+            <div className="h-full bg-white transition-all duration-500" style={{ width: `${Math.round(progresso * 100)}%` }} />
+          </div>
+        )}
+      </header>
+      <div className="flex flex-1">
+        {lateral}
+        <div className="flex min-w-0 flex-1 flex-col">{children}</div>
+      </div>
     </div>
   );
 }
 
-const coluna = "mx-auto w-full max-w-2xl px-4 sm:px-8";
+const coluna = "mx-auto w-full max-w-3xl px-4 sm:px-10";
 
 function Concluido({ resultado, nome }: { resultado: Pick<ResultadoOnboarding, "clienteId" | "perfil" | "consentimentos">; nome: string }) {
   const pendentes = resultado.consentimentos.filter((c) => c.status !== "ATIVO");
   const ativas = resultado.consentimentos.filter((c) => c.status === "ATIVO");
   return (
     <Casca>
-      <div className={cn(coluna, "flex flex-col gap-5 pt-10 pb-10 sm:pt-16")} data-testid="onboarding-concluido">
-        <div className="flex flex-col items-center gap-3 text-center">
-          <span className="flex size-16 items-center justify-center rounded-full bg-emerald-100">
-            <CheckCircle2 className="size-9 text-emerald-600" />
+      <div
+        className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-12 sm:px-10 sm:py-20 lg:grid-cols-[1.1fr_1fr]"
+        data-testid="onboarding-concluido"
+      >
+        <div className="flex flex-col gap-6">
+          <span className="flex size-18 items-center justify-center rounded-full bg-black text-white">
+            <Check className="size-9" strokeWidth={2.6} />
           </span>
-          <h1 className="text-2xl font-bold">Tudo pronto, {nome.split(" ")[0]}!</h1>
-          <p className="text-sm text-slate-600">Seu cadastro foi enviado para a sua assessoria.</p>
-        </div>
-        <div className="rounded-2xl border p-4 text-center">
-          <p className="text-sm text-muted-foreground">Seu perfil de investidor</p>
-          <p className="mt-1 text-2xl font-bold" data-testid="perfil-resultado">
-            {rotuloPerfil[resultado.perfil]}
+          <h1 className="text-5xl leading-[0.95] font-extrabold tracking-tight sm:text-7xl">
+            Tudo pronto, {nome.split(" ")[0]}!
+          </h1>
+          <p className="max-w-xl text-xl leading-relaxed text-muted-foreground">
+            Seu cadastro foi enviado para a sua assessoria. Pode fechar esta página: sua assessoria vai entrar em contato
+            pelo celular que você informou.
           </p>
-          <ChipPerfil perfil={resultado.perfil} className="mt-2" />
         </div>
-        <div className="rounded-2xl border p-4">
-          <p className="font-semibold">Seus dados compartilhados</p>
-          <ul className="mt-2 flex flex-col gap-2 text-sm">
-            {ativas.map((c) => (
-              <li key={c.id} className="flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-emerald-600" /> {c.instituicaoNome}
-              </li>
-            ))}
-            {pendentes.map((c) => (
-              <li key={c.id} className="flex items-center gap-2">
-                <span className="size-4 rounded-full border-2 border-dashed border-slate-300" /> {c.instituicaoNome}
-                <span className="ml-auto text-xs font-medium text-amber-700">pendente</span>
-              </li>
-            ))}
-          </ul>
+        <div className="flex flex-col gap-4">
+          <section className="flex flex-col gap-2 rounded-3xl bg-black p-7 text-white">
+            <Sobretitulo className="text-white/80">Seu perfil de investidor</Sobretitulo>
+            <p className="text-5xl font-extrabold tracking-tight" data-testid="perfil-resultado">
+              {rotuloPerfil[resultado.perfil]}
+            </p>
+          </section>
+          <section className="flex flex-col gap-4 rounded-3xl border-2 border-black p-7">
+            <Sobretitulo>Dados compartilhados</Sobretitulo>
+            <ul className="flex flex-col gap-3.5 text-lg">
+              {ativas.map((c) => (
+                <li key={c.id} className="flex items-center gap-3">
+                  <span className="flex size-6 items-center justify-center rounded-full bg-black text-white">
+                    <Check className="size-3.5" />
+                  </span>
+                  {c.instituicaoNome}
+                  <span className="ml-auto text-base font-bold">ativo</span>
+                </li>
+              ))}
+              {pendentes.map((c) => (
+                <li key={c.id} className="flex items-center gap-3">
+                  <span className="size-6 rounded-full border-2 border-dashed border-black" />
+                  {c.instituicaoNome}
+                  <span className="ml-auto text-base text-muted-foreground">pendente</span>
+                </li>
+              ))}
+            </ul>
+            {pendentes.length > 0 && (
+              <p className="border-t pt-3 text-[15px] text-muted-foreground">
+                Para conectar as instituições pendentes depois, é só pedir um novo link à sua assessoria.
+              </p>
+            )}
+          </section>
         </div>
-        <p className="text-sm text-slate-600">
-          Pode fechar esta página. Sua assessoria vai entrar em contato pelo celular que você informou.
-          {pendentes.length > 0 && " Para conectar as instituições pendentes depois, é só pedir um novo link."}
-        </p>
       </div>
     </Casca>
   );
@@ -152,10 +197,10 @@ function Concluido({ resultado, nome }: { resultado: Pick<ResultadoOnboarding, "
 export function EsqueletoOnboarding() {
   return (
     <div className={cn(coluna, "flex flex-col gap-4 pt-10")} aria-label="Carregando">
-      <Skeleton className="h-36 rounded-2xl" />
+      <Skeleton className="h-36 rounded-3xl" />
       <Skeleton className="h-6 w-2/3" />
       <Skeleton className="h-6 w-1/2" />
-      <Skeleton className="h-11 w-full" />
+      <Skeleton className="h-14 w-full rounded-full" />
     </div>
   );
 }
@@ -180,9 +225,9 @@ export function WizardOnboarding({ token }: { token: string }) {
       <Casca>
         <div className={cn(coluna, "pt-10 sm:pt-16")}>
           {naoExiste ? (
-            <div className="rounded-2xl border p-6 text-center">
-              <h1 className="text-lg font-bold">Link inválido</h1>
-              <p className="mt-2 text-sm text-slate-600">
+            <div className="flex flex-col gap-3 rounded-3xl border-2 border-black p-8">
+              <h1 className="text-3xl font-extrabold tracking-tight">Link inválido</h1>
+              <p className="text-lg text-muted-foreground">
                 Este link de cadastro não existe ou expirou. Peça um novo link à sua assessoria.
               </p>
             </div>
@@ -200,14 +245,16 @@ export function WizardOnboarding({ token }: { token: string }) {
   if (resultado) return <Concluido resultado={resultado} nome={resultado.convite.nome} />;
   if (convite.status === "CONCLUIDO" && convite.clienteId) {
     return (
-      <Casca>
-        <div className={cn(coluna, "flex flex-col gap-4 pt-10 text-center sm:pt-16")}>
-          <CheckCircle2 className="mx-auto size-12 text-emerald-600" />
-          <h1 className="text-xl font-bold">Cadastro já concluído</h1>
-          <p className="text-sm text-slate-600">
+      <Casca nome={convite.nome}>
+        <div className={cn(coluna, "flex flex-col gap-4 pt-12 sm:pt-20")}>
+          <span className="flex size-16 items-center justify-center rounded-full bg-black text-white">
+            <Check className="size-8" strokeWidth={2.6} />
+          </span>
+          <h1 className="text-4xl font-extrabold tracking-tight">Cadastro já concluído</h1>
+          <p className="text-lg text-muted-foreground">
             Este link já foi usado{convite.perfil && <> e seu perfil é {rotuloPerfil[convite.perfil]}</>}.
           </p>
-          <p className="text-sm text-slate-600">Sua assessoria já recebeu seu cadastro.</p>
+          <p className="text-lg text-muted-foreground">Sua assessoria já recebeu seu cadastro.</p>
         </div>
       </Casca>
     );
@@ -258,21 +305,11 @@ export function WizardOnboarding({ token }: { token: string }) {
   ][etapa];
 
   return (
-    <Casca lateral={<Lateral nome={convite.nome} atual={etapa} irPara={irPara} />}>
+    <Casca nome={convite.nome} progresso={etapa / TOTAL} lateral={<Lateral atual={etapa} irPara={irPara} />}>
       {etapa > 0 && (
         <div className="sticky top-0 z-10 border-b bg-white/95 backdrop-blur">
-          <div className={cn(coluna, "flex flex-col gap-3 pt-4 pb-3")}>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => irPara(etapa - 1)}
-                aria-label="Voltar"
-                className="rounded-full p-1 hover:bg-slate-100"
-              >
-                <ArrowLeft className="size-5" />
-              </button>
-              <span className="text-sm font-medium">{ETAPAS[etapa].titulo}</span>
-            </div>
+          <div className={cn(coluna, "flex flex-wrap items-center justify-between gap-3 py-4")}>
+            <span className="text-base font-bold">{ETAPAS[etapa].titulo}</span>
             <Progresso atual={etapa} />
           </div>
         </div>
@@ -285,10 +322,17 @@ export function WizardOnboarding({ token }: { token: string }) {
         }}
         noValidate
       >
-        <div className={cn(coluna, "flex flex-1 flex-col gap-6 pt-5 pb-8 sm:pt-10")}>{conteudo}</div>
+        <div className={cn(coluna, "flex flex-1 flex-col gap-7 pt-8 pb-10 sm:pt-12")}>{conteudo}</div>
         <div className="sticky bottom-0 z-10 border-t bg-white">
-          <div className={cn(coluna, "flex justify-end py-4")}>
-            <Button type="submit" className="h-11 w-full text-base sm:w-auto sm:min-w-48" disabled={concluir.isPending}>
+          <div className={cn(coluna, "flex items-center justify-between gap-3 py-4")}>
+            {etapa > 0 ? (
+              <Button type="button" variant="ghost" size="lg" className="px-3" onClick={() => irPara(etapa - 1)}>
+                <ArrowLeft /> Voltar
+              </Button>
+            ) : (
+              <span />
+            )}
+            <Button type="submit" size="lg" className="flex-1 sm:min-w-56 sm:flex-none" disabled={concluir.isPending}>
               {concluir.isPending ? (
                 <>
                   <Loader2 className="animate-spin" /> Enviando…
