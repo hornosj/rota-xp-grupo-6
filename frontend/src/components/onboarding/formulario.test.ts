@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fixtures } from "@/test/api-fixtures";
 import { estadoInicial, idade, mascaraCelular, mascaraCpf, montarCadastro, validarEtapa } from "./formulario";
 
-const ctx = { hoje: "2026-10-11", questionario: fixtures.formularioOnboarding().questionario };
+const ctx = { hoje: "2026-10-10", questionario: fixtures.formularioOnboarding().questionario };
 
 describe("máscaras", () => {
   it("CPF", () => {
@@ -21,9 +21,9 @@ describe("máscaras", () => {
 });
 
 it("idade completa na data de referência", () => {
-  expect(idade("1988-10-11", "2026-10-11")).toBe(38);
-  expect(idade("1988-10-12", "2026-10-11")).toBe(37);
-  expect(idade("2008-10-12", "2026-10-11")).toBe(17);
+  expect(idade("1988-10-10", "2026-10-10")).toBe(38);
+  expect(idade("1988-10-11", "2026-10-10")).toBe(37);
+  expect(idade("2008-10-11", "2026-10-10")).toBe(17);
 });
 
 describe("validarEtapa", () => {

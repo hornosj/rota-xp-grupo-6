@@ -101,7 +101,7 @@ export function jornadaDerivada(v: Visao360): Jornada {
     });
   }
   for (const c of v.consentimentos) {
-    if (c.status === "ATIVO" && c.expiraEm && c.expiraEm <= "2026-10-26") {
+    if (c.status === "ATIVO" && c.expiraEm && c.expiraEm <= "2026-10-25") {
       missoes.push({
         id: `mis-${v.cliente.id.replace("cli-", "")}-renovar-${c.instituicaoId.replace("inst-", "")}`,
         tipo: "RENOVAR_CONSENTIMENTO",

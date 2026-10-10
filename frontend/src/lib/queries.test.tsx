@@ -9,7 +9,7 @@ const fake = vi.hoisted(() => ({
   painel: vi.fn(async () => ({ totalClientes: 1 })),
   mensagem: vi.fn(async () => ({ texto: "Oi", canal: "WHATSAPP", geradoPor: "stub" })),
   briefing: vi.fn(async (id: string) => ({ clienteId: id, bullets: [], perguntasSugeridas: [], geradoPor: "stub" })),
-  demoEstado: vi.fn(async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" })),
+  demoEstado: vi.fn(async () => ({ dataReferencia: "2026-10-10", modoCopiloto: "stub" })),
 }));
 vi.mock("./api", () => ({ api: fake }));
 

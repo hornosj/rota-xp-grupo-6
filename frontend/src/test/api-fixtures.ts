@@ -79,7 +79,7 @@ export const apiFixtures: Api = {
   resetDemo: async () => {
     estadoFixtures.conectado = false;
   },
-  demoEstado: async () => ({ dataReferencia: "2026-10-11", modoCopiloto: "stub" }),
+  demoEstado: async () => ({ dataReferencia: "2026-10-10", modoCopiloto: "stub" }),
   convites: async () => fixtures.convites(),
   criarConvite: async (nome) => ({ ...fixtures.formularioOnboarding().convite, nome, status: "PENDENTE" }),
   formularioOnboarding: async (token) => {
