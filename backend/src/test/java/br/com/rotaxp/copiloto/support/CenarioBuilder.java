@@ -52,10 +52,10 @@ public class CenarioBuilder {
         CenarioBuilder b = new CenarioBuilder();
         b.instituicoes.addAll(List.of(
                 new Instituicao("inst-xp", "XP Investimentos", "cong-xp", "XP", true),
-                new Instituicao("inst-aurora", "Banco Aurora", "cong-aurora", "Conglomerado Aurora", false),
-                new Instituicao("inst-aurora-fin", "Aurora Financeira", "cong-aurora", "Conglomerado Aurora", false),
-                new Instituicao("inst-horizonte", "Banco Horizonte", "cong-horizonte", "Conglomerado Horizonte", false),
-                new Instituicao("inst-ipe", "Banco Ipê", "cong-ipe", "Conglomerado Ipê", false)));
+                new Instituicao("inst-aurora", "Banco Aurora", "cong-aurora", "Aurora", false),
+                new Instituicao("inst-aurora-fin", "Aurora Financeira", "cong-aurora", "Aurora", false),
+                new Instituicao("inst-horizonte", "Banco Horizonte", "cong-horizonte", "Horizonte", false),
+                new Instituicao("inst-ipe", "Banco Ipê", "cong-ipe", "Ipê", false)));
         b.emissores.addAll(List.of(
                 new Emissor("emi-xp", "XP Investimentos", "cong-xp", TipoEmissor.BANCO),
                 new Emissor("emi-aurora", "Banco Aurora", "cong-aurora", TipoEmissor.BANCO),
