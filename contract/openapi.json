@@ -28,26 +28,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DesagioResultado"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -64,6 +44,106 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesagioResultado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/simulacoes/desagio/detalhado": {
+      "post": {
+        "tags": [
+          "desagio-controller"
+        ],
+        "operationId": "simular",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesagioPedido"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesagioDetalhado"
                 }
               }
             }
@@ -78,26 +158,6 @@
         ],
         "operationId": "processar",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultadoProcessamento"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -114,6 +174,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoProcessamento"
                 }
               }
             }
@@ -128,19 +218,6 @@
         ],
         "operationId": "reset",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -160,6 +237,29 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -181,26 +281,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Convite"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -217,6 +297,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Convite"
                 }
               }
             }
@@ -249,26 +359,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/MotivoNoticia"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -285,6 +375,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MotivoNoticia"
                 }
               }
             }
@@ -319,26 +439,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResultadoNota"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -355,6 +455,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoNota"
                 }
               }
             }
@@ -387,26 +517,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Convite"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -423,6 +533,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Convite"
                 }
               }
             }
@@ -455,26 +595,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visao360"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -491,6 +611,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
                 }
               }
             }
@@ -523,26 +673,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visao360"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -559,6 +689,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
                 }
               }
             }
@@ -600,26 +760,6 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/MensagemGerada"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -636,6 +776,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemGerada"
                 }
               }
             }
@@ -650,29 +820,6 @@
         ],
         "operationId": "noticias",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NoticiaClassificada"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -689,6 +836,39 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NoticiaClassificada"
+                  }
                 }
               }
             }
@@ -703,26 +883,6 @@
         ],
         "operationId": "estado",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DemoEstado"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -739,6 +899,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DemoEstado"
                 }
               }
             }
@@ -763,26 +953,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Convite"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -799,6 +969,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Convite"
                 }
               }
             }
@@ -813,29 +1013,6 @@
         ],
         "operationId": "listar",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ClienteResumo"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -852,6 +1029,39 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClienteResumo"
+                  }
                 }
               }
             }
@@ -876,29 +1086,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ImpactoNoticia"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -915,6 +1102,39 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImpactoNoticia"
+                  }
                 }
               }
             }
@@ -939,26 +1159,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Principalidade"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -975,6 +1175,106 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Principalidade"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/desagio/posicoes": {
+      "get": {
+        "tags": [
+          "desagio-controller"
+        ],
+        "operationId": "posicoes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PosicoesDesagio"
                 }
               }
             }
@@ -999,29 +1299,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Convite"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1038,6 +1315,109 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Convite"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/contexto": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "contexto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContextoAssessor"
                 }
               }
             }
@@ -1062,29 +1442,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ConsentimentoView"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1101,6 +1458,39 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsentimentoView"
+                  }
                 }
               }
             }
@@ -1125,26 +1515,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Briefing"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1161,6 +1531,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Briefing"
                 }
               }
             }
@@ -1185,26 +1585,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Visao360"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1221,6 +1601,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
                 }
               }
             }
@@ -1247,29 +1657,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ImpactoNoticia"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1286,6 +1673,39 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImpactoNoticia"
+                  }
                 }
               }
             }
@@ -1300,26 +1720,6 @@
         ],
         "operationId": "painel",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PainelCarteira"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1336,6 +1736,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PainelCarteira"
                 }
               }
             }
@@ -1350,29 +1780,6 @@
         ],
         "operationId": "fila",
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemFila"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "409": {
             "description": "Conflict",
             "content": {
@@ -1389,6 +1796,39 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemFila"
+                  }
                 }
               }
             }
@@ -1439,6 +1879,157 @@
           },
           "explicacao": {
             "type": "string"
+          }
+        }
+      },
+      "DesagioPedido": {
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "string"
+          },
+          "posicaoId": {
+            "type": "string"
+          },
+          "valorAtual": {
+            "type": "number"
+          },
+          "taxaAntiga": {
+            "type": "number"
+          },
+          "prazoRestanteAnos": {
+            "type": "number"
+          },
+          "desagio": {
+            "type": "number"
+          },
+          "precoVenda": {
+            "type": "number"
+          },
+          "taxaNova": {
+            "type": "number"
+          }
+        }
+      },
+      "DesagioDetalhado": {
+        "type": "object",
+        "properties": {
+          "entrada": {
+            "$ref": "#/components/schemas/EntradaUsada"
+          },
+          "perdaImediata": {
+            "type": "number"
+          },
+          "valorFinalManter": {
+            "type": "number"
+          },
+          "valorFinalVender": {
+            "type": "number"
+          },
+          "ganhoDaTroca": {
+            "type": "number"
+          },
+          "ganhoDaTrocaPercentual": {
+            "type": "number",
+            "format": "double"
+          },
+          "breakEvenAnos": {
+            "type": "number",
+            "format": "double"
+          },
+          "breakEvenMeses": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "compensa": {
+            "type": "boolean"
+          },
+          "desagioMaximoQueCompensa": {
+            "type": "number",
+            "format": "double"
+          },
+          "precoMinimoQueCompensa": {
+            "type": "number"
+          },
+          "spreadTaxas": {
+            "type": "number",
+            "format": "double"
+          },
+          "serie": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PontoSerie"
+            }
+          },
+          "explicacao": {
+            "type": "string"
+          },
+          "premissas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "avisos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "EntradaUsada": {
+        "type": "object",
+        "properties": {
+          "posicaoId": {
+            "type": "string"
+          },
+          "posicaoNome": {
+            "type": "string"
+          },
+          "valorAtual": {
+            "type": "number"
+          },
+          "taxaAntiga": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxaNova": {
+            "type": "number",
+            "format": "double"
+          },
+          "prazoRestanteAnos": {
+            "type": "number",
+            "format": "double"
+          },
+          "desagio": {
+            "type": "number",
+            "format": "double"
+          },
+          "precoVenda": {
+            "type": "number"
+          }
+        }
+      },
+      "PontoSerie": {
+        "type": "object",
+        "properties": {
+          "mes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "anos": {
+            "type": "number",
+            "format": "double"
+          },
+          "valorManter": {
+            "type": "number"
+          },
+          "valorVender": {
+            "type": "number"
+          },
+          "diferenca": {
+            "type": "number"
           }
         }
       },
@@ -1544,6 +2135,13 @@
         "properties": {
           "transcricao": {
             "type": "string"
+          },
+          "origem": {
+            "type": "string",
+            "enum": [
+              "AUDIO",
+              "TEXTO"
+            ]
           }
         }
       },
@@ -1624,6 +2222,60 @@
           }
         }
       },
+      "Necessidade": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "PROTECAO_VEICULO",
+              "PROTECAO_VIDA",
+              "PROTECAO_RESIDENCIAL",
+              "SAUDE",
+              "RESERVA_EMERGENCIA",
+              "EDUCACAO",
+              "APOSENTADORIA",
+              "COMPRA_IMOVEL",
+              "COMPRA_VEICULO",
+              "VIAGEM",
+              "SUCESSAO"
+            ]
+          },
+          "motivo": {
+            "type": "string"
+          }
+        }
+      },
+      "RecomendacaoProduto": {
+        "type": "object",
+        "properties": {
+          "necessidade": {
+            "type": "string",
+            "enum": [
+              "PROTECAO_VEICULO",
+              "PROTECAO_VIDA",
+              "PROTECAO_RESIDENCIAL",
+              "SAUDE",
+              "RESERVA_EMERGENCIA",
+              "EDUCACAO",
+              "APOSENTADORIA",
+              "COMPRA_IMOVEL",
+              "COMPRA_VEICULO",
+              "VIAGEM",
+              "SUCESSAO"
+            ]
+          },
+          "produto": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "motivo": {
+            "type": "string"
+          }
+        }
+      },
       "ResultadoNota": {
         "type": "object",
         "properties": {
@@ -1646,6 +2298,18 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          },
+          "necessidades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Necessidade"
+            }
+          },
+          "recomendacoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecomendacaoProduto"
             }
           },
           "acoesCriadas": {
@@ -2302,6 +2966,25 @@
           },
           "modoCopiloto": {
             "type": "string"
+          },
+          "modeloLlm": {
+            "type": "string"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/UsoLlm"
+          }
+        }
+      },
+      "UsoLlm": {
+        "type": "object",
+        "properties": {
+          "chamadasHoje": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "limiteDiario": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -2382,6 +3065,174 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          }
+        }
+      },
+      "PosicaoDesagio": {
+        "type": "object",
+        "properties": {
+          "posicaoId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "produto": {
+            "type": "string",
+            "enum": [
+              "CDB",
+              "RDB",
+              "LCI",
+              "LCA",
+              "LC",
+              "POUPANCA",
+              "TESOURO",
+              "DEBENTURE",
+              "CRI",
+              "CRA",
+              "FUNDO",
+              "ACAO",
+              "PREVIDENCIA"
+            ]
+          },
+          "indexador": {
+            "type": "string",
+            "enum": [
+              "CDI",
+              "IPCA",
+              "PRE",
+              "SELIC",
+              "NA"
+            ]
+          },
+          "instituicaoId": {
+            "type": "string"
+          },
+          "instituicaoNome": {
+            "type": "string"
+          },
+          "emissorNome": {
+            "type": "string"
+          },
+          "valorAplicado": {
+            "type": "number"
+          },
+          "valorAtual": {
+            "type": "number"
+          },
+          "dataAplicacao": {
+            "type": "string",
+            "format": "date"
+          },
+          "vencimento": {
+            "type": "string",
+            "format": "date"
+          },
+          "prazoRestanteAnos": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxaTexto": {
+            "type": "string"
+          },
+          "taxaAnualEstimada": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxaDependeDePremissa": {
+            "type": "boolean"
+          },
+          "elegivel": {
+            "type": "boolean"
+          },
+          "motivoInelegibilidade": {
+            "type": "string"
+          }
+        }
+      },
+      "PosicoesDesagio": {
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "string"
+          },
+          "clienteNome": {
+            "type": "string"
+          },
+          "dataReferencia": {
+            "type": "string",
+            "format": "date"
+          },
+          "premissas": {
+            "$ref": "#/components/schemas/PremissasMercado"
+          },
+          "posicoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PosicaoDesagio"
+            }
+          }
+        }
+      },
+      "PremissasMercado": {
+        "type": "object",
+        "properties": {
+          "cdiAnual": {
+            "type": "number",
+            "format": "double"
+          },
+          "ipcaAnual": {
+            "type": "number",
+            "format": "double"
+          },
+          "selicAnual": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Anotacao": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "texto": {
+            "type": "string"
+          },
+          "origem": {
+            "type": "string",
+            "enum": [
+              "AUDIO",
+              "TEXTO"
+            ]
+          },
+          "data": {
+            "type": "string",
+            "format": "date"
+          },
+          "resumo": {
+            "type": "string"
+          }
+        }
+      },
+      "ContextoAssessor": {
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "string"
+          },
+          "anotacoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Anotacao"
+            }
+          },
+          "recomendacoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecomendacaoProduto"
             }
           }
         }
