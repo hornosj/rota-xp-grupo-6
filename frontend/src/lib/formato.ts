@@ -112,6 +112,19 @@ export function emDias(dias: number): string {
   return `há ${-dias} dias`;
 }
 
+/** Meses → "1 ano e 6 meses", "8 meses", "2 anos", "menos de 1 mês". */
+export function duracaoMeses(meses: number | null | undefined): string {
+  if (meses == null || Number.isNaN(meses)) return "—";
+  const total = Math.round(meses);
+  if (total <= 0) return "menos de 1 mês";
+  const anos = Math.floor(total / 12);
+  const resto = total % 12;
+  const textoAnos = anos === 1 ? "1 ano" : `${anos} anos`;
+  const textoMeses = resto === 1 ? "1 mês" : `${resto} meses`;
+  if (anos === 0) return textoMeses;
+  return resto === 0 ? textoAnos : `${textoAnos} e ${textoMeses}`;
+}
+
 export function primeiroNome(nome: string): string {
   const partes = nome.replace(/^(Dra?\.|Sr\.|Sra\.)\s+/i, "").split(" ");
   return partes[0] ?? nome;

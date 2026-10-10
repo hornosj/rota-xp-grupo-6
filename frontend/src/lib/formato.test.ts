@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { brl, brlCurto, data, diaPorExtenso, diasAte, emDias, mesCurto, pct, primeiroNome, proximoAniversario } from "./formato";
+import { brl, brlCurto, data, diaPorExtenso, diasAte, duracaoMeses, emDias, mesCurto, pct, primeiroNome, proximoAniversario } from "./formato";
 
 const nbsp = (s: string) => s.replace(/ /g, " ");
 
@@ -39,6 +39,16 @@ describe("formato", () => {
     expect(diaPorExtenso(undefined)).toBe("");
     expect(mesCurto("2026-10-16")).toBe("out");
     expect(mesCurto("2027-03-02")).toBe("mar");
+  });
+  it("duracaoMeses para prazos e break-even", () => {
+    expect(duracaoMeses(18)).toBe("1 ano e 6 meses");
+    expect(duracaoMeses(8)).toBe("8 meses");
+    expect(duracaoMeses(1)).toBe("1 mês");
+    expect(duracaoMeses(13)).toBe("1 ano e 1 mês");
+    expect(duracaoMeses(24)).toBe("2 anos");
+    expect(duracaoMeses(1.6822 * 12)).toBe("1 ano e 8 meses");
+    expect(duracaoMeses(0)).toBe("menos de 1 mês");
+    expect(duracaoMeses(undefined)).toBe("—");
   });
   it("primeiroNome remove tratamento", () => {
     expect(primeiroNome("Dra. Marina Costa")).toBe("Marina");
