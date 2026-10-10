@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { BotaoNotificacoes } from "@/components/assessor/botao-notificacoes";
 import { CabecalhoApp } from "@/components/comum/cabecalho-app";
 import { Sobretitulo, TagNovo } from "@/components/comum/marcadores";
 import { buttonVariants } from "@/components/ui/button";
@@ -103,6 +104,7 @@ export function Lancador() {
                 Ver meus clientes
               </Link>
             </div>
+            <BotaoNotificacoes className="self-start" />
             {USE_MOCKS && (
               <p className="self-start rounded-full px-3 py-1 text-sm font-semibold ring-1 ring-black">
                 Modo mock ativo (NEXT_PUBLIC_USE_MOCKS=true)

@@ -4,6 +4,11 @@ import { acao, alerta, consentimento, DATA_REFERENCIA, type DefVisao } from "./m
 
 const TODOS: ConsentimentoComNome["escopos"] = ["CONTAS", "CARTOES", "CREDITO", "INVESTIMENTOS"];
 
+/** PROVISÓRIO: data de nascimento do cliente ainda não está no contrato (ver lib/notificacoes). */
+function comNascimento(dataNascimento: string, c: Cliente): Cliente {
+  return Object.assign(c, { dataNascimento });
+}
+
 function cliente(c: Omit<Cliente, "assessorId" | "ancora" | "cpf"> & { cpf?: string; ancora?: boolean }): Cliente {
   return {
     assessorId: "ass-001",
@@ -217,7 +222,7 @@ function defCarlos(): DefCliente {
       { texto: "Consentimento do Aurora expira em 10 dias", pontos: 10 },
     ],
     visao: {
-      cliente: cliente({
+      cliente: comNascimento("1965-10-10", cliente({
         id: c, nome: "Carlos Andrade", idade: 61, profissao: "Empresário (embalagens)", cidade: "Campinas/SP", perfil: "CONSERVADOR",
         instituicoesDeclaradas: [
           { instituicaoId: "inst-xp", produtos: ["CONTA", "CARTAO", "INVESTIMENTOS"] },
@@ -225,7 +230,7 @@ function defCarlos(): DefCliente {
         ],
         dependentes: [],
         eventosVida: [],
-      }),
+      })),
       consentimentos: [
         consentimento(c, "inst-xp", "ATIVO", TODOS),
         consentimento(c, "inst-aurora", "ATIVO", ["CONTAS"], { concedidoEm: "2025-10-20T09:00:00-03:00", expiraEm: "2026-10-20" }),

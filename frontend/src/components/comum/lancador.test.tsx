@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { renderComQuery } from "@/test/utils";
 
@@ -25,5 +25,16 @@ describe("Lancador", () => {
     expect(await screen.findByRole("link", { name: /^1º\s*Patrícia Gomes/ })).toHaveAttribute("href", "/assessor/clientes/cli-004");
     await waitFor(() => expect(screen.getByLabelText("Números da carteira")).not.toHaveTextContent("—"));
     expect(screen.getByLabelText("Números da carteira")).toHaveTextContent("têm a XP como instituição principal");
+  });
+
+  it("tem o botão de notificações com alertas e aniversários", async () => {
+    renderComQuery(<Lancador />);
+    const botao = screen.getByTestId("botao-notificacoes");
+    expect(botao).toHaveAttribute("href", "/assessor/notificacoes");
+    expect(await within(botao).findByTestId("resumo-aniversarios")).toHaveTextContent("1 aniversário hoje");
+    expect(botao).toHaveTextContent(/\d+ alertas não lidos/);
+    expect(within(botao).getByTestId("contador-notificacoes")).toBeInTheDocument();
+    // o sino da barra do topo também leva às notificações
+    expect(screen.getByRole("link", { name: /^Notificações \(\d+ não lidas\)$/ })).toHaveAttribute("href", "/assessor/notificacoes");
   });
 });
