@@ -10,6 +10,7 @@ import type { AlteracaoCampo, CampoCadastro, Cliente, EdicaoCadastro } from "@/l
 import { useDemoEstado, useEditarCliente, usePropostaEdicao, useTranscreverAudio } from "@/lib/queries";
 import { rotuloCampoCadastro } from "@/lib/rotulos";
 import { LIMITE_GRAVACAO_S, podeGravar, useGravadorAudio, type Gravacao } from "./gravador-audio";
+import { useDitado } from "./use-ditado";
 
 type Etapa = "audio" | "texto" | "proposta";
 
@@ -80,6 +81,8 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
     );
   }
   const gravador = useGravadorAudio(enviarAudio);
+  // Sem Whisper no servidor, o ditado do navegador (Chrome/Edge) faz o papel do microfone.
+  const ditado = useDitado((trecho) => setTexto((t) => (t.trim() ? `${t.trim()} ${trecho}` : trecho)));
 
   function entender() {
     setDesmarcados(new Set());
@@ -191,7 +194,27 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
 
         {atual === "texto" && (
           <>
-            {!vozNoServidor && (
+            {!vozNoServidor && ditado.suportado && (
+              <div className="flex flex-wrap items-center gap-3 rounded-2xl border-2 border-dashed p-4">
+                {ditado.gravando ? (
+                  <Button size="lg" onClick={ditado.parar}>
+                    <Square /> Parar
+                  </Button>
+                ) : (
+                  <Button size="lg" onClick={ditado.iniciar}>
+                    <Mic /> Gravar áudio
+                  </Button>
+                )}
+                <p className="text-[15px]">
+                  {ditado.gravando
+                    ? "Gravando… fale em português."
+                    : "Fale o que mudou: o ditado do navegador transcreve aqui mesmo. Você pode corrigir antes de seguir."}
+                </p>
+                {ditado.parcial && <p className="w-full text-[15px] text-muted-foreground italic">{ditado.parcial}…</p>}
+                {ditado.erro && <Erro>{ditado.erro}</Erro>}
+              </div>
+            )}
+            {!vozNoServidor && !ditado.suportado && (
               <p className="rounded-2xl border-2 border-dashed p-4 text-[15px]">
                 A transcrição por voz não está configurada no servidor. Digite o que mudou: a IA entende do mesmo jeito.
               </p>
@@ -214,7 +237,7 @@ export function DialogEdicaoVoz({ cliente, open, onOpenChange }: Props) {
             </div>
             {propor.isError && <Erro>{mensagemDe(propor.error)}</Erro>}
             <div className="flex flex-wrap gap-3">
-              <Button size="lg" onClick={entender} disabled={!texto.trim() || propor.isPending}>
+              <Button size="lg" onClick={entender} disabled={!texto.trim() || propor.isPending || ditado.gravando}>
                 {propor.isPending ? <Loader2 className="animate-spin" /> : <ArrowRight />} Ver alterações
               </Button>
               {vozNoServidor && (
