@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-/** Editar cliente: nota de áudio (já transcrita no navegador) vira contexto do Copiloto e produto recomendado. */
+/** Nota de contexto: nota de áudio (já transcrita) vira contexto do Copiloto e produto recomendado. */
 @SpringBootTest
 @AutoConfigureMockMvc
 class AnotacoesApiTest {

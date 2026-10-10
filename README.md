@@ -113,7 +113,8 @@ cd frontend && npm run gen:api && npm run sync:fixtures
   avaliado antes de `PRINCIPAL`; reserva arredondada a 1 casa (HALF_EVEN); janelas de movimentação e contas
   recorrentes = 3 meses; `FATURA CARTAO <X>` casa com a última palavra do nome do banco.
 - **Edição do cadastro por voz** (fora do PLAN): transcrição com **Whisper no backend**, não com a Web Speech API
-  do §8.4 (que segue sendo o plano para a nota pós-reunião). Funciona em qualquer navegador com microfone e
-  aceita arquivo de áudio.
+  do §8.4. Funciona em qualquer navegador com microfone e aceita arquivo de áudio.
+- **Nota de contexto** (§8.4): ditado pelo navegador (Web Speech, Chrome/Edge); sem ele, usa o mesmo Whisper do
+  backend. Só o texto vai para `POST /clientes/{id}/notas`.
 
 Dados 100% fictícios (bancos Aurora, Horizonte, Ipê). XP é a única marca real.

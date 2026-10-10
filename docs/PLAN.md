@@ -617,12 +617,13 @@ Transcrição no navegador com Web Speech API (`webkitSpeechRecognition`, `lang 
 com fallback de textarea e um botão "usar transcrição de exemplo" para a demo. Só o texto vai para
 `POST /clientes/{id}/notas`.
 
-**Editar cliente (notas do assessor).** Na 360, "Editar cliente" abre o ditado. A nota (ex.: "bateu o
+**Nota de contexto (notas do assessor).** Na 360, "Nota de contexto" abre o ditado (Web Speech; sem ele, grava
+ou recebe um arquivo e transcreve com o Whisper do backend, como a edição do cadastro por voz). A nota (ex.: "bateu o
 carro") fica guardada por cliente (em memória, zera no reset) e entra no `ContextoCliente` como
 `anotacoesAssessor` + `produtosRecomendados` — só aparecem no JSON quando existem, para não mudar o hash
 do `llm-cache`. O LLM só **classifica** necessidades numa lista fechada (`TipoNecessidade`); o produto
-sai do catálogo `anotacoes.catalogo` do `application.yml`, por regra. Transcrição no servidor (Whisper)
-fica como evolução: o backend já recebe só texto, então a troca é isolada no front + um endpoint novo.
+sai do catálogo `anotacoes.catalogo` do `application.yml`, por regra: quem já tem o produto recebe a revisão
+dele (`revisao`) e luto, doença e perda financeira são "momento delicado" (`sensivel`): acolher antes de ofertar.
 
 ---
 

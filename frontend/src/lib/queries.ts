@@ -265,7 +265,7 @@ export function useResetDemo() {
   });
 }
 
-// ---------- Notas do assessor ("editar cliente") ----------
+// ---------- Notas do assessor ("nota de contexto") ----------
 
 export function useContextoAssessor(id: Id) {
   return useQuery({ queryKey: chaves.contextoAssessor(id), queryFn: () => api.contextoAssessor(id) });

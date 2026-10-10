@@ -36,16 +36,17 @@ beforeEach(async () => {
 });
 
 afterEach(() => {
+  vi.restoreAllMocks();
   delete (window as unknown as Record<string, unknown>).webkitSpeechRecognition;
   FakeReconhecimento.ultima = null;
 });
 
-describe("DialogEditarCliente", () => {
+describe("DialogEditarCliente (Nota de contexto)", () => {
   it("sem suporte a voz: avisa e deixa digitar; salvar mostra o produto recomendado", async () => {
     const user = userEvent.setup();
     renderComQuery(<DialogEditarCliente clienteId="cli-003" nome="Juliana" />);
 
-    await user.click(screen.getByRole("button", { name: /Editar cliente/ }));
+    await user.click(screen.getByRole("button", { name: /Nota de contexto/ }));
     const dialog = await screen.findByRole("dialog");
     expect(within(dialog).getByText(/Chrome ou Edge/)).toBeInTheDocument();
     expect(within(dialog).queryByRole("button", { name: /Gravar áudio/ })).not.toBeInTheDocument();
@@ -63,7 +64,7 @@ describe("DialogEditarCliente", () => {
     (window as unknown as Record<string, unknown>).webkitSpeechRecognition = FakeReconhecimento;
     const user = userEvent.setup();
     renderComQuery(<DialogEditarCliente clienteId="cli-003" nome="Juliana" />);
-    await user.click(screen.getByRole("button", { name: /Editar cliente/ }));
+    await user.click(screen.getByRole("button", { name: /Nota de contexto/ }));
     const dialog = await screen.findByRole("dialog");
 
     await user.click(within(dialog).getByRole("button", { name: /Gravar áudio/ }));
@@ -82,10 +83,35 @@ describe("DialogEditarCliente", () => {
     expect((await mockApi.contextoAssessor("cli-003")).anotacoes[0].origem).toBe("AUDIO");
   });
 
+  it("sem ditado no navegador, usa o Whisper do servidor: envia o áudio e preenche a nota", async () => {
+    vi.spyOn(mockApi, "demoEstado").mockResolvedValue({
+      dataReferencia: "2026-10-10",
+      modoCopiloto: "mock",
+      transcricao: { disponivel: true, modelo: "whisper-1" },
+    });
+    const transcrever = vi
+      .spyOn(mockApi, "transcreverAudio")
+      .mockResolvedValue({ texto: "Ela bateu o carro.", modelo: "whisper-1" });
+    const user = userEvent.setup();
+    renderComQuery(<DialogEditarCliente clienteId="cli-003" nome="Juliana" />);
+    await user.click(screen.getByRole("button", { name: /Nota de contexto/ }));
+    const dialog = await screen.findByRole("dialog");
+
+    const audio = new File([new Uint8Array([1, 2, 3])], "recado.m4a", { type: "audio/mp4" });
+    await user.upload(await within(dialog).findByLabelText("Arquivo de áudio"), audio);
+
+    expect(await within(dialog).findByDisplayValue("Ela bateu o carro.")).toBeInTheDocument();
+    expect(transcrever).toHaveBeenCalledWith("cli-003", audio, "recado.m4a");
+    expect(within(dialog).queryByText(/Chrome ou Edge/)).not.toBeInTheDocument();
+    await user.click(within(dialog).getByRole("button", { name: /Salvar nota/ }));
+    await within(dialog).findByText("Seguro auto");
+    expect((await mockApi.contextoAssessor("cli-003")).anotacoes[0].origem).toBe("AUDIO");
+  }, 15_000);
+
   it("usar exemplo preenche uma nota para a demo", async () => {
     const user = userEvent.setup();
     renderComQuery(<DialogEditarCliente clienteId="cli-003" nome="Juliana" />);
-    await user.click(screen.getByRole("button", { name: /Editar cliente/ }));
+    await user.click(screen.getByRole("button", { name: /Nota de contexto/ }));
     const dialog = await screen.findByRole("dialog");
 
     await user.click(within(dialog).getByRole("button", { name: /Usar exemplo/ }));
@@ -98,13 +124,13 @@ describe("DialogEditarCliente", () => {
   it("nota vazia não é enviada", async () => {
     const user = userEvent.setup();
     renderComQuery(<DialogEditarCliente clienteId="cli-003" nome="Juliana" />);
-    await user.click(screen.getByRole("button", { name: /Editar cliente/ }));
+    await user.click(screen.getByRole("button", { name: /Nota de contexto/ }));
     expect(within(await screen.findByRole("dialog")).getByRole("button", { name: /Salvar nota/ })).toBeDisabled();
   });
 });
 
 describe("CardContextoAssessor", () => {
-  it("vazio orienta a usar Editar cliente", async () => {
+  it("vazio orienta a usar Nota de contexto", async () => {
     renderComQuery(<CardContextoAssessor clienteId="cli-003" />);
     expect(await screen.findByText(/Nenhuma nota ainda/)).toBeInTheDocument();
   });

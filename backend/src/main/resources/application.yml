@@ -123,7 +123,7 @@ convite:
   validade-horas: 48
   prazo-meses: 12
 
-# Editar cliente: notas do assessor (áudio transcrito no navegador ou texto) viram contexto do Copiloto.
+# Nota de contexto: notas do assessor (áudio transcrito no navegador ou pelo Whisper, ou texto) viram contexto do Copiloto.
 # O LLM só classifica a necessidade; o produto sai deste catálogo, por regra.
 anotacoes:
   max-no-contexto: 5          # notas recentes que o LLM recebe

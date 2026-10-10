@@ -59,7 +59,7 @@ export interface Api {
   convite(token: string): Promise<Convite>;
   /** 409 (já confirmado) é tratado como sucesso; 410 se expirado; 404 se não existe. */
   confirmarConvite(token: string): Promise<Convite>;
-  // Notas do assessor ("editar cliente"): o áudio é transcrito no navegador; só o texto vai ao backend
+  // Notas do assessor ("nota de contexto"): o áudio é transcrito (navegador ou Whisper); só o texto vai para /notas
   /** 400 se a nota estiver vazia. */
   registrarNota(clienteId: Id, transcricao: string, origem: OrigemAnotacao): Promise<ResultadoNota>;
   contextoAssessor(clienteId: Id): Promise<ContextoAssessor>;

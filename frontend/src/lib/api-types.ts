@@ -403,7 +403,7 @@ export interface ErroApi {
   mensagem: string;
 }
 
-// ---------- Notas do assessor: "editar cliente" (aditivo) ----------
+// ---------- Notas do assessor: "nota de contexto" (aditivo) ----------
 
 export type OrigemAnotacao = "AUDIO" | "TEXTO";
 export type TipoNecessidade =

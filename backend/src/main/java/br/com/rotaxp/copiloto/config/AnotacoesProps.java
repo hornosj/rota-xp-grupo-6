@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Notas do assessor sobre o cliente ("editar cliente").
+ * Notas do assessor sobre o cliente ("nota de contexto").
  *
  * @param maxNoContexto quantas notas recentes o LLM recebe no contexto do cliente
  * @param maxCaracteres tamanho máximo de uma nota

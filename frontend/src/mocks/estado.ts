@@ -13,7 +13,7 @@ export interface EstadoMock {
   convites: Record<string, ConviteMock>;
   /** clienteId → campos do cadastro editados pelo assessor (edição por voz) */
   edicoes: Record<string, EdicaoCadastro>;
-  /** clienteId → notas do assessor ("editar cliente") e produtos sugeridos */
+  /** clienteId → notas do assessor ("nota de contexto") e produtos sugeridos */
   notas: Record<string, NotasMock>;
 }
 

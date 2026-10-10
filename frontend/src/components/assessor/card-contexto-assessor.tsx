@@ -9,19 +9,19 @@ import { data } from "@/lib/formato";
 import { useContextoAssessor } from "@/lib/queries";
 import { ListaProdutosSugeridos } from "./lista-produtos-sugeridos";
 
-/** Notas do assessor ("editar cliente") e os produtos que elas sugerem. */
+/** Notas do assessor ("nota de contexto") e os produtos que elas sugerem. */
 export function CardContextoAssessor({ clienteId }: { clienteId: Id }) {
   const ctx = useContextoAssessor(clienteId);
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Contexto do assessor</CardTitle>
+        <CardTitle>Contexto do assessor</CardTitle>
       </CardHeader>
       <CardContent>
         {ctx.isPending && <Skeleton className="h-16 w-full" />}
         {ctx.isError && <ErroCarregar erro={ctx.error} />}
         {ctx.data && ctx.data.anotacoes.length === 0 && (
-          <Vazio>Nenhuma nota ainda. Use “Editar cliente” para gravar um áudio ou escrever o que mudou na vida do cliente.</Vazio>
+          <Vazio>Nenhuma nota ainda. Use “Nota de contexto” para gravar um áudio ou escrever o que mudou na vida do cliente.</Vazio>
         )}
         {ctx.data && ctx.data.anotacoes.length > 0 && (
           <div className="flex flex-col gap-4 text-sm">

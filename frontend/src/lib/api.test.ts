@@ -187,7 +187,7 @@ describe("httpApi · convites de consentimento", () => {
   });
 });
 
-describe("httpApi — notas do assessor (editar cliente)", () => {
+describe("httpApi — notas do assessor (nota de contexto)", () => {
   it("registrarNota envia { transcricao, origem } e contextoAssessor lê as notas", async () => {
     const f = vi.fn(async (url: string) =>
       url.endsWith("/notas")

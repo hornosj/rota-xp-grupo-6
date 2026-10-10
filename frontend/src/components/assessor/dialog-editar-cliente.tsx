@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Mic, Save, Square, UserPen } from "lucide-react";
+import { Loader2, Mic, NotebookPen, Save, Square, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { BadgeGeradoPor } from "@/components/comum/marcadores";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { Id, ResultadoNota } from "@/lib/api-types";
-import { useRegistrarNota } from "@/lib/queries";
+import { useDemoEstado, useRegistrarNota, useTranscreverAudio } from "@/lib/queries";
+import { podeGravar, useGravadorAudio, type Gravacao } from "./gravador-audio";
 import { ListaProdutosSugeridos } from "./lista-produtos-sugeridos";
 import { useDitado } from "./use-ditado";
 
@@ -15,18 +16,21 @@ const MAX_CARACTERES = 2000;
 /** Transcrição de exemplo para a demo (PLAN §8.4). */
 const EXEMPLO = "Bateu o carro semana passada e está sem seguro. Quer juntar dinheiro para a faculdade do filho.";
 
-/** "Editar cliente": o assessor grava um áudio (ou escreve) sobre a vida do cliente; vira contexto do Copiloto. */
+/**
+ * "Nota de contexto": o assessor grava um áudio (ou escreve) sobre a vida do cliente; vira contexto do Copiloto e
+ * sugere produtos. Não confundir com "Editar por voz" (dialog-edicao-voz), que altera os campos do cadastro.
+ */
 export function DialogEditarCliente({ clienteId, nome }: { clienteId: Id; nome: string }) {
   const [aberto, setAberto] = useState(false);
   return (
     <>
-      <Button variant="outline" onClick={() => setAberto(true)}>
-        <UserPen /> Editar cliente
+      <Button variant="outline" size="sm" onClick={() => setAberto(true)}>
+        <NotebookPen /> Nota de contexto
       </Button>
       <Dialog open={aberto} onOpenChange={setAberto}>
-        <DialogContent className="sm:max-w-xl">
+        <DialogContent className="max-h-[calc(100dvh-2rem)] gap-6 overflow-y-auto p-6 sm:max-w-2xl sm:p-9">
           <DialogHeader>
-            <DialogTitle className="text-lg">Editar cliente: {nome}</DialogTitle>
+            <DialogTitle className="text-3xl leading-tight font-extrabold tracking-tight">Nota de contexto: {nome}</DialogTitle>
             <DialogDescription>
               Grave um áudio ou escreva o que mudou na vida do cliente (ex.: “bateu o carro”). O Copiloto usa a nota no
               briefing e nas mensagens e sugere produtos.
@@ -42,11 +46,14 @@ export function DialogEditarCliente({ clienteId, nome }: { clienteId: Id; nome: 
 function FormNota({ clienteId }: { clienteId: Id }) {
   const [texto, setTexto] = useState("");
   const [usouAudio, setUsouAudio] = useState(false);
-  const ditado = useDitado((trecho) => {
+  const ditado = useDitado((trecho) => acrescentar(trecho));
+  const nota = useRegistrarNota();
+  const demo = useDemoEstado();
+  const whisper = demo.data?.transcricao?.disponivel === true;
+  function acrescentar(trecho: string) {
     setTexto((t) => (t.trim() ? `${t.trim()} ${trecho}` : trecho));
     setUsouAudio(true);
-  });
-  const nota = useRegistrarNota();
+  }
 
   function salvar() {
     nota.mutate(
@@ -80,6 +87,8 @@ function FormNota({ clienteId }: { clienteId: Id }) {
             </span>
           )}
         </div>
+      ) : whisper ? (
+        <GravacaoWhisper clienteId={clienteId} aoTranscrever={acrescentar} />
       ) : (
         <p className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
           A gravação por voz funciona no Chrome ou Edge. Aqui você pode digitar a nota (ou usar o ditado do seu sistema).
@@ -140,6 +149,54 @@ function ResultadoDaNota({ r }: { r: ResultadoNota }) {
       )}
       {r.eventosCriados.length > 0 && (
         <p>Eventos de vida registrados: {r.eventosCriados.map((e) => e.descricao).join("; ")}.</p>
+      )}
+    </div>
+  );
+}
+
+/** Sem ditado no navegador (Firefox, Safari): grava ou envia o áudio e o Whisper do servidor transcreve. */
+function GravacaoWhisper({ clienteId, aoTranscrever }: { clienteId: Id; aoTranscrever: (texto: string) => void }) {
+  const transcrever = useTranscreverAudio();
+  function enviar({ audio, nomeArquivo }: Gravacao) {
+    transcrever.mutate({ clienteId, audio, nomeArquivo }, { onSuccess: (t) => aoTranscrever(t.texto) });
+  }
+  const gravador = useGravadorAudio(enviar);
+  const gravando = gravador.estado === "gravando";
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-3">
+        {gravando ? (
+          <Button variant="destructive" onClick={gravador.parar}>
+            <Square /> Parar ({gravador.segundos}s)
+          </Button>
+        ) : (
+          <Button variant="outline" onClick={gravador.iniciar} disabled={!podeGravar() || transcrever.isPending}>
+            <Mic /> Gravar áudio
+          </Button>
+        )}
+        <label className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+          <Upload className="size-4" /> Arquivo de áudio
+          <input
+            type="file"
+            accept="audio/*"
+            className="sr-only"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) enviar({ audio: f, nomeArquivo: f.name });
+              e.target.value = "";
+            }}
+          />
+        </label>
+        {transcrever.isPending && (
+          <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" /> Transcrevendo…
+          </span>
+        )}
+      </div>
+      {(gravador.erro || transcrever.isError) && (
+        <p role="alert" className="text-sm text-red-600">
+          {gravador.erro ?? (transcrever.error instanceof Error ? transcrever.error.message : "Não foi possível transcrever.")}
+        </p>
       )}
     </div>
   );

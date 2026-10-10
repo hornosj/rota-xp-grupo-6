@@ -20,9 +20,9 @@ export function ListaProdutosSugeridos({ recomendacoes }: { recomendacoes: Recom
             </p>
           )}
           <div className="flex items-center gap-2 font-medium">
-            {r.revisao ? <RefreshCw className="size-4 text-sky-600" /> : <ShieldCheck className="size-4 text-emerald-600" />}
+            {r.revisao ? <RefreshCw className="size-4" /> : <ShieldCheck className="size-4" />}
             {r.produto}
-            {r.revisao && <span className="rounded bg-sky-100 px-1.5 py-0.5 text-[11px] font-medium text-sky-800">Já tem</span>}
+            {r.revisao && <span className="rounded-full bg-black px-2 py-0.5 text-[11px] font-semibold text-white">Já tem</span>}
           </div>
           {r.descricao && <p className="mt-0.5 text-xs text-muted-foreground">{r.descricao}</p>}
           {r.motivo && (

@@ -133,7 +133,7 @@ describe("mockApi", () => {
   });
 });
 
-describe("mockApi — notas do assessor (editar cliente)", () => {
+describe("mockApi — notas do assessor (nota de contexto)", () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
