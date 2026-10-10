@@ -96,6 +96,35 @@ class RepositorioSqliteTest {
     }
 
     @Test
+    void salvarCadastroMudaSoOsCamposDoCadastroIgualNosDoisRepositorios() {
+        RepositorioSqlite repo = sqlite(false);
+        Cliente original = repo.cliente("cli-004");
+        Cliente editado = original.comCadastro("Patrícia Gomes Silva", 69, "Consultora educacional", "Campinas/SP");
+
+        repo.salvarCadastro(editado);
+        memoria.salvarCadastro(editado);
+
+        Cliente relido = sqlite(false).cliente("cli-004");
+        assertThat(relido).isEqualTo(editado).isEqualTo(memoria.cliente("cli-004"));
+        assertThat(relido.perfil()).isEqualTo(original.perfil());
+        assertThat(relido.instituicoesDeclaradas()).isEqualTo(original.instituicoesDeclaradas());
+        assertThat(repo.clientes().indexOf(relido)).isEqualTo(new RepositorioMemoria(loader).clientes().indexOf(original));
+
+        repo.recarregar();
+        assertThat(repo.cliente("cli-004")).isEqualTo(original);
+    }
+
+    @Test
+    void salvarCadastroDeClienteInexistenteLancaNaoEncontrado() {
+        Cliente fantasma = memoria.cliente("cli-004").comCadastro("X Y", 30, "p", "c");
+        Cliente outroId = new Cliente("cli-999", fantasma.nome(), fantasma.cpf(), 30, "p", "c", fantasma.perfil(),
+                fantasma.assessorId(), false, List.of(), List.of(), List.of());
+
+        assertThatThrownBy(() -> sqlite(false).salvarCadastro(outroId)).isInstanceOf(NaoEncontrado.class);
+        assertThatThrownBy(() -> memoria.salvarCadastro(outroId)).isInstanceOf(NaoEncontrado.class);
+    }
+
+    @Test
     void recriarNoInicioDescartaAlteracoes() {
         sqlite(false).adicionarEventos("cli-001", List.of(
                 new EventoVida("ev-x", TipoEventoVida.OUTRO, "x", LocalDate.of(2026, 10, 11), OrigemEvento.NOTA_REUNIAO)));

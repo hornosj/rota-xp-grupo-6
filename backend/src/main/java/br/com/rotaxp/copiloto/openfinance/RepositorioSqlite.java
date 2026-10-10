@@ -175,6 +175,13 @@ public class RepositorioSqlite extends Repositorio {
     }
 
     @Override
+    public synchronized void salvarCadastro(Cliente c) {
+        int linhas = jdbc.update("UPDATE cliente SET nome = ?, idade = ?, profissao = ?, cidade = ? WHERE id = ?",
+                c.nome(), c.idade(), c.profissao(), c.cidade(), c.id());
+        if (linhas == 0) throw new NaoEncontrado("Cliente " + c.id() + " não encontrado");
+    }
+
+    @Override
     public synchronized void salvar(Consentimento c) {
         tx.executeWithoutResult(status -> {
             // Consentimento novo vai para o fim da lista; um existente mantém a posição.

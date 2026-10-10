@@ -4,6 +4,7 @@ import br.com.rotaxp.copiloto.agentes.ContextoCliente.AcaoContexto;
 import br.com.rotaxp.copiloto.agentes.ContextoCliente.EventoProximo;
 import br.com.rotaxp.copiloto.dominio.AcaoSugerida;
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.Enums.OrigemEvento;
@@ -18,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 /** Templates determinísticos por TipoAcao: funciona sem chave de API e é o piso da demo. */
@@ -176,6 +179,59 @@ public class CopilotoStub implements Copiloto {
         String resumo = "Reunião com " + c.primeiroNome() + ": " + eventos.size() + " evento(s) de vida, " + metas.size()
                 + " meta(s) e " + perfil.size() + " mudança(s) de perfil registradas.";
         return new ResultadoNota(resumo, eventos, metas, perfil, acoes, GeradoPor.stub);
+    }
+
+    // ---------- edição do cadastro por voz ----------
+
+    /** Palavras com inicial maiúscula, com "de/da/do/dos/das/e" no meio ("Rio de Janeiro"). */
+    private static final String NOME_PROPRIO = "\\p{Lu}[\\p{L}'-]*(?:\\s+(?:(?:de|da|do|dos|das|e)\\s+)?\\p{Lu}[\\p{L}'-]*)*";
+    private static final Pattern NOME = Pattern.compile("\\b(?iu:nome)\\s+(?iu:(?:correto|certo|completo)\\s+)?"
+            + "(?iu:(?:dela|dele|do cliente|da cliente)\\s+)?(?iu:(?:agora\\s+)?(?:é|para|passa a ser|fica))\\s+"
+            + "((?:(?:Dra?|Sra?)\\.\\s+)?" + NOME_PROPRIO + ")");
+    private static final Pattern IDADE = Pattern.compile("\\b(?iu:fez|faz|completou|completa|tem|está com|esta com|"
+            + "idade (?:dela |dele )?(?:agora )?(?:é|de|correta é|certa é))\\s+(\\d{1,3})\\s+(?iu:anos)(?!\\s+de\\s+(?!idade))");
+    private static final Pattern PROFISSAO = Pattern.compile("\\b(?iu:agora (?:ela |ele )?(?:é|trabalha como|atua como)|"
+            + "virou|passou a ser|trabalha como|atua como|começou a trabalhar como|foi promovid[oa] a|"
+            + "profiss[ãa]o (?:dela |dele )?(?:agora )?(?:é|mudou para|passou a ser))\\s+(?:(?iu:um|uma|o|a)\\s+)?([^,.;!?]+)");
+    private static final Pattern FIM_DA_PROFISSAO = Pattern.compile("\\s+(?iu:e|mas|que|porque|pois|desde|há)\\s+.*$");
+    private static final Pattern CIDADE = Pattern.compile("\\b(?iu:mudou-se|se mudou|mudou|vai se mudar|foi morar|"
+            + "passou a morar|est[áa] morando|mora|reside)(?:\\s+(?iu:de)\\s+" + NOME_PROPRIO + ")?"
+            + "\\s+(?iu:agora\\s+)?(?iu:para|pra|em|no)\\s+(?:(?iu:o|a)\\s+)?(" + NOME_PROPRIO + "(?:\\s*[/-]\\s*\\p{Lu}{2}\\b)?)");
+    private static final Pattern PERFIL = Pattern.compile("(?iu:perfil[^.!?]*\\b(conservador|moderad[oa]|arrojad[oa]|agressiv[oa]))");
+    private static final Pattern PALAVRA_DE_PERFIL = Pattern.compile("(?iu:\\bperfil\\b|conservador|moderad[oa]|arrojad[oa]|agressiv[oa])");
+    private static final Pattern OUTRO_CAMPO_ANTES = Pattern.compile("(?iu:\\b(?:nome|idade|cidade|perfil)\\b)");
+
+    /** Frases típicas do assessor ("se mudou para Campinas", "agora é consultora", "fez 69 anos"). */
+    @Override
+    public CamposExtraidos extrairEdicao(String clienteId, String transcricao) {
+        String t = transcricao == null ? "" : transcricao;
+        String nome = ultimo(NOME, t, n -> n.contains(" "));
+        String idade = ultimo(IDADE, t, i -> true);
+        String cidade = ultimo(CIDADE, t, c -> !PALAVRA_DE_PERFIL.matcher(c).find());
+        String perfil = ultimo(PERFIL, t, p -> true);
+        String profissao = null;
+        Matcher m = PROFISSAO.matcher(t);
+        while (m.find()) {
+            // "o nome dela agora é...", "a idade agora é..." não são profissão.
+            String antes = t.substring(Math.max(0, Math.max(t.lastIndexOf('.', m.start()), t.lastIndexOf(',', m.start()))), m.start());
+            String p = FIM_DA_PROFISSAO.matcher(m.group(1)).replaceFirst("").strip();
+            if (!p.isEmpty() && !OUTRO_CAMPO_ANTES.matcher(antes).find() && !PALAVRA_DE_PERFIL.matcher(p).find()
+                    && !p.matches(".*\\d.*")) {
+                profissao = p;
+            }
+        }
+        return new CamposExtraidos(nome, idade, profissao, cidade, perfil, GeradoPor.stub);
+    }
+
+    /** A última ocorrência vale: o assessor costuma se corrigir no fim ("... aliás, Sorocaba"). */
+    private static String ultimo(Pattern p, String texto, java.util.function.Predicate<String> aceita) {
+        String r = null;
+        Matcher m = p.matcher(texto);
+        while (m.find()) {
+            String v = m.group(1).strip();
+            if (aceita.test(v)) r = v;
+        }
+        return r;
     }
 
     private static String semPonto(String s) {

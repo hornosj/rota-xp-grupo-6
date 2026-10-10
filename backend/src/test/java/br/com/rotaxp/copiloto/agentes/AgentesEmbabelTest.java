@@ -3,6 +3,10 @@ package br.com.rotaxp.copiloto.agentes;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.BriefingRedigido;
+import br.com.rotaxp.copiloto.agentes.AgentesTipos.CadastroAtual;
+import br.com.rotaxp.copiloto.agentes.AgentesTipos.CamposDitos;
+import br.com.rotaxp.copiloto.agentes.AgentesTipos.ContextoEdicao;
+import br.com.rotaxp.copiloto.agentes.AgentesTipos.PedidoEdicao;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.ContextoBriefing;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.ContextoMensagem;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.ContextoNota;
@@ -15,9 +19,11 @@ import br.com.rotaxp.copiloto.agentes.AgentesTipos.PedidoMensagem;
 import br.com.rotaxp.copiloto.config.CopilotoProps;
 import br.com.rotaxp.copiloto.consolidacao.Visao360Assembler;
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.Enums.OrigemEvento;
+import br.com.rotaxp.copiloto.dominio.Enums.PerfilInvestidor;
 import br.com.rotaxp.copiloto.dominio.Enums.TipoEventoVida;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
@@ -175,5 +181,26 @@ class AgentesEmbabelTest {
         assertThat(r.metas()).containsExactly("Comprar apartamento");
         assertThat(r.acoesCriadas()).singleElement().satisfies(a -> assertThat(a.titulo()).contains("resumo da reunião"));
         assertThat(r.geradoPor()).isEqualTo(GeradoPor.live);
+    }
+
+    // ---------- AgenteEdicaoCadastro ----------
+
+    @Test
+    void edicaoMandaCadastroAtualETranscricaoSemCpfEDevolveOsCamposDitos() {
+        AgenteEdicaoCadastro agente = new AgenteEdicaoCadastro(contextos, props, mapper);
+        ContextoEdicao c = agente.montarContexto(new PedidoEdicao("cli-003", "Ela se mudou para Campinas."));
+        assertThat(c.cadastro()).isEqualTo(new CadastroAtual("Juliana Prado", 40, "profissão", "Cidade/SP", PerfilInvestidor.MODERADO));
+        assertThat(ctx.getLlmInvocations()).isEmpty();
+        ctx.expectResponse(new CamposDitos(null, null, null, "Campinas/SP", null));
+
+        CamposExtraidos r = agente.extrair(c, ctx);
+
+        assertThat(r).isEqualTo(new CamposExtraidos(null, null, null, "Campinas/SP", null, GeradoPor.live));
+        LlmInvocation inv = ctx.getLlmInvocations().get(0);
+        assertThat(inv.getInteraction().getLlm().getModel()).isEqualTo(MODELO);
+        assertThat(system(inv)).contains("Cidade/UF", "Não invente", "CONSERVADOR, MODERADO, ARROJADO, AGRESSIVO")
+                .doesNotContain("Não prometa rentabilidade");
+        assertThat(inv.getPrompt()).contains("Juliana Prado", "Ela se mudou para Campinas.")
+                .doesNotContain(Cenarios.CPF_JULIANA, "Marina");
     }
 }

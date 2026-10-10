@@ -35,6 +35,13 @@ public abstract class Repositorio {
 
     public abstract void adicionarEventos(String clienteId, List<EventoVida> eventos);
 
+    /**
+     * Grava nome, idade, profissão e cidade (edição do cadastro pelo assessor); o resto do cliente não muda.
+     * Some no próximo reset da demo.
+     * @throws br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado se o cliente não existir
+     */
+    public abstract void salvarCadastro(Cliente c);
+
     public abstract Optional<Instituicao> instituicao(String id);
 
     public abstract Map<String, Instituicao> instituicoes();

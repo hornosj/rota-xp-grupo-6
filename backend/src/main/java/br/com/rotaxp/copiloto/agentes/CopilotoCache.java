@@ -1,6 +1,7 @@
 package br.com.rotaxp.copiloto.agentes;
 
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
@@ -64,5 +65,16 @@ public class CopilotoCache implements Copiloto {
         return cache.ler(chaveNota(cache, c, transcricao), ResultadoNota.class)
                 .map(r -> r.com(GeradoPor.cache))
                 .orElseGet(() -> stub.processarNota(clienteId, transcricao));
+    }
+
+    static String chaveEdicao(CacheLlm cache, ContextoClienteFactory contextos, String clienteId, String transcricao) {
+        return cache.chave("edicao", contextos.paraCliente(clienteId), CacheLlm.hashTexto(transcricao));
+    }
+
+    @Override
+    public CamposExtraidos extrairEdicao(String clienteId, String transcricao) {
+        return cache.ler(chaveEdicao(cache, contextos, clienteId, transcricao), CamposExtraidos.class)
+                .map(r -> r.com(GeradoPor.cache))
+                .orElseGet(() -> stub.extrairEdicao(clienteId, transcricao));
     }
 }

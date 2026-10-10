@@ -2,8 +2,10 @@ package br.com.rotaxp.copiloto.agentes;
 
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.NotaReuniao;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.PedidoBriefing;
+import br.com.rotaxp.copiloto.agentes.AgentesTipos.PedidoEdicao;
 import br.com.rotaxp.copiloto.agentes.AgentesTipos.PedidoMensagem;
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
 import br.com.rotaxp.copiloto.dominio.ResultadoNota;
@@ -51,6 +53,13 @@ public class CopilotoLive implements Copiloto {
         return comFallback("nota " + clienteId,
                 () -> valida(agentes.executar(new NotaReuniao(clienteId, transcricao), ResultadoNota.class), r -> r.resumo() != null),
                 () -> stub.processarNota(clienteId, transcricao));
+    }
+
+    @Override
+    public CamposExtraidos extrairEdicao(String clienteId, String transcricao) {
+        return comFallback("edição " + clienteId,
+                () -> valida(agentes.executar(new PedidoEdicao(clienteId, transcricao), CamposExtraidos.class), r -> true),
+                () -> stub.extrairEdicao(clienteId, transcricao));
     }
 
     @Override

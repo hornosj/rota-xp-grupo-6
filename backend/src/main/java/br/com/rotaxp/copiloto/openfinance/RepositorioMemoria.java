@@ -91,6 +91,12 @@ public class RepositorioMemoria extends Repositorio {
     }
 
     @Override
+    public synchronized void salvarCadastro(Cliente novo) {
+        Cliente c = cliente(novo.id());
+        estado.clientes().put(c.id(), c.comCadastro(novo.nome(), novo.idade(), novo.profissao(), novo.cidade()));
+    }
+
+    @Override
     public Optional<Instituicao> instituicao(String id) { return Optional.ofNullable(estado.instituicoes().get(id)); }
 
     @Override

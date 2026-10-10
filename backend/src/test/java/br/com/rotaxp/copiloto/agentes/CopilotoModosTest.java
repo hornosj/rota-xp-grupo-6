@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import br.com.rotaxp.copiloto.config.CopilotoProps;
 import br.com.rotaxp.copiloto.consolidacao.Visao360Assembler;
 import br.com.rotaxp.copiloto.dominio.Briefing;
+import br.com.rotaxp.copiloto.dominio.Edicao.CamposExtraidos;
 import br.com.rotaxp.copiloto.dominio.Enums.Canal;
 import br.com.rotaxp.copiloto.dominio.Enums.GeradoPor;
 import br.com.rotaxp.copiloto.dominio.MensagemGerada;
@@ -131,7 +132,33 @@ class CopilotoModosTest {
         assertThat(agentes.entradas).containsExactly(new AgentesTipos.NotaReuniao("cli-003", "vai casar"));
     }
 
+    @Test
+    void liveEdicaoInvocaOAgenteEFalhaCaiNasRegrasDoStub() {
+        agentes.resposta = new CamposExtraidos(null, "69", null, null, null, GeradoPor.live);
+
+        assertThat(live.extrairEdicao("cli-003", "fez 69 anos").idade()).isEqualTo("69");
+        assertThat(agentes.entradas).containsExactly(new AgentesTipos.PedidoEdicao("cli-003", "fez 69 anos"));
+
+        agentes.erro = new IllegalStateException("401 sem chave");
+        CamposExtraidos r = live.extrairEdicao("cli-003", "Ela fez 36 anos.");
+        assertThat(r.geradoPor()).isEqualTo(GeradoPor.stub);
+        assertThat(r.idade()).isEqualTo("36");
+    }
+
     // ---------- record + cache ----------
+
+    @Test
+    void recordGravaEdicaoECacheLeOfflinePelaTranscricao() {
+        agentes.resposta = new CamposExtraidos(null, null, "Arquiteta", "Campinas/SP", null, GeradoPor.live);
+        new CopilotoRecord(live, cache, contextos, null).extrairEdicao("cli-003", "texto do áudio");
+        CopilotoCache emCache = new CopilotoCache(cache, contextos, null, stub);
+
+        CamposExtraidos lido = emCache.extrairEdicao("cli-003", "texto do áudio");
+
+        assertThat(lido).isEqualTo(new CamposExtraidos(null, null, "Arquiteta", "Campinas/SP", null, GeradoPor.cache));
+        assertThat(emCache.extrairEdicao("cli-003", "outro texto").geradoPor()).isEqualTo(GeradoPor.stub);
+        assertThat(agentes.entradas).hasSize(1);   // o cache não chama o agente
+    }
 
     @Test
     void recordGravaECacheLeOffline() throws Exception {

@@ -49,9 +49,28 @@ final class Prompts {
             avaliar a exposição com o cliente.
             """;
 
+    /** Não usa o BASE: aqui o LLM não escreve para o cliente, só extrai campos da fala do assessor. */
+    static final String EDICAO = """
+            Você ajuda um assessor de investimentos da XP a atualizar o cadastro de um cliente. Você recebe o cadastro
+            atual e a transcrição de um áudio em que o assessor conta o que mudou.
+            Preencha só os campos que o assessor disse que mudaram, com o valor novo; use null para o que não foi
+            citado ou continua igual.
+            - "nome": nome completo do cliente, só se o assessor corrigir ou trocar o nome.
+            - "idade": idade em anos, só se for dita; não calcule a partir de datas.
+            - "profissao": profissão ou ocupação atual, com inicial maiúscula.
+            - "cidade": no formato "Cidade/UF" (ex.: "Campinas/SP"); deduza a UF só se a cidade for inequívoca.
+            - "perfil": se o assessor citar o perfil de investidor, um de CONSERVADOR, MODERADO, ARROJADO, AGRESSIVO.
+            Mudanças de outras pessoas (cônjuge, filhos, netos) não alteram o cadastro do cliente.
+            Não invente valores que não estão na transcrição.
+            """;
+
     static String contexto(ObjectMapper mapper, ContextoCliente c) {
+        return json(mapper, c);
+    }
+
+    static String json(ObjectMapper mapper, Object o) {
         try {
-            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException(e);
         }

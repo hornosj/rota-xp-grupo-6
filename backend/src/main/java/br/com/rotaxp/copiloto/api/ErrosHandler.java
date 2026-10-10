@@ -2,6 +2,8 @@ package br.com.rotaxp.copiloto.api;
 
 import br.com.rotaxp.copiloto.dominio.Excecoes.Conflito;
 import br.com.rotaxp.copiloto.dominio.Excecoes.Expirado;
+import br.com.rotaxp.copiloto.dominio.Excecoes.FalhaExterna;
+import br.com.rotaxp.copiloto.dominio.Excecoes.Indisponivel;
 import br.com.rotaxp.copiloto.dominio.Excecoes.NaoEncontrado;
 import br.com.rotaxp.copiloto.dominio.Excecoes.RequisicaoInvalida;
 import br.com.rotaxp.copiloto.dominio.Requisicoes.ErroResposta;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 /** Erros no formato { erro, mensagem } (PLAN §5). */
 @RestControllerAdvice
@@ -36,5 +39,23 @@ public class ErrosHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErroResposta requisicaoInvalida(RequisicaoInvalida e) {
         return new ErroResposta("REQUISICAO_INVALIDA", e.getMessage());
+    }
+
+    @ExceptionHandler(Indisponivel.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErroResposta indisponivel(Indisponivel e) {
+        return new ErroResposta("INDISPONIVEL", e.getMessage());
+    }
+
+    @ExceptionHandler(FalhaExterna.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public ErroResposta falhaExterna(FalhaExterna e) {
+        return new ErroResposta("FALHA_EXTERNA", e.getMessage());
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
+    public ErroResposta arquivoGrande(MaxUploadSizeExceededException e) {
+        return new ErroResposta("ARQUIVO_GRANDE", "Arquivo maior que o limite aceito.");
     }
 }

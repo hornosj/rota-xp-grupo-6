@@ -11,6 +11,10 @@ spring:
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1           # SQLite: um escritor por vez; evita SQLITE_BUSY
+  servlet:
+    multipart:                       # áudio da edição por voz
+      max-file-size: ${whisper.tamanho-maximo-mb}MB
+      max-request-size: ${whisper.tamanho-maximo-mb}MB
 
 banco:
   tipo: ${BANCO_TIPO:sqlite}         # sqlite | memoria
@@ -52,8 +56,25 @@ embabel:
             backoff-multiplier: 2.0
             backoff-max-interval: 2000
 
+# Edição do cadastro por voz: o Whisper transcreve, o Copiloto propõe as mudanças e o assessor confirma.
+# Qualquer API compatível com a /audio/transcriptions da OpenAI serve: OpenAI (padrão), Groq
+# (WHISPER_URL=https://api.groq.com/openai/v1, WHISPER_MODELO=whisper-large-v3-turbo) ou um servidor local.
+whisper:
+  url: ${WHISPER_URL:https://api.openai.com/v1}
+  modelo: ${WHISPER_MODELO:whisper-1}
+  api-key: ${WHISPER_APIKEY:}        # sem chave, a transcrição responde 503 e o assessor digita o texto
+  idioma: pt
+  timeout-segundos: 60
+  tamanho-maximo-mb: 25              # limite da API da OpenAI
+
+edicao:
+  idade-minima: 18
+  idade-maxima: 120
+  max-caracteres-campo: 120
+  max-caracteres-transcricao: 4000
+
 premissas:
-  cdi-anual: 0.10                    # ILUSTRATIVO — ajustar para a taxa vigente antes do pitch
+  cdi-anual: 0.10                   # ILUSTRATIVO — ajustar para a taxa vigente antes do pitch
   fgc:
     limite-por-conglomerado: 250000
     teto-global: 1000000

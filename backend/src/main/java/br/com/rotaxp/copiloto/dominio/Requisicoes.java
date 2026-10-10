@@ -16,8 +16,12 @@ public final class Requisicoes {
 
     public record ErroResposta(String erro, String mensagem) {}
 
-    public record DemoEstado(java.time.LocalDate dataReferencia, String modoCopiloto, String modeloLlm, UsoLlm llm) {}
+    public record DemoEstado(java.time.LocalDate dataReferencia, String modoCopiloto, String modeloLlm, UsoLlm llm,
+                             TranscricaoVoz transcricao) {}
 
     /** Chamadas ao LLM hoje e o teto diário (trava de crédito). */
     public record UsoLlm(int chamadasHoje, int limiteDiario) {}
+
+    /** Edição do cadastro por voz: false sem chave do Whisper (o front pede o texto digitado). */
+    public record TranscricaoVoz(boolean disponivel, String modelo) {}
 }
