@@ -52,4 +52,9 @@ public class CopilotoRouter implements Copiloto {
     public ResultadoNota processarNota(String clienteId, String transcricao) {
         return alvo.processarNota(clienteId, transcricao);
     }
+
+    @Override
+    public br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId) {
+        return alvo.redigirMotivoNoticia(clienteId, noticiaId);
+    }
 }

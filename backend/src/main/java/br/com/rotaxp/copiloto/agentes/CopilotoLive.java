@@ -53,6 +53,14 @@ public class CopilotoLive implements Copiloto {
                 () -> stub.processarNota(clienteId, transcricao));
     }
 
+    @Override
+    public br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId) {
+        return comFallback("motivo " + clienteId + "/" + noticiaId,
+                () -> valida(agentes.executar(new AgentesTipos.PedidoMotivoNoticia(clienteId, noticiaId),
+                        br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia.class), m -> m.texto() != null && !m.texto().isBlank()),
+                () -> stub.redigirMotivoNoticia(clienteId, noticiaId));
+    }
+
     private static <T> T valida(T valor, java.util.function.Predicate<T> ok) {
         if (valor == null || !ok.test(valor)) throw new IllegalStateException("resposta incompleta do agente");
         return valor;

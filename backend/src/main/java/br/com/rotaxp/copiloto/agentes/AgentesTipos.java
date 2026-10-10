@@ -49,4 +49,15 @@ public final class AgentesTipos {
 
     public record ItemClassificado(String noticiaId, List<String> emissores, List<String> indexadores, List<String> produtos,
                                    String direcao, double relevancia, String resumoImpacto) {}
+
+    // AgenteRadarNoticias: PedidoMotivoNoticia -> ContextoNoticia (sem LLM) -> MotivoNoticia (LLM)
+    public record PedidoMotivoNoticia(String clienteId, String noticiaId) {}
+
+    /** Contexto enxuto: cliente + notícia + impacto já calculado por regra. */
+    public record ContextoNoticia(ContextoCliente cliente, String noticiaId, String titulo, String resumo, String fonte,
+                                  String direcao, String resumoImpacto,
+                                  br.com.rotaxp.copiloto.dominio.Radar.ImpactoNoticia impacto) {}
+
+    /** Saída estruturada do LLM. */
+    public record MotivoRedigido(String texto) {}
 }

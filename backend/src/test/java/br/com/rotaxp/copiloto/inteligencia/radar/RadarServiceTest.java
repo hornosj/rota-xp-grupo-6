@@ -24,7 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.scheduling.support.CronExpression;
 
-class RadarServiceTest {
+public class RadarServiceTest {
 
     private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private Infra i;
@@ -47,7 +47,7 @@ class RadarServiceTest {
         }
     }
 
-    static RadarProps props(String classificacao) {
+    public static RadarProps props(String classificacao) {
         return new RadarProps(classificacao, "openai/gpt-oss-120b", 10, "0 0 7,10,12,14,16,19 * * MON-FRI", true, true, 0.25, 10);
     }
 

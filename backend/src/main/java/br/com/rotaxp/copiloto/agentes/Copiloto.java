@@ -13,4 +13,7 @@ public interface Copiloto {
     Briefing gerarBriefing(String clienteId);
 
     ResultadoNota processarNota(String clienteId, String transcricao);
+
+    /** Radar (BE2-10): por que a notícia é motivo de contato com o cliente — texto para o assessor. */
+    br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId);
 }

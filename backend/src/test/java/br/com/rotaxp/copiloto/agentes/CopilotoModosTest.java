@@ -56,7 +56,7 @@ class CopilotoModosTest {
         i.consentimentos.conceder("cli-001", "inst-horizonte");
         assembler.aoAlterarConsentimento(new ConsentimentoAlterado("cli-001", "inst-horizonte"));
         contextos = new ContextoClienteFactory(assembler, i.dataReferencia);
-        stub = new CopilotoStub(contextos);
+        stub = new CopilotoStub(contextos, null);
         cache = new CacheLlm(dir, mapper);
         live = new CopilotoLive(agentes, stub);
         agentes.resposta = new MensagemGerada("Oi, Marina! Texto do agente.", Canal.WHATSAPP, GeradoPor.live);
@@ -135,8 +135,8 @@ class CopilotoModosTest {
 
     @Test
     void recordGravaECacheLeOffline() throws Exception {
-        CopilotoRecord record = new CopilotoRecord(live, cache, contextos);
-        CopilotoCache emCache = new CopilotoCache(cache, contextos, stub);
+        CopilotoRecord record = new CopilotoRecord(live, cache, contextos, null);
+        CopilotoCache emCache = new CopilotoCache(cache, contextos, null, stub);
 
         record.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP);
         agentes.resposta = new Briefing("cli-001", List.of("a"), List.of("p"), GeradoPor.live);
@@ -155,7 +155,7 @@ class CopilotoModosTest {
 
     @Test
     void cacheSemArquivoCaiNoStub() {
-        CopilotoCache emCache = new CopilotoCache(cache, contextos, stub);
+        CopilotoCache emCache = new CopilotoCache(cache, contextos, null, stub);
 
         assertThat(emCache.redigirMensagem("cli-001", ACAO_FGC, Canal.EMAIL).geradoPor()).isEqualTo(GeradoPor.stub);
         assertThat(emCache.gerarBriefing("cli-003").geradoPor()).isEqualTo(GeradoPor.stub);
@@ -174,7 +174,7 @@ class CopilotoModosTest {
 
     private CopilotoRouter router(String modo, String chave) {
         CopilotoProps props = new CopilotoProps(modo, "deepseek/deepseek-v4-pro", dir.toString(), chave, 1024);
-        return new CopilotoRouter(props, stub, new CopilotoCache(cache, contextos, stub), live, new CopilotoRecord(live, cache, contextos));
+        return new CopilotoRouter(props, stub, new CopilotoCache(cache, contextos, null, stub), live, new CopilotoRecord(live, cache, contextos, null));
     }
 
     @Test

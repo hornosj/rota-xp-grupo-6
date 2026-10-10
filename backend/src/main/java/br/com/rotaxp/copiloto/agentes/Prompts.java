@@ -40,6 +40,13 @@ final class Prompts {
             Não invente fatos que não estão na transcrição.
             """;
 
+    static final String MOTIVO_NOTICIA = BASE + """
+            Escreva para o ASSESSOR (não para o cliente), em até 600 caracteres e sem markdown:
+            por que esta notícia é motivo para falar com o cliente, citando a exposição exatamente como está em
+            "impacto.motivo", e o que conversar. Não recomende comprar ou vender um ativo específico; sugira
+            avaliar a exposição com o cliente.
+            """;
+
     static String contexto(ObjectMapper mapper, ContextoCliente c) {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(c);

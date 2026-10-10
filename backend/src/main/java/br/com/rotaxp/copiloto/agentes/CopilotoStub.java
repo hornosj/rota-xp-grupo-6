@@ -40,9 +40,29 @@ public class CopilotoStub implements Copiloto {
     private static final List<String> PALAVRAS_META = List.of("quer ", "meta", "objetivo", "planeja", "juntar");
 
     private final ContextoClienteFactory contextos;
+    private final ContextoNoticiaFactory contextosNoticia;
 
-    public CopilotoStub(ContextoClienteFactory contextos) {
+    public CopilotoStub(ContextoClienteFactory contextos, ContextoNoticiaFactory contextosNoticia) {
         this.contextos = contextos;
+        this.contextosNoticia = contextosNoticia;
+    }
+
+    // ---------- motivo de contato (radar) ----------
+
+    @Override
+    public br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId) {
+        AgentesTipos.ContextoNoticia c = contextosNoticia.para(clienteId, noticiaId);
+        String leitura = switch (c.direcao()) {
+            case "NEGATIVA" -> "A notícia aumenta o risco dessa parte da carteira. Sugestão: ligar hoje, explicar o fato com calma "
+                    + "e avaliar com o cliente se faz sentido reduzir ou diversificar essa exposição.";
+            case "POSITIVA" -> "A notícia é favorável a essa parte da carteira. Sugestão: aproveitar para um contato de "
+                    + "relacionamento e revisar os objetivos.";
+            default -> "A notícia pode mudar o cenário dessa parte da carteira. Sugestão: revisar a posição com o cliente "
+                    + "na próxima conversa.";
+        };
+        String texto = c.cliente().primeiroNome() + " tem " + c.impacto().motivo() + ". Notícia: \"" + c.titulo() + "\" ("
+                + c.fonte() + "). " + leitura;
+        return new br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia(texto, GeradoPor.stub);
     }
 
     // ---------- mensagem ----------
