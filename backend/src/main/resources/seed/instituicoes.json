@@ -1,0 +1,37 @@
+[
+  {
+    "id": "inst-xp",
+    "nome": "XP Investimentos",
+    "conglomeradoId": "cong-xp",
+    "conglomeradoNome": "XP",
+    "ehXp": true
+  },
+  {
+    "id": "inst-aurora",
+    "nome": "Banco Aurora",
+    "conglomeradoId": "cong-aurora",
+    "conglomeradoNome": "Aurora",
+    "ehXp": false
+  },
+  {
+    "id": "inst-aurora-fin",
+    "nome": "Aurora Financeira",
+    "conglomeradoId": "cong-aurora",
+    "conglomeradoNome": "Aurora",
+    "ehXp": false
+  },
+  {
+    "id": "inst-horizonte",
+    "nome": "Banco Horizonte",
+    "conglomeradoId": "cong-horizonte",
+    "conglomeradoNome": "Horizonte",
+    "ehXp": false
+  },
+  {
+    "id": "inst-ipe",
+    "nome": "Banco Ipê",
+    "conglomeradoId": "cong-ipe",
+    "conglomeradoNome": "Ipê",
+    "ehXp": false
+  }
+]

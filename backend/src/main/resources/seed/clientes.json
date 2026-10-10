@@ -1,0 +1,1234 @@
+[
+  {
+    "id": "cli-001",
+    "nome": "Dra. Marina Costa",
+    "cpf": "000.000.001-01",
+    "idade": 42,
+    "profissao": "Médica cardiologista",
+    "cidade": "Ribeirão Preto/SP",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Sofia",
+        "parentesco": "FILHA",
+        "dataNascimento": "2014-10-16"
+      },
+      {
+        "nome": "Pedro",
+        "parentesco": "FILHO",
+        "dataNascimento": "2017-03-02"
+      }
+    ],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-002",
+    "nome": "Carlos Andrade",
+    "cpf": "000.000.002-02",
+    "idade": 61,
+    "profissao": "Empresário (embalagens)",
+    "cidade": "Campinas/SP",
+    "perfil": "CONSERVADOR",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-003",
+    "nome": "Juliana Prado",
+    "cpf": "000.000.003-03",
+    "idade": 29,
+    "profissao": "Engenheira de software",
+    "cidade": "São José dos Campos/SP",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-004",
+    "nome": "Patrícia Gomes",
+    "cpf": "000.000.004-04",
+    "idade": 68,
+    "profissao": "Professora aposentada",
+    "cidade": "Bauru/SP",
+    "perfil": "CONSERVADOR",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora-fin",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-005",
+    "nome": "Roberto Lima",
+    "cpf": "000.000.005-05",
+    "idade": 50,
+    "profissao": "Produtor rural",
+    "cidade": "Sertãozinho/SP",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Ana",
+        "parentesco": "FILHA",
+        "dataNascimento": "2002-12-01"
+      }
+    ],
+    "eventosVida": [
+      {
+        "id": "evt-005-01",
+        "tipo": "CASAMENTO",
+        "descricao": "Casamento da Ana",
+        "data": "2027-03-20",
+        "origem": "CADASTRO"
+      }
+    ]
+  },
+  {
+    "id": "cli-006",
+    "nome": "Lucas Ferreira",
+    "cpf": "000.000.006-06",
+    "idade": 35,
+    "profissao": "Dentista, dono de clínica",
+    "cidade": "Piracicaba/SP",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": [
+      {
+        "id": "evt-006-01",
+        "tipo": "OUTRO",
+        "descricao": "Abertura da 2ª clínica",
+        "data": "2027-01-15",
+        "origem": "NOTA_REUNIAO"
+      }
+    ]
+  },
+  {
+    "id": "cli-101",
+    "nome": "Ana Beatriz Rocha",
+    "cpf": "000.000.101-01",
+    "idade": 41,
+    "profissao": "Consultor(a) de TI",
+    "cidade": "Porto Alegre/RS",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": [
+      {
+        "id": "evt-101-01",
+        "tipo": "MUDANCA",
+        "descricao": "Mudança de apartamento",
+        "data": "2027-02-12",
+        "origem": "NOTA_REUNIAO"
+      }
+    ]
+  },
+  {
+    "id": "cli-102",
+    "nome": "Bruno Carvalho",
+    "cpf": "000.000.102-02",
+    "idade": 31,
+    "profissao": "Farmacêutico(a)",
+    "cidade": "Florianópolis/SC",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-103",
+    "nome": "Camila Teixeira",
+    "cpf": "000.000.103-03",
+    "idade": 42,
+    "profissao": "Consultor(a) de TI",
+    "cidade": "Goiânia/GO",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora-fin",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": [
+      {
+        "id": "evt-103-01",
+        "tipo": "CASAMENTO",
+        "descricao": "Casamento planejado",
+        "data": "2026-12-20",
+        "origem": "NOTA_REUNIAO"
+      }
+    ]
+  },
+  {
+    "id": "cli-104",
+    "nome": "Diego Martins",
+    "cpf": "000.000.104-04",
+    "idade": 63,
+    "profissao": "Designer",
+    "cidade": "Uberlândia/MG",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-105",
+    "nome": "Eduarda Nunes",
+    "cpf": "000.000.105-05",
+    "idade": 62,
+    "profissao": "Designer",
+    "cidade": "Florianópolis/SC",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-106",
+    "nome": "Felipe Araújo",
+    "cpf": "000.000.106-06",
+    "idade": 57,
+    "profissao": "Engenheiro(a) civil",
+    "cidade": "Porto Alegre/RS",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "CONTA"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora-fin",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Laura",
+        "parentesco": "FILHA",
+        "dataNascimento": "2011-09-03"
+      },
+      {
+        "nome": "Clara",
+        "parentesco": "FILHA",
+        "dataNascimento": "2025-09-01"
+      }
+    ],
+    "eventosVida": [
+      {
+        "id": "evt-106-01",
+        "tipo": "MUDANCA",
+        "descricao": "Mudança de apartamento",
+        "data": "2027-06-25",
+        "origem": "CADASTRO"
+      }
+    ]
+  },
+  {
+    "id": "cli-107",
+    "nome": "Gabriela Moreira",
+    "cpf": "000.000.107-07",
+    "idade": 60,
+    "profissao": "Engenheiro(a) civil",
+    "cidade": "Uberlândia/MG",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Theo",
+        "parentesco": "FILHO",
+        "dataNascimento": "2002-01-23"
+      },
+      {
+        "nome": "Laura",
+        "parentesco": "FILHA",
+        "dataNascimento": "2023-02-17"
+      }
+    ],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-108",
+    "nome": "Henrique Batista",
+    "cpf": "000.000.108-08",
+    "idade": 40,
+    "profissao": "Consultor(a) de TI",
+    "cidade": "Porto Alegre/RS",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-109",
+    "nome": "Isabela Cardoso",
+    "cpf": "000.000.109-09",
+    "idade": 69,
+    "profissao": "Engenheiro(a) civil",
+    "cidade": "Rio de Janeiro/RJ",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-110",
+    "nome": "João Vitor Almeida",
+    "cpf": "000.000.110-10",
+    "idade": 55,
+    "profissao": "Analista financeiro(a)",
+    "cidade": "São Paulo/SP",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora-fin",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Clara",
+        "parentesco": "FILHA",
+        "dataNascimento": "2004-03-02"
+      }
+    ],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-111",
+    "nome": "Larissa Barbosa",
+    "cpf": "000.000.111-11",
+    "idade": 69,
+    "profissao": "Veterinário(a)",
+    "cidade": "Belo Horizonte/MG",
+    "perfil": "CONSERVADOR",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-112",
+    "nome": "Marcelo Pinto",
+    "cpf": "000.000.112-12",
+    "idade": 41,
+    "profissao": "Professor(a)",
+    "cidade": "Curitiba/PR",
+    "perfil": "CONSERVADOR",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Laura",
+        "parentesco": "FILHA",
+        "dataNascimento": "2007-08-03"
+      },
+      {
+        "nome": "Clara",
+        "parentesco": "FILHA",
+        "dataNascimento": "2012-02-23"
+      }
+    ],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-113",
+    "nome": "Natália Correia",
+    "cpf": "000.000.113-13",
+    "idade": 63,
+    "profissao": "Servidor(a) público(a)",
+    "cidade": "Sorocaba/SP",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-114",
+    "nome": "Otávio Ramos",
+    "cpf": "000.000.114-14",
+    "idade": 38,
+    "profissao": "Empresário(a) (varejo)",
+    "cidade": "Sorocaba/SP",
+    "perfil": "CONSERVADOR",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-115",
+    "nome": "Priscila Vieira",
+    "cpf": "000.000.115-15",
+    "idade": 28,
+    "profissao": "Veterinário(a)",
+    "cidade": "Goiânia/GO",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": [
+      {
+        "id": "evt-115-01",
+        "tipo": "MUDANCA",
+        "descricao": "Mudança de apartamento",
+        "data": "2027-07-02",
+        "origem": "NOTA_REUNIAO"
+      }
+    ]
+  },
+  {
+    "id": "cli-116",
+    "nome": "Renato Monteiro",
+    "cpf": "000.000.116-16",
+    "idade": 28,
+    "profissao": "Empresário(a) (varejo)",
+    "cidade": "Florianópolis/SC",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-117",
+    "nome": "Sabrina Duarte",
+    "cpf": "000.000.117-17",
+    "idade": 65,
+    "profissao": "Engenheiro(a) civil",
+    "cidade": "Rio de Janeiro/RJ",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-118",
+    "nome": "Thiago Fonseca",
+    "cpf": "000.000.118-18",
+    "idade": 37,
+    "profissao": "Fisioterapeuta",
+    "cidade": "Uberlândia/MG",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-119",
+    "nome": "Vanessa Campos",
+    "cpf": "000.000.119-19",
+    "idade": 54,
+    "profissao": "Contador(a)",
+    "cidade": "Ribeirão Preto/SP",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-120",
+    "nome": "William Castro",
+    "cpf": "000.000.120-20",
+    "idade": 67,
+    "profissao": "Psicólogo(a)",
+    "cidade": "Goiânia/GO",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-121",
+    "nome": "Yasmin Freitas",
+    "cpf": "000.000.121-21",
+    "idade": 38,
+    "profissao": "Servidor(a) público(a)",
+    "cidade": "Goiânia/GO",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Davi",
+        "parentesco": "FILHO",
+        "dataNascimento": "2014-06-25"
+      },
+      {
+        "nome": "Miguel",
+        "parentesco": "FILHO",
+        "dataNascimento": "2014-02-04"
+      }
+    ],
+    "eventosVida": [
+      {
+        "id": "evt-121-01",
+        "tipo": "APOSENTADORIA",
+        "descricao": "Planejamento de aposentadoria",
+        "data": "2027-08-03",
+        "origem": "CADASTRO"
+      }
+    ]
+  },
+  {
+    "id": "cli-122",
+    "nome": "André Sampaio",
+    "cpf": "000.000.122-22",
+    "idade": 70,
+    "profissao": "Designer",
+    "cidade": "Florianópolis/SC",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-123",
+    "nome": "Bianca Machado",
+    "cpf": "000.000.123-23",
+    "idade": 28,
+    "profissao": "Farmacêutico(a)",
+    "cidade": "Florianópolis/SC",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-124",
+    "nome": "Caio Rezende",
+    "cpf": "000.000.124-24",
+    "idade": 60,
+    "profissao": "Veterinário(a)",
+    "cidade": "Goiânia/GO",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Clara",
+        "parentesco": "FILHA",
+        "dataNascimento": "1996-09-09"
+      }
+    ],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-125",
+    "nome": "Daniela Siqueira",
+    "cpf": "000.000.125-25",
+    "idade": 45,
+    "profissao": "Empresário(a) (varejo)",
+    "cidade": "São Paulo/SP",
+    "perfil": "CONSERVADOR",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-126",
+    "nome": "Eduardo Brandão",
+    "cpf": "000.000.126-26",
+    "idade": 45,
+    "profissao": "Psicólogo(a)",
+    "cidade": "Florianópolis/SC",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "CONTA",
+          "CARTAO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-127",
+    "nome": "Fabiana Queiroz",
+    "cpf": "000.000.127-27",
+    "idade": 62,
+    "profissao": "Servidor(a) público(a)",
+    "cidade": "Uberlândia/MG",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-ipe",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": [
+      {
+        "id": "evt-127-01",
+        "tipo": "CASAMENTO",
+        "descricao": "Casamento planejado",
+        "data": "2027-05-08",
+        "origem": "NOTA_REUNIAO"
+      }
+    ]
+  },
+  {
+    "id": "cli-128",
+    "nome": "Gustavo Peixoto",
+    "cpf": "000.000.128-28",
+    "idade": 52,
+    "profissao": "Designer",
+    "cidade": "Campinas/SP",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Arthur",
+        "parentesco": "FILHO",
+        "dataNascimento": "2005-02-06"
+      }
+    ],
+    "eventosVida": []
+  },
+  {
+    "id": "cli-129",
+    "nome": "Helena Assunção",
+    "cpf": "000.000.129-29",
+    "idade": 58,
+    "profissao": "Professor(a)",
+    "cidade": "Florianópolis/SC",
+    "perfil": "MODERADO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Theo",
+        "parentesco": "FILHO",
+        "dataNascimento": "2013-11-04"
+      },
+      {
+        "nome": "Davi",
+        "parentesco": "FILHO",
+        "dataNascimento": "2022-09-18"
+      }
+    ],
+    "eventosVida": [
+      {
+        "id": "evt-129-01",
+        "tipo": "CASAMENTO",
+        "descricao": "Casamento planejado",
+        "data": "2027-07-31",
+        "origem": "NOTA_REUNIAO"
+      }
+    ]
+  },
+  {
+    "id": "cli-130",
+    "nome": "Igor Tavares",
+    "cpf": "000.000.130-30",
+    "idade": 46,
+    "profissao": "Psicólogo(a)",
+    "cidade": "Florianópolis/SC",
+    "perfil": "AGRESSIVO",
+    "assessorId": "ass-001",
+    "ancora": false,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      }
+    ],
+    "dependentes": [],
+    "eventosVida": []
+  }
+]

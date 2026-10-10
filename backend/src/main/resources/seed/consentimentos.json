@@ -1,0 +1,1059 @@
+[
+  {
+    "id": "con-001-xp",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-001-aurora",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-08-07",
+    "expiraEm": "2027-08-07"
+  },
+  {
+    "id": "con-001-horizonte",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "PENDENTE",
+    "escopos": [
+      "INVESTIMENTOS"
+    ]
+  },
+  {
+    "id": "con-002-xp",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-002-aurora",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2025-10-21",
+    "expiraEm": "2026-10-21"
+  },
+  {
+    "id": "con-003-xp",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-003-ipe",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-04-29",
+    "expiraEm": "2027-04-29"
+  },
+  {
+    "id": "con-003-aurora",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "PENDENTE",
+    "escopos": [
+      "CARTOES"
+    ]
+  },
+  {
+    "id": "con-004-xp",
+    "clienteId": "cli-004",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-004-aurora",
+    "clienteId": "cli-004",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-06-18",
+    "expiraEm": "2027-06-18"
+  },
+  {
+    "id": "con-004-aurora-fin",
+    "clienteId": "cli-004",
+    "instituicaoId": "inst-aurora-fin",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-07-18",
+    "expiraEm": "2027-07-18"
+  },
+  {
+    "id": "con-005-xp",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-005-ipe",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-09-06",
+    "expiraEm": "2027-09-06"
+  },
+  {
+    "id": "con-006-xp",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-101-xp",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-101-ipe",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-09-26",
+    "expiraEm": "2027-09-26"
+  },
+  {
+    "id": "con-102-xp",
+    "clienteId": "cli-102",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-102-aurora",
+    "clienteId": "cli-102",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-04-01",
+    "expiraEm": "2027-04-01"
+  },
+  {
+    "id": "con-103-xp",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-103-aurora-fin",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-aurora-fin",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-06-16",
+    "expiraEm": "2027-06-16"
+  },
+  {
+    "id": "con-104-xp",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-104-aurora",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-06-07",
+    "expiraEm": "2027-06-07"
+  },
+  {
+    "id": "con-104-horizonte",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-03-17",
+    "expiraEm": "2027-03-17"
+  },
+  {
+    "id": "con-105-xp",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-105-aurora",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-05-13",
+    "expiraEm": "2027-05-13"
+  },
+  {
+    "id": "con-106-xp",
+    "clienteId": "cli-106",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-106-horizonte",
+    "clienteId": "cli-106",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-08-28",
+    "expiraEm": "2027-08-28"
+  },
+  {
+    "id": "con-106-aurora-fin",
+    "clienteId": "cli-106",
+    "instituicaoId": "inst-aurora-fin",
+    "tipo": "OPEN_FINANCE",
+    "status": "PENDENTE",
+    "escopos": [
+      "INVESTIMENTOS"
+    ]
+  },
+  {
+    "id": "con-107-xp",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-107-aurora",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-05-31",
+    "expiraEm": "2027-05-31"
+  },
+  {
+    "id": "con-108-xp",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-109-xp",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-109-ipe",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-03-23",
+    "expiraEm": "2027-03-23"
+  },
+  {
+    "id": "con-110-xp",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-110-ipe",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-01-12",
+    "expiraEm": "2027-01-12"
+  },
+  {
+    "id": "con-110-aurora-fin",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-aurora-fin",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-07-05",
+    "expiraEm": "2027-07-05"
+  },
+  {
+    "id": "con-111-xp",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-111-horizonte",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-09-03",
+    "expiraEm": "2027-09-03"
+  },
+  {
+    "id": "con-112-xp",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-112-aurora",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-03-05",
+    "expiraEm": "2027-03-05"
+  },
+  {
+    "id": "con-112-horizonte",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-05-07",
+    "expiraEm": "2027-05-07"
+  },
+  {
+    "id": "con-113-xp",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-113-ipe",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-07-17",
+    "expiraEm": "2027-07-17"
+  },
+  {
+    "id": "con-114-xp",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-114-horizonte",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-07-07",
+    "expiraEm": "2027-07-07"
+  },
+  {
+    "id": "con-115-xp",
+    "clienteId": "cli-115",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-115-aurora",
+    "clienteId": "cli-115",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-08-25",
+    "expiraEm": "2027-08-25"
+  },
+  {
+    "id": "con-116-xp",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-116-ipe",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-01-20",
+    "expiraEm": "2027-01-20"
+  },
+  {
+    "id": "con-117-xp",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-117-ipe",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-06-25",
+    "expiraEm": "2027-06-25"
+  },
+  {
+    "id": "con-118-xp",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-118-ipe",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-06-25",
+    "expiraEm": "2027-06-25"
+  },
+  {
+    "id": "con-119-xp",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-119-ipe",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-10-03",
+    "expiraEm": "2027-10-03"
+  },
+  {
+    "id": "con-119-horizonte",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-07-20",
+    "expiraEm": "2027-07-20"
+  },
+  {
+    "id": "con-120-xp",
+    "clienteId": "cli-120",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-120-ipe",
+    "clienteId": "cli-120",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-02-08",
+    "expiraEm": "2027-02-08"
+  },
+  {
+    "id": "con-120-horizonte",
+    "clienteId": "cli-120",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-05-12",
+    "expiraEm": "2027-05-12"
+  },
+  {
+    "id": "con-121-xp",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-121-horizonte",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-04-25",
+    "expiraEm": "2027-04-25"
+  },
+  {
+    "id": "con-121-ipe",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-03-12",
+    "expiraEm": "2027-03-12"
+  },
+  {
+    "id": "con-122-xp",
+    "clienteId": "cli-122",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-122-aurora",
+    "clienteId": "cli-122",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-06-06",
+    "expiraEm": "2027-06-06"
+  },
+  {
+    "id": "con-123-xp",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-124-xp",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-124-aurora",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-09-01",
+    "expiraEm": "2027-09-01"
+  },
+  {
+    "id": "con-125-xp",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-125-aurora",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-07-30",
+    "expiraEm": "2027-07-30"
+  },
+  {
+    "id": "con-126-xp",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-126-horizonte",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES"
+    ],
+    "concedidoEm": "2026-06-18",
+    "expiraEm": "2027-06-18"
+  },
+  {
+    "id": "con-126-aurora",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-01-13",
+    "expiraEm": "2027-01-13"
+  },
+  {
+    "id": "con-127-xp",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-127-ipe",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-03-15",
+    "expiraEm": "2027-03-15"
+  },
+  {
+    "id": "con-128-xp",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-129-xp",
+    "clienteId": "cli-129",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-129-aurora",
+    "clienteId": "cli-129",
+    "instituicaoId": "inst-aurora",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS"
+    ],
+    "concedidoEm": "2026-04-14",
+    "expiraEm": "2027-04-14"
+  },
+  {
+    "id": "con-129-horizonte",
+    "clienteId": "cli-129",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2026-03-30",
+    "expiraEm": "2027-03-30"
+  },
+  {
+    "id": "con-130-xp",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-xp",
+    "tipo": "INTERNO",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO",
+      "INVESTIMENTOS"
+    ],
+    "concedidoEm": "2024-01-15"
+  },
+  {
+    "id": "con-130-horizonte",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "OPEN_FINANCE",
+    "status": "ATIVO",
+    "escopos": [
+      "CONTAS",
+      "CARTOES",
+      "CREDITO"
+    ],
+    "concedidoEm": "2026-03-12",
+    "expiraEm": "2027-03-12"
+  }
+]

@@ -1,0 +1,282 @@
+[
+  {
+    "id": "cta-001-aurora",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 85000
+  },
+  {
+    "id": "cta-002-xp",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 18000
+  },
+  {
+    "id": "cta-002-aurora",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 3000
+  },
+  {
+    "id": "cta-003-ipe",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 22000
+  },
+  {
+    "id": "cta-004-aurora",
+    "clienteId": "cli-004",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 6000
+  },
+  {
+    "id": "cta-005-ipe",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 25000
+  },
+  {
+    "id": "cta-006-xp",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 12000
+  },
+  {
+    "id": "cta-101-ipe",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 7900
+  },
+  {
+    "id": "cta-102-aurora",
+    "clienteId": "cli-102",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 8900
+  },
+  {
+    "id": "cta-103-xp",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 15800
+  },
+  {
+    "id": "cta-104-aurora",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 13000
+  },
+  {
+    "id": "cta-105-aurora",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 2800
+  },
+  {
+    "id": "cta-105-xp",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 1200
+  },
+  {
+    "id": "cta-106-horizonte",
+    "clienteId": "cli-106",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CORRENTE",
+    "saldo": 3200
+  },
+  {
+    "id": "cta-107-aurora",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 15700
+  },
+  {
+    "id": "cta-108-xp",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 16900
+  },
+  {
+    "id": "cta-109-ipe",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 3900
+  },
+  {
+    "id": "cta-110-ipe",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 3800
+  },
+  {
+    "id": "cta-111-horizonte",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CORRENTE",
+    "saldo": 5500
+  },
+  {
+    "id": "cta-112-aurora",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 8600
+  },
+  {
+    "id": "cta-113-xp",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 12100
+  },
+  {
+    "id": "cta-114-horizonte",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CORRENTE",
+    "saldo": 17800
+  },
+  {
+    "id": "cta-115-aurora",
+    "clienteId": "cli-115",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 2100
+  },
+  {
+    "id": "cta-115-xp",
+    "clienteId": "cli-115",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 800
+  },
+  {
+    "id": "cta-116-ipe",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 7500
+  },
+  {
+    "id": "cta-117-ipe",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 9300
+  },
+  {
+    "id": "cta-118-xp",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 6200
+  },
+  {
+    "id": "cta-119-ipe",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 7900
+  },
+  {
+    "id": "cta-120-ipe",
+    "clienteId": "cli-120",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 10100
+  },
+  {
+    "id": "cta-121-horizonte",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CORRENTE",
+    "saldo": 12300
+  },
+  {
+    "id": "cta-122-aurora",
+    "clienteId": "cli-122",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 7400
+  },
+  {
+    "id": "cta-123-xp",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 4800
+  },
+  {
+    "id": "cta-124-aurora",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 8400
+  },
+  {
+    "id": "cta-125-aurora",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 4300
+  },
+  {
+    "id": "cta-125-xp",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 1800
+  },
+  {
+    "id": "cta-126-horizonte",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CORRENTE",
+    "saldo": 12700
+  },
+  {
+    "id": "cta-127-ipe",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CORRENTE",
+    "saldo": 6400
+  },
+  {
+    "id": "cta-128-xp",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "tipo": "PAGAMENTO",
+    "saldo": 1800
+  },
+  {
+    "id": "cta-129-aurora",
+    "clienteId": "cli-129",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CORRENTE",
+    "saldo": 12000
+  },
+  {
+    "id": "cta-130-horizonte",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CORRENTE",
+    "saldo": 2500
+  }
+]

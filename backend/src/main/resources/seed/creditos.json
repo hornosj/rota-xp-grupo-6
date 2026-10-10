@@ -1,0 +1,92 @@
+[
+  {
+    "id": "cre-001-aurora",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "tipo": "IMOBILIARIO",
+    "saldoDevedor": 620000,
+    "parcelaMensal": 6500,
+    "taxaAnual": 0.105
+  },
+  {
+    "id": "cre-005-ipe",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "tipo": "RURAL",
+    "saldoDevedor": 350000,
+    "parcelaMensal": 4000,
+    "taxaAnual": 0.085
+  },
+  {
+    "id": "cre-105-aurora",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "tipo": "IMOBILIARIO",
+    "saldoDevedor": 124200,
+    "parcelaMensal": 1100,
+    "taxaAnual": 0.108
+  },
+  {
+    "id": "cre-112-aurora",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "tipo": "CONSIGNADO",
+    "saldoDevedor": 46900,
+    "parcelaMensal": 1210,
+    "taxaAnual": 0.21
+  },
+  {
+    "id": "cre-114-horizonte",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "CONSIGNADO",
+    "saldoDevedor": 101800,
+    "parcelaMensal": 3000,
+    "taxaAnual": 0.21
+  },
+  {
+    "id": "cre-117-ipe",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "tipo": "VEICULO",
+    "saldoDevedor": 57800,
+    "parcelaMensal": 2180,
+    "taxaAnual": 0.165
+  },
+  {
+    "id": "cre-119-ipe",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CONSIGNADO",
+    "saldoDevedor": 54900,
+    "parcelaMensal": 1760,
+    "taxaAnual": 0.21
+  },
+  {
+    "id": "cre-125-aurora",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "tipo": "PESSOAL",
+    "saldoDevedor": 12500,
+    "parcelaMensal": 700,
+    "taxaAnual": 0.29
+  },
+  {
+    "id": "cre-127-ipe",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "tipo": "CONSIGNADO",
+    "saldoDevedor": 45800,
+    "parcelaMensal": 1440,
+    "taxaAnual": 0.21
+  },
+  {
+    "id": "cre-130-horizonte",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "tipo": "VEICULO",
+    "saldoDevedor": 21200,
+    "parcelaMensal": 660,
+    "taxaAnual": 0.165
+  }
+]

@@ -1,0 +1,80 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: copiloto
+  jackson:
+    default-property-inclusion: non_null
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+
+demo:
+  data-referencia: 2026-10-11        # usar a data do pitch
+  assessor-id: ass-001
+  janela-alerta-novo-minutos: 10
+
+copiloto:
+  modo: ${COPILOTO_MODO:stub}        # stub | cache | record | live  (demo: cache)
+  modelo: claude-sonnet-5-5
+  cache-dir: ./llm-cache
+  api-key: ${ANTHROPIC_API_KEY:}
+  max-tokens: 1024
+
+premissas:
+  cdi-anual: 0.10                    # ILUSTRATIVO — ajustar para a taxa vigente antes do pitch
+  fgc:
+    limite-por-conglomerado: 250000
+    teto-global: 1000000
+
+principalidade:
+  pesos:
+    renda: 0.30
+    movimentacao: 0.20
+    contas-recorrentes: 0.15
+    investimentos: 0.15
+    cartao: 0.10
+    credito: 0.10
+  score-minimo-principal: 40
+
+renda:
+  meses-minimos: 3
+  tolerancia-valor: 0.15
+  meses-janela: 6
+  meses-janela-custo: 3
+
+alertas:
+  saldo-parado-multiplo-custo: 1
+  saldo-parado-minimo: 10000
+  renda-fora-capacidade-minima: 2000
+  exposicao-sem-garantia-max: 0.20
+  exposicao-sem-garantia-alta: 0.35
+  vencimento-dias: 30
+  consentimento-expirando-dias: 15
+  evento-vida-dias: 7
+  reserva-meses-alvo: 6
+  aporte-programado-fracao-sobra: 0.5
+
+consentimento:
+  prazo-dias: 365
+
+prioridade:
+  fgc-base: 35
+  fgc-por-20k: 1
+  fgc-max-extra: 25
+  fgc-teto-global: 10
+  concentracao-base: 15
+  concentracao-alta-extra: 10
+  vencimento-base: 15
+  vencimento-por-50k: 1
+  vencimento-max-extra: 10
+  saldo-parado-base: 10
+  saldo-parado-por-10k: 1
+  saldo-parado-max-extra: 10
+  renda-fora: 10
+  consentimento-expirando: 10
+  reserva-insuficiente: 8
+  evento-vida: 8
+  bonus-so-investimentos: 5

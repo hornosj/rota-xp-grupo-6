@@ -1,0 +1,44 @@
+[
+  {
+    "id": "emi-xp",
+    "nome": "XP Investimentos",
+    "conglomeradoId": "cong-xp",
+    "tipo": "BANCO"
+  },
+  {
+    "id": "emi-aurora",
+    "nome": "Banco Aurora",
+    "conglomeradoId": "cong-aurora",
+    "tipo": "BANCO"
+  },
+  {
+    "id": "emi-aurora-fin",
+    "nome": "Aurora Financeira",
+    "conglomeradoId": "cong-aurora",
+    "tipo": "BANCO"
+  },
+  {
+    "id": "emi-horizonte",
+    "nome": "Banco Horizonte",
+    "conglomeradoId": "cong-horizonte",
+    "tipo": "BANCO"
+  },
+  {
+    "id": "emi-ipe",
+    "nome": "Banco Ipê",
+    "conglomeradoId": "cong-ipe",
+    "tipo": "BANCO"
+  },
+  {
+    "id": "emi-tesouro",
+    "nome": "Tesouro Nacional",
+    "conglomeradoId": "cong-tesouro",
+    "tipo": "TESOURO"
+  },
+  {
+    "id": "emi-agrosul",
+    "nome": "Agro Sul Sementes S.A.",
+    "conglomeradoId": "cong-agrosul",
+    "tipo": "EMPRESA"
+  }
+]

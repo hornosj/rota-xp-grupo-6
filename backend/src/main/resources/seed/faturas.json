@@ -1,0 +1,1220 @@
+[
+  {
+    "id": "fat-001-aurora-2026-04",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 9000
+  },
+  {
+    "id": "fat-001-aurora-2026-05",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 9000
+  },
+  {
+    "id": "fat-001-aurora-2026-06",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 9000
+  },
+  {
+    "id": "fat-001-aurora-2026-07",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 9000
+  },
+  {
+    "id": "fat-001-aurora-2026-08",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 9000
+  },
+  {
+    "id": "fat-001-aurora-2026-09",
+    "clienteId": "cli-001",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 9000
+  },
+  {
+    "id": "fat-002-xp-2026-04",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-002-xp-2026-05",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-002-xp-2026-06",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-002-xp-2026-07",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-002-xp-2026-08",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-002-xp-2026-09",
+    "clienteId": "cli-002",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-003-aurora-2026-04",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 3000
+  },
+  {
+    "id": "fat-003-aurora-2026-05",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 3000
+  },
+  {
+    "id": "fat-003-aurora-2026-06",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 3000
+  },
+  {
+    "id": "fat-003-aurora-2026-07",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 3000
+  },
+  {
+    "id": "fat-003-aurora-2026-08",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 3000
+  },
+  {
+    "id": "fat-003-aurora-2026-09",
+    "clienteId": "cli-003",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 3000
+  },
+  {
+    "id": "fat-005-ipe-2026-04",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-005-ipe-2026-05",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-005-ipe-2026-06",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-005-ipe-2026-07",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-005-ipe-2026-08",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-005-ipe-2026-09",
+    "clienteId": "cli-005",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 5000
+  },
+  {
+    "id": "fat-006-xp-2026-04",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 6000
+  },
+  {
+    "id": "fat-006-xp-2026-05",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 6000
+  },
+  {
+    "id": "fat-006-xp-2026-06",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 6000
+  },
+  {
+    "id": "fat-006-xp-2026-07",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 6000
+  },
+  {
+    "id": "fat-006-xp-2026-08",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 6000
+  },
+  {
+    "id": "fat-006-xp-2026-09",
+    "clienteId": "cli-006",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 6000
+  },
+  {
+    "id": "fat-101-ipe-2026-04",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-101-ipe-2026-05",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-101-ipe-2026-06",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-101-ipe-2026-07",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-101-ipe-2026-08",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-101-ipe-2026-09",
+    "clienteId": "cli-101",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-103-xp-2026-04",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 4400
+  },
+  {
+    "id": "fat-103-xp-2026-05",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 4400
+  },
+  {
+    "id": "fat-103-xp-2026-06",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 4400
+  },
+  {
+    "id": "fat-103-xp-2026-07",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 4400
+  },
+  {
+    "id": "fat-103-xp-2026-08",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 4400
+  },
+  {
+    "id": "fat-103-xp-2026-09",
+    "clienteId": "cli-103",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 4400
+  },
+  {
+    "id": "fat-104-aurora-2026-04",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 3650
+  },
+  {
+    "id": "fat-104-aurora-2026-05",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 3650
+  },
+  {
+    "id": "fat-104-aurora-2026-06",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 3650
+  },
+  {
+    "id": "fat-104-aurora-2026-07",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 3650
+  },
+  {
+    "id": "fat-104-aurora-2026-08",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 3650
+  },
+  {
+    "id": "fat-104-aurora-2026-09",
+    "clienteId": "cli-104",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 3650
+  },
+  {
+    "id": "fat-105-aurora-2026-04",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1750
+  },
+  {
+    "id": "fat-105-aurora-2026-05",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1750
+  },
+  {
+    "id": "fat-105-aurora-2026-06",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1750
+  },
+  {
+    "id": "fat-105-aurora-2026-07",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1750
+  },
+  {
+    "id": "fat-105-aurora-2026-08",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1750
+  },
+  {
+    "id": "fat-105-aurora-2026-09",
+    "clienteId": "cli-105",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1750
+  },
+  {
+    "id": "fat-107-aurora-2026-04",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 3250
+  },
+  {
+    "id": "fat-107-aurora-2026-05",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 3250
+  },
+  {
+    "id": "fat-107-aurora-2026-06",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 3250
+  },
+  {
+    "id": "fat-107-aurora-2026-07",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 3250
+  },
+  {
+    "id": "fat-107-aurora-2026-08",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 3250
+  },
+  {
+    "id": "fat-107-aurora-2026-09",
+    "clienteId": "cli-107",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 3250
+  },
+  {
+    "id": "fat-108-xp-2026-04",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 4650
+  },
+  {
+    "id": "fat-108-xp-2026-05",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 4650
+  },
+  {
+    "id": "fat-108-xp-2026-06",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 4650
+  },
+  {
+    "id": "fat-108-xp-2026-07",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 4650
+  },
+  {
+    "id": "fat-108-xp-2026-08",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 4650
+  },
+  {
+    "id": "fat-108-xp-2026-09",
+    "clienteId": "cli-108",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 4650
+  },
+  {
+    "id": "fat-109-ipe-2026-04",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-109-ipe-2026-05",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-109-ipe-2026-06",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-109-ipe-2026-07",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-109-ipe-2026-08",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-109-ipe-2026-09",
+    "clienteId": "cli-109",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-110-ipe-2026-04",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-110-ipe-2026-05",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-110-ipe-2026-06",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-110-ipe-2026-07",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-110-ipe-2026-08",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-110-ipe-2026-09",
+    "clienteId": "cli-110",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-111-horizonte-2026-04",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1550
+  },
+  {
+    "id": "fat-111-horizonte-2026-05",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1550
+  },
+  {
+    "id": "fat-111-horizonte-2026-06",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1550
+  },
+  {
+    "id": "fat-111-horizonte-2026-07",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1550
+  },
+  {
+    "id": "fat-111-horizonte-2026-08",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1550
+  },
+  {
+    "id": "fat-111-horizonte-2026-09",
+    "clienteId": "cli-111",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1550
+  },
+  {
+    "id": "fat-112-aurora-2026-04",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-112-aurora-2026-05",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-112-aurora-2026-06",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-112-aurora-2026-07",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-112-aurora-2026-08",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-112-aurora-2026-09",
+    "clienteId": "cli-112",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-113-xp-2026-04",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2650
+  },
+  {
+    "id": "fat-113-xp-2026-05",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2650
+  },
+  {
+    "id": "fat-113-xp-2026-06",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2650
+  },
+  {
+    "id": "fat-113-xp-2026-07",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2650
+  },
+  {
+    "id": "fat-113-xp-2026-08",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2650
+  },
+  {
+    "id": "fat-113-xp-2026-09",
+    "clienteId": "cli-113",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2650
+  },
+  {
+    "id": "fat-114-horizonte-2026-04",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-04",
+    "valorTotal": 6450
+  },
+  {
+    "id": "fat-114-horizonte-2026-05",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-05",
+    "valorTotal": 6450
+  },
+  {
+    "id": "fat-114-horizonte-2026-06",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-06",
+    "valorTotal": 6450
+  },
+  {
+    "id": "fat-114-horizonte-2026-07",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-07",
+    "valorTotal": 6450
+  },
+  {
+    "id": "fat-114-horizonte-2026-08",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-08",
+    "valorTotal": 6450
+  },
+  {
+    "id": "fat-114-horizonte-2026-09",
+    "clienteId": "cli-114",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-09",
+    "valorTotal": 6450
+  },
+  {
+    "id": "fat-116-ipe-2026-04",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-116-ipe-2026-05",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-116-ipe-2026-06",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-116-ipe-2026-07",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-116-ipe-2026-08",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-116-ipe-2026-09",
+    "clienteId": "cli-116",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2500
+  },
+  {
+    "id": "fat-117-ipe-2026-04",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2600
+  },
+  {
+    "id": "fat-117-ipe-2026-05",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2600
+  },
+  {
+    "id": "fat-117-ipe-2026-06",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2600
+  },
+  {
+    "id": "fat-117-ipe-2026-07",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2600
+  },
+  {
+    "id": "fat-117-ipe-2026-08",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2600
+  },
+  {
+    "id": "fat-117-ipe-2026-09",
+    "clienteId": "cli-117",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2600
+  },
+  {
+    "id": "fat-118-xp-2026-04",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-118-xp-2026-05",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-118-xp-2026-06",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-118-xp-2026-07",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-118-xp-2026-08",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-118-xp-2026-09",
+    "clienteId": "cli-118",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-119-ipe-2026-04",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2400
+  },
+  {
+    "id": "fat-119-ipe-2026-05",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2400
+  },
+  {
+    "id": "fat-119-ipe-2026-06",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2400
+  },
+  {
+    "id": "fat-119-ipe-2026-07",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2400
+  },
+  {
+    "id": "fat-119-ipe-2026-08",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2400
+  },
+  {
+    "id": "fat-119-ipe-2026-09",
+    "clienteId": "cli-119",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2400
+  },
+  {
+    "id": "fat-121-horizonte-2026-04",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-121-horizonte-2026-05",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-121-horizonte-2026-06",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-121-horizonte-2026-07",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-121-horizonte-2026-08",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-121-horizonte-2026-09",
+    "clienteId": "cli-121",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-123-xp-2026-04",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-123-xp-2026-05",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-123-xp-2026-06",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-123-xp-2026-07",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-123-xp-2026-08",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-123-xp-2026-09",
+    "clienteId": "cli-123",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2950
+  },
+  {
+    "id": "fat-124-aurora-2026-04",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-124-aurora-2026-05",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-124-aurora-2026-06",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-124-aurora-2026-07",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-124-aurora-2026-08",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-124-aurora-2026-09",
+    "clienteId": "cli-124",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 4150
+  },
+  {
+    "id": "fat-125-aurora-2026-04",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1450
+  },
+  {
+    "id": "fat-125-aurora-2026-05",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1450
+  },
+  {
+    "id": "fat-125-aurora-2026-06",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1450
+  },
+  {
+    "id": "fat-125-aurora-2026-07",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1450
+  },
+  {
+    "id": "fat-125-aurora-2026-08",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1450
+  },
+  {
+    "id": "fat-125-aurora-2026-09",
+    "clienteId": "cli-125",
+    "instituicaoId": "inst-aurora",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1450
+  },
+  {
+    "id": "fat-126-horizonte-2026-04",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-04",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-126-horizonte-2026-05",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-05",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-126-horizonte-2026-06",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-06",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-126-horizonte-2026-07",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-07",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-126-horizonte-2026-08",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-08",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-126-horizonte-2026-09",
+    "clienteId": "cli-126",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-09",
+    "valorTotal": 2700
+  },
+  {
+    "id": "fat-127-ipe-2026-04",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-04",
+    "valorTotal": 3500
+  },
+  {
+    "id": "fat-127-ipe-2026-05",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-05",
+    "valorTotal": 3500
+  },
+  {
+    "id": "fat-127-ipe-2026-06",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-06",
+    "valorTotal": 3500
+  },
+  {
+    "id": "fat-127-ipe-2026-07",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-07",
+    "valorTotal": 3500
+  },
+  {
+    "id": "fat-127-ipe-2026-08",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-08",
+    "valorTotal": 3500
+  },
+  {
+    "id": "fat-127-ipe-2026-09",
+    "clienteId": "cli-127",
+    "instituicaoId": "inst-ipe",
+    "mesReferencia": "2026-09",
+    "valorTotal": 3500
+  },
+  {
+    "id": "fat-128-xp-2026-04",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1050
+  },
+  {
+    "id": "fat-128-xp-2026-05",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1050
+  },
+  {
+    "id": "fat-128-xp-2026-06",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1050
+  },
+  {
+    "id": "fat-128-xp-2026-07",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1050
+  },
+  {
+    "id": "fat-128-xp-2026-08",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1050
+  },
+  {
+    "id": "fat-128-xp-2026-09",
+    "clienteId": "cli-128",
+    "instituicaoId": "inst-xp",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1050
+  },
+  {
+    "id": "fat-130-horizonte-2026-04",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-04",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-130-horizonte-2026-05",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-05",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-130-horizonte-2026-06",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-06",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-130-horizonte-2026-07",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-07",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-130-horizonte-2026-08",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-08",
+    "valorTotal": 1350
+  },
+  {
+    "id": "fat-130-horizonte-2026-09",
+    "clienteId": "cli-130",
+    "instituicaoId": "inst-horizonte",
+    "mesReferencia": "2026-09",
+    "valorTotal": 1350
+  }
+]
