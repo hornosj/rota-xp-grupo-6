@@ -18,7 +18,7 @@ Comece em modo de planejamento: mostre o plano do AN-01 (estrutura do gerador e 
 totais exatos). Depois de eu aprovar, implemente.
 
 AN-01 (começa já, não depende de ninguém): data/gerar_seed.py
-- Python 3, só biblioteca padrão, random.seed(42), argumento --data-referencia (padrão 2026-10-11)
+- Python 3, só biblioteca padrão, random.seed(42), argumento --data-referencia (padrão 2026-10-10)
   e --saida (padrão backend/src/main/resources/seed).
 - Gera os arquivos do §6 seguindo os campos do §4.1 exatamente.
 - Os 6 âncoras do §6.3 com valores EXATOS; totais mensais exatos por categoria; só o consumo é

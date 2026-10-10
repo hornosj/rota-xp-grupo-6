@@ -7,13 +7,20 @@ import type {
   Briefing,
   ClienteResumo,
   ConsentimentoComNome,
+  Convite,
+  ConviteOnboarding,
   DemoEstado,
   ErroApi,
+  FormularioOnboarding,
+  ImpactoNoticia,
   ItemFila,
-  Jornada,
   MensagemGerada,
+  MotivoNoticia,
+  NoticiaClassificada,
   PainelCarteira,
   Principalidade,
+  ResultadoOnboarding,
+  ResultadoProcessamento,
   Visao360,
 } from "./api-types";
 
@@ -69,12 +76,34 @@ export function criarHttpApi(fetchImpl: Fetch = (u, i) => fetch(u, i)): Api {
     revogar: (id, inst) => chamar<Visao360>(`/clientes/${seg(id)}/consentimentos/${seg(inst)}/revogar`, { method: "POST" }),
     fila: () => chamar<ItemFila[]>("/assessor/fila"),
     painel: () => chamar<PainelCarteira>("/assessor/painel"),
-    jornada: (id) => chamar<Jornada>(`/clientes/${seg(id)}/jornada`),
     mensagem: (id, acaoId, canal) =>
       chamar<MensagemGerada>(`/clientes/${seg(id)}/acoes/${seg(acaoId)}/mensagem`, { method: "POST", json: { canal } }),
     briefing: (id) => chamar<Briefing>(`/clientes/${seg(id)}/briefing`),
     resetDemo: () => chamar<void>("/demo/reset", { method: "POST" }),
     demoEstado: () => chamar<DemoEstado>("/demo/estado"),
+    noticiasRadar: () => chamar<NoticiaClassificada[]>("/radar/noticias"),
+    processarRadar: () => chamar<ResultadoProcessamento>("/radar/processar", { method: "POST" }),
+    radarCliente: (id) => chamar<ImpactoNoticia[]>(`/clientes/${seg(id)}/radar`),
+    radarCarteira: (limite = 20) => chamar<ImpactoNoticia[]>(`/assessor/radar?limite=${limite}`),
+    motivoNoticia: (id, noticiaId) =>
+      chamar<MotivoNoticia>(`/clientes/${seg(id)}/radar/${seg(noticiaId)}/motivo`, { method: "POST" }),
+    criarConvite: (id, inst) => chamar<Convite>(`/clientes/${seg(id)}/convites/${seg(inst)}`, { method: "POST" }),
+    convites: (id) => chamar<Convite[]>(`/clientes/${seg(id)}/convites`),
+    convite: (token) => chamar<Convite>(`/convites/${seg(token)}`),
+    async confirmarConvite(token) {
+      try {
+        return await chamar<Convite>(`/convites/${seg(token)}/confirmar`, { method: "POST" });
+      } catch (e) {
+        // 409 = já confirmado → sucesso; devolve o convite atual.
+        if (e instanceof ApiError && e.status === 409) return api.convite(token);
+        throw e;
+      }
+    },
+    convitesOnboarding: () => chamar<ConviteOnboarding[]>("/assessor/convites"),
+    criarConviteOnboarding: (nome) => chamar<ConviteOnboarding>("/assessor/convites", { method: "POST", json: { nome } }),
+    formularioOnboarding: (token) => chamar<FormularioOnboarding>(`/onboarding/${seg(token)}`),
+    concluirOnboarding: (token, cadastro) =>
+      chamar<ResultadoOnboarding>(`/onboarding/${seg(token)}`, { method: "POST", json: cadastro }),
   };
   return api;
 }

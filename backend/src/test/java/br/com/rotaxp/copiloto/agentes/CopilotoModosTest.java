@@ -28,20 +28,22 @@ class CopilotoModosTest {
 
     static final String ACAO_FGC = "acao-cli-001-fgc_excedido-cong-horizonte";
 
-    /** LLM falso: grava os prompts recebidos e devolve uma resposta fixa. */
-    static class LlmFalso implements LlmCliente {
-        final List<String[]> chamadas = new ArrayList<>();
-        String resposta = "Oi, Marina! Texto do LLM.";
+    /** Executor falso: registra as entradas e devolve respostas fixas (ou falha). */
+    static class ExecutorFalso implements ExecutorAgentes {
+        final List<Object> entradas = new ArrayList<>();
+        Object resposta;
+        RuntimeException erro;
 
-        @Override public String completar(String system, String user) {
-            chamadas.add(new String[] {system, user});
-            return resposta;
+        @Override public <T> T executar(Object entrada, Class<T> resultado) {
+            entradas.add(entrada);
+            if (erro != null) throw erro;
+            return resultado.cast(resposta);
         }
     }
 
     @TempDir Path dir;
     private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-    private final LlmFalso llm = new LlmFalso();
+    private final ExecutorFalso agentes = new ExecutorFalso();
     private ContextoClienteFactory contextos;
     private CopilotoStub stub;
     private CacheLlm cache;
@@ -54,72 +56,90 @@ class CopilotoModosTest {
         i.consentimentos.conceder("cli-001", "inst-horizonte");
         assembler.aoAlterarConsentimento(new ConsentimentoAlterado("cli-001", "inst-horizonte"));
         contextos = new ContextoClienteFactory(assembler, i.dataReferencia);
-        stub = new CopilotoStub(contextos);
+        stub = new CopilotoStub(contextos, null);
         cache = new CacheLlm(dir, mapper);
-        live = new CopilotoLive(contextos, llm, mapper, stub);
+        live = new CopilotoLive(agentes, stub);
+        agentes.resposta = new MensagemGerada("Oi, Marina! Texto do agente.", Canal.WHATSAPP, GeradoPor.live);
     }
 
-    // ---------- live ----------
+    // ---------- live (agentes Embabel) ----------
 
     @Test
-    void liveMandaRegrasNoSystemEContextoEnxutoNoUser() {
+    void liveInvocaOAgenteDeMensagemComOPedido() {
         MensagemGerada m = live.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP);
 
-        assertThat(m.texto()).isEqualTo("Oi, Marina! Texto do LLM.");
+        assertThat(m.texto()).isEqualTo("Oi, Marina! Texto do agente.");
         assertThat(m.geradoPor()).isEqualTo(GeradoPor.live);
-        String system = llm.chamadas.get(0)[0];
-        String user = llm.chamadas.get(0)[1];
-        assertThat(system).contains("pt-BR", "Não prometa rentabilidade", "exatamente como estão no contexto", "600 caracteres");
-        assertThat(user).contains("R$ 400 mil", "Banco Horizonte", "Aniversário da Sofia", "WHATSAPP")
-                .doesNotContain("Juliana", "cli-003");
+        assertThat(agentes.entradas).containsExactly(new AgentesTipos.PedidoMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP));
     }
 
     @Test
-    void liveBriefingLeJsonEstruturado() {
-        llm.resposta = "{\"bullets\":[\"a\",\"b\",\"c\",\"d\",\"e\"],\"perguntasSugeridas\":[\"p1\",\"p2\",\"p3\"]}";
+    void liveBriefingEValidado() {
+        agentes.resposta = new Briefing("cli-001", List.of("a", "b", "c", "d", "e"), List.of("p1", "p2", "p3"), GeradoPor.live);
 
         Briefing b = live.gerarBriefing("cli-001");
 
-        assertThat(b.bullets()).containsExactly("a", "b", "c", "d", "e");
-        assertThat(b.perguntasSugeridas()).containsExactly("p1", "p2", "p3");
+        assertThat(b.bullets()).hasSize(5);
         assertThat(b.geradoPor()).isEqualTo(GeradoPor.live);
+        assertThat(agentes.entradas).containsExactly(new AgentesTipos.PedidoBriefing("cli-001"));
     }
 
     @Test
-    void liveComRespostaInvalidaCaiNoStub() {
-        llm.resposta = "isso não é json";
+    void liveComRespostaIncompletaCaiNoStub() {
+        agentes.resposta = new Briefing("cli-001", List.of(), List.of(), GeradoPor.live);
 
         assertThat(live.gerarBriefing("cli-001").geradoPor()).isEqualTo(GeradoPor.stub);
     }
 
     @Test
-    void liveComFalhaDoLlmCaiNoStub() {
-        LlmCliente quebrado = (s, u) -> { throw new IllegalStateException("sem rede"); };
-        CopilotoLive l = new CopilotoLive(contextos, quebrado, mapper, stub);
+    void liveComFalhaDoAgenteCaiNoStub() {
+        agentes.erro = new IllegalStateException("401 sem chave");
 
-        assertThat(l.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP).geradoPor()).isEqualTo(GeradoPor.stub);
+        assertThat(live.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP).geradoPor()).isEqualTo(GeradoPor.stub);
+        assertThat(live.gerarBriefing("cli-001").geradoPor()).isEqualTo(GeradoPor.stub);
+        assertThat(live.processarNota("cli-003", "vai casar").geradoPor()).isEqualTo(GeradoPor.stub);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E extends Throwable> void lancarSemDeclarar(Throwable t) throws E {
+        throw (E) t;
     }
 
     @Test
-    void liveNotaLeFatosEmJson() {
-        llm.resposta = "{\"resumo\":\"r\",\"eventos\":[{\"tipo\":\"CASAMENTO\",\"descricao\":\"Casamento\",\"data\":\"2027-05-01\"}],"
-                + "\"metas\":[\"m\"],\"mudancasPerfil\":[]}";
+    void liveCaiNoStubMesmoComExcecaoCheckedNaoDeclarada() {
+        // o AgentInvocation.invoke() do Embabel (Kotlin) propaga ExecutionException sem declará-la
+        ExecutorAgentes kotlin = new ExecutorAgentes() {
+            @Override public <T> T executar(Object entrada, Class<T> resultado) {
+                CopilotoModosTest.<RuntimeException>lancarSemDeclarar(
+                        new java.util.concurrent.ExecutionException(new IllegalStateException("401")));
+                return null;
+            }
+        };
+        CopilotoLive l = new CopilotoLive(kotlin, stub);
+
+        assertThat(l.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP).geradoPor()).isEqualTo(GeradoPor.stub);
+        assertThat(l.gerarBriefing("cli-001").geradoPor()).isEqualTo(GeradoPor.stub);
+    }
+
+    @Test
+    void liveNotaInvocaOAgenteDeNota() {
+        agentes.resposta = new ResultadoNota("r", List.of(), List.of("m"), List.of(), List.of(), GeradoPor.live);
 
         ResultadoNota r = live.processarNota("cli-003", "vai casar");
 
-        assertThat(r.eventosCriados()).singleElement().satisfies(e -> assertThat(e.data()).hasToString("2027-05-01"));
         assertThat(r.metas()).containsExactly("m");
-        assertThat(r.geradoPor()).isEqualTo(GeradoPor.live);
+        assertThat(agentes.entradas).containsExactly(new AgentesTipos.NotaReuniao("cli-003", "vai casar"));
     }
 
     // ---------- record + cache ----------
 
     @Test
     void recordGravaECacheLeOffline() throws Exception {
-        CopilotoRecord record = new CopilotoRecord(live, cache, contextos);
-        CopilotoCache emCache = new CopilotoCache(cache, contextos, stub);
+        CopilotoRecord record = new CopilotoRecord(live, cache, contextos, null);
+        CopilotoCache emCache = new CopilotoCache(cache, contextos, null, stub);
 
         record.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP);
+        agentes.resposta = new Briefing("cli-001", List.of("a"), List.of("p"), GeradoPor.live);
         record.gerarBriefing("cli-001");
         try (var arquivos = Files.list(dir)) {
             assertThat(arquivos.map(p -> p.getFileName().toString()))
@@ -128,14 +148,14 @@ class CopilotoModosTest {
 
         MensagemGerada m = emCache.redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP);
 
-        assertThat(m.texto()).isEqualTo("Oi, Marina! Texto do LLM.");
+        assertThat(m.texto()).isEqualTo("Oi, Marina! Texto do agente.");
         assertThat(m.geradoPor()).isEqualTo(GeradoPor.cache);
-        assertThat(llm.chamadas).hasSize(2);   // o cache não chama o LLM
+        assertThat(agentes.entradas).hasSize(2);   // o cache não chama o agente
     }
 
     @Test
     void cacheSemArquivoCaiNoStub() {
-        CopilotoCache emCache = new CopilotoCache(cache, contextos, stub);
+        CopilotoCache emCache = new CopilotoCache(cache, contextos, null, stub);
 
         assertThat(emCache.redigirMensagem("cli-001", ACAO_FGC, Canal.EMAIL).geradoPor()).isEqualTo(GeradoPor.stub);
         assertThat(emCache.gerarBriefing("cli-003").geradoPor()).isEqualTo(GeradoPor.stub);
@@ -153,8 +173,8 @@ class CopilotoModosTest {
     // ---------- roteador ----------
 
     private CopilotoRouter router(String modo, String chave) {
-        CopilotoProps props = new CopilotoProps(modo, "claude-sonnet-5-5", dir.toString(), chave, 1024);
-        return new CopilotoRouter(props, stub, new CopilotoCache(cache, contextos, stub), live, new CopilotoRecord(live, cache, contextos));
+        CopilotoProps props = new CopilotoProps(modo, "deepseek/deepseek-v4-pro", dir.toString(), chave, 1024);
+        return new CopilotoRouter(props, stub, new CopilotoCache(cache, contextos, null, stub), live, new CopilotoRecord(live, cache, contextos, null));
     }
 
     @Test
@@ -168,7 +188,7 @@ class CopilotoModosTest {
     void liveOuRecordSemChaveViramStub() {
         assertThat(router("live", "").redigirMensagem("cli-001", ACAO_FGC, Canal.WHATSAPP).geradoPor()).isEqualTo(GeradoPor.stub);
         assertThat(router("record", null).gerarBriefing("cli-001").geradoPor()).isEqualTo(GeradoPor.stub);
-        assertThat(llm.chamadas).isEmpty();
+        assertThat(agentes.entradas).isEmpty();
         assertThat(router("live", "").modoEfetivo()).isEqualTo("stub");
     }
 }

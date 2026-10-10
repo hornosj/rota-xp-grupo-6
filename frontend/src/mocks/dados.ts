@@ -41,11 +41,11 @@ const marina = cliente({
     { instituicaoId: "inst-horizonte", produtos: ["INVESTIMENTOS"] },
   ],
   dependentes: [
-    { nome: "Sofia", parentesco: "filha", dataNascimento: "2014-10-16" },
+    { nome: "Sofia", parentesco: "filha", dataNascimento: "2014-10-15" },
     { nome: "Pedro", parentesco: "filho", dataNascimento: "2017-03-02" },
   ],
   eventosVida: [
-    { id: "ev-001-1", tipo: "ANIVERSARIO", descricao: "Aniversário da Sofia (12 anos)", data: "2026-10-16", origem: "CADASTRO" },
+    { id: "ev-001-1", tipo: "ANIVERSARIO", descricao: "Aniversário da Sofia (12 anos)", data: "2026-10-15", origem: "CADASTRO" },
   ],
 });
 
@@ -55,13 +55,13 @@ export function defMarina(depois: { em: string; novo: boolean } | null, horizont
   const consentimentos = [
     consentimento(c, "inst-xp", "ATIVO", TODOS),
     consentimento(c, "inst-aurora", "ATIVO", ["CONTAS", "CARTOES", "CREDITO"], {
-      concedidoEm: "2026-08-12T10:00:00-03:00",
-      expiraEm: "2027-08-07",
+      concedidoEm: "2026-08-06T10:00:00-03:00",
+      expiraEm: "2027-08-06",
     }),
     depois
       ? consentimento(c, "inst-horizonte", "ATIVO", ["INVESTIMENTOS"], {
           concedidoEm: depois.em,
-          expiraEm: "2027-10-11",
+          expiraEm: "2027-10-10",
         })
       : horizonteRevogado
         ? consentimento(c, "inst-horizonte", "REVOGADO", ["INVESTIMENTOS"])
@@ -161,7 +161,9 @@ export function defMarina(depois: { em: string; novo: boolean } | null, horizont
           acaoSaldo(true),
           acaoAporte,
           acaoAniversario,
-          acao(c, "CONVIDAR_CONEXAO", "Convidar a conectar o Banco Horizonte pelo app", "Marina declarou investimentos no Banco Horizonte que ainda não estão conectados (cobertura de 67%).", []),
+          acao(c, "CONVIDAR_CONEXAO", "Convidar a conectar o Banco Horizonte pelo app", "Marina declarou investimentos no Banco Horizonte que ainda não estão conectados (cobertura de 67%).", [], {
+            id: "acao-cli-001-convidar_conexao-inst-horizonte",
+          }),
         ],
       },
     };
@@ -231,7 +233,7 @@ function defCarlos(): DefCliente {
       })),
       consentimentos: [
         consentimento(c, "inst-xp", "ATIVO", TODOS),
-        consentimento(c, "inst-aurora", "ATIVO", ["CONTAS"], { concedidoEm: "2025-10-21T09:00:00-03:00", expiraEm: "2026-10-21" }),
+        consentimento(c, "inst-aurora", "ATIVO", ["CONTAS"], { concedidoEm: "2025-10-20T09:00:00-03:00", expiraEm: "2026-10-20" }),
       ],
       contas: [{ instituicaoId: "inst-xp", saldo: 18000 }, { instituicaoId: "inst-aurora", saldo: 3000 }],
       investimentos: [

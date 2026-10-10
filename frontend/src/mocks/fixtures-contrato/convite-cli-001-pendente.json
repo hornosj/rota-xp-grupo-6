@@ -1,0 +1,14 @@
+{
+  "token": "cv-9612a1d93c",
+  "clienteId": "cli-001",
+  "instituicaoId": "inst-horizonte",
+  "instituicaoNome": "Banco Horizonte",
+  "escopos": [
+    "INVESTIMENTOS"
+  ],
+  "prazoMeses": 12,
+  "link": "http://localhost:3000/convite/cv-9612a1d93c",
+  "status": "PENDENTE",
+  "criadoEm": "2026-10-11T14:01:09.2712085-03:00",
+  "expiraEm": "2026-10-13T14:01:09.2712085-03:00"
+}

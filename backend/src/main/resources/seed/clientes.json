@@ -35,7 +35,7 @@
       {
         "nome": "Sofia",
         "parentesco": "FILHA",
-        "dataNascimento": "2014-10-16"
+        "dataNascimento": "2014-10-15"
       },
       {
         "nome": "Pedro",
@@ -246,7 +246,7 @@
         "id": "evt-101-01",
         "tipo": "MUDANCA",
         "descricao": "Mudança de apartamento",
-        "data": "2027-02-12",
+        "data": "2027-02-11",
         "origem": "NOTA_REUNIAO"
       }
     ]
@@ -310,7 +310,7 @@
         "id": "evt-103-01",
         "tipo": "CASAMENTO",
         "descricao": "Casamento planejado",
-        "data": "2026-12-20",
+        "data": "2026-12-19",
         "origem": "NOTA_REUNIAO"
       }
     ]
@@ -426,7 +426,7 @@
         "id": "evt-106-01",
         "tipo": "MUDANCA",
         "descricao": "Mudança de apartamento",
-        "data": "2027-06-25",
+        "data": "2027-06-24",
         "origem": "CADASTRO"
       }
     ]
@@ -724,7 +724,7 @@
         "id": "evt-115-01",
         "tipo": "MUDANCA",
         "descricao": "Mudança de apartamento",
-        "data": "2027-07-02",
+        "data": "2027-07-01",
         "origem": "NOTA_REUNIAO"
       }
     ]
@@ -931,7 +931,7 @@
         "id": "evt-121-01",
         "tipo": "APOSENTADORIA",
         "descricao": "Planejamento de aposentadoria",
-        "data": "2027-08-03",
+        "data": "2027-08-02",
         "origem": "CADASTRO"
       }
     ]
@@ -1116,7 +1116,7 @@
         "id": "evt-127-01",
         "tipo": "CASAMENTO",
         "descricao": "Casamento planejado",
-        "data": "2027-05-08",
+        "data": "2027-05-07",
         "origem": "NOTA_REUNIAO"
       }
     ]
@@ -1197,7 +1197,7 @@
         "id": "evt-129-01",
         "tipo": "CASAMENTO",
         "descricao": "Casamento planejado",
-        "data": "2027-07-31",
+        "data": "2027-07-30",
         "origem": "NOTA_REUNIAO"
       }
     ]

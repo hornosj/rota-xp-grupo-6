@@ -19,5 +19,6 @@ public record ContextoCliente(
     public record EventoProximo(String descricao, LocalDate data, long emDias) {}
 
     public record AcaoContexto(String id, TipoAcao tipo, String titulo, String motivo, String impactoEstimado,
-                               BigDecimal valor, String valorTexto, String instituicaoNome) {}
+                               BigDecimal valor, String valorTexto, String instituicaoNome,
+                               String link) {}   // link do convite, só em CONVIDAR_CONEXAO
 }

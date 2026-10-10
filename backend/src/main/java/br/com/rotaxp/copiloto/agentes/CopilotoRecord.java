@@ -14,11 +14,20 @@ public class CopilotoRecord implements Copiloto {
     private final CopilotoLive live;
     private final CacheLlm cache;
     private final ContextoClienteFactory contextos;
+    private final ContextoNoticiaFactory contextosNoticia;
 
-    public CopilotoRecord(CopilotoLive live, CacheLlm cache, ContextoClienteFactory contextos) {
+    public CopilotoRecord(CopilotoLive live, CacheLlm cache, ContextoClienteFactory contextos, ContextoNoticiaFactory contextosNoticia) {
         this.live = live;
         this.cache = cache;
         this.contextos = contextos;
+        this.contextosNoticia = contextosNoticia;
+    }
+
+    @Override
+    public br.com.rotaxp.copiloto.dominio.Radar.MotivoNoticia redigirMotivoNoticia(String clienteId, String noticiaId) {
+        var m = live.redigirMotivoNoticia(clienteId, noticiaId);
+        if (m.geradoPor() == GeradoPor.live) cache.gravar(CopilotoCache.chaveMotivo(cache, contextosNoticia, clienteId, noticiaId), m);
+        return m;
     }
 
     @Override

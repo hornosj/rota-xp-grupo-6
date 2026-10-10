@@ -1,6 +1,7 @@
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { avisarDadosAlterados } from "@/lib/sinal";
 import { mockApi } from "@/mocks";
 import { navegacao } from "@/test/navegacao";
 import { renderComQuery } from "@/test/utils";
@@ -10,18 +11,18 @@ vi.mock("@/lib/api", async () => ({ api: (await import("@/mocks")).mockApi }));
 import { TelaCliente360 } from "./assessor/tela-cliente-360";
 import { TelaHoje } from "./assessor/tela-hoje";
 import { TelaPainel } from "./assessor/tela-painel";
-import { Palco } from "./palco/palco";
 
 describe("TelaHoje", () => {
-  it("modo ao vivo: Marina sobe para 1º com NOVO sozinha (polling) após o consentimento", async () => {
+  it("Marina sobe para 1º com NOVO na hora em que o outro iframe avisa (sem esperar o polling)", async () => {
     navegacao.search = "aoVivo=1";
     renderComQuery(<TelaHoje />);
     expect(await screen.findByText(/Ao vivo/)).toBeInTheDocument();
     await waitFor(() => expect(screen.getAllByTestId("item-fila")[1]).toHaveTextContent("Dra. Marina Costa"));
     expect(within(screen.getAllByTestId("item-fila")[1]).getByRole("link")).toHaveAttribute("href", "/assessor/clientes/cli-001?aoVivo=1");
 
-    // a cliente concede no "outro iframe"
+    // a cliente confirma no "outro iframe": o hook de lá grava e avisa as outras telas
     await mockApi.conceder("cli-001", "inst-horizonte");
+    avisarDadosAlterados();
 
     await waitFor(
       () => {
@@ -29,8 +30,24 @@ describe("TelaHoje", () => {
         expect(primeira).toHaveTextContent("Dra. Marina Costa");
         expect(primeira).toHaveTextContent("NOVO");
       },
-      { timeout: 4000 },
+      { timeout: 1500 },   // bem abaixo dos 15 s do polling de segurança
     );
+  });
+
+  it("filtra a sequência pelo tipo da próxima ação e gera a mensagem direto do destaque", async () => {
+    const user = userEvent.setup();
+    renderComQuery(<TelaHoje />);
+    await screen.findAllByTestId("item-fila");
+    await user.click(screen.getByRole("button", { name: /Dinheiro parado/ }));
+    const [destaque, ...linhas] = screen.getAllByTestId("item-fila");
+    expect(destaque).toHaveTextContent("Patrícia Gomes");
+    expect(linhas.length).toBeGreaterThan(0);
+    expect(linhas[0]).toHaveTextContent("Dra. Marina Costa");
+    for (const l of linhas) expect(l).toHaveTextContent(/parados/);
+
+    await user.click(within(destaque).getByRole("button", { name: /Gerar mensagem/ }));
+    expect(await screen.findByTestId("texto-mensagem")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toHaveTextContent("Patrícia Gomes");
   });
 
   it("sem ao vivo: sem indicador", async () => {
@@ -67,29 +84,5 @@ describe("TelaPainel", () => {
     expect(screen.getByTestId("kpi-xp-principal")).toHaveTextContent("%");
     expect(screen.getByText(/Clientes com alerta alto/)).toBeInTheDocument();
     expect(screen.getByTestId("distribuicao")).toHaveTextContent("Só investimentos");
-  });
-});
-
-describe("Palco", () => {
-  it("monta os dois iframes, troca abas e reseta a demo recarregando os iframes", async () => {
-    const user = userEvent.setup();
-    const reset = vi.spyOn(mockApi, "resetDemo");
-    await mockApi.conceder("cli-001", "inst-horizonte");
-    renderComQuery(<Palco />);
-    const assessor = screen.getByTitle("Tela do assessor") as HTMLIFrameElement;
-    const cliente = screen.getByTitle("Celular da cliente") as HTMLIFrameElement;
-    expect(assessor.getAttribute("src")).toBe("/assessor/hoje?aoVivo=1");
-    expect(cliente.getAttribute("src")).toBe("/cliente/cli-001");
-
-    await user.click(screen.getByRole("tab", { name: /360 da Marina/ }));
-    await waitFor(() =>
-      expect(screen.getByTitle("Tela do assessor").getAttribute("src")).toBe("/assessor/clientes/cli-001?aoVivo=1"),
-    );
-
-    await user.click(screen.getByRole("button", { name: /Resetar demo/ }));
-    await waitFor(() => expect(reset).toHaveBeenCalled());
-    await waitFor(() => expect(screen.getByTitle("Celular da cliente")).not.toBe(cliente));
-    const fila = await mockApi.fila();
-    expect(fila.findIndex((i) => i.clienteId === "cli-001")).toBe(1);
   });
 });

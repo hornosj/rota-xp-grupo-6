@@ -1,0 +1,60 @@
+{
+  "convite": {
+    "id": "conv-001",
+    "token": "TOKEN-EXEMPLO",
+    "link": "/onboarding/TOKEN-EXEMPLO",
+    "nome": "Carla Mendes",
+    "assessorId": "ass-001",
+    "status": "CONCLUIDO",
+    "criadoEm": "2026-10-10T13:02:58.9697222-03:00",
+    "abertoEm": "2026-10-10T13:02:59.2185358-03:00",
+    "concluidoEm": "2026-10-10T13:02:59.3995864-03:00",
+    "clienteId": "cli-201",
+    "perfil": "ARROJADO"
+  },
+  "clienteId": "cli-201",
+  "perfil": "ARROJADO",
+  "pontuacaoSuitability": 15,
+  "consentimentos": [
+    {
+      "id": "con-201-xp",
+      "clienteId": "cli-201",
+      "instituicaoId": "inst-xp",
+      "tipo": "INTERNO",
+      "status": "ATIVO",
+      "escopos": [
+        "CONTAS",
+        "CARTOES",
+        "CREDITO",
+        "INVESTIMENTOS"
+      ],
+      "concedidoEm": "2026-10-10",
+      "instituicaoNome": "XP Investimentos"
+    },
+    {
+      "id": "con-201-aurora",
+      "clienteId": "cli-201",
+      "instituicaoId": "inst-aurora",
+      "tipo": "OPEN_FINANCE",
+      "status": "ATIVO",
+      "escopos": [
+        "CONTAS",
+        "CARTOES"
+      ],
+      "concedidoEm": "2026-10-10",
+      "expiraEm": "2027-10-10",
+      "instituicaoNome": "Banco Aurora"
+    },
+    {
+      "id": "con-201-ipe",
+      "clienteId": "cli-201",
+      "instituicaoId": "inst-ipe",
+      "tipo": "OPEN_FINANCE",
+      "status": "PENDENTE",
+      "escopos": [
+        "INVESTIMENTOS"
+      ],
+      "instituicaoNome": "Banco Ipê"
+    }
+  ]
+}

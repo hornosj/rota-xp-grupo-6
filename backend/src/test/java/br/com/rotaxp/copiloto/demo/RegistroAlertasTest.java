@@ -18,7 +18,7 @@ class RegistroAlertasTest {
 
     /** Relógio que dá para avançar. */
     static class RelogioMovel extends Clock {
-        Instant agora = Instant.parse("2026-10-11T12:00:00Z");
+        Instant agora = Instant.parse("2026-10-10T12:00:00Z");
         @Override public java.time.ZoneId getZone() { return ZoneOffset.UTC; }
         @Override public Clock withZone(java.time.ZoneId zone) { return this; }
         @Override public Instant instant() { return agora; }

@@ -14,8 +14,8 @@ import type {
   Visao360,
 } from "@/lib/api-types";
 
-export const DATA_REFERENCIA = "2026-10-11";
-export const DETECTADO_BASE = "2026-10-11T08:00:00-03:00";
+export const DATA_REFERENCIA = "2026-10-10";
+export const DETECTADO_BASE = "2026-10-10T08:00:00-03:00";
 
 export const INSTITUICOES: Record<Id, { nome: string; ehXp: boolean }> = {
   "inst-xp": { nome: "XP Investimentos", ehXp: true },
@@ -217,10 +217,10 @@ export function acao(
   titulo: string,
   motivo: string,
   alertaIds: Id[],
-  extra?: { impactoEstimado?: string; principal?: boolean },
+  extra?: { impactoEstimado?: string; principal?: boolean; id?: Id },
 ): AcaoSugerida {
   return {
-    id: `ac-${clienteId.replace("cli-", "")}-${tipo.toLowerCase()}`,
+    id: extra?.id ?? `ac-${clienteId.replace("cli-", "")}-${tipo.toLowerCase()}`,
     clienteId,
     tipo,
     titulo,

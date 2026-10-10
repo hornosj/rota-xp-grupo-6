@@ -163,7 +163,7 @@
       "clienteId": "cli-002",
       "tipo": "REINVESTIR_VENCIMENTO",
       "titulo": "R$ 240 mil vencem em 20 dias: preparar reinvestimento",
-      "motivo": "CDB Banco Ipê 2026 (R$ 240 mil) vence em 31/10/2026. Bom momento para planejar o reinvestimento.",
+      "motivo": "CDB Banco Ipê 2026 (R$ 240 mil) vence em 30/10/2026. Bom momento para planejar o reinvestimento.",
       "impactoEstimado": "Evita que o dinheiro fique parado após o vencimento",
       "alertaIds": [
         "alr-cli-002-vencimento_proximo-inv-002-01"

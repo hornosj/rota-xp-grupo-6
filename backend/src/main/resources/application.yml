@@ -6,22 +6,51 @@ spring:
     name: copiloto
   jackson:
     default-property-inclusion: non_null
+  datasource:
+    url: jdbc:sqlite:${BANCO_ARQUIVO:./copiloto.db}?foreign_keys=on&journal_mode=WAL&synchronous=NORMAL
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 1           # SQLite: um escritor por vez; evita SQLITE_BUSY
+
+banco:
+  tipo: ${BANCO_TIPO:sqlite}         # sqlite | memoria
+  recriar-no-inicio: false           # true: reimporta a seed a cada startup (o reset da demo sempre reimporta)
 
 springdoc:
   api-docs:
     path: /v3/api-docs
 
 demo:
-  data-referencia: 2026-10-11        # usar a data do pitch
+  data-referencia: 2026-10-10        # usar a data do pitch
   assessor-id: ass-001
   janela-alerta-novo-minutos: 10
 
 copiloto:
   modo: ${COPILOTO_MODO:stub}        # stub | cache | record | live  (demo: cache)
-  modelo: claude-sonnet-5-5
+  modelo: ${COPILOTO_MODELO:deepseek/deepseek-v4-pro}   # via OpenRouter; barato para testes
   cache-dir: ./llm-cache
-  api-key: ${ANTHROPIC_API_KEY:}
-  max-tokens: 1024
+  api-key: ${OPENROUTER_APIKEY:}     # sem chave, live/record viram stub
+  max-tokens: 700                     # teto de tokens de saída por resposta (trava de crédito)
+  limite-chamadas-dia: ${COPILOTO_LIMITE_DIA:100}   # trava de crédito: passou, cai no stub
+
+# Embabel: provedor compatível com OpenAI apontando para o OpenRouter.
+# Sem OPENROUTER_APIKEY a aplicação sobe com uma chave provisória (o Embabel exige alguma);
+# as chamadas falham e o Copiloto cai no stub.
+embabel:
+  models:
+    default-llm: ${copiloto.modelo}
+  agent:
+    platform:
+      models:
+        openai:
+          custom:
+            base-url: https://openrouter.ai/api
+            api-key: ${OPENROUTER_APIKEY:sem-chave}
+            models: ${copiloto.modelo},${radar.modelo-classificacao}
+            max-attempts: 2
+            backoff-millis: 500
+            backoff-multiplier: 2.0
+            backoff-max-interval: 2000
 
 premissas:
   cdi-anual: 0.10                    # ILUSTRATIVO — ajustar para a taxa vigente antes do pitch
@@ -60,6 +89,19 @@ alertas:
 consentimento:
   prazo-dias: 365
 
+onboarding:
+  caminho-link: /onboarding/          # o front monta a URL absoluta com a origem
+  idade-minima: 18
+  suitability:                       # pontuação máxima (inclusive) de cada perfil; 5 perguntas de 1 a 4 pontos
+    limite-conservador: 8
+    limite-moderado: 12
+    limite-arrojado: 16              # acima disso: AGRESSIVO
+
+convite:
+  link-base: ${CONVITE_LINK_BASE:http://localhost:3000/convite/}
+  validade-horas: 48
+  prazo-meses: 12
+
 prioridade:
   fgc-base: 35
   fgc-por-20k: 1
@@ -78,3 +120,37 @@ prioridade:
   reserva-insuficiente: 8
   evento-vida: 8
   bonus-so-investimentos: 5
+
+# Radar de notícias (BE2-10). Classificação: referencia (gabarito curado, demo offline) | regras | llm
+radar:
+  classificacao: ${RADAR_CLASSIFICACAO:referencia}
+  modelo-classificacao: ${RADAR_MODELO:openai/gpt-oss-120b}   # barato e com saída estruturada
+  tamanho-lote: 10                                           # notícias por chamada ao LLM
+  cron: "0 0 7,10,12,14,16,19 * * MON-FRI"                   # classificação (LLM em lotes): 6x por dia útil
+  cron-coleta: "0 */30 * * * *"                              # coleta sem LLM: feeds curtos giram rápido
+  worker-habilitado: true
+  processar-no-inicio: true
+  fracao-plena: 0.25
+  pontos-minimos: 10
+  pre-filtro: true                    # só manda ao LLM o que as regras acham financeiro
+  max-clientes-por-noticia: 3          # na visão da carteira, uma notícia macro não domina a lista
+  rss:
+    habilitado: ${RADAR_RSS:false}          # feeds reais; a demo usa só as curadas (offline)
+    max-itens-por-feed: 30
+    timeout-segundos: 10
+    feeds:                                   # título + resumo + link; o texto fica no site de origem
+      - nome: InfoMoney
+        url: https://www.infomoney.com.br/feed/
+      - nome: CNN Brasil
+        url: https://www.cnnbrasil.com.br/feed/
+      - nome: Bloomberg Línea
+        url: https://www.bloomberglinea.com.br/arc/outboundfeeds/rss/?outputType=xml
+
+desagio:
+  ipca-anual: 0.045                  # ILUSTRATIVO — usado para estimar títulos IPCA+
+  selic-anual: 0.10                  # ILUSTRATIVO — usado para estimar títulos Selic+
+  dias-por-ano: 365
+  produtos-elegiveis: CDB,RDB,LCI,LCA,LC,TESOURO,DEBENTURE,CRI,CRA
+
+rentabilidade:
+  max-periodos: 120                  # subperíodos aceitos na simulação com aportes

@@ -2,13 +2,14 @@ import { cn } from "@/lib/utils";
 import type { GeradoPor, PerfilInvestidor, PosicaoXp, Severidade } from "@/lib/api-types";
 import { rotuloPerfil, rotuloPosicaoXp, rotuloSeveridade } from "@/lib/rotulos";
 
-const base = "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap";
+// Preto e branco: o que importa vai preenchido de preto; o resto, contornado ou em cinza.
+const base = "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[13px] font-bold whitespace-nowrap";
 
 const corPosicao: Record<PosicaoXp, string> = {
-  PRINCIPAL: "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200",
-  SECUNDARIA: "bg-sky-100 text-sky-800 ring-1 ring-sky-200",
-  SO_INVESTIMENTOS: "bg-amber-100 text-amber-900 ring-1 ring-amber-200",
-  AUSENTE: "bg-slate-100 text-slate-700 ring-1 ring-slate-200",
+  PRINCIPAL: "bg-black text-white ring-1 ring-black",
+  SECUNDARIA: "bg-white text-black ring-1 ring-black",
+  SO_INVESTIMENTOS: "bg-white text-black ring-1 ring-black",
+  AUSENTE: "bg-muted text-muted-foreground",
 };
 
 export function BadgePosicaoXp({ posicao, className }: { posicao: PosicaoXp; className?: string }) {
@@ -16,30 +17,28 @@ export function BadgePosicaoXp({ posicao, className }: { posicao: PosicaoXp; cla
 }
 
 export function ChipPerfil({ perfil, className }: { perfil: PerfilInvestidor; className?: string }) {
-  return <span className={cn(base, "bg-slate-100 text-slate-700", className)}>{rotuloPerfil[perfil]}</span>;
+  return <span className={cn(base, "font-semibold ring-1 ring-black", className)}>{rotuloPerfil[perfil]}</span>;
 }
 
-/** Vermelho só para ALTA. */
-export const corSeveridade: Record<Severidade, { borda: string; chip: string; barra: string }> = {
-  ALTA: { borda: "border-red-300 bg-red-50/60", chip: "bg-red-600 text-white", barra: "bg-red-600" },
-  MEDIA: { borda: "border-amber-200 bg-amber-50/50", chip: "bg-amber-100 text-amber-900", barra: "bg-amber-500" },
-  BAIXA: { borda: "border-slate-200 bg-white", chip: "bg-slate-100 text-slate-700", barra: "bg-slate-400" },
+/** ALTA preenchido de preto, MÉDIA contornado, BAIXA em cinza. */
+const corSeveridade: Record<Severidade, string> = {
+  ALTA: "bg-black text-white ring-2 ring-black",
+  MEDIA: "bg-white text-black ring-2 ring-black",
+  BAIXA: "bg-muted text-muted-foreground ring-2 ring-muted",
 };
 
 export function ChipSeveridade({ severidade }: { severidade: Severidade }) {
-  return <span className={cn(base, corSeveridade[severidade].chip)}>{rotuloSeveridade[severidade]}</span>;
+  return (
+    <span className={cn(base, "rounded-md px-2 text-xs tracking-wide uppercase", corSeveridade[severidade])}>
+      {rotuloSeveridade[severidade]}
+    </span>
+  );
 }
 
 /** Tag NOVO pulsante. */
 export function TagNovo({ className }: { className?: string }) {
   return (
-    <span
-      className={cn(
-        base,
-        "animate-novo bg-blue-600 text-[10px] font-bold tracking-wider text-white shadow-[0_0_0_3px_rgba(37,99,235,0.25)]",
-        className,
-      )}
-    >
+    <span className={cn(base, "animate-novo bg-black text-[11px] font-extrabold tracking-wider text-white", className)}>
       NOVO
     </span>
   );
@@ -53,15 +52,20 @@ const rotuloGerado: Record<GeradoPor, string> = {
 
 export function BadgeGeradoPor({ geradoPor }: { geradoPor: GeradoPor }) {
   return (
-    <span data-testid="gerado-por" className={cn(base, "bg-violet-100 text-violet-800 ring-1 ring-violet-200")}>
+    <span data-testid="gerado-por" className={cn(base, "font-semibold ring-1 ring-black")}>
       gerado por {rotuloGerado[geradoPor] ?? geradoPor}
     </span>
   );
 }
 
+/** Rótulo pequeno em caixa alta acima de títulos. */
+export function Sobretitulo({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <p className={cn("text-sm font-bold tracking-[0.12em] uppercase", className)}>{children}</p>;
+}
+
 export function Vazio({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground", className)}>
+    <div className={cn("rounded-2xl border-2 border-dashed p-6 text-center text-base text-muted-foreground", className)}>
       {children}
     </div>
   );
@@ -70,8 +74,8 @@ export function Vazio({ children, className }: { children: React.ReactNode; clas
 export function ErroCarregar({ erro, className }: { erro: unknown; className?: string }) {
   const msg = erro instanceof Error ? erro.message : "Erro inesperado";
   return (
-    <div className={cn("rounded-lg border border-slate-300 bg-slate-50 p-6 text-sm text-slate-700", className)}>
-      <p className="font-medium">Não foi possível carregar os dados.</p>
+    <div className={cn("rounded-2xl border-2 border-black p-6 text-base", className)}>
+      <p className="font-bold">Não foi possível carregar os dados.</p>
       <p className="mt-1 text-muted-foreground">{msg}</p>
     </div>
   );

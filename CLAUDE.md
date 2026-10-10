@@ -1,7 +1,9 @@
 # Copiloto do Assessor — Hackathon XP (Grupo 6)
 
-Plataforma para assessores de investimento. Tese: transformar dados espalhados (Open Finance) em
-**motivos para ligar**, com foco em **identificação de principalidade** e **gamificação do Open Finance**.
+Plataforma **só para assessores** de investimento. Tese: transformar dados espalhados (Open Finance) em
+**motivos para ligar**, com foco em **identificação de principalidade**, alertas e próximas melhores ações
+com mensagem pronta. Sem app do cliente e sem gamificação: o cliente só aparece na ponta de um **convite
+de consentimento Open Finance** enviado pelo assessor.
 
 - Plano completo, contrato e algoritmos: `docs/PLAN.md` (fonte da verdade de escopo).
 - Prompt de cada papel: `docs/prompts/<papel>.md`.
@@ -15,8 +17,11 @@ Plataforma para assessores de investimento. Tese: transformar dados espalhados (
 - **Frontend:** Next.js 16 (App Router), React 19, TypeScript strict, Tailwind CSS v4, shadcn/ui,
   TanStack Query v5, Recharts, openapi-typescript para gerar tipos.
 - **Dados:** JSON sintético em `backend/src/main/resources/seed/`, gerado por `data/gerar_seed.py`
-  (Python 3, só biblioteca padrão). **Sem banco de dados:** repositórios em memória.
-- **LLM:** Claude via API. Chave em `ANTHROPIC_API_KEY` (variável de ambiente; nunca commitar).
+  (Python 3, só biblioteca padrão). **Banco: SQLite** (`RepositorioSqlite`, esquema em
+  `backend/src/main/resources/db/schema.sql`), populado a partir da seed no startup/reset.
+  `banco.tipo=memoria` mantém o repositório em memória (usado nos testes unitários).
+- **LLM:** agentes Embabel via OpenRouter (modelo em `copiloto.modelo`, padrão DeepSeek). Chave em
+  `OPENROUTER_APIKEY` (variável de ambiente; nunca commitar).
 
 ## Estrutura e donos
 
@@ -29,7 +34,7 @@ Plataforma para assessores de investimento. Tese: transformar dados espalhados (
 | `backend/.../api` | BE1 e BE2, cada um nos seus controllers |
 | `data/`, `backend/src/test/resources/esperados.json` | Analista |
 | `frontend/src/app/assessor/**`, `frontend/src/components/assessor/**` | FE1 |
-| `frontend/src/app/cliente/**`, `frontend/src/app/palco/**`, `frontend/src/components/cliente/**` | FE2 |
+| `frontend/src/app/convite/**`, `frontend/src/app/palco/**`, `frontend/src/components/convite/**`, `frontend/src/components/palco/**` | FE2 |
 | `frontend/src/lib/**`, `frontend/src/components/ui/**` | FE1 cria no setup; ambos editam com cuidado |
 
 Não edite fora da sua área sem necessidade. Se precisar, faça a mudança mínima e diga no commit.
@@ -40,7 +45,7 @@ Não edite fora da sua área sem necessidade. Se precisar, faça a mudança mín
 - Exportar contrato: com o backend rodando, `curl -s localhost:8080/v3/api-docs > contract/openapi.json`
 - Frontend: `cd frontend && npm run dev` (porta 3000; `/api/*` é reescrito para o backend)
   · `npm run gen:api` (tipos a partir de `contract/openapi.json`) · `npm run lint` · `npm run typecheck`
-- Seed: `python3 data/gerar_seed.py --data-referencia 2026-10-11 --saida backend/src/main/resources/seed`
+- Seed: `python3 data/gerar_seed.py --data-referencia 2026-10-10 --saida backend/src/main/resources/seed`
 - Resetar a demo: `curl -X POST localhost:8080/api/demo/reset`
 
 ## Regras

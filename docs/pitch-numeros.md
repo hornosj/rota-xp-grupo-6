@@ -1,6 +1,6 @@
 # Números para o pitch (AN-08)
 
-> Todos os números da carteira vêm da base sintética (`data/gerar_seed.py`, ref. 2026-10-11) via
+> Todos os números da carteira vêm da base sintética (`data/gerar_seed.py`, ref. 2026-10-10) via
 > `GET /api/assessor/painel` e `GET /api/assessor/fila`. As estimativas de impacto são **ilustrativas**:
 > cada uma traz a premissa explícita para quem perguntar "de onde veio isso?".
 

@@ -1,5 +1,5 @@
 {
-  "_fonte": "docs/PLAN.md §6.5 — resultados esperados dos clientes-âncora com a seed de data/gerar_seed.py (ref 2026-10-11)",
+  "_fonte": "docs/PLAN.md §6.5 — resultados esperados dos clientes-âncora com a seed de data/gerar_seed.py (ref 2026-10-10)",
   "casos": [
     {
       "clienteId": "cli-001", "momento": "antes",
@@ -7,7 +7,7 @@
       "alertas": ["SALDO_PARADO", "RENDA_FORA_XP", "EVENTO_VIDA_PROXIMO"],
       "alertasAusentes": ["FGC_EXCEDIDO", "RESERVA_INSUFICIENTE"],
       "valores": { "SALDO_PARADO": 61000 },
-      "nivel": 2, "prioridade": 39.1
+      "prioridade": 39.1
     },
     {
       "clienteId": "cli-001", "momento": "depois", "conceder": "inst-horizonte",
@@ -16,7 +16,7 @@
       "alertasAusentes": ["FGC_TETO_GLOBAL", "RESERVA_INSUFICIENTE"],
       "valores": { "FGC_EXCEDIDO": 400000 },
       "severidades": { "CONCENTRACAO_EMISSOR": "MEDIA" },
-      "nivel": 3, "prioridade": 100
+      "prioridade": 100
     },
     {
       "clienteId": "cli-002", "momento": "antes",
@@ -24,7 +24,7 @@
       "alertas": ["VENCIMENTO_PROXIMO", "CONSENTIMENTO_EXPIRANDO"],
       "alertasAusentes": ["SALDO_PARADO", "RENDA_FORA_XP"],
       "valores": { "VENCIMENTO_PROXIMO": 240000 },
-      "nivel": 4, "prioridade": 29.8
+      "prioridade": 29.8
     },
     {
       "clienteId": "cli-003", "momento": "antes",
@@ -32,15 +32,14 @@
       "alertas": ["SALDO_PARADO", "RENDA_FORA_XP", "RESERVA_INSUFICIENTE"],
       "alertasAusentes": ["FGC_EXCEDIDO"],
       "valores": { "SALDO_PARADO": 13000 },
-      "nivel": 2, "prioridade": 34.3
+      "prioridade": 34.3
     },
     {
       "clienteId": "cli-003", "momento": "depois", "conceder": "inst-aurora",
       "principal": "inst-ipe", "posicaoXp": "SO_INVESTIMENTOS", "custoVida": 9000,
       "alertas": ["SALDO_PARADO", "RENDA_FORA_XP", "RESERVA_INSUFICIENTE"],
       "alertasAusentes": [],
-      "valores": {},
-      "nivel": 3
+      "valores": {}
     },
     {
       "clienteId": "cli-004", "momento": "antes",
@@ -48,7 +47,7 @@
       "alertas": ["FGC_EXCEDIDO", "RENDA_FORA_XP"],
       "alertasAusentes": ["CONCENTRACAO_EMISSOR", "SALDO_PARADO"],
       "valores": { "FGC_EXCEDIDO": 80000 },
-      "nivel": 3, "prioridade": 54
+      "prioridade": 54
     },
     {
       "clienteId": "cli-005", "momento": "antes",
@@ -57,7 +56,7 @@
       "alertasAusentes": ["RENDA_FORA_XP", "FGC_EXCEDIDO"],
       "valores": {},
       "severidades": { "CONCENTRACAO_EMISSOR": "ALTA" },
-      "nivel": 3, "prioridade": 30
+      "prioridade": 30
     },
     {
       "clienteId": "cli-006", "momento": "antes",
@@ -65,7 +64,7 @@
       "alertas": [],
       "alertasAusentes": [],
       "valores": {},
-      "nivel": 4, "prioridade": 0
+      "prioridade": 0
     }
   ],
   "filaAntes": ["cli-004", "cli-001", "cli-003", "cli-005", "cli-002"],

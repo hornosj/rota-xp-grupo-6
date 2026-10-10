@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // As telas são embutidas em iframes no /palco (mesma origem): permitimos explicitamente.
+  // Só a própria origem pode embutir as telas em iframe.
   async headers() {
     return [
       {

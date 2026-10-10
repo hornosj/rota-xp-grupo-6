@@ -237,90 +237,6 @@ export interface PainelCarteira {
   clientesComAlertaAlto: number;
 }
 
-export interface NivelJornada {
-  numero: 1 | 2 | 3 | 4;
-  nome: string;
-  proximo?: string;
-  comoSubir?: string;
-  beneficios: string[];
-}
-
-export interface Jornada {
-  clienteId: Id;
-  completude: number;
-  nivel: NivelJornada;
-  missoes: Missao[];
-  diagnosticos: Diagnostico[];
-}
-
-export interface Missao {
-  id: Id;
-  tipo: "CONECTAR_INSTITUICAO" | "CONECTAR_CARTAO" | "RESERVA_EMERGENCIA" | "RENOVAR_CONSENTIMENTO";
-  titulo: string;
-  descricao: string;
-  recompensa: string;
-  status: "DISPONIVEL" | "CONCLUIDA";
-  progresso: number;
-  instituicaoId?: Id;
-}
-
-export type TipoDiagnostico = "PATRIMONIO_COMPLETO" | "PROTECAO_FGC" | "CUSTO_DE_VIDA" | "RESERVA_EMERGENCIA";
-
-export type CategoriaCusto = "CONTAS_RECORRENTES" | "PARCELAS" | "CONSUMO" | "CARTOES";
-
-/** `detalhes` de PATRIMONIO_COMPLETO. */
-export interface DetalhesPatrimonioCompleto {
-  instituicoes: number;
-  total: number;
-}
-
-export interface ConglomeradoFgc {
-  conglomeradoId: Id;
-  nome: string;
-  valor: number;
-  coberto: number;
-  descoberto: number;
-}
-
-/** `detalhes` de PROTECAO_FGC. `instituicao` = onde está o valor descoberto (pode faltar se nada descoberto). */
-export interface DetalhesProtecaoFgc {
-  valorSemCobertura: number;
-  instituicao?: string;
-  conglomerados: ConglomeradoFgc[];
-}
-
-/** `detalhes` de CUSTO_DE_VIDA (valores mensais em reais). */
-export interface DetalhesCustoDeVida {
-  total: number;
-  categorias: Partial<Record<CategoriaCusto, number>>;
-  parcial: boolean;
-}
-
-/** `detalhes` de RESERVA_EMERGENCIA. `meta` em reais = metaMeses × custo de vida. */
-export interface DetalhesReservaEmergencia {
-  meses: number;
-  liquidezImediata: number;
-  metaMeses: number;
-  meta: number;
-}
-
-export interface DetalhesPorTipo {
-  PATRIMONIO_COMPLETO: DetalhesPatrimonioCompleto;
-  PROTECAO_FGC: DetalhesProtecaoFgc;
-  CUSTO_DE_VIDA: DetalhesCustoDeVida;
-  RESERVA_EMERGENCIA: DetalhesReservaEmergencia;
-}
-
-export interface Diagnostico {
-  tipo: TipoDiagnostico;
-  titulo: string;
-  desbloqueado: boolean;
-  requisito: string;
-  resumo?: string;
-  /** Livre no OpenAPI; a forma por tipo está em DetalhesPorTipo. Só vem quando desbloqueado. */
-  detalhes?: Record<string, unknown>;
-}
-
 export type GeradoPor = "stub" | "cache" | "live";
 export type Canal = "WHATSAPP" | "EMAIL";
 
@@ -352,7 +268,179 @@ export interface DemoEstado {
   modoCopiloto: string;
 }
 
+// ---------- Radar de notícias (BE2-10, aditivo) ----------
+
+export type IndexadorRadar = "CDI" | "IPCA" | "PRE" | "SELIC";
+export type DirecaoNoticia = "POSITIVA" | "NEGATIVA" | "NEUTRA";
+export type OrigemClassificacao = "REFERENCIA" | "REGRAS" | "LLM";
+
+export interface Noticia {
+  id: Id;
+  fonte: string;
+  titulo: string;
+  resumo?: string;
+  url?: string;
+  /** ISO com fuso. */
+  publicadaEm?: string;
+}
+
+export interface ClassificacaoNoticia {
+  /** Ids de emissor (ex.: "emi-horizonte"), não nomes. */
+  emissores: string[];
+  indexadores: IndexadorRadar[];
+  produtos: Produto[];
+  direcao: DirecaoNoticia;
+  /** 0–1 */
+  relevancia: number;
+  resumoImpacto?: string;
+  origem: OrigemClassificacao;
+}
+
+export interface NoticiaClassificada {
+  noticia: Noticia;
+  classificacao: ClassificacaoNoticia;
+}
+
+export interface ResultadoProcessamento {
+  coletadas: number;
+  novas: number;
+  classificadasPorLlm: number;
+  classificadasPorRegra: number;
+  lotes: number;
+  processadoEm: string;
+}
+
+/** Uma notícia que mexe na carteira visível de um cliente (calculado por regra). */
+export interface ImpactoNoticia {
+  clienteId: Id;
+  clienteNome: string;
+  noticiaId: Id;
+  titulo: string;
+  fonte: string;
+  direcao: DirecaoNoticia;
+  /** 0–100 */
+  pontos: number;
+  /** reais */
+  valorExposto: number;
+  /** 0–1 */
+  fracaoPatrimonio: number;
+  motivo: string;
+  gatilhos: string[];
+}
+
+/** Texto para o ASSESSOR: por que ligar e do que falar. */
+export interface MotivoNoticia {
+  texto: string;
+  geradoPor: GeradoPor;
+}
+
+// ---------- Convite de consentimento Open Finance (reescopo, aditivo) ----------
+
+export type StatusConvite = "PENDENTE" | "CONFIRMADO" | "EXPIRADO";
+
+/** Convite que o assessor envia ao cliente para conectar uma instituição pelo Open Finance. */
+export interface Convite {
+  token: string;
+  clienteId: Id;
+  instituicaoId: Id;
+  instituicaoNome: string;
+  escopos: Escopo[];
+  /** 12 */
+  prazoMeses: number;
+  /** ex.: http://localhost:3000/convite/{token} */
+  link: string;
+  status: StatusConvite;
+  /** ISO com fuso */
+  criadoEm: string;
+  /** ISO com fuso; 48h depois de criadoEm */
+  expiraEm: string;
+}
+
 export interface ErroApi {
   erro: string;
   mensagem: string;
+}
+
+// ---------- Onboarding do investidor (convite do assessor → cadastro pelo link) ----------
+
+export type StatusConviteOnboarding = "PENDENTE" | "ABERTO" | "CONCLUIDO";
+export type TipoEventoVida = EventoVida["tipo"];
+
+export interface ConviteOnboarding {
+  id: Id;
+  token: string;
+  /** Caminho relativo do formulário no front (ex.: /onboarding/{token}). */
+  link: string;
+  nome: string;
+  assessorId: Id;
+  status: StatusConviteOnboarding;
+  criadoEm: string;
+  abertoEm?: string;
+  concluidoEm?: string;
+  clienteId?: Id;
+  perfil?: PerfilInvestidor;
+}
+
+export interface OpcaoSuitability {
+  id: string;
+  texto: string;
+}
+
+export interface PerguntaSuitability {
+  id: string;
+  texto: string;
+  opcoes: OpcaoSuitability[];
+}
+
+export interface InstituicaoDisponivel {
+  id: Id;
+  nome: string;
+}
+
+export interface FormularioOnboarding {
+  convite: ConviteOnboarding;
+  instituicoes: InstituicaoDisponivel[];
+  questionario: PerguntaSuitability[];
+  produtos: ProdutoDeclarado[];
+}
+
+export interface RespostaSuitability {
+  perguntaId: string;
+  opcaoId: string;
+}
+
+export interface InstituicaoInformada {
+  instituicaoId: Id;
+  produtos: ProdutoDeclarado[];
+  compartilharAgora: boolean;
+}
+
+export interface EventoPlanejado {
+  tipo: TipoEventoVida;
+  descricao: string;
+  data: string;
+}
+
+export interface CadastroInvestidor {
+  nome: string;
+  cpf: string;
+  dataNascimento: string;
+  email: string;
+  celular: string;
+  profissao: string;
+  cidade: string;
+  uf: string;
+  dependentes: Dependente[];
+  eventosVida: EventoPlanejado[];
+  respostasSuitability: RespostaSuitability[];
+  instituicoes: InstituicaoInformada[];
+  aceiteTermos: boolean;
+}
+
+export interface ResultadoOnboarding {
+  convite: ConviteOnboarding;
+  clienteId: Id;
+  perfil: PerfilInvestidor;
+  pontuacaoSuitability: number;
+  consentimentos: ConsentimentoComNome[];
 }

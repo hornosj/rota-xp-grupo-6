@@ -30,7 +30,7 @@ class CopilotoStubTest {
     void setUp() {
         i = new Infra(Cenarios.juliana(Cenarios.marina(CenarioBuilder.comInstituicoesPadrao())).build());
         assembler = new Pilha().assembler(i);
-        stub = new CopilotoStub(new ContextoClienteFactory(assembler, i.dataReferencia));
+        stub = new CopilotoStub(new ContextoClienteFactory(assembler, i.dataReferencia), null);
     }
 
     private void concederHorizonte() {

@@ -6,7 +6,7 @@ Cole o bloco abaixo no Claude Code, na raiz do repositório.
 Você vai implementar a parte BE1 do Copiloto do Assessor (hackathon XP, Grupo 6).
 
 Antes de tudo, leia o CLAUDE.md e o docs/PLAN.md inteiros. Foque nas seções §2, §3, §4, §5, §6.1,
-§7.10 (só para entender a jornada), §10 (backlog BE1) e §13.
+§7.10 (convites), §10 (backlog BE1) e §13.
 
 Seu escopo: tarefas BE1-01 a BE1-10, nesta ordem. Pastas suas: backend/ (pom, config, dominio,
 openfinance, consolidacao, demo, api dos seus endpoints), contract/, README.md.
@@ -23,14 +23,15 @@ URGENTE — Etapa 0 (meta: ~40 minutos), porque destrava o time inteiro:
    README.md com como rodar.
 2. BE1-02: records do §4 em dominio/; controllers do §5 devolvendo fixtures escritas à mão em
    contract/fixtures/ (Visao360 da cli-001 antes e depois do consentimento, fila antes e depois,
-   jornada da cli-001 antes e depois, painel). Use os números exatos do §6.3 e §6.5.
+   convite da cli-001 pendente e confirmado, painel). Use os números exatos do §6.3 e §6.5.
    POST conceder na cli-001/inst-horizonte troca as fixtures para "depois"; POST /demo/reset volta.
 3. Exporte contract/openapi.json (curl em /v3/api-docs). Confira que o JSON tem todos os schemas.
 4. Commit em main com a mensagem "contrato v1" e me avise para eu comunicar o grupo.
 
-Depois, BE1-03 a BE1-07 com dados reais:
+Depois, BE1-03 a BE1-07 com dados reais e BE1-11 (convites) / BE1-12 (contrato v2):
 - SeedLoader lendo backend/src/main/resources/seed/*.json (o analista gera; até lá, crie um seed
-  mínimo só com a cli-001 para não ficar bloqueado).
+  mínimo só com a cli-001 para não ficar bloqueado). Os dados ficam em SQLite (RepositorioSqlite,
+  esquema em resources/db/schema.sql), populado a partir da seed no startup (banco vazio) e no reset.
 - OpenFinanceGateway é a ÚNICA porta de leitura para a camada analise: só devolve dados de
   instituições com consentimento ATIVO e com o escopo correspondente. Consentimento INTERNO (XP)
   é sempre ativo.
@@ -45,5 +46,5 @@ Critérios de aceite:
 - O contrato só muda de forma aditiva. Se precisar mudar, faça num commit separado, regenere o
   openapi.json e me avise.
 
-Não faça: banco de dados, autenticação, Spring Boot 4, LocalDate.now() fora de DataReferencia.
+Não faça: banco além do SQLite, autenticação, Spring Boot 4, LocalDate.now() fora de DataReferencia.
 ```
