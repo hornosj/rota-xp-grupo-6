@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import { SinoNotificacoes } from "@/components/assessor/sino-notificacoes";
 import { useFila } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
@@ -62,6 +63,10 @@ function NavegacaoAtual() {
   return <Navegacao caminho={usePathname()} />;
 }
 
+function SinoAtual() {
+  return <SinoNotificacoes atual={usePathname().startsWith("/assessor/notificacoes")} />;
+}
+
 /** Barra preta do topo: marca, navegação do assessor e quem está logado. */
 export function CabecalhoApp() {
   return (
@@ -72,6 +77,9 @@ export function CabecalhoApp() {
         </Link>
         <Suspense fallback={<Navegacao caminho="" />}>
           <NavegacaoAtual />
+        </Suspense>
+        <Suspense fallback={<SinoNotificacoes />}>
+          <SinoAtual />
         </Suspense>
         <span className="hidden items-center gap-2.5 text-[15px] text-white/80 md:flex">
           <span aria-hidden className="flex size-9 items-center justify-center rounded-full bg-white font-extrabold text-black">
