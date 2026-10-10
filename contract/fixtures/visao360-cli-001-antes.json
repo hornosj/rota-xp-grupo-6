@@ -1,0 +1,312 @@
+{
+  "cliente": {
+    "id": "cli-001",
+    "nome": "Dra. Marina Costa",
+    "cpf": "000.000.001-01",
+    "idade": 42,
+    "profissao": "Médica cardiologista",
+    "cidade": "Ribeirão Preto/SP",
+    "perfil": "ARROJADO",
+    "assessorId": "ass-001",
+    "ancora": true,
+    "instituicoesDeclaradas": [
+      {
+        "instituicaoId": "inst-xp",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "produtos": [
+          "CONTA",
+          "CARTAO",
+          "CREDITO"
+        ]
+      },
+      {
+        "instituicaoId": "inst-horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ],
+    "dependentes": [
+      {
+        "nome": "Sofia",
+        "parentesco": "FILHA",
+        "dataNascimento": "2014-10-16"
+      },
+      {
+        "nome": "Pedro",
+        "parentesco": "FILHO",
+        "dataNascimento": "2017-03-02"
+      }
+    ],
+    "eventosVida": []
+  },
+  "atualizadoEm": "2026-10-11T11:30:59.6556447-03:00",
+  "cobertura": {
+    "instituicoesDeclaradas": 3,
+    "instituicoesConectadas": 2,
+    "percentual": 0.667,
+    "pendentes": [
+      {
+        "instituicaoId": "inst-horizonte",
+        "nome": "Banco Horizonte",
+        "produtos": [
+          "INVESTIMENTOS"
+        ]
+      }
+    ]
+  },
+  "patrimonio": {
+    "totalVisivel": 985000,
+    "naXp": 900000,
+    "foraXp": 85000,
+    "shareOfWalletXp": 0.9137,
+    "porInstituicao": [
+      {
+        "instituicaoId": "inst-xp",
+        "nome": "XP Investimentos",
+        "ehXp": true,
+        "investimentos": 900000,
+        "saldoContas": 0,
+        "total": 900000
+      },
+      {
+        "instituicaoId": "inst-aurora",
+        "nome": "Banco Aurora",
+        "ehXp": false,
+        "investimentos": 0,
+        "saldoContas": 85000,
+        "total": 85000
+      }
+    ],
+    "porProduto": [
+      {
+        "produto": "TESOURO",
+        "total": 280000
+      },
+      {
+        "produto": "FUNDO",
+        "total": 260000
+      },
+      {
+        "produto": "CDB",
+        "total": 230000
+      },
+      {
+        "produto": "ACAO",
+        "total": 130000
+      },
+      {
+        "produto": "SALDO_CONTA",
+        "total": 85000
+      }
+    ]
+  },
+  "principalidade": {
+    "instituicaoPrincipalId": "inst-aurora",
+    "instituicaoPrincipalNome": "Banco Aurora",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "explicacao": "Banco Aurora é a instituição principal: recebe 100% da renda e concentra 100% dos pagamentos recorrentes. A XP tem 15 pontos: só investimentos.",
+    "scores": [
+      {
+        "instituicaoId": "inst-aurora",
+        "nome": "Banco Aurora",
+        "ehXp": false,
+        "score": 85,
+        "participacoes": {
+          "renda": 1,
+          "movimentacao": 1,
+          "contasRecorrentes": 1,
+          "investimentos": 0,
+          "cartao": 1,
+          "credito": 1
+        },
+        "contribuicoes": {
+          "renda": 30,
+          "movimentacao": 20,
+          "contasRecorrentes": 15,
+          "investimentos": 0,
+          "cartao": 10,
+          "credito": 10
+        },
+        "destaques": [
+          "recebe 100% da renda",
+          "100% da movimentação",
+          "concentra 100% dos pagamentos recorrentes",
+          "100% das faturas de cartão",
+          "100% do crédito"
+        ]
+      },
+      {
+        "instituicaoId": "inst-xp",
+        "nome": "XP Investimentos",
+        "ehXp": true,
+        "score": 15,
+        "participacoes": {
+          "renda": 0,
+          "movimentacao": 0,
+          "contasRecorrentes": 0,
+          "investimentos": 1,
+          "cartao": 0,
+          "credito": 0
+        },
+        "contribuicoes": {
+          "renda": 0,
+          "movimentacao": 0,
+          "contasRecorrentes": 0,
+          "investimentos": 15,
+          "cartao": 0,
+          "credito": 0
+        },
+        "destaques": [
+          "custodia 100% dos investimentos"
+        ]
+      }
+    ]
+  },
+  "fluxoCaixa": {
+    "rendaMensal": 38000,
+    "fontesRenda": [
+      {
+        "pagadorNome": "HOSPITAL SANTA CLARA",
+        "instituicaoId": "inst-aurora",
+        "valorMensal": 38000,
+        "diaDoMes": 5
+      }
+    ],
+    "custoVidaMensal": 24000,
+    "capacidadeAporteMensal": 14000,
+    "liquidezImediata": 155000,
+    "reservaEmergenciaMeses": 6.5,
+    "parcial": false
+  },
+  "alertas": [
+    {
+      "id": "alr-cli-001-saldo_parado",
+      "clienteId": "cli-001",
+      "tipo": "SALDO_PARADO",
+      "severidade": "MEDIA",
+      "titulo": "R$ 61 mil parados em conta",
+      "explicacao": "R$ 61 mil estão em conta além de 1 mês de custo de vida. Aplicados a 100% do CDI, renderiam cerca de R$ 486 por mês.",
+      "valor": 61000,
+      "detectadoEm": "2026-10-11T08:00:00-03:00",
+      "novo": false
+    },
+    {
+      "id": "alr-cli-001-renda_fora_xp",
+      "clienteId": "cli-001",
+      "tipo": "RENDA_FORA_XP",
+      "severidade": "BAIXA",
+      "titulo": "Renda cai no Banco Aurora",
+      "explicacao": "A renda de R$ 38 mil (HOSPITAL SANTA CLARA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 14 mil por mês.",
+      "valor": 14000,
+      "instituicaoId": "inst-aurora",
+      "detectadoEm": "2026-10-11T08:00:00-03:00",
+      "novo": false
+    },
+    {
+      "id": "alr-cli-001-evento_vida_proximo-dep-sofia",
+      "clienteId": "cli-001",
+      "tipo": "EVENTO_VIDA_PROXIMO",
+      "severidade": "BAIXA",
+      "titulo": "Aniversário da Sofia em 5 dias",
+      "explicacao": "Sofia (filha) faz 12 anos em 16/10. Um bom motivo para um contato de relacionamento.",
+      "detectadoEm": "2026-10-11T08:00:00-03:00",
+      "novo": false
+    }
+  ],
+  "acoes": [
+    {
+      "id": "acao-cli-001-saldo_parado",
+      "clienteId": "cli-001",
+      "tipo": "APLICAR_SALDO_PARADO",
+      "titulo": "Levar R$ 61 mil parados para liquidez diária",
+      "motivo": "R$ 61 mil estão em conta além de 1 mês de custo de vida. Aplicados a 100% do CDI, renderiam cerca de R$ 486 por mês.",
+      "impactoEstimado": "Cerca de R$ 486 por mês a 100% do CDI",
+      "alertaIds": [
+        "alr-cli-001-saldo_parado"
+      ],
+      "principal": true
+    },
+    {
+      "id": "acao-cli-001-renda_fora_xp",
+      "clienteId": "cli-001",
+      "tipo": "APORTE_PROGRAMADO",
+      "titulo": "Propor aporte programado de R$ 7 mil/mês (50% da sobra)",
+      "motivo": "A renda de R$ 38 mil (HOSPITAL SANTA CLARA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 14 mil por mês.",
+      "impactoEstimado": "R$ 84 mil por ano a mais investidos na XP",
+      "alertaIds": [
+        "alr-cli-001-renda_fora_xp"
+      ],
+      "principal": false
+    },
+    {
+      "id": "acao-cli-001-evento_vida_proximo-dep-sofia",
+      "clienteId": "cli-001",
+      "tipo": "CONTATO_RELACIONAMENTO",
+      "titulo": "Aniversário da Sofia em 5 dias",
+      "motivo": "Sofia (filha) faz 12 anos em 16/10. Um bom motivo para um contato de relacionamento.",
+      "alertaIds": [
+        "alr-cli-001-evento_vida_proximo-dep-sofia"
+      ],
+      "principal": false
+    },
+    {
+      "id": "acao-cli-001-convidar_conexao-inst-horizonte",
+      "clienteId": "cli-001",
+      "tipo": "CONVIDAR_CONEXAO",
+      "titulo": "Convidar a conectar o Banco Horizonte pelo app",
+      "motivo": "O cliente declarou o Banco Horizonte, mas ele ainda não está conectado: a cobertura está em 66,7%.",
+      "impactoEstimado": "Desbloqueia a visão completa do patrimônio",
+      "alertaIds": [],
+      "principal": false
+    }
+  ],
+  "consentimentos": [
+    {
+      "id": "con-001-xp",
+      "clienteId": "cli-001",
+      "instituicaoId": "inst-xp",
+      "tipo": "INTERNO",
+      "status": "ATIVO",
+      "escopos": [
+        "CONTAS",
+        "CARTOES",
+        "CREDITO",
+        "INVESTIMENTOS"
+      ],
+      "concedidoEm": "2024-01-15",
+      "instituicaoNome": "XP Investimentos"
+    },
+    {
+      "id": "con-001-aurora",
+      "clienteId": "cli-001",
+      "instituicaoId": "inst-aurora",
+      "tipo": "OPEN_FINANCE",
+      "status": "ATIVO",
+      "escopos": [
+        "CONTAS",
+        "CARTOES",
+        "CREDITO"
+      ],
+      "concedidoEm": "2026-08-07",
+      "expiraEm": "2027-08-07",
+      "instituicaoNome": "Banco Aurora"
+    },
+    {
+      "id": "con-001-horizonte",
+      "clienteId": "cli-001",
+      "instituicaoId": "inst-horizonte",
+      "tipo": "OPEN_FINANCE",
+      "status": "PENDENTE",
+      "escopos": [
+        "INVESTIMENTOS"
+      ],
+      "instituicaoNome": "Banco Horizonte"
+    }
+  ]
+}

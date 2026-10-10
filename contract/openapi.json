@@ -1,0 +1,1754 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/simulacoes/desagio": {
+      "post": {
+        "tags": [
+          "demo-controller"
+        ],
+        "operationId": "desagio",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesagioBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesagioResultado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo/reset": {
+      "post": {
+        "tags": [
+          "demo-controller"
+        ],
+        "operationId": "reset",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/notas": {
+      "post": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "nota",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotaBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoNota"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/consentimentos/{instituicaoId}/revogar": {
+      "post": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "revogar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instituicaoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/consentimentos/{instituicaoId}/conceder": {
+      "post": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "conceder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instituicaoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/acoes/{acaoId}/mensagem": {
+      "post": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "mensagem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "acaoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PedidoMensagemBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MensagemGerada"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo/estado": {
+      "get": {
+        "tags": [
+          "demo-controller"
+        ],
+        "operationId": "estado",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DemoEstado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "listar",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClienteResumo"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/principalidade": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "principalidade",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Principalidade"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/jornada": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "jornada",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Jornada"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/consentimentos": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "consentimentos",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsentimentoView"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/briefing": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "briefing",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Briefing"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/{id}/360": {
+      "get": {
+        "tags": [
+          "clientes-controller"
+        ],
+        "operationId": "visao360",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visao360"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assessor/painel": {
+      "get": {
+        "tags": [
+          "assessor-controller"
+        ],
+        "operationId": "painel",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PainelCarteira"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/assessor/fila": {
+      "get": {
+        "tags": [
+          "assessor-controller"
+        ],
+        "operationId": "fila",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemFila"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErroResposta": {
+        "type": "object",
+        "properties": {
+          "erro": {
+            "type": "string"
+          },
+          "mensagem": {
+            "type": "string"
+          }
+        }
+      },
+      "DesagioBody": {
+        "type": "object",
+        "properties": {
+          "desagio": {
+            "type": "number"
+          },
+          "taxaAntiga": {
+            "type": "number"
+          },
+          "taxaNova": {
+            "type": "number"
+          },
+          "prazoRestanteAnos": {
+            "type": "number"
+          }
+        }
+      },
+      "DesagioResultado": {
+        "type": "object",
+        "properties": {
+          "breakEvenAnos": {
+            "type": "number",
+            "format": "double"
+          },
+          "compensa": {
+            "type": "boolean"
+          },
+          "explicacao": {
+            "type": "string"
+          }
+        }
+      },
+      "NotaBody": {
+        "type": "object",
+        "properties": {
+          "transcricao": {
+            "type": "string"
+          }
+        }
+      },
+      "AcaoSugerida": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "DIVERSIFICAR_FGC",
+              "REDUZIR_CONCENTRACAO",
+              "APLICAR_SALDO_PARADO",
+              "APORTE_PROGRAMADO",
+              "REINVESTIR_VENCIMENTO",
+              "RENOVAR_CONSENTIMENTO",
+              "CONTATO_RELACIONAMENTO",
+              "CONVIDAR_CONEXAO",
+              "MONTAR_RESERVA"
+            ]
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "motivo": {
+            "type": "string"
+          },
+          "impactoEstimado": {
+            "type": "string"
+          },
+          "alertaIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "principal": {
+            "type": "boolean"
+          }
+        }
+      },
+      "EventoVida": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "ANIVERSARIO",
+              "CASAMENTO",
+              "NASCIMENTO",
+              "FERIAS",
+              "APOSENTADORIA",
+              "MUDANCA",
+              "OUTRO"
+            ]
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string",
+            "format": "date"
+          },
+          "origem": {
+            "type": "string",
+            "enum": [
+              "CADASTRO",
+              "NOTA_REUNIAO"
+            ]
+          }
+        }
+      },
+      "ResultadoNota": {
+        "type": "object",
+        "properties": {
+          "resumo": {
+            "type": "string"
+          },
+          "eventosCriados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventoVida"
+            }
+          },
+          "metas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mudancasPerfil": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "acoesCriadas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AcaoSugerida"
+            }
+          },
+          "geradoPor": {
+            "type": "string",
+            "enum": [
+              "stub",
+              "cache",
+              "live"
+            ]
+          }
+        }
+      },
+      "Alerta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "FGC_EXCEDIDO",
+              "FGC_TETO_GLOBAL",
+              "CONCENTRACAO_EMISSOR",
+              "VENCIMENTO_PROXIMO",
+              "SALDO_PARADO",
+              "RENDA_FORA_XP",
+              "CONSENTIMENTO_EXPIRANDO",
+              "EVENTO_VIDA_PROXIMO",
+              "RESERVA_INSUFICIENTE"
+            ]
+          },
+          "severidade": {
+            "type": "string",
+            "enum": [
+              "ALTA",
+              "MEDIA",
+              "BAIXA"
+            ]
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "explicacao": {
+            "type": "string"
+          },
+          "valor": {
+            "type": "number"
+          },
+          "instituicaoId": {
+            "type": "string"
+          },
+          "emissorId": {
+            "type": "string"
+          },
+          "detectadoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "novo": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Cliente": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "idade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "profissao": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          },
+          "assessorId": {
+            "type": "string"
+          },
+          "ancora": {
+            "type": "boolean"
+          },
+          "instituicoesDeclaradas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstituicaoDeclarada"
+            }
+          },
+          "dependentes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dependente"
+            }
+          },
+          "eventosVida": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventoVida"
+            }
+          }
+        }
+      },
+      "Cobertura": {
+        "type": "object",
+        "properties": {
+          "instituicoesDeclaradas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "instituicoesConectadas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "percentual": {
+            "type": "number",
+            "format": "double"
+          },
+          "pendentes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pendente"
+            }
+          }
+        }
+      },
+      "Componentes": {
+        "type": "object",
+        "properties": {
+          "renda": {
+            "type": "number",
+            "format": "double"
+          },
+          "movimentacao": {
+            "type": "number",
+            "format": "double"
+          },
+          "contasRecorrentes": {
+            "type": "number",
+            "format": "double"
+          },
+          "investimentos": {
+            "type": "number",
+            "format": "double"
+          },
+          "cartao": {
+            "type": "number",
+            "format": "double"
+          },
+          "credito": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ConsentimentoView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "instituicaoId": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "OPEN_FINANCE",
+              "INTERNO"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ATIVO",
+              "PENDENTE",
+              "EXPIRADO",
+              "REVOGADO"
+            ]
+          },
+          "escopos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTAS",
+                "CARTOES",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          },
+          "concedidoEm": {
+            "type": "string",
+            "format": "date"
+          },
+          "expiraEm": {
+            "type": "string",
+            "format": "date"
+          },
+          "instituicaoNome": {
+            "type": "string"
+          }
+        }
+      },
+      "Dependente": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "parentesco": {
+            "type": "string"
+          },
+          "dataNascimento": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "FluxoCaixa": {
+        "type": "object",
+        "properties": {
+          "rendaMensal": {
+            "type": "number"
+          },
+          "fontesRenda": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FonteRenda"
+            }
+          },
+          "custoVidaMensal": {
+            "type": "number"
+          },
+          "capacidadeAporteMensal": {
+            "type": "number"
+          },
+          "liquidezImediata": {
+            "type": "number"
+          },
+          "reservaEmergenciaMeses": {
+            "type": "number",
+            "format": "double"
+          },
+          "parcial": {
+            "type": "boolean"
+          },
+          "observacao": {
+            "type": "string"
+          }
+        }
+      },
+      "FonteRenda": {
+        "type": "object",
+        "properties": {
+          "pagadorNome": {
+            "type": "string"
+          },
+          "instituicaoId": {
+            "type": "string"
+          },
+          "valorMensal": {
+            "type": "number"
+          },
+          "diaDoMes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "InstituicaoDeclarada": {
+        "type": "object",
+        "properties": {
+          "instituicaoId": {
+            "type": "string"
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTA",
+                "CARTAO",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          }
+        }
+      },
+      "Patrimonio": {
+        "type": "object",
+        "properties": {
+          "totalVisivel": {
+            "type": "number"
+          },
+          "naXp": {
+            "type": "number"
+          },
+          "foraXp": {
+            "type": "number"
+          },
+          "shareOfWalletXp": {
+            "type": "number",
+            "format": "double"
+          },
+          "porInstituicao": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PorInstituicao"
+            }
+          },
+          "porProduto": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PorProduto"
+            }
+          }
+        }
+      },
+      "Pendente": {
+        "type": "object",
+        "properties": {
+          "instituicaoId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CONTA",
+                "CARTAO",
+                "CREDITO",
+                "INVESTIMENTOS"
+              ]
+            }
+          }
+        }
+      },
+      "PorInstituicao": {
+        "type": "object",
+        "properties": {
+          "instituicaoId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "ehXp": {
+            "type": "boolean"
+          },
+          "investimentos": {
+            "type": "number"
+          },
+          "saldoContas": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "PorProduto": {
+        "type": "object",
+        "properties": {
+          "produto": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "Principalidade": {
+        "type": "object",
+        "properties": {
+          "instituicaoPrincipalId": {
+            "type": "string"
+          },
+          "instituicaoPrincipalNome": {
+            "type": "string"
+          },
+          "posicaoXp": {
+            "type": "string",
+            "enum": [
+              "PRINCIPAL",
+              "SECUNDARIA",
+              "SO_INVESTIMENTOS",
+              "AUSENTE"
+            ]
+          },
+          "explicacao": {
+            "type": "string"
+          },
+          "scores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreInstituicao"
+            }
+          }
+        }
+      },
+      "ScoreInstituicao": {
+        "type": "object",
+        "properties": {
+          "instituicaoId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "ehXp": {
+            "type": "boolean"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
+          },
+          "participacoes": {
+            "$ref": "#/components/schemas/Componentes"
+          },
+          "contribuicoes": {
+            "$ref": "#/components/schemas/Componentes"
+          },
+          "destaques": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Visao360": {
+        "type": "object",
+        "properties": {
+          "cliente": {
+            "$ref": "#/components/schemas/Cliente"
+          },
+          "atualizadoEm": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cobertura": {
+            "$ref": "#/components/schemas/Cobertura"
+          },
+          "patrimonio": {
+            "$ref": "#/components/schemas/Patrimonio"
+          },
+          "principalidade": {
+            "$ref": "#/components/schemas/Principalidade"
+          },
+          "fluxoCaixa": {
+            "$ref": "#/components/schemas/FluxoCaixa"
+          },
+          "alertas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alerta"
+            }
+          },
+          "acoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AcaoSugerida"
+            }
+          },
+          "consentimentos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentimentoView"
+            }
+          }
+        }
+      },
+      "PedidoMensagemBody": {
+        "type": "object",
+        "properties": {
+          "canal": {
+            "type": "string",
+            "enum": [
+              "WHATSAPP",
+              "EMAIL"
+            ]
+          }
+        }
+      },
+      "MensagemGerada": {
+        "type": "object",
+        "properties": {
+          "texto": {
+            "type": "string"
+          },
+          "canal": {
+            "type": "string",
+            "enum": [
+              "WHATSAPP",
+              "EMAIL"
+            ]
+          },
+          "geradoPor": {
+            "type": "string",
+            "enum": [
+              "stub",
+              "cache",
+              "live"
+            ]
+          }
+        }
+      },
+      "DemoEstado": {
+        "type": "object",
+        "properties": {
+          "dataReferencia": {
+            "type": "string",
+            "format": "date"
+          },
+          "modoCopiloto": {
+            "type": "string"
+          }
+        }
+      },
+      "ClienteResumo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          },
+          "posicaoXp": {
+            "type": "string",
+            "enum": [
+              "PRINCIPAL",
+              "SECUNDARIA",
+              "SO_INVESTIMENTOS",
+              "AUSENTE"
+            ]
+          },
+          "prioridade": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Diagnostico": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "PATRIMONIO_COMPLETO",
+              "PROTECAO_FGC",
+              "CUSTO_DE_VIDA",
+              "RESERVA_EMERGENCIA"
+            ]
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "desbloqueado": {
+            "type": "boolean"
+          },
+          "requisito": {
+            "type": "string"
+          },
+          "resumo": {
+            "type": "string"
+          },
+          "detalhes": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "Jornada": {
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "string"
+          },
+          "completude": {
+            "type": "number",
+            "format": "double"
+          },
+          "nivel": {
+            "$ref": "#/components/schemas/Nivel"
+          },
+          "missoes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Missao"
+            }
+          },
+          "diagnosticos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Diagnostico"
+            }
+          }
+        }
+      },
+      "Missao": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "CONECTAR_INSTITUICAO",
+              "CONECTAR_CARTAO",
+              "RESERVA_EMERGENCIA",
+              "RENOVAR_CONSENTIMENTO"
+            ]
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "recompensa": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "DISPONIVEL",
+              "CONCLUIDA"
+            ]
+          },
+          "progresso": {
+            "type": "number",
+            "format": "double"
+          },
+          "instituicaoId": {
+            "type": "string"
+          }
+        }
+      },
+      "Nivel": {
+        "type": "object",
+        "properties": {
+          "numero": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "proximo": {
+            "type": "string"
+          },
+          "comoSubir": {
+            "type": "string"
+          },
+          "beneficios": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Briefing": {
+        "type": "object",
+        "properties": {
+          "clienteId": {
+            "type": "string"
+          },
+          "bullets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "perguntasSugeridas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "geradoPor": {
+            "type": "string",
+            "enum": [
+              "stub",
+              "cache",
+              "live"
+            ]
+          }
+        }
+      },
+      "PainelCarteira": {
+        "type": "object",
+        "properties": {
+          "assessorId": {
+            "type": "string"
+          },
+          "totalClientes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patrimonioNaXp": {
+            "type": "number"
+          },
+          "patrimonioForaXpVisivel": {
+            "type": "number"
+          },
+          "pctClientesXpPrincipal": {
+            "type": "number",
+            "format": "double"
+          },
+          "distribuicaoPosicaoXp": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "coberturaMedia": {
+            "type": "number",
+            "format": "double"
+          },
+          "consentimentosExpirando15d": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "clientesComAlertaAlto": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ItemFila": {
+        "type": "object",
+        "properties": {
+          "posicao": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "clienteId": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "perfil": {
+            "type": "string",
+            "enum": [
+              "CONSERVADOR",
+              "MODERADO",
+              "ARROJADO",
+              "AGRESSIVO"
+            ]
+          },
+          "prioridade": {
+            "type": "number",
+            "format": "double"
+          },
+          "motivos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Motivo"
+            }
+          },
+          "acaoPrincipal": {
+            "$ref": "#/components/schemas/AcaoSugerida"
+          },
+          "posicaoXp": {
+            "type": "string",
+            "enum": [
+              "PRINCIPAL",
+              "SECUNDARIA",
+              "SO_INVESTIMENTOS",
+              "AUSENTE"
+            ]
+          },
+          "novo": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Motivo": {
+        "type": "object",
+        "properties": {
+          "texto": {
+            "type": "string"
+          },
+          "pontos": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    }
+  }
+}

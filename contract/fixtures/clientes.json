@@ -1,0 +1,254 @@
+[
+  {
+    "id": "cli-004",
+    "nome": "Patrícia Gomes",
+    "perfil": "CONSERVADOR",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 54
+  },
+  {
+    "id": "cli-001",
+    "nome": "Dra. Marina Costa",
+    "perfil": "ARROJADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 39.1
+  },
+  {
+    "id": "cli-003",
+    "nome": "Juliana Prado",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 34.3
+  },
+  {
+    "id": "cli-005",
+    "nome": "Roberto Lima",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 30
+  },
+  {
+    "id": "cli-002",
+    "nome": "Carlos Andrade",
+    "perfil": "CONSERVADOR",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 29.8
+  },
+  {
+    "id": "cli-101",
+    "nome": "Ana Beatriz Rocha",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-122",
+    "nome": "André Sampaio",
+    "perfil": "ARROJADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-102",
+    "nome": "Bruno Carvalho",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-124",
+    "nome": "Caio Rezende",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-104",
+    "nome": "Diego Martins",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-126",
+    "nome": "Eduardo Brandão",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-127",
+    "nome": "Fabiana Queiroz",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-106",
+    "nome": "Felipe Araújo",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-107",
+    "nome": "Gabriela Moreira",
+    "perfil": "ARROJADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-129",
+    "nome": "Helena Assunção",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-130",
+    "nome": "Igor Tavares",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-109",
+    "nome": "Isabela Cardoso",
+    "perfil": "ARROJADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-110",
+    "nome": "João Vitor Almeida",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-111",
+    "nome": "Larissa Barbosa",
+    "perfil": "CONSERVADOR",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-112",
+    "nome": "Marcelo Pinto",
+    "perfil": "CONSERVADOR",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-114",
+    "nome": "Otávio Ramos",
+    "perfil": "CONSERVADOR",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-116",
+    "nome": "Renato Monteiro",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-117",
+    "nome": "Sabrina Duarte",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-119",
+    "nome": "Vanessa Campos",
+    "perfil": "MODERADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-120",
+    "nome": "William Castro",
+    "perfil": "ARROJADO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-121",
+    "nome": "Yasmin Freitas",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SO_INVESTIMENTOS",
+    "prioridade": 15
+  },
+  {
+    "id": "cli-125",
+    "nome": "Daniela Siqueira",
+    "perfil": "CONSERVADOR",
+    "posicaoXp": "SECUNDARIA",
+    "prioridade": 10
+  },
+  {
+    "id": "cli-105",
+    "nome": "Eduarda Nunes",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SECUNDARIA",
+    "prioridade": 10
+  },
+  {
+    "id": "cli-115",
+    "nome": "Priscila Vieira",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "SECUNDARIA",
+    "prioridade": 10
+  },
+  {
+    "id": "cli-123",
+    "nome": "Bianca Machado",
+    "perfil": "ARROJADO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  },
+  {
+    "id": "cli-103",
+    "nome": "Camila Teixeira",
+    "perfil": "MODERADO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  },
+  {
+    "id": "cli-128",
+    "nome": "Gustavo Peixoto",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  },
+  {
+    "id": "cli-108",
+    "nome": "Henrique Batista",
+    "perfil": "MODERADO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  },
+  {
+    "id": "cli-006",
+    "nome": "Lucas Ferreira",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  },
+  {
+    "id": "cli-113",
+    "nome": "Natália Correia",
+    "perfil": "MODERADO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  },
+  {
+    "id": "cli-118",
+    "nome": "Thiago Fonseca",
+    "perfil": "AGRESSIVO",
+    "posicaoXp": "PRINCIPAL",
+    "prioridade": 0
+  }
+]

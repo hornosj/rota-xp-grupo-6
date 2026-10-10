@@ -1,0 +1,16 @@
+{
+  "clienteId": "cli-001",
+  "bullets": [
+    "Banco Aurora é a instituição principal: recebe 100% da renda e concentra 100% dos pagamentos recorrentes. A XP tem 15 pontos: só investimentos.",
+    "Patrimônio: R$ 985 mil visível, R$ 900 mil na XP.",
+    "Fluxo: Renda de R$ 38 mil/mês, custo de vida de R$ 24 mil/mês.",
+    "Atenção: R$ 61 mil parados em conta: R$ 61 mil estão em conta além de 1 mês de custo de vida. Aplicados a 100% do CDI, renderiam cerca de R$ 486 por mês.",
+    "Atenção: Renda cai no Banco Aurora: A renda de R$ 38 mil (HOSPITAL SANTA CLARA) cai no Banco Aurora. Depois do custo de vida, sobram cerca de R$ 14 mil por mês."
+  ],
+  "perguntasSugeridas": [
+    "Como estão os planos para o aniversário da Sofia?",
+    "Algum objetivo novo para os próximos 12 meses?",
+    "Houve alguma mudança na sua renda ou nos seus gastos?"
+  ],
+  "geradoPor": "stub"
+}

@@ -1,0 +1,103 @@
+{
+  "clienteId": "cli-001",
+  "completude": 1,
+  "nivel": {
+    "numero": 3,
+    "nome": "Patrimônio Completo",
+    "proximo": "Cliente Principal",
+    "comoSubir": "Traga sua conta do dia a dia para a XP (receba seu salário aqui) e vire Cliente Principal.",
+    "beneficios": [
+      "Diagnóstico de proteção do FGC",
+      "Relatório mensal personalizado (exemplo)"
+    ]
+  },
+  "missoes": [
+    {
+      "id": "mis-cli-001-conectar-inst-horizonte",
+      "tipo": "CONECTAR_INSTITUICAO",
+      "titulo": "Conecte o Banco Horizonte e descubra se seu patrimônio está protegido pelo FGC",
+      "descricao": "Compartilhe seus dados do Banco Horizonte pelo Open Finance. Você escolhe o que compartilhar, por quanto tempo, e pode revogar quando quiser.",
+      "recompensa": "Diagnóstico desbloqueado: Proteção FGC",
+      "status": "CONCLUIDA",
+      "progresso": 1,
+      "instituicaoId": "inst-horizonte"
+    }
+  ],
+  "diagnosticos": [
+    {
+      "tipo": "PATRIMONIO_COMPLETO",
+      "titulo": "Patrimônio completo",
+      "desbloqueado": true,
+      "requisito": "Conecte todas as instituições que você usa",
+      "resumo": "R$ 1,6 milhão em 3 instituições",
+      "detalhes": {
+        "instituicoes": 3,
+        "total": 1635000
+      }
+    },
+    {
+      "tipo": "PROTECAO_FGC",
+      "titulo": "Proteção FGC",
+      "desbloqueado": true,
+      "requisito": "Conecte todas as instituições que você usa",
+      "resumo": "R$ 400 mil sem cobertura no Banco Horizonte",
+      "detalhes": {
+        "valorSemCobertura": 400000,
+        "instituicao": "Banco Horizonte",
+        "conglomerados": [
+          {
+            "conglomeradoId": "cong-ipe",
+            "nome": "Banco Ipê",
+            "valor": 230000,
+            "coberto": 230000,
+            "descoberto": 0
+          },
+          {
+            "conglomeradoId": "cong-horizonte",
+            "nome": "Banco Horizonte",
+            "valor": 650000,
+            "coberto": 250000,
+            "descoberto": 400000
+          },
+          {
+            "conglomeradoId": "cong-aurora",
+            "nome": "Banco Aurora",
+            "valor": 85000,
+            "coberto": 85000,
+            "descoberto": 0
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "CUSTO_DE_VIDA",
+      "titulo": "Custo de vida",
+      "desbloqueado": true,
+      "requisito": "Conecte os cartões que você usa",
+      "resumo": "Seu custo de vida é de R$ 24 mil por mês",
+      "detalhes": {
+        "total": 24000,
+        "categorias": {
+          "CONSUMO": 1900,
+          "CONTAS_RECORRENTES": 6600,
+          "PARCELAS": 6500,
+          "CARTOES": 9000
+        },
+        "parcial": false
+      }
+    },
+    {
+      "tipo": "RESERVA_EMERGENCIA",
+      "titulo": "Reserva de emergência",
+      "desbloqueado": true,
+      "requisito": "Desbloqueie o diagnóstico de custo de vida",
+      "resumo": "Sua reserva cobre 6,5 meses do seu custo de vida",
+      "detalhes": {
+        "metaMeses": 6,
+        "meta": 144000,
+        "meses": 6.5,
+        "liquidezImediata": 155000
+      }
+    }
+  ]
+}

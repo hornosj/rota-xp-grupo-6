@@ -1,0 +1,16 @@
+{
+  "assessorId": "ass-001",
+  "totalClientes": 36,
+  "patrimonioNaXp": 23040400,
+  "patrimonioForaXpVisivel": 1832000,
+  "pctClientesXpPrincipal": 0.222,
+  "distribuicaoPosicaoXp": {
+    "PRINCIPAL": 8,
+    "SECUNDARIA": 3,
+    "SO_INVESTIMENTOS": 25,
+    "AUSENTE": 0
+  },
+  "coberturaMedia": 0.972,
+  "consentimentosExpirando15d": 1,
+  "clientesComAlertaAlto": 2
+}
