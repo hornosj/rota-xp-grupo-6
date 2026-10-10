@@ -1,0 +1,6 @@
+package br.com.rotaxp.copiloto.analise;
+
+public enum Categoria {
+    TRANSFERENCIA_PROPRIA, APLICACAO, RESGATE, PAGAMENTO_FATURA, PARCELA_CREDITO,
+    CONTA_RECORRENTE, CREDITO_CANDIDATO_RENDA, CONSUMO
+}
