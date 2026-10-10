@@ -34,7 +34,7 @@ Tudo foi desenvolvido com TDD.
 ## Seed
 
 ```bash
-python data/gerar_seed.py --data-referencia 2026-10-11 --saida backend/src/main/resources/seed
+python data/gerar_seed.py --data-referencia 2026-10-10 --saida backend/src/main/resources/seed
 python data/checar_seed.py            # imprime os números de cada âncora e confere com o §6.5
 ```
 

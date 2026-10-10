@@ -40,7 +40,7 @@ Não edite fora da sua área sem necessidade. Se precisar, faça a mudança mín
 - Exportar contrato: com o backend rodando, `curl -s localhost:8080/v3/api-docs > contract/openapi.json`
 - Frontend: `cd frontend && npm run dev` (porta 3000; `/api/*` é reescrito para o backend)
   · `npm run gen:api` (tipos a partir de `contract/openapi.json`) · `npm run lint` · `npm run typecheck`
-- Seed: `python3 data/gerar_seed.py --data-referencia 2026-10-11 --saida backend/src/main/resources/seed`
+- Seed: `python3 data/gerar_seed.py --data-referencia 2026-10-10 --saida backend/src/main/resources/seed`
 - Resetar a demo: `curl -X POST localhost:8080/api/demo/reset`
 
 ## Regras
