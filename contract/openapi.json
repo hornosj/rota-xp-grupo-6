@@ -28,26 +28,6 @@
           "required": true
         },
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -60,6 +40,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -98,26 +98,6 @@
           "required": true
         },
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -130,6 +110,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -158,26 +158,6 @@
         ],
         "operationId": "processar",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -190,6 +170,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -218,26 +218,6 @@
         ],
         "operationId": "reset",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -250,6 +230,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -281,26 +281,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -313,6 +293,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -359,26 +359,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -391,6 +371,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -439,26 +439,6 @@
           "required": true
         },
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -471,6 +451,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -517,26 +517,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -549,6 +529,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -595,26 +595,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -627,6 +607,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -673,26 +673,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -705,6 +685,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -760,26 +760,6 @@
           }
         },
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -792,6 +772,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -820,26 +820,6 @@
         ],
         "operationId": "noticias",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -852,6 +832,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -883,26 +883,6 @@
         ],
         "operationId": "estado",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -915,6 +895,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -953,26 +953,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -985,6 +965,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1013,26 +1013,6 @@
         ],
         "operationId": "listar",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1045,6 +1025,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1086,26 +1086,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1118,6 +1098,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1159,26 +1159,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1191,6 +1171,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1229,26 +1229,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1261,6 +1241,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1299,26 +1299,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1331,6 +1311,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1372,26 +1372,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1404,6 +1384,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1442,26 +1442,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1474,6 +1454,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1515,26 +1515,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1547,6 +1527,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1585,26 +1585,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1617,6 +1597,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1657,26 +1657,6 @@
           }
         ],
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1689,6 +1669,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1720,26 +1720,6 @@
         ],
         "operationId": "painel",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1752,6 +1732,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -1780,26 +1780,6 @@
         ],
         "operationId": "fila",
         "responses": {
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
-          "410": {
-            "description": "Gone",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErroResposta"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1812,6 +1792,26 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone",
             "content": {
               "*/*": {
                 "schema": {
@@ -2238,11 +2238,20 @@
               "COMPRA_IMOVEL",
               "COMPRA_VEICULO",
               "VIAGEM",
-              "SUCESSAO"
+              "SUCESSAO",
+              "LUTO",
+              "REORGANIZACAO_FINANCEIRA",
+              "ALOCACAO_LIQUIDEZ",
+              "AUMENTO_RENDA",
+              "EMPREENDIMENTO",
+              "INTERNACIONAL"
             ]
           },
           "motivo": {
             "type": "string"
+          },
+          "jaPossui": {
+            "type": "boolean"
           }
         }
       },
@@ -2262,7 +2271,13 @@
               "COMPRA_IMOVEL",
               "COMPRA_VEICULO",
               "VIAGEM",
-              "SUCESSAO"
+              "SUCESSAO",
+              "LUTO",
+              "REORGANIZACAO_FINANCEIRA",
+              "ALOCACAO_LIQUIDEZ",
+              "AUMENTO_RENDA",
+              "EMPREENDIMENTO",
+              "INTERNACIONAL"
             ]
           },
           "produto": {
@@ -2273,6 +2288,12 @@
           },
           "motivo": {
             "type": "string"
+          },
+          "revisao": {
+            "type": "boolean"
+          },
+          "sensivel": {
+            "type": "boolean"
           }
         }
       },
