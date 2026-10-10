@@ -173,7 +173,7 @@ public class AlertaService {
             if (dias > props.eventoVidaDias()) continue;
             int idade = prox.getYear() - dep.dataNascimento().getYear();
             r.add(novo(c.id(), TipoAlerta.EVENTO_VIDA_PROXIMO, "dep-" + slug(dep.nome()), Severidade.BAIXA,
-                    "Aniversário " + artigo(dep.parentesco()) + " " + dep.nome() + " " + quando(dias),
+                    Texto.aniversario(dep.nome(), dep.parentesco()) + " " + quando(dias),
                     dep.nome() + " (" + dep.parentesco().toLowerCase(Locale.ROOT) + ") faz " + idade + " anos em "
                             + prox.format(DIA_MES) + ". Um bom motivo para um contato de relacionamento.",
                     null, null, null));
@@ -207,13 +207,6 @@ public class AlertaService {
 
     private static String quando(long dias) {
         return dias == 0 ? "hoje" : dias == 1 ? "amanhã" : "em " + dias + " dias";
-    }
-
-    private static String artigo(String parentesco) {
-        String p = parentesco == null ? "" : parentesco.toUpperCase(Locale.ROOT);
-        if (p.endsWith("A") || p.equals("MAE") || p.equals("MÃE")) return "da";
-        if (p.endsWith("O") || p.equals("PAI")) return "do";
-        return "de";
     }
 
     private static String slug(String s) {

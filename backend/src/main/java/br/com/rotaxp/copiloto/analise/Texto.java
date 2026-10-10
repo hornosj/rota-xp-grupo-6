@@ -40,4 +40,12 @@ public final class Texto {
         f.setMinimumFractionDigits(0);
         return f.format(x);
     }
+
+    /** "Aniversário da Sofia" / "Aniversário do Pedro", pelo parentesco. */
+    public static String aniversario(String nome, String parentesco) {
+        String p = parentesco == null ? "" : parentesco.toUpperCase(Locale.ROOT);
+        String artigo = p.endsWith("A") || p.equals("MAE") || p.equals("MÃE") ? "da"
+                : p.endsWith("O") || p.equals("PAI") ? "do" : "de";
+        return "Aniversário " + artigo + " " + nome;
+    }
 }
